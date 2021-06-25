@@ -1,0 +1,1 @@
+export default 'sz-gp-04'

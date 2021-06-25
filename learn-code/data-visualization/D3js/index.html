@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+
+<body>
+    <svg id="svg" width="600" height="600" style="background-color: #efefef"></svg>
+</body>
+<script>
+
+d3.csv('./data/data.csv').then(result => {
+    const dataset = result.columns //得到数据集
+
+    //定义线性比例尺 --- 柱状图的高度
+    const linear = d3.scaleLinear() 
+    .domain([0, d3.max(dataset)]) //求的最大值
+    .range([0, 400]) //对应svg的大小,小于svg真实
+
+    //序数比例尺-- 
+    const scaleBand = d3.scaleBand()
+          .domain(d3.range(0, dataset.length)) //对应数据的索引值
+          .range([0, 600])
+          .paddingInner(0.5) //调节两个柱状图之间的距离
+
+    //颜色比例尺
+    const color = d3.scaleOrdinal(d3.schemeCategory10)
+
+
+    const svg = d3.select("#svg")
+    svg.selectAll('rect')
+      .data(dataset)
+      .enter()
+      .append('rect')
+      .attr('x', (d, i) => scaleBand(i))
+      .attr('y', (d, i) => 600 - linear(d))
+      .attr('height', (d, i) => linear(d))
+      .attr('width', () => scaleBand.bandwidth()) //scaleBand.bandwidth() 计算合适的宽度 scaleBand.bandheight() 计算合适的高度
+      .style('fill', color) //调用颜色比例尺，不需要添加括号
+
+
+
+      svg.selectAll('text')
+      .data(dataset)
+      .enter()
+      .append('text')
+      .attr('x', (d, i) => scaleBand(i))
+      .attr('y', (d, i) => 600 - linear(d) - 10)
+      .text(d => d)
+
+
+
+
+})
+
+
+</script>
+
+</html>

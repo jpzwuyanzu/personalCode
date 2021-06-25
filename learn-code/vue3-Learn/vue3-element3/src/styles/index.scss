@@ -1,0 +1,19 @@
+@import 'styles/element-ui.scss';
+@import 'styles/sidebar.scss';
+@import 'styles/transition.scss';
+
+
+html, body {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+.el-container {
+    height: 100%;
+}
+.el-header {
+    padding: 0;
+}
+.el-menu {
+    border-right: none;
+}

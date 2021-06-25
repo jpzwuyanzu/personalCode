@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+
+<body>
+    <svg id="svg" width="500" height="500" style="background-color: #efefef"></svg>
+</body>
+<script>
+    var svg = d3.select("#svg");
+    //比例尺
+    //连续性线性比例尺
+    var scale = d3.scaleLinear()
+        .domain([1, 5]) //输入
+        .range([0, 100]) //输出
+    console.log(scale(1)) //0
+    console.log(scale(2)) //25
+    console.log(scale(3)) //50
+    console.log(scale(4)) //75
+    console.log(scale(5)) //100
+    console.log(scale(10)) //225
+    console.log(scale(0)) //-25
+
+
+    //invert ： 通过输出的值获取输入的值
+    console.log(scale.invert(225)) //10
+
+    
+
+    //不连续线性比例尺
+    // var band = d3.scaleBand().domain([1, 2, 3, 4]).range([0, 100]);
+    // console.log(band(1)); //0
+    // console.log(band(2)); //25
+    // console.log(band(3)); //50
+    // console.log(band(4)); //75
+    // console.log(band(5)); //undefined
+
+    //序数比例尺
+    // var ordinal = d3
+    //     .scaleOrdinal()
+    //     .domain(["aa", "bb", "cc"])
+    //     .range([10, 20, 30]);
+    // console.log(ordinal("aa")); //10
+    // console.log(ordinal("yy")); //10
+    // console.log(ordinal("yy")); //10
+    // console.log(ordinal("xx")); //20
+
+    //量化比例尺
+    // var quantize = d3.scaleQuantize().domain([0, 10]).range(["小", "中", "大"]);
+
+    // console.log(quantize(5)); //中
+    // console.log(quantize(2)); //小
+    // console.log(quantize(6)); //中
+    // console.log(quantize(6.8)); //大
+
+    //时间比例尺
+    // var timeFn = d3
+    //     .scaleTime()
+    //     .domain([new Date(2021, 6, 24, 0), new Date(2021, 6, 24, 10)])
+    //     .range([0, 100]);
+
+    // console.log(timeFn(new Date(2021, 6, 24, 0))); //0
+    // console.log(timeFn(new Date(2021, 6, 24, 5))); //50
+    // console.log(timeFn(new Date(2021, 6, 24, 10))); // 100
+</script>
+
+</html>

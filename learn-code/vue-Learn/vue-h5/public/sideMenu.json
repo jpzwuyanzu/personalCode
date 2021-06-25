@@ -1,0 +1,43 @@
+{
+    "result":[
+        {
+            "path": "/",
+            "name": "home",
+            "meta":{
+            "title":"系统首页"
+            }
+        },
+        {
+            "path": "/button",
+            "name": "button",
+            "meta":{
+            "title":"按钮管理"
+            },
+            "children":[
+                {
+                    "path":"buttonlist",
+                    "name":"buttonlist",
+                    "meta":{
+                        "title":"按钮列表"
+                    }
+                }
+            ]
+        },
+        {
+            "path": "/link",
+            "name": "link",
+            "meta":{
+            "title":"链接管理"
+            },
+            "children":[
+                {
+                    "path":"/link/linklist",
+                    "name":"linklist",
+                    "meta":{
+                        "title":"链接列表"
+                    }
+                }
+            ]
+        }
+    ]
+}

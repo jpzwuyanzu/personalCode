@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+<body>
+    <svg width="500" height="500" style="background-color: #efefef;">
+        <!-- 矩形 -->
+        <rect x="10" y="10" width="100" height="30" fill="none" style="stroke: blue; stroke-width:1px"></rect>
+        <!-- 椭圆 
+            cx cy  定义中心点的x和y轴的坐标
+            rx ry  定义水平以及垂直走向的半径
+         -->
+        <ellipse cx="60" cy="140" rx="50" ry="100" fill="#f66"></ellipse>
+
+        <!-- 圆 -->
+        <circle cx="60" cy="310" r="50"></circle>
+
+        <!-- 线段 -->
+         <line x1="60" y1="360" x2="20" y2="500" style="stroke: pink;stroke-width: 5px"></line>
+         <line x1="60" y1="360" x2="90" y2="500" style="stroke: pink;stroke-width: 5px"></line>
+
+         <!-- 多边形 定义多边形的几个点 -->
+         <!-- <polygon points="0,100 50,25 50,75 100,0" /> -->
+         <polygon points="300, 10 400,20 360,80 320, 100 " fill="none" style="stroke: pink" />
+
+         <!-- 折线 首尾不相连-->
+         <polyline points="300, 100 400,120 360,180 320, 200 " fill="none" style="stroke: pink"></polyline>
+
+
+         <!-- 路径
+            M： Move 移动的起始点
+            L： Line 连接到哪个点
+            Z：闭合到起点
+        -->
+         <path d="M 10,30
+         A 20,20 0,0,1 50,30
+         A 20,20 0,0,1 90,30
+         Q 90,60 50,90
+         Q 10,60 10,30 z"/>
+
+        <!-- 组合 -->
+         <g fill="white" stroke="green" stroke-width="5">
+            <circle cx="40" cy="40" r="25" />
+            <circle cx="60" cy="60" r="25" />
+          </g>
+
+    </svg>
+</body>
+<script>
+    //svg
+
+
+
+
+</script>
+</html>

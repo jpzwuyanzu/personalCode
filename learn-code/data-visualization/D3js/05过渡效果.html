@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+</body>
+<script>
+    //过渡效果
+    var app = d3.select('#app')
+
+    //插入一个svg元素
+    /**
+     * <svg><rect></rect></svg>
+    */
+    var svg = app.append('svg')
+                .attr('width', 500)
+                .attr('height', 500)
+                .style('background-color', '#efefef')
+
+    svg.append('rect')
+    .attr('fill', 'yellowgreen')
+    .attr('x', 100)
+    .attr('y', 100)
+    .attr('width', 100)
+    .attr('height', 30)
+    .transition() //开启过渡效果
+    .duration(5000) //过渡时间
+    .delay(2000) //延时
+    .attr('width', 200)
+    .attr('height', 300)
+</script>
+</html>

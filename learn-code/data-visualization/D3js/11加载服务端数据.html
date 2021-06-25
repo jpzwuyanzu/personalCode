@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+<body>
+    <svg id="svg" width="500" height="500" style="background-color: #efefef;"></svg>
+</body>
+<script>
+     var svg = d3.select('#svg')
+    //svg
+    //加载外部的数据
+    d3.csv('./data/data.csv').then(result => {
+        console.log(result.columns)
+
+        svg.selectAll('text')
+        .data(result.columns)
+        .enter()
+        .append('text')
+        .attr('y', 30)
+        .attr('x', (d, i) => {
+            return i*30
+        })
+        .text((item, index) => item)
+
+    })
+
+    d3.json('./data/data.json').then(result => {
+        console.log(result)
+
+        svg.selectAll('aaaa')
+           .data(result)
+           .enter()
+           .append('text')
+           .classed('aaaa', true)
+           .attr('y', '80')
+           .attr('x', (d, i) => {
+               return i*40
+           })
+           .text((item, index) => item)
+    })
+
+
+
+</script>
+</html>

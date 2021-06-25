@@ -1,0 +1,1 @@
+import{l as o,c as s,o as e}from"./vendor.5284dd5b.js";const t={expose:[],props:{msg:String},setup:t=>(o({count:0}),(o,t)=>(e(),s("div",null,"home页面 "))),__scopeId:"data-v-01bf0043"};export default t;

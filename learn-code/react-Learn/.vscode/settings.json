@@ -1,0 +1,4 @@
+{
+    "problems.decorations.enabled": false,
+    "js/ts.implicitProjectConfig.experimentalDecorators": true
+}

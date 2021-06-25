@@ -1,0 +1,1 @@
+import{l as s,c as a,p as t,i as o,o as d,m as e}from"./vendor.5284dd5b.js";t("data-v-366aa62f");const p={class:"notFind"},c=e("img",{src:"/assets/404.07123c70.jpeg",alt:""},null,-1);o();const n={expose:[],props:{msg:String},setup:t=>(s({count:0}),(s,t)=>(d(),a("div",p,[c]))),__scopeId:"data-v-366aa62f"};export default n;

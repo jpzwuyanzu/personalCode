@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+</body>
+<script>
+    //过渡效果
+    var app = d3.select('#app')
+    var svg = app.append('svg')
+            .style('width', '400px')
+            .style('height', '400px')
+              .style('position', 'relative')
+    var datalist = [10, 20, 30, 40, 50]
+
+    app.style('position', 'relative')
+    .style('width', '400px')
+    .style('height', '400px')
+    .style('background', '#efefef')
+
+    svg.selectAll('rect')
+       .data(datalist)
+       .enter()
+       .append('rect')
+       .classed('bar', true)
+       .style('fill', '#f66')
+    //    .style('background', '#f66')
+       .style('text-align', 'center')
+       .style('height', (d, index) => {
+           return d*5 + 'px'
+       })
+       .style('width', '30px')
+       .attr('x', (d, i) => {
+            return i*40 + 'px'
+       })
+       .attr('y', (d, i) => {
+            return 400 - d*5 + 'px'
+       })
+
+
+       svg.selectAll('text')
+       .data(datalist)
+       .enter()
+       .append('text') //添加数据标签
+       .attr('x', (d, i) => {
+            return i*40 + 5 + 'px'
+       })
+       .attr('y', (d, i) => {
+            return 400 - d*5 - 5 + 'px'
+       })
+       .text((d, i) => {
+           return d
+       })
+       .style('color', (d, i) => {
+           return d > 35 ?  '#f66' : '#333'
+       })
+
+</script>
+</html>

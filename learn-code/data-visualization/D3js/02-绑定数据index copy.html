@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
+    </div>
+</body>
+<script>
+    // 绑定数据
+    // datum 填充单个数据，绑定一个数据到数据集上
+    // data  绑定一个数组到数据集上，数组的各项分别与选择集的各元素绑定
+    var app = d3.select('#app')
+    // app.selectAll('p')
+    //    .datum('玉林狗肉')
+    //    .text((item, index) => { // text()中既可以是字符串，也可以是函数
+    //       return `第 ${index}个元素的值为${item}`
+    //    })
+
+    var datalist = [10, 30, 40, 50]
+
+    app.selectAll('p')
+       .data(datalist)
+       .text((item,index) => {
+         return item
+       })
+
+
+</script>
+</html>

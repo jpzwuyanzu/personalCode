@@ -1,0 +1,17 @@
+{
+    "result":[
+        {
+            "userName":"admin",
+            "role":"1",
+            "loginState":true,
+            "token":"123456"
+        },
+        {
+            "userName":"visitor",
+            "role":"2",
+            "loginState":true,
+            "token":"123456"
+        }
+    ],
+    "code": 200
+}

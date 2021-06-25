@@ -1,0 +1,10 @@
+.dropPart {
+    .downFlex {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        .LeftPart, .rightPart {   
+            width: 49%;
+        }
+    }
+}

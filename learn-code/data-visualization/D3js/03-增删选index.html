@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p></p>
+        <p id="second"></p>
+        <p id="box"></p>
+    </div>
+</body>
+<script>
+// 选择， 插入，删除
+//选择操作
+var app = d3.select('#app')
+app.selectAll('p').text(10).style('color', 'red')
+app.selectAll('p').attr('style', 'font-weight: bold')
+app.select('#second').style('font-size','40px')
+app.select('p:nth-child(2)').style('color', 'pink')
+
+//插入操作
+app.insert('p', '#second').text(1000) //指定元素之前插入
+app.append('div').text(10000) //在尾部插入
+app.insert('div', 'p:nth-child(2)').text('这是插入的元素')
+app.append('div').text('这是插入的元素2')
+
+//删除操作
+
+app.select('#second').remove()
+
+//添加class
+app.select('#box').classed('a b', true)
+
+</script>
+</html>

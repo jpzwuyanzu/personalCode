@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p></p>
+        <p></p>
+        <p></p>
+    </div>
+</body>
+<script>
+var app = d3.select('#app')
+// update()--这个是不存在，想象出来的, 为了与enter和exit相对应
+//enter() -- 添加元素, 
+//exit()-删除元素 用来处理数据跟选择集不匹配的情况
+
+    // const datalist = [10,20,30,40,50]
+    // app.selectAll('p')
+    //     .data(datalist)
+    //     .text((item ,index) => item) //显示现有的节点数据
+    //     .enter() //追加节点，此时数据数量多余元素数量
+    //     .append('p') //追加哪个节点
+    //     .text((item ,index) => item) //显示追加的节点内容
+
+
+    //对应的元素过多时，可以删除元素
+
+    const datalist = [10]
+    app.selectAll('p')
+    .data(datalist)
+    .text((item ,index) => item)
+    .exit()
+    // .text('haha') //可以设置空节点的默认值，也可以选择删除
+    .remove('p')
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</html>

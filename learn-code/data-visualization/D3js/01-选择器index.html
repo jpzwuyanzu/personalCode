@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p></p>
+        <p></p>
+        <p></p>
+    </div>
+    <div class="box"></div>
+</body>
+<script>
+    //选择器
+    var body = d3.select('body') //选中body元素
+    var app = d3.select('#app') //选中app元素
+    var p = app.selectAll('p') //选中div id为app下所有的p标签
+    var box = d3.select('.box')
+
+    console.log(app)
+    console.log(p)
+
+    //需要给class为box的元素添加一段文本,并添加样式
+    box.text('测试文本')
+    // .style('font-size', '30px')
+    .attr('style', 'font-size: 40px')
+</script>
+</html>

@@ -1,0 +1,1 @@
+import{l as s,c as o,o as t}from"./vendor.5284dd5b.js";const e={expose:[],props:{msg:String},setup:e=>(s({count:0}),(s,e)=>(t(),o("div",null,"sytsLog"))),__scopeId:"data-v-70bb22e8"};export default e;

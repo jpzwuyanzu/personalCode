@@ -1,0 +1,72 @@
+{
+    "result": [
+        {
+            "categoryname": "热门推荐M",
+            "categoryid": 1,
+            "name": "闪购",
+            "id": 572,
+            "jump": "https://wqs.jd.com/portal/wx/seckill_m/brand.shtml",
+            "icon": "https://m.360buyimg.com/mobilecms/s80x80_jfs/t18802/237/1502687907/7460/2f227c66/5acc51efN1dae98b2.png",
+            "img": "https://m.360buyimg.com/mobilecms/s750x750_jfs/t1/163652/6/1428/120414/5ff6d564Eaabf2f88/b50c2814b70ef1ba.jpg!q80.dpg.webp",
+            "isKill": 0,
+            "isRecommond":0,
+            "isSale": 0,
+            "originPrice": "100",
+            "newPrice": "90",
+            "activityDays":"5天",
+            "proname": "商品001",
+            "descri":"穿着舒适，放心使用，穿着舒适，放心使用，穿着舒适，放心使用，穿着舒适，放心使用，穿着舒适，放心使用，穿着舒适，放心使用，穿着舒适，放心使用，穿着舒适，放心使用，穿着舒适，放心使用"
+        },
+        {
+            "categoryname": "热门推荐M",
+            "categoryid": 2,
+            "name": "唯品会",
+            "id": 810,
+            "jump": "https://pro.m.jd.com/mall/active/2aiozXgZK1PUVZA37WNq62KLtjcC/index.html",
+            "icon": "https://m.360buyimg.com/mobilecms/s80x80_jfs/t1/106342/37/16553/4901/5e7cc859E4a33be03/f52cec80c8dc344d.png",
+            "img": "https://m.360buyimg.com/mobilecms/s750x750_jfs/t1/163652/6/1428/120414/5ff6d564Eaabf2f88/b50c2814b70ef1ba.jpg!q80.dpg.webp",
+            "isKill": 0,
+            "isRecommond":0,
+            "isSale": 0,
+            "originPrice": "100",
+            "newPrice": "80",
+            "activityDays":"5天",
+            "proname": "商品002",
+            "descri":"穿着舒适，放心使用，穿着舒适，放心使用，穿着舒适，放心使用，穿着舒适，放心使用，穿着舒适，放心使用，穿着舒适，放心使用，穿着舒适，放心使用，穿着舒适，放心使用，穿着舒适，放心使用"
+        },
+        {
+            "categoryname": "3C专区",
+            "categoryid": 3,
+            "name": "手机馆",
+            "id": 588,
+            "jump": "https://pro.m.jd.com/mall/active/Y9FVe619hMoajzqpxky1CQQJAkk/index.html",
+            "icon": "https://m.360buyimg.com/mobilecms/s80x80_jfs/t18859/148/1985801887/5540/79c57f95/5ae0605bN31eb138b.png",
+            "img": "https://m.360buyimg.com/mobilecms/s750x750_jfs/t1/163652/6/1428/120414/5ff6d564Eaabf2f88/b50c2814b70ef1ba.jpg!q80.dpg.webp",
+            "isKill": 0,
+            "isRecommond":0,
+            "isSale": 0,
+            "originPrice": "100",
+            "newPrice": "80",
+            "activityDays":"5天",
+            "proname": "商品003",
+            "descri":"穿着舒适，放心使用，穿着舒适，放心使用，穿着舒适，放心使用，穿着舒适，放心使用，穿着舒适，放心使用，穿着舒适，放心使用，穿着舒适，放心使用，穿着舒适，放心使用，穿着舒适，放心使用"
+        },
+        {
+            "categoryname": "3C专区",
+            "categoryid": 4,
+            "name": "玩3C",
+            "id": 587,
+            "jump": "https://pro.m.jd.com/mall/active/3JAoyewPmdVBMeRWTBiHDdGH5M36/index.html",
+            "icon": "https://m.360buyimg.com/mobilecms/s80x80_jfs/t18376/164/1541644268/6421/ead422d3/5acdae58N63f7e1dd.jpg",
+            "img": "https://m.360buyimg.com/mobilecms/s750x750_jfs/t1/163652/6/1428/120414/5ff6d564Eaabf2f88/b50c2814b70ef1ba.jpg!q80.dpg.webp",
+            "isKill": 0,
+            "isRecommond":0,
+            "isSale": 1,
+            "originPrice": "100",
+            "newPrice": "80",
+            "activityDays":"5天",
+            "proname": "商品004",
+            "descri":"穿着舒适，放心使用，穿着舒适，放心使用，穿着舒适，放心使用，穿着舒适，放心使用，穿着舒适，放心使用，穿着舒适，放心使用，穿着舒适，放心使用，穿着舒适，放心使用，穿着舒适，放心使用"
+        }
+    ]
+}

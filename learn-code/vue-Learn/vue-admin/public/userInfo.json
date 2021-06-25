@@ -1,0 +1,14 @@
+{
+    "result":{
+        "admin":{
+            "userName":"admin",
+            "role":1,
+            "loginState":true
+        },
+        "visitor":{
+            "userName":"visitor",
+            "role":2,
+            "loginState":true
+        }
+    }
+}

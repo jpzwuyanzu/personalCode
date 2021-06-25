@@ -1,0 +1,16 @@
+{
+    "result":{
+       "admin":{
+        "adminname":"admin",
+        "role":"2",
+        "token":"111111",
+        "loginState":true
+       },
+       "visitor":{
+        "adminname":"visitor",
+        "role":"1",
+        "token":"111111",
+        "loginState":true
+       }
+    }
+}

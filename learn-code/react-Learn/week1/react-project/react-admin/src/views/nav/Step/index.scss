@@ -1,0 +1,36 @@
+.stepHeader {
+    padding-bottom: 20px;
+    border-bottom: 20px solid #f0f2f5;
+}
+.stepPart {
+    background: #f0f2f5;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 40px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    .stepLeft,.stepRight {
+        width: 49%;
+        background: white;
+        padding:40px;
+    }
+}
+
+.changeStep {
+    padding: 40px;
+}
+
+.steps-content {
+    min-height: 200px;
+    margin-top: 16px;
+    padding-top: 80px;
+    text-align: center;
+    background-color: #fafafa;
+    border: 1px dashed #e9e9e9;
+    border-radius: 2px;
+  }
+  
+  .steps-action {
+    margin-top: 24px;
+  }

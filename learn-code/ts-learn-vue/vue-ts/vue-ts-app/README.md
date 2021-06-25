@@ -1,0 +1,1 @@
+## 安装axios yarn add axios @types/axios  安装的时候同时将对应声明文件也安装

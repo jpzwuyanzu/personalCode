@@ -1,0 +1,229 @@
+{
+    "result":[
+        {
+            "logger": {
+                "traceCapable": true,
+                "name": "com.lagou.entity.mobile.MobilePosition"
+            },
+            "positionId": 8100984,
+            "positionName": "资深跨境商品经理",
+            "city": "杭州",
+            "createTime": "今天 08:00",
+            "salary": "15k-25k",
+            "companyId": 329,
+            "companyLogo": "i/image3/M01/6A/43/Cgq2xl5UxfqAF56ZAABL2r1NdMU394.png",
+            "companyName": "网易",
+            "companyFullName": "网易（杭州）网络有限公司"
+        },
+        {
+            "logger": {
+                "traceCapable": true,
+                "name": "com.lagou.entity.mobile.MobilePosition"
+            },
+            "positionId": 8121028,
+            "positionName": "数据标注专员-中文普通话",
+            "city": "天津",
+            "createTime": "今天 05:48",
+            "salary": "4k-8k",
+            "companyId": 62,
+            "companyLogo": "i/image2/M01/79/0A/CgoB5ltr2A-AM5SFAADbT9jQCn841.jpeg",
+            "companyName": "字节跳动",
+            "companyFullName": "北京字节跳动网络技术有限公司"
+        },
+        {
+            "logger": {
+                "traceCapable": true,
+                "name": "com.lagou.entity.mobile.MobilePosition"
+            },
+            "positionId": 8121184,
+            "positionName": "产品经理实习生",
+            "city": "北京",
+            "createTime": "今天 05:48",
+            "salary": "3k-6k",
+            "companyId": 62,
+            "companyLogo": "i/image2/M01/79/0A/CgoB5ltr2A-AM5SFAADbT9jQCn841.jpeg",
+            "companyName": "字节跳动",
+            "companyFullName": "北京字节跳动网络技术有限公司"
+        },
+        {
+            "logger": {
+                "traceCapable": true,
+                "name": "com.lagou.entity.mobile.MobilePosition"
+            },
+            "positionId": 8101585,
+            "positionName": "市场运营",
+            "city": "北京",
+            "createTime": "昨天 22:14",
+            "salary": "8k-16k",
+            "companyId": 46348,
+            "companyLogo": "i/image/M00/76/DA/Ciqc1F_ItcyAeb_bAAAGvYsVcXc215.png",
+            "companyName": "北京麦田",
+            "companyFullName": "北京麦田房产经纪有限公司"
+        },
+        {
+            "logger": {
+                "traceCapable": true,
+                "name": "com.lagou.entity.mobile.MobilePosition"
+            },
+            "positionId": 8120776,
+            "positionName": "大数据开发工程师",
+            "city": "西安",
+            "createTime": "昨天 20:02",
+            "salary": "15k-25k",
+            "companyId": 21187,
+            "companyLogo": "i/image/M00/10/BC/CgpEMljrY_SAD-hjAAAIdvHxXPM731.png",
+            "companyName": "云积互动",
+            "companyFullName": "深圳市云积分科技有限公司"
+        },
+        {
+            "logger": {
+                "traceCapable": true,
+                "name": "com.lagou.entity.mobile.MobilePosition"
+            },
+            "positionId": 8120266,
+            "positionName": "营销管培生",
+            "city": "北京",
+            "createTime": "昨天 20:02",
+            "salary": "8k-15k",
+            "companyId": 46348,
+            "companyLogo": "i/image/M00/76/DA/Ciqc1F_ItcyAeb_bAAAGvYsVcXc215.png",
+            "companyName": "北京麦田",
+            "companyFullName": "北京麦田房产经纪有限公司"
+        },
+        {
+            "logger": {
+                "traceCapable": true,
+                "name": "com.lagou.entity.mobile.MobilePosition"
+            },
+            "positionId": 8102530,
+            "positionName": "项目经理",
+            "city": "成都",
+            "createTime": "昨天 20:01",
+            "salary": "10k-15k",
+            "companyId": 8558,
+            "companyLogo": "i/image/M00/8C/6D/Ciqc1F_tLV2AFlN7AABG01pRv5U003.jpg",
+            "companyName": "叫叫学院",
+            "companyFullName": "成都书声科技有限公司"
+        },
+        {
+            "logger": {
+                "traceCapable": true,
+                "name": "com.lagou.entity.mobile.MobilePosition"
+            },
+            "positionId": 8102527,
+            "positionName": "项目助理",
+            "city": "成都",
+            "createTime": "昨天 20:01",
+            "salary": "5k-7k",
+            "companyId": 8558,
+            "companyLogo": "i/image/M00/8C/6D/Ciqc1F_tLV2AFlN7AABG01pRv5U003.jpg",
+            "companyName": "叫叫学院",
+            "companyFullName": "成都书声科技有限公司"
+        },
+        {
+            "logger": {
+                "traceCapable": true,
+                "name": "com.lagou.entity.mobile.MobilePosition"
+            },
+            "positionId": 8101883,
+            "positionName": "架构师技术专家",
+            "city": "北京",
+            "createTime": "昨天 19:29",
+            "salary": "30k-60k",
+            "companyId": 42226,
+            "companyLogo": "image1/M00/2E/F8/CgYXBlWACJKAcFOfAAAJmY29H8I518.jpg",
+            "companyName": "慧科讯业",
+            "companyFullName": "慧科讯业（北京）网络科技有限公司"
+        },
+        {
+            "logger": {
+                "traceCapable": true,
+                "name": "com.lagou.entity.mobile.MobilePosition"
+            },
+            "positionId": 8120198,
+            "positionName": "文案策划",
+            "city": "广州",
+            "createTime": "昨天 19:11",
+            "salary": "7k-10k",
+            "companyId": 266656,
+            "companyLogo": "i/image2/M01/BB/CF/CgoB5lwcgPGAIaXLAABV5HERHpI631.jpg",
+            "companyName": "注意力数字",
+            "companyFullName": "广州注意力数字新媒体股份有限公司"
+        },
+        {
+            "logger": {
+                "traceCapable": true,
+                "name": "com.lagou.entity.mobile.MobilePosition"
+            },
+            "positionId": 8120321,
+            "positionName": "资深文案",
+            "city": "广州",
+            "createTime": "昨天 19:11",
+            "salary": "10k-15k",
+            "companyId": 266656,
+            "companyLogo": "i/image2/M01/BB/CF/CgoB5lwcgPGAIaXLAABV5HERHpI631.jpg",
+            "companyName": "注意力数字",
+            "companyFullName": "广州注意力数字新媒体股份有限公司"
+        },
+        {
+            "logger": {
+                "traceCapable": true,
+                "name": "com.lagou.entity.mobile.MobilePosition"
+            },
+            "positionId": 8102024,
+            "positionName": "Golang开发工程师",
+            "city": "上海",
+            "createTime": "昨天 18:55",
+            "salary": "20k-30k",
+            "companyId": 479966,
+            "companyLogo": "i/image/M00/49/46/Ciqc1F9PBfyATzIjAAAnPj2pXpQ508.jpg",
+            "companyName": "ICY全球设计师平台",
+            "companyFullName": "上海有梦国际贸易有限公司"
+        },
+        {
+            "logger": {
+                "traceCapable": true,
+                "name": "com.lagou.entity.mobile.MobilePosition"
+            },
+            "positionId": 8103767,
+            "positionName": "前端开发工程师",
+            "city": "武汉",
+            "createTime": "昨天 18:41",
+            "salary": "10k-18k",
+            "companyId": 47107,
+            "companyLogo": "i/image2/M01/85/3C/CgotOVuJ2SWAC9vjAAJPg7EYqxo410.png",
+            "companyName": "良品铺子",
+            "companyFullName": "湖北良品铺子食品工业有限公司"
+        },
+        {
+            "logger": {
+                "traceCapable": true,
+                "name": "com.lagou.entity.mobile.MobilePosition"
+            },
+            "positionId": 8104499,
+            "positionName": "内容运营（实习生）",
+            "city": "成都",
+            "createTime": "昨天 18:34",
+            "salary": "2k-4k",
+            "companyId": 61344,
+            "companyLogo": "image1/M00/1F/A3/CgYXBlU0euCAZC0kAABCjk5YvRw693.jpg",
+            "companyName": "NoahMob",
+            "companyFullName": "诺亚生活科技（北京）有限公司"
+        },
+        {
+            "logger": {
+                "traceCapable": true,
+                "name": "com.lagou.entity.mobile.MobilePosition"
+            },
+            "positionId": 8103861,
+            "positionName": "贝壳签约经理/助理/非销售",
+            "city": "深圳",
+            "createTime": "昨天 18:26",
+            "salary": "11k-13k",
+            "companyId": 567135,
+            "companyLogo": "i/image2/M01/45/DC/CgotOV0AfqaAQhgUAACTg_mBUbc731.jpg",
+            "companyName": "贝壳找房（深圳）科技有限公司",
+            "companyFullName": "贝壳找房（深圳）科技有限公司"
+        }
+    ]
+}

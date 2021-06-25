@@ -1,0 +1,4 @@
+/* * { user-select: none; -webkit-app-region:drag;}  */
+ input[type='renge'] {
+    -webkit-app-region: no-drag;
+}

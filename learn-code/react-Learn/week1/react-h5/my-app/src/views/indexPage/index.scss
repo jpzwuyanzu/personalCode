@@ -1,0 +1,239 @@
+.homePage {
+    width: 100%;
+    height: auto;
+    padding-bottom: 50px;
+    .navBar {
+       display: flex;
+       flex-direction: row;
+       justify-content: center;
+       background: linear-gradient(135deg, #FFD000 0%, #FFBD00 100%);
+       padding: 3px;
+       .leftPart {
+           flex: 1;
+           display: flex;
+           flex-direction: row;
+           align-items: center;
+           span {
+               display: inline-block;
+               vertical-align: middle;
+                text-align: center;
+                font-family: PingFangSC-Medium;
+                font-size: 15px;
+                color: #222222;
+                width: 100%;
+           }
+       }
+       .searchInput {
+        width: 250px;
+        .am-search {
+            background:linear-gradient(135deg, #FFD000 0%, #FFBD00 100%);
+            .am-search-input {
+                .am-search-value {
+                    font-size: 13px;
+                }
+            }
+            .am-search-cancel {
+                color: #222222;
+            }
+        }
+       }
+       .rightPart {
+           flex: 1;
+           display: flex;
+           flex-direction: row;
+           justify-content: center;
+           align-items: center;
+           span {
+               display: inline-block;
+               img {
+                   width: 22px;
+                   height: 22px;
+               }
+           }
+       }
+    }
+    .banner-download {
+        display: flex;
+        flex-direction: row;
+        background: #000000;
+        padding:10px;
+        position: relative;
+        height: 45px;
+        .banneritem {
+            display: flex;
+            flex-direction: row;
+            img {
+                width: 38px;
+                height: 38px;
+                padding-top: 5px;
+            }
+            .logo-theme {
+                padding-left: 12px;
+                .logo-tit {
+                    padding: 0;
+                    margin: 0;
+                    color: #fff;
+                    padding-top: 4px;
+                    font-size: 15px;
+                    padding-bottom: 4px;
+                }
+                .logo-desc {
+                    padding: 0;
+                    margin: 0;
+                    font-size: 12px;
+                    color: #fff;
+                }
+            }
+        }
+        .bannerBtn {
+            position: absolute;
+            height: 20px;
+            right: 18px;
+            top: 19px;
+            color:#000;
+            padding:4px 7px;
+            background-image: linear-gradient(135deg, #FFD000 0%, #FFBD00 100%);
+            border-radius: 3px;
+            text-align: center;
+            line-height: 18px;
+        }
+    }
+    .categoryContainer {
+        background-color: #fff;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+        .categoryItem {
+            width: 20%;
+            height: 80px;
+            text-align: center;
+            // line-height: 60px;
+            padding-top: 10px;
+            overflow: hidden;
+            .iconCon {
+                width: 50px;
+                height: 50px;
+                background: #fd9d21;
+                border-radius: 50%;
+                margin: 0 auto;
+                line-height: 50px;
+                .am-icon {
+                    vertical-align: middle;
+                }
+            }
+            .categorytit {
+                display: inline-block; 
+                color: #666; 
+                text-align: center;
+                font-size: 12px;
+                height: 25px;
+                line-height: 25px;
+                width: 100%;
+              }
+              /*颜色*/
+              .color1 {
+                background: #fd9d21;
+              }
+              .color2 {
+                background: #ff6767;
+              }
+              .color3 {
+                background: #8a90fa;
+              }
+              .color4 {
+                background: #fed030;
+              }
+              .color5 {
+                background: #fd9d21;
+              }
+              .color6 {
+                background: #fed030;
+              }
+              .color7 {
+                background: #4dc6ee;
+              }
+              .color8 {
+                background: #ff80c2;
+              }
+              .color9 {
+                background: #ff80c2;
+              }
+              .color10 {
+                background: #00d3be;
+              }
+            
+        }
+
+    }
+    .productList {
+        min-height: 800px;
+        background: #fff;
+        padding-left: 5px;
+        .proTitleLine {
+            height: 40px;
+            line-height: 40px;
+            border-bottom: 1px solid #DDD8CE;
+        }
+        .mayLike {
+            width: 100%;
+            height: 100%;
+            .proItem {
+                display: flex;
+                flex-direction: row;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                border-bottom: 1px solid #DDD8CE;
+                .proImg {
+                  width: 90px;
+                  height: 70px;
+                  overflow: hidden;
+                }
+                .pro-Desc {
+                    flex: 1;
+                    padding-left: 10px;
+                    .title {
+                        font-weight: 400;
+                        color: #333; 
+                        margin-bottom: 5px;
+                        font-size: 15px;
+                    }
+                    .content {
+                        font-size: 10px;
+                        color: #666;
+                        margin-bottom: 20px;
+                    }
+                    .price {
+                        position: relative;
+                        .num-pri {
+                            color: #F60;
+                            font-size: 16px; 
+                            font-weight: 400;
+                        }
+                        .pri-color {
+                            color: #F60;
+                            font-size: 10px;
+                        }
+                        .place-pri {
+                            color: #666;
+                            font-size: 12px;
+                            margin-left: 5px;
+                        }
+                        .place-num {
+                            color: #666;
+                            font-size: 10px;
+                            margin-left: 5px;
+                        }
+                        .sell-mount {
+                            position: absolute;
+                            right: 10px;
+                            color: #666;
+                            font-size: 8px;
+                            top: 3px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

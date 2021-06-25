@@ -1,0 +1,16 @@
+.navHedaer {
+    padding-bottom: 20px;
+    border-bottom: 20px solid #f0f2f5;
+}
+.topNav {
+    padding-bottom: 20px;
+    border-bottom: 20px solid #f0f2f5;
+}
+.insideNav {
+    display: flex;
+    flex-direction: row;
+    padding-top: 30px;
+    .leftNav, .rightNav {
+        flex:1
+    }
+}

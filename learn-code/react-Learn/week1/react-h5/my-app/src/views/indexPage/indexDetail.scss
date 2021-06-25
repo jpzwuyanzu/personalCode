@@ -1,0 +1,58 @@
+.homePageDetail {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    .detailContent {
+        min-height: 2000px;
+        .detail-header {
+            height: 40px;
+            background: #ffc300;
+            border-bottom: 1px solid #acacac;
+            display: flex;
+            flex-direction: row;
+            .left-icon {
+                width: 30px;
+                height: 100%;
+                color: #727881;
+                svg {
+                    height: 100%;
+                }
+            }
+            .center-title {
+                flex: 1;
+                text-align: center;
+                color: #333;
+                padding-right: 30px;
+                line-height: 40px;
+                font-size: 16px;
+            }
+        }
+        .detail-img {
+            width: 100%;
+            height: 150px;
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+        .detail-info {
+            background: #fff;
+            padding-top: 15px;
+            .info-title {
+                padding-left: 10px;
+                color: #000;
+                font-size: 17px;
+                height: 40px;
+                line-height: 40px;
+                text-align: left;
+            }
+        }
+    }
+    .detailFooter {
+        position: fixed;
+        bottom: 0;
+        height: 50px;
+        width: 100%;
+        background: #fff;
+    }
+}

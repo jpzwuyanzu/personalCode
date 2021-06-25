@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; img-src  *">
+    <title>Hello World!</title>
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body>
+    <h1>Hello World!</h1>
+    We are using Node.js <span id="node-version"></span>,
+    Chromium <span id="chrome-version"></span>,
+    and Electron <span id="electron-version"></span>.
+    and Electron <span id="electron-version"></span>.
+    <input  type="range" name="range" min="0" max="10">
+    <div>
+      <img src="https://placekitten.com/500/500" alt="">
+      <a target="_blank" href="https://placekitten.com/500/500"><h3>Kitten</h3></a>
+   </div>
+    <!-- You can also require other files to run in this process -->
+    <script src="./renderer.js"></script>
+  </body>
+</html>

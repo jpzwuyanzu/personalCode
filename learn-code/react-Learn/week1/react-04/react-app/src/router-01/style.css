@@ -1,0 +1,9 @@
+.active {
+    color: #f66;
+}
+
+/* css伪类选择器实现自定义导航样式 */
+
+/* .active::before {
+    content: '>';
+} */

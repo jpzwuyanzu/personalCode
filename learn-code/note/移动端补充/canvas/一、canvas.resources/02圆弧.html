@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+		  canvas{
+		    border:1px solid #f66;
+		  }
+		</style>
+	</head>
+	<body>
+		<canvas id="canvas" width="500" height="500">您的浏览器暂不支持canvas</canvas>
+	</body>
+	<script type="text/javascript">
+		var canvas = document.getElementById("canvas");
+		var ctx = canvas.getContext("2d");
+		
+	   ctx.arc(250,250,50,0,Math.PI/2)
+	   ctx.stroke()
+	   
+	   ctx.beginPath()
+	   ctx.arc(50,50,20,0,Math.PI/2)
+	   ctx.stroke()
+	   ctx.closePath()
+	   
+	   for(var i = 0; i <= 10; i++){
+	      ctx.beginPath()
+       ctx.arc(20 + 22*i,50,10,0,i * Math.PI/5)
+       ctx.stroke()
+       ctx.closePath()
+	   }
+	   for(var i = 0; i <= 10; i++){
+        ctx.beginPath()
+       ctx.arc(20 + 22*i,100,10,0,i * Math.PI/5,true)
+       ctx.stroke()
+       ctx.closePath()
+     }
+	   for(var i = 0; i <= 10; i++){
+        ctx.beginPath()
+       ctx.arc(20 + 22*i,150,10,0,i * Math.PI/5)
+       ctx.fill()
+       ctx.closePath()
+     }
+	</script>
+</html>

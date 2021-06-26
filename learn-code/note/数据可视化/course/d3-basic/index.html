@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="http://d3js.org/d3.v5.min.js"></script>
+  <script src="./map.js"></script>
+  <style>
+    #tooltip {
+      text-align: center;
+      padding: 20px;
+      margin: 10px;
+      font: 12px sans-serif;
+      background: lightsteelblue;
+      border: 1px;
+      border-radius: 2px;
+      pointer-events: none;
+      position: absolute;
+      left: -20px;
+      top: -20px;
+      z-index: 1;
+      border: 1px solid grey;
+      border-radius: 5px;
+      font-size: 12px;
+      width: auto;
+      padding: 4px;
+      color: white;
+    }
+
+    #tooltip h4 {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    #tooltip table {
+      table-layout: fixed;
+    }
+
+    #tooltip tr td {
+      padding: 0;
+      margin: 0;
+    }
+
+    #tooltip tr td:nth-child(1) {
+      width: 50px;
+    }
+
+    #tooltip tr td:nth-child(2) {
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="tooltip"></div>
+  <div id="container"></div>
+  <script>
+
+    function tooltipHtml(d) {
+      return "<h4>" + d.properties.name + "</h4><table>" +
+        "<tr><td>Low</td><td>" + (d.properties.adcode) + "</td></tr>" +
+        "<tr><td>Average</td><td>" + (d.properties.center) + "</td></tr>" +
+        "<tr><td>High</td><td>" + (d.properties.centroid) + "</td></tr>" +
+        "</table>"
+    }
+
+    d3.json('./china.json').then((result) => {
+      // console.log(result);
+      map('#container', result, function (d) {
+        d3.select("#tooltip").html(
+          tooltipHtml(d, event)
+        )
+        .style("left", (d3.event.pageX) + "px")
+        .style("top", (d3.event.pageY - 28) + "px")
+      })
+    })
+  </script>
+</body>
+
+</html>

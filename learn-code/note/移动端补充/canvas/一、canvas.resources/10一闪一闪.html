@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+		  canvas{
+		    border:1px solid #f66;
+		  }
+		</style>
+		<script type='text/javascript'>
+</script>
+	</head>
+	<body>
+		<canvas id="canvas" width="500" height="500">您的浏览器暂不支持canvas</canvas>
+	</body>
+	<script type="text/javascript">
+		var canvas = document.getElementById("canvas");
+		var ctx = canvas.getContext("2d");
+    /*
+     * cxt.lineTo(Math.cos((18 + i * 72 ) / 180 * Math.PI) * R + x, -Math.sin((18 + i * 72 ) / 180 * Math.PI) * R + y); 
+     cxt.lineTo(Math.cos((54 + i * 72 ) / 180 * Math.PI) * r + x, -Math.sin((54 + i * 72 ) / 180 * Math.PI) * r + y);
+     */
+    
+    function moreStar(){
+      for(var i = 0; i < 3; i++){
+        var x = Math.random()*500
+        var y = Math.random()*500
+        var r = Math.random()*2 + 3;
+        var R = Math.random()*17 + 2;
+        drawStar(R,r,x,y);
+      }
+    }
+    setInterval(function(){
+      ctx.clearRect(0,0,500,500)
+      ctx.fillStyle = "#000"
+      ctx.fillRect(0,0,500,500)
+      moreStar()
+    },100)
+//  drawStar(30,5,100,100);
+    
+    function drawStar(R,r,x,y){
+      ctx.beginPath();
+      ctx.fillStyle = "#6E4B06"
+      ctx.strokeStyle = "#7D6400"
+      for(var i = 0; i <= 5; i++){
+        ctx.lineTo(Math.cos((18 + i * 72 ) / 180 * Math.PI) * R + x, -Math.sin((18 + i * 72 ) / 180 * Math.PI) * R + y); 
+     ctx.lineTo(Math.cos((54 + i * 72 ) / 180 * Math.PI) * r + x, -Math.sin((54 + i * 72 ) / 180 * Math.PI) * r + y);
+      }
+      ctx.fill()
+      ctx.stroke()
+      ctx.closePath();
+    }
+	</script>
+</html>

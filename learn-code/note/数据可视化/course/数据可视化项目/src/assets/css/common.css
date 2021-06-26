@@ -1,0 +1,120 @@
+body {
+    display: flex;
+    transform-origin: 0px 0px 0px;
+    overflow: hidden;
+    position: relative;
+    font-family: "微软雅黑";
+}
+
+.text-white-shadow {
+    text-shadow: 0 0 5px #fbfbfb, 0 0 10px #fbfbfb, 0 0 20px #228DFF, 0 0 35px #228DFF, 0 0 75px #228DFF;
+}
+
+.text-green-shadow {
+    text-shadow: 0 0 5px #68fff3, 0 0 10px #68fff3, 0 0 20px #228DFF, 0 0 35px #228DFF, 0 0 75px #228DFF;
+}
+
+.chart-title {
+    font-size: 52px;
+    color: #fff;
+    position: absolute;
+    top: 10px;
+    left: 50px;
+}
+
+.auto-tooltip {
+    box-sizing: border-box;
+    position: absolute;
+    padding: 10px 15px;
+    background: rgba(59, 57, 54, 0.8);
+    border-radius: 5px;
+    border: 1px solid #928a82;
+    color: #fff;
+    font-size: 30px;
+    z-index: 9999;
+    white-space: nowrap;
+    display: none;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: none;
+    shape-rendering: optimizeSpeed;
+}
+
+.axis text {
+    font-size: 28px;
+    font-family: sans-serif;
+    fill: #a4d5ff;
+}
+
+.legend-hide {
+    color: #8da5e4 !important;
+}
+
+.map-chart .xingzheng {
+    transform: translate(0px, 8px);
+}
+
+.map-chart .xingshi .circleMain {
+    fill: #0084ff;
+}
+
+.map-chart .xingzheng .circleMain {
+    fill: #fff;
+}
+
+.map-chart .xingshi .circleOuter1,
+.xingshi .circleOuter2 {
+    stroke: #0084ff;
+    fill: none;
+}
+
+.map-chart .xingzheng .circleOuter1,
+.xingzheng .circleOuter2 {
+    stroke: #fff;
+    fill: none;
+}
+
+.circleOuter2 {
+    animation: cri 1s infinite;
+}
+
+@keyframes cri {
+    0%,
+    100%,
+    20%,
+    40%,
+    60%,
+    80% {
+        -webkit-transition-timing-function: cubic-bezier(0.215, .61, .355, 1);
+        transition-timing-function: cubic-bezier(0.215, .61, .355, 1)
+    }
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes cri {
+    0%,
+    100%,
+    20%,
+    40%,
+    60%,
+    80% {
+        -webkit-transition-timing-function: cubic-bezier(0.215, .61, .355, 1);
+        transition-timing-function: cubic-bezier(0.215, .61, .355, 1)
+    }
+    0% {
+        -webkit-transform: scale(1);
+    }
+    100% {
+        -webkit-transform: scale(1.5);
+        -webkit-opacity: 0;
+    }
+}

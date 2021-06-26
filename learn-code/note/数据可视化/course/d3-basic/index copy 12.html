@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+
+<body>
+  <div id="app">
+
+
+  </div>
+  <hr>
+  <button id="btn-update">update</button>
+
+
+  <script>
+
+    const svg_width = 600;
+    const svg_height = 450;
+    const padding = 30;
+    const colors = d3.schemeCategory10;
+
+    var container = d3.select("#app");
+    //生成画布
+    var svg = container.append('svg')
+      .attr('width', svg_width)
+      .attr('height', svg_height)
+      .style('background', '#efefef');
+
+
+    //生成模拟数据
+    var dataset = [];
+    function mockData() {
+      dataset = [];
+      for (let i = 0; i < 10; i++) {
+        let x = Math.ceil(Math.random() * 400);
+        let y = Math.ceil(Math.random() * 400);
+        dataset.push({
+          x,
+          y
+        })
+      }
+    }
+    mockData();
+
+
+    //添加散点
+    function addCircle() {
+      svg
+        .append('g')
+        .attr('class', 'grop_circle')
+        .attr('clip-path', 'url(#rect-clip-path)')
+        .selectAll('circle')
+        .data(dataset)
+        .enter()
+        .append('circle')
+        .attr('r', 15)
+        .attr('cx', (d, i) => {
+          return d.x;
+        })
+        .attr('cy', (d, i) => {
+          return d.y;
+        })
+        .attr('fill', (d, i) => {
+          return colors[i]
+        })
+      // .
+      // on('click', function (d) {
+      //   alert(d.x);
+      // })
+
+    }
+    addCircle();
+
+
+    //添加坐标轴
+    function addAxis() {
+      //x轴的线性比例尺
+      this.x_scale = d3.scaleLinear()
+        .domain([0, d3.max(dataset, (d) => {
+          return d.x;
+        })])
+        .range([0, svg_width - padding * 2]);
+
+      //y轴的线性比例尺
+      this.y_scale = d3.scaleLinear()
+        .domain([0, d3.max(dataset, (d) => {
+          return d.y;
+        })])
+        .range([svg_height - padding * 2, 0]);
+
+      //x方向坐标轴
+      this.x_axis = d3.axisBottom(x_scale)
+      svg.append('g')
+        .attr('id', 'x_axis')
+        .call(this.x_axis)
+        .attr('transform', `translate(${padding},${svg_height - padding})`);
+
+      //y方向坐标轴
+      this.y_axis = d3.axisLeft(y_scale)
+      svg.append('g')
+        .attr('id', 'y_axis')
+        .call(y_axis)
+        .attr('transform', `translate(${padding},${padding})`);
+
+    }
+    addAxis();
+
+    //添加裁切路径
+    function addClipPath() {
+      svg.
+        append('clipPath')
+        .attr('id', 'rect-clip-path')
+        .append('rect')
+        .attr('x', padding)
+        .attr('y', padding)
+        .attr('width', svg_width - padding * 2)
+        .attr('height', svg_height - padding * 2);
+
+    }
+    addClipPath();
+
+    //数据更新
+    d3.select("#btn-update").on('click', () => {
+      mockData();
+
+      //更新坐标轴
+      x_scale.domain([0, d3.max(dataset, (d) => {
+        return d.x;
+      })])
+
+      y_scale.domain([0, d3.max(dataset, (d) => {
+        return d.y;
+      })])
+
+      this.x_axis = d3.axisBottom(x_scale)
+      svg.select("#x_axis")
+        .transition()
+        .duration(500)
+        .call(this.x_axis);
+      svg.select("#y_axis")
+        .transition()
+        .duration(500)
+        .call(this.y_axis);
+
+
+      svg.select('.grop_circle')
+        .selectAll('circle')
+        .data(dataset)
+        .transition()
+        .duration(500)
+        .attr('cx', (d, i) => {
+          return d.x;
+        })
+        .attr('cy', (d, i) => {
+          return d.y;
+        })
+        .attr('fill', (d, i) => {
+          return colors[i]
+        })
+    })
+
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+		  canvas{
+		    border:1px solid #f66;
+		  }
+		</style>
+	</head>
+	<body>
+		<canvas id="canvas" width="500" height="500">您的浏览器暂不支持canvas</canvas>
+	</body>
+	<script type="text/javascript">
+		var canvas = document.getElementById("canvas");
+		var ctx = canvas.getContext("2d");
+		
+	 ctx.lineTo(100,200);
+	 ctx.lineTo(300,500)
+	  ctx.lineTo(300,200)
+	   ctx.lineTo(100,200);
+	 ctx.stroke()
+	 
+//	 ctx.beginPath()
+	 ctx.moveTo(400,100)
+	  ctx.lineTo(200,100)
+	 ctx.stroke()
+	 
+	 ctx.clearRect(200,80,200,200)
+	</script>
+</html>

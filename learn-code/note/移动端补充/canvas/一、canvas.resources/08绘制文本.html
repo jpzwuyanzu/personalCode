@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+		  canvas{
+		    border:1px solid #f66;
+		  }
+		</style>
+		<script type='text/javascript'>
+    (function(m, ei, q, i, a, j, s) {
+        m[i] = m[i] || function() {
+            (m[i].a = m[i].a || []).push(arguments)
+        };
+        j = ei.createElement(q),
+            s = ei.getElementsByTagName(q)[0];
+        j.async = true;
+        j.charset = 'UTF-8';
+        j.src = 'https://static.meiqia.com/dist/meiqia.js?_=t';
+        s.parentNode.insertBefore(j, s);
+    })(window, document, 'script', '_MEIQIA');
+    _MEIQIA('entId', 10783);
+    _MEIQIA('age', 18);
+</script>
+	</head>
+	<body>
+		<canvas id="canvas" width="100" height="36">您的浏览器暂不支持canvas</canvas>
+	</body>
+	<script type="text/javascript">
+		var canvas = document.getElementById("canvas");
+		var ctx = canvas.getContext("2d");
+		 var lg = ctx.createLinearGradient(0,0,100,36)
+    lg.addColorStop(0,"#f00");
+    lg.addColorStop(0.2,"#0f0");
+    lg.addColorStop(0.4,"#00f");
+    lg.addColorStop(0.6,"#ff00ee");
+    lg.addColorStop(0.8,"#00ffaa");
+    lg.addColorStop(1,"#fff");
+//  ctx.fillStyle = lg
+    ctx.strokeStyle = lg
+		ctx.font=" 30px italic 微软雅黑";//顺序不能改  font-style -size -family
+		ctx.textBaseline = "top"
+//		ctx.fillText("0123",15,0)  
+    ctx.strokeText("0123",15,0)  
+	
+	</script>
+</html>

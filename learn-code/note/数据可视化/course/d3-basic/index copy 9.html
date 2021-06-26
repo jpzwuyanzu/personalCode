@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="http://d3js.org/d3.v5.min.js"></script>
+  <style>
+    #app {
+      margin: 0 auto;
+      width: 500px;
+      height: 400px;
+      background: #efefef;
+      position: relative;
+    }
+
+    .bar {
+      /* width: 30px; */
+      /* height: 50px; */
+      fill: green;
+      position: absolute;
+      bottom: 100px;
+    }
+
+    .bar span {
+      display: block;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <svg id="app" style="width: 500px; height:400;"></svg>
+
+  <script>
+
+    const SVG_HEIGHT = 400;
+    const SVG_WIDTH = 500;
+    const MARGIN = { TOP: 30, RIGHT: 30, BOTTOM: 30, LEFT: 30 }
+
+    //模拟数据
+    var datalist = [20, 30, 40, 50, 15]
+
+    //容器（画布）
+    var container = d3.select("#app")
+
+    //线性比例尺
+    const yScale = d3.scaleLinear()
+      .domain([0, d3.max(datalist)])
+      .range([SVG_HEIGHT - MARGIN.TOP - MARGIN.BOTTOM, 0])
+
+    var axisLeft = d3.axisLeft(yScale)
+
+    //序数比例尺
+    var xScale = d3.scaleBand()
+      .domain(d3.range(datalist.length))
+      .range([0, SVG_WIDTH - MARGIN.LEFT - MARGIN.RIGHT])
+      .paddingInner(0.1)
+
+    //x轴比例尺展示无意义
+    var axisBottom = d3.axisBottom(xScale)
+
+    axisBottom(
+      container.append('g')
+        .attr('transform', `translate(${MARGIN.LEFT},${SVG_HEIGHT - MARGIN.TOP})`))
+
+    axisLeft(
+      container
+        .append('g')
+        .attr('transform', 'translate(30,30)')
+    )
+
+    container.selectAll('rect')
+      .data(datalist)
+      .enter()
+      .append('rect')
+      .classed('bar', true)
+
+      .attr('x', function (d, i) {
+        return xScale(i) + MARGIN.LEFT + 'px';
+      })
+      .attr('width', function (d, i) {
+        return xScale.bandwidth() + 'px';
+      })
+      .attr('y', function (d, i) {
+        return SVG_HEIGHT - MARGIN.TOP + 'px';
+      })
+      .attr('height', function () {
+        return 0
+      })
+      .transition()
+      .duration(1000)
+      .delay(function (d, i) {
+        return i * 200
+      })
+      .attr('y', function (d, i) {
+        return yScale(d) + MARGIN.TOP + 'px';
+      })
+      .style('height', function (d, i) {
+        return SVG_HEIGHT - MARGIN.TOP - MARGIN.BOTTOM - yScale(d) + 'px';
+      })
+
+    container.append('g').attr('class', 'textGrop')
+
+    d3.select('.textGrop')
+      .selectAll('text')
+      .data(datalist)
+      .enter()
+      .append('text')
+      .attr('text-anchor', 'middle')
+      .text(function (d, i) {
+        return d
+      })
+      .attr('x', function (d, i) {
+        return xScale(i) + MARGIN.LEFT + xScale.bandwidth() / 2 + 'px'
+      })
+      .attr('y', function (d, i) {
+        return SVG_HEIGHT - MARGIN.TOP - 10 + 'px'
+      })
+      .style('fill', function (d) {
+        return 'green'
+      })
+      .transition()
+      .duration(1000)
+      .delay(function (d, i) {
+        return i * 200
+      })
+      .attr('y', function (d, i) {
+        return yScale(d) + MARGIN.TOP - 10 + 'px'
+      })
+
+  </script>
+</body>
+</html>

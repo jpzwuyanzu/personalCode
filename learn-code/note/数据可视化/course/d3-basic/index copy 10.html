@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <style>
+    #app {
+      margin: 0 auto;
+      width: 600px;
+      height: 400px;
+      background: #efefef;
+      position: relative;
+      margin: auto 0;
+    }
+
+    #tooltip {
+      display: none;
+      background: #666;
+      color: white;
+      border-radius: 6px;
+      height: 50px;
+      width: 80px;
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      z-index: 1;
+      transition: all 100ms;
+    }
+
+    .bar {
+      fill: rgb(104, 152, 241);
+      position: absolute;
+      bottom: 100px;
+    }
+
+    .bar span {
+      display: block;
+      text-align: center;
+    }
+
+    .tool {
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="tooltip">
+
+  </div>
+  <div style="text-align: center;">
+    <svg id="app" style="width: 600px; height:400;"></svg>
+  </div>
+  <hr>
+  <div class="tool">
+    <button id="btn-sort">排序</button>
+    <button id="btn-add">添加</button>
+    <button id="btn-update">更新</button>
+  </div>
+  <script>
+
+    const SVG_HEIGHT = 400;
+    const SVG_WIDTH = 600;
+    const MARGIN = { TOP: 30, RIGHT: 30, BOTTOM: 30, LEFT: 30 };
+
+    //排序标记
+    var sort_flag = false;
+
+    //模拟数据
+    var datalist = [20, 30, 40, 50, 15];
+
+    //容器（画布）
+    var container = d3.select("#app");
+
+    //y轴线性比例尺
+    var yScale = d3.scaleLinear()
+      .domain([0, d3.max(datalist)])
+      .range([SVG_HEIGHT - MARGIN.TOP - MARGIN.BOTTOM, 0]);
+    var axisLeft = d3.axisLeft(yScale);
+
+    //x轴，序数比例尺
+    var xScale = d3.scaleBand()
+      .domain(d3.range(datalist.length))
+      .range([0, SVG_WIDTH - MARGIN.LEFT - MARGIN.RIGHT])
+      .paddingInner(0.1);
+
+    //x轴比例尺展示无意义
+    var axisBottom = d3.axisBottom(xScale);
+    axisBottom(
+      container.append('g')
+        .attr('transform', `translate(${MARGIN.LEFT},${SVG_HEIGHT - MARGIN.TOP})`))
+
+    //添加左侧坐标轴
+    axisLeft(
+      container
+        .append('g')
+        .attr('transform', 'translate(30,30)')
+    )
+
+
+    function renderRect() {
+
+      //添加新的rect
+      container.selectAll('rect')
+        .data(datalist)
+        .enter()
+        .append('rect')
+        .classed('bar', true)
+        .on('click', function (d) {
+          let x = d3.event.pageX;
+          let y = d3.event.pageY;
+          d3.select("#tooltip")
+            .style('display', 'block')
+            .style('left', x + 'px')
+            .style('top', y + 'px')
+            .text(function () {
+              return d;
+            })
+        })
+
+      //更新样式
+      container.selectAll('rect')
+        .attr('x', function (d, i) {
+          return xScale(i) + MARGIN.LEFT + 'px';
+        })
+        .attr('width', function (d, i) {
+          return xScale.bandwidth() + 'px';
+        })
+        .style('height', function () {
+          return '0px';
+        })
+        .attr('y', function (d, i) {
+          return SVG_HEIGHT - MARGIN.TOP + 'px';
+        })
+        .on('mouseover', function () {
+          d3.select(this).style('fill', 'orange');
+        })
+        .on('mouseout', function () {
+          d3.select(this).style('fill', 'rgb(104, 152, 241)');
+        })
+        .transition()
+        .duration(200)
+        .delay(function (d, i) {
+          return i * 100
+        })
+        .attr('y', function (d, i) {
+          return yScale(d) + MARGIN.TOP + 'px';
+        })
+        .style('height', function (d, i) {
+          return SVG_HEIGHT - MARGIN.TOP - MARGIN.BOTTOM - yScale(d) + 'px';
+        })
+
+    }
+
+    function renderText() {
+
+      container.append('g')
+        .attr('class', 'textGrop');
+
+      d3.select('.textGrop')
+        .selectAll('text')
+        .data(datalist)
+        .enter()
+        .append('text')
+        .attr('text-anchor', 'middle')
+        .text(function (d, i) {
+          return d;
+        });
+
+      d3.select('.textGrop')
+        .selectAll('text')
+        .attr('x', function (d, i) {
+          return xScale(i) + MARGIN.LEFT + xScale.bandwidth() / 2 + 'px';
+        })
+        .attr('y', function (d, i) {
+          return SVG_HEIGHT - MARGIN.TOP - MARGIN.BOTTOM - 5 + 'px';
+        })
+        // .style('fill', function (d) {
+        //   return 'red';
+        // })
+        .transition()
+        .duration(200)
+        .delay(function (d, i) {
+          return i * 100;
+        })
+        .attr('y', function (d, i) {
+          return yScale(d) + MARGIN.TOP - 5 + 'px';
+        })
+    }
+
+    //刷新比例尺（当数据有变化时需要执行）
+    function refreshScale() {
+      yScale.domain([0, d3.max(datalist)]);
+      xScale.domain(d3.range(datalist.length))
+    }
+
+    function sort() {
+      container.selectAll('rect').sort((a, b) => {
+        return sort_flag ? d3.descending(a, b) : d3.ascending(a, b);
+      })
+        .transition()
+        .duration(500)
+        .attr('x', (d, i) => {
+          return xScale(i) + MARGIN.LEFT + 'px';
+        })
+
+
+      container.select('.textGrop')
+        .selectAll('text').sort((a, b) => {
+          return sort_flag ? d3.descending(a, b) : d3.ascending(a, b);
+        })
+        .text(function (d, i) {
+          return d;
+        })
+        .transition()
+        .duration(500)
+        .attr('x', (d, i) => {
+          return xScale(i) + MARGIN.LEFT + xScale.bandwidth() / 2 + 'px';
+        })
+
+      sort_flag = !sort_flag;
+
+    }
+
+    function initEvent() {
+      d3.select("#btn-sort").on('click', () => {
+        sort();
+      })
+
+      d3.select("#btn-add").on('click', () => {
+        let num = Math.ceil(Math.random() * 100);
+        datalist.push(num);
+        refreshScale();
+        renderRect();
+        renderText();
+      })
+
+
+      d3.select("#btn-update").on('click', () => {
+        mockData();
+        refreshScale();
+        renderRect();
+        renderText();
+      })
+    }
+
+    function mockData() {
+      datalist = [];
+      for (let i = 0; i < 10; i++) {
+        let num = Math.ceil(Math.random() * 100);
+        this.datalist.push(num);
+      }
+    }
+
+    renderRect();
+    renderText();
+    initEvent();
+
+  </script>
+
+</body>
+
+</html>

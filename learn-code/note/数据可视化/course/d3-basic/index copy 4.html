@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D3 Demo</title>
+  <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+<body >
+  <svg id='svg' width="500" height="500" style="background-color: #efefef;">
+   
+  </svg>
+  <script>
+    d3.csv('./data.csv').then(res => {
+      console.log(res)
+      d3.select('#svg')
+        .selectAll('rect')
+        .data(res.columns)
+        .enter()
+        .append('rect')
+        .style('width', '30px')
+        .style('height', (d, i) => {
+          return d * 5 + 'px'
+        })
+        .attr('x', (d, i) => {
+          return i * 40 + 'px'
+        })
+        .attr('y', (d, i) => {
+          return 400 - d * 5 + 'px'
+        })
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<style type="text/css">
+			.demo{width:320px; margin:10px auto 20px auto; min-height:300px;}
+			.demo canvas{border:1px solid #cccccc;}
+		</style>
+	</head>
+	<body>
+		 <div class="demo">
+   		<canvas></canvas>
+   </div>
+		
+	</body>
+	<script type="text/javascript">
+	var bodyStyle = document.body.style;
+
+/*bodyStyle.mozUserSelect = 'none';
+bodyStyle.webkitUserSelect = 'none';*/
+//定义一张图片
+
+//获取canvas
+
+//定义图片数组
+
+//产生随机数
+
+//定义图片地址
+
+//添加图片记载完成事件
+
+//在图片记载完成事件中定义上下文，图片的宽度高度，canvas的位置（offsetLeft，offsetTop）
+
+// 定义一个变量标记鼠标是否按下mousedown，默认为false
+
+//定义一个函数layer（ctx）,设置填充颜色和绘制矩形
+
+//定义一个鼠标按下事件eventDown（e）,先阻止其默认事件，再改变mousedown
+
+//定义一个鼠标谈起事件eventUp（e）,先阻止其默认事件，再改变mousedown
+
+//定义一个鼠标按下移动事件eventMove（e）,先阻止其默认事件，
+
+//判断鼠标是否按下，如果按下则
+
+//判断e.changedTouches， changedTouches是涉及当前事件的触摸点的列表。
+
+//执行 e=e.changedTouches[e.changedTouches.length-1];
+
+//定义一个圆圈的位置
+//var x = (e.clientX + document.body.scrollLeft || e.pageX) - offsetX || 0,
+//y = (e.clientY + document.body.scrollTop || e.pageY) - offsetY || 0;
+//开始路劲
+
+//绘制圆
+
+//结束
+
+//设置canvas款和高
+//设置canvas的背景图片canvas.style.backgroundImage='url('+img.src+')';
+
+//获取上下文
+
+// 设置填充颜色为透明ctx.fillStyle='transparent';
+
+//执行layer（ctx）
+
+//添加事件 canvas.addEventListener('mousedown', eventDown);
+//canvas.addEventListener('mouseup', eventUp);
+//canvas.addEventListener('mousemove', eventMove);
+
+var img = new Image();
+var canvas = document.querySelector('canvas');
+/*canvas.style.backgroundColor='transparent';
+canvas.style.position = 'absolute';*/
+var arr= ["未中奖","中了一个iphonex"]
+var imgs = ['img/p_0.jpg','img/p_1.jpg'];
+var num = Math.floor(Math.random()*2);
+img.src = imgs[num];
+var timer = "";
+var isFirst = true
+img.addEventListener('load', function(e) {
+	var ctx;
+    var w = img.width,
+    	h = img.height;
+    var offsetX = canvas.offsetLeft,
+    	offsetY = canvas.offsetTop;
+    var mousedown = false;
+    function layer(ctx) {
+        ctx.fillStyle = 'gray';
+        ctx.fillRect(0, 0, w, h);
+    }
+
+    function eventDown(e){
+        e.preventDefault();
+        mousedown=true;
+    }
+
+    function eventUp(e){
+        e.preventDefault();
+        mousedown=false;
+    }
+
+    function eventMove(e){
+        e.preventDefault();
+        if(mousedown) {
+        	/*alert(e.changedTouches)*/
+             if(e.changedTouches){
+                 e=e.changedTouches[e.changedTouches.length-1];
+             }
+             var x = (e.clientX + document.body.scrollLeft || e.pageX) - offsetX || 0,
+                 y = (e.clientY + document.body.scrollTop || e.pageY) - offsetY || 0;
+             //就是用ctx这个对象的意思，简写代码，不用重复写ctx
+           /*  with(ctx) {
+                 beginPath();
+                 arc(x, y, 10, 0, Math.PI * 2);
+                 fill();
+             }*/
+             ctx.beginPath();
+             ctx.arc(x, y, 10, 0, Math.PI * 2);
+             ctx. fill();
+             if(isFirst){ //告知用户有没有中奖及其中奖内容
+                isFirst = false
+               timer = setTimeout(function(){
+                 mousedown = false;
+                 clearTimeout(timer)
+                 ctx.clearRect(0,0,w,h)
+                   alert(arr[num])
+                
+               },1000)
+             }
+        }
+    }
+
+    canvas.width=w;
+    canvas.height=h;
+    canvas.style.backgroundImage='url('+img.src+')';
+    ctx=canvas.getContext('2d');
+    ctx.fillStyle='transparent';
+    ctx.fillRect(0, 0, w, h);
+    layer(ctx);
+
+    ctx.globalCompositeOperation = 'destination-out';
+
+    canvas.addEventListener('touchstart', eventDown);
+    canvas.addEventListener('touchend', eventUp);
+    canvas.addEventListener('touchmove', eventMove);
+    canvas.addEventListener('mousedown', eventDown);
+    canvas.addEventListener('mouseup', eventUp);
+    canvas.addEventListener('mousemove', eventMove);
+});
+	</script>
+</html>

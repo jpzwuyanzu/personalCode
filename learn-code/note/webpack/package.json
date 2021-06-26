@@ -1,0 +1,26 @@
+{
+  "dependencies": {
+    "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^7.0.0",
+    "css-loader": "^5.0.1",
+    "html-webpack-plugin": "^5.0.0-beta.6",
+    "less": "^4.1.1",
+    "less-loader": "^7.3.0",
+    "node-sass": "^5.0.0",
+    "postcss-preset-env": "^6.7.0",
+    "sass-loader": "^10.1.1",
+    "style-loader": "^2.0.0",
+    "stylus": "^0.54.8",
+    "stylus-loader": "^4.3.3",
+    "terser-webpack-plugin-legacy": "^1.2.5",
+    "webpack": "^5.19.0",
+    "webpack-cli": "^4.4.0"
+  },
+  "devDependencies": {
+    "mini-css-extract-plugin": "^1.3.5",
+    "webpack-cli": "^3.3.12"
+  },
+  "scripts": {
+    "start:dev": "webpack-dev-server"
+  }
+}

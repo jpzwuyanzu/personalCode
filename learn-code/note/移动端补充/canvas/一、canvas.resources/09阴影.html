@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+		  canvas{
+		    border:1px solid #f66;
+		  }
+		</style>
+		<script type='text/javascript'>
+</script>
+	</head>
+	<body>
+		<canvas id="canvas" width="500" height="500">您的浏览器暂不支持canvas</canvas>
+	</body>
+	<script type="text/javascript">
+		var canvas = document.getElementById("canvas");
+		var ctx = canvas.getContext("2d");
+    
+    
+		ctx.shadowOffsetX = 5;
+		ctx.shadowOffsetY = 5;
+		ctx.shadowBlur = 5;
+		ctx.shadowColor = "#f66"
+    ctx.fillRect(100,100,200,200)
+	</script>
+</html>

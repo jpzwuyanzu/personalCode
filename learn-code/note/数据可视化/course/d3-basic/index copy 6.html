@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D3 Demo</title>
+  <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+<body >
+  <svg id='svg' width="500" height="500" style="background-color: #efefef;">
+   
+  </svg>
+  <script>
+    
+    var datalist = [10, 20, 30, 40, 50, 500]
+    var linear = d3.scaleLinear()
+    .domain([0, d3.max(datalist)])
+    .range([0, 200])
+    
+    var svg = d3.select('svg')
+    svg.selectAll('rect')
+      .data(datalist)
+      .enter()
+      .append('rect')
+      .attr("width", "30px")
+      .attr('height', (d, i) => {
+        return linear(d) + 'px'
+      })
+      .attr("x", (d, i) => {
+        return i * 35 + "px"
+      })
+      .attr("y", (d, i) => {
+        return 480 - linear(d) + "px"
+      })
+      .style('fill', "red")
+    svg.selectAll('text')
+      .data(datalist)
+      .enter()
+      .append('text')
+      .attr("x", (d, i) => {
+        return i * 35 + 5 + "px"
+      })
+      .attr("y", (d, i) => {
+        return 480 - linear(d) - 10  + "px"
+      })
+      .text(d => d)
+  </script>
+</body>
+</html>

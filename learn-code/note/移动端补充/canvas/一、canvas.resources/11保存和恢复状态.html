@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+		  canvas{
+		    border:1px solid #f66;
+		  }
+		</style>
+		<script type='text/javascript'>
+</script>
+	</head>
+	<body>
+		<canvas id="canvas" width="500" height="500">您的浏览器暂不支持canvas</canvas>
+	</body>
+	<script type="text/javascript">
+		var canvas = document.getElementById("canvas");
+		var ctx = canvas.getContext("2d");
+    
+    ctx.fillStyle = "#f66";
+    ctx.save()
+    ctx.fillStyle = "#0f0";
+    ctx.save()
+    ctx.fillStyle = "#00f";
+    ctx.save()
+    ctx.fillStyle = "#000";
+    ctx.save()
+    
+    ctx.restore();
+    ctx.restore();
+    ctx.save() // 蓝色
+    ctx.restore();
+    ctx.restore();
+    ctx.restore();
+    ctx.fillRect(100,100,100,100)
+		
+	</script>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+		  canvas{
+		    border:1px solid #f66;
+		  }
+		</style>
+	</head>
+	<body>
+		<canvas id="canvas" width="500" height="500">您的浏览器暂不支持canvas</canvas>
+	</body>
+	<script type="text/javascript">
+		var canvas = document.getElementById("canvas");
+		var ctx = canvas.getContext("2d");
+	
+//  var rg = ctx.createRadialGradient(250,250,30,250,250,250)
+var rg = ctx.createRadialGradient(50,50,30,250,250,150)
+    rg.addColorStop(0,"#f00");
+    rg.addColorStop(0.2,"#0f0");
+    rg.addColorStop(0.4,"#00f");
+    rg.addColorStop(0.6,"#ff00ee");
+    rg.addColorStop(0.8,"#00ffaa");
+    rg.addColorStop(1,"#fff");
+    ctx.fillStyle = rg
+    ctx.fillRect(0,0,500,500)
+	</script>
+</html>

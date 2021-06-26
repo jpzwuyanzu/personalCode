@@ -1,6 +1,7 @@
 <template>
-  <a-layout id="components-layout-demo-custom-trigger">
-    <a-layout-sider v-model="collapsed" :trigger="null" collapsible>
+  <div id="mainLayout">
+    <a-layout id="components-layout-demo-custom-trigger">
+    <a-layout-sider id="asideMenu" style="height:800px;" v-model="collapsed" :trigger="null" collapsible>
       <div class="logo" />
       <my-menu :menudata="menudata"/>
     </a-layout-sider>
@@ -17,6 +18,7 @@
       </a-layout-content>
     </a-layout>
   </a-layout>
+  </div>
 </template>
 <script>
 import MyMenu from './mymenu'
@@ -38,7 +40,7 @@ export default {
 };
 </script>
 <style>
-#__nuxt, #__layout, #components-layout-demo-custom-trigger, .ant-layout-sider, .ant-layout-sider-children { height: 100%;}
+#__nuxt, #__layout, #components-layout-demo-custom-trigger, .ant-layout-sider, .ant-layout-sider-children, #asideMenu { height: 100%;}
 
 #components-layout-demo-custom-trigger .trigger {
   font-size: 18px;

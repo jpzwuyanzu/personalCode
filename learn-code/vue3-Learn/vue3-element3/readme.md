@@ -1,5 +1,7 @@
 #### vue3+ element3 + compositionApi + vue-router4 + vuex构建后台管理系统模版
 
+https://juejin.cn/post/6926822933721513998#heading-19
+
 + 路由构建
 + 请求封装
 + vuex的使用

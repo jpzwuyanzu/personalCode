@@ -1,6 +1,6 @@
 <template>
-  <div>
-      <h1>home页面</h1>
+  <div class="homePage">
+  <h1>home页面</h1>
   <p>num: {{store.state.num}}</p>
   <van-button type="primary">主要按钮</van-button>
   </div>
@@ -14,7 +14,7 @@ export default defineComponent({
   props: {
     msg: {
       type: String,
-      required: true
+      // required: true
     }
   },
   setup: () => {
@@ -27,11 +27,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-h1 {
-    width: 100px;
-    height: 100px;
-    display: inline-block;
-    background: #f66;
-    font-size: 15px;
+.homePage {
+  height: 10000px;
 }
 </style>

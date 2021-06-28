@@ -1,22 +1,20 @@
 <template>
-  <router-view></router-view>
+ <DefaultLayout></DefaultLayout>
+  
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
+import DefaultLayout from './layouts/default.vue'
+import { ref } from 'vue'
 
-export default defineComponent({
-  name: 'App'
-})
+
+const name = ref(123123)
+
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="scss">
+  html, body, #app {
+    width: 100%;
+    height: 100%;
+  }
 </style>

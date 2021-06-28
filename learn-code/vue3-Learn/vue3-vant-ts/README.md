@@ -37,6 +37,7 @@ npm init @vitejs/app my-vue-app --template vue-ts
  1， 安装依赖
  
  npm install vue-router@4 --save
+ npm i sass -D
 
  2，在src/router/index.ts
  

@@ -9,12 +9,43 @@ function createWindow () {
       contextIsolation: true
     }
   })
-  
-  // mainWindow.maximize() //窗口最大化
+  //打开调试工具
+  // mainWindow.maximize()
   const wc = mainWindow.webContents
-  wc.openDevTools() //打开调试工具
-  let mainsession = wc.session  //通过webContens获取session
-  mainWindow.loadFile('index.html') //加载本地html
+  wc.openDevTools()
+  //加载本地html
+  mainWindow.loadFile('index.html')
+  const secondWindow = new  BrowserWindow({
+    width: 600,
+    height:600,
+    webPreferences: {
+      contextIsolation: true
+    }
+  })
+  secondWindow.webContents.openDevTools()
+  secondWindow.loadFile('index.html')
+
+  //设置cookie
+  const cookie = { url: 'http://www.github.com', name: 'dummy_name', value: 'dummy' }
+  session.defaultSession.cookies.set(cookie)
+    .then(() => {
+      // success
+      console.log('111')
+    }, (error) => {
+      console.error(error)
+    })
+
+    // 查询所有 cookies。
+  session.defaultSession.cookies.get({})
+  .then((cookies) => {
+    console.log(cookies)
+  }).catch((error) => {
+    console.log(error)
+  })
+
+  //参考地址： https://www.electronjs.org/docs/api/cookies#cookiessetdetails
+
+
 }
 
 app.whenReady().then(createWindow)

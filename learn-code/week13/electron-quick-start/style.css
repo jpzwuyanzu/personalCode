@@ -2,3 +2,9 @@
  input[type='renge'] {
     -webkit-app-region: no-drag;
 }
+
+.captureimg {
+    width: 200px;
+    height: 200px;
+    border: 1px solid #ccc;
+}

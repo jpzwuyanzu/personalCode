@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self';">
+    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self';"> -->
+    <title>Hello World!</title>
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body>
+    <h1>Hello World!</h1>
+    We are using Node.js <span id="node-version"></span>,
+    Chromium <span id="chrome-version"></span>,
+    and Electron <span id="electron-version"></span>.
+    and Electron <span id="electron-version"></span>.
+    <!-- <h2><a href="https://picsum.photos/5000/5000/" download>Download Image</a></h2> -->
+   <progress value="0" max="100" id="progress"></progress>
+   <button id="fullscreen">全屏</button>
+   <button id="openwin">打开新窗口</button>
+   <button id="closewin">关闭窗口</button>
+   <button id="changefont">改变窗口中的字体</button>
+   <br/>
+   <button id="zoomout">➖</button>
+    <button id="zoomin">➕</button>
+    <button id="zoomauto">auto</button>
+    <br/>
+    <button id="capturer">桌面快照</button>
+    <img id="capturerImg" class="captureimg" src="https://p0.meituan.net/movie/94bfc893acb9c586f6270eb8ef5096d53124190.jpg@1l_1e_1c_128w_180h" alt="">
+    <button id="render-to-main">发送数据</button>
+    <!-- You can also require other files to run in this process -->
+    <script src="./renderer.js"></script>
+  </body>
+</html>

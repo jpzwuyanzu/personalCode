@@ -29,7 +29,7 @@ router.addRoute({
   component: notFound
 })
 
-console.log(router.getRoutes()) //  获取当前路由中所有的路由
-console.log(router)
+// console.log(router.getRoutes()) //  获取当前路由中所有的路由
+// console.log(router)
 
 export default router

@@ -70,9 +70,7 @@ export default defineComponent({
 
     // 生命周期的钩子函数
     onMounted(() => {
-      console.log('请求数据')
       getBannerlist().then(res => {
-        console.log(res)
         state.banner = res.data
       })
     })

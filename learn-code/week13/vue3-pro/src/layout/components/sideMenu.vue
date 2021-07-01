@@ -1,5 +1,5 @@
 <template>
-    <a-menu theme="dark" mode="inline" @click="changeRoute" v-model:selectedKeys="selectedKeys">
+    <a-menu theme="dark" mode="inline" @click="changeRoute" v-model="selectedKeys">
         <template v-for="route of routes"  >
             <a-sub-menu :key="route.path" v-if="route.children && route.children.length > 1">
                 <template #title>

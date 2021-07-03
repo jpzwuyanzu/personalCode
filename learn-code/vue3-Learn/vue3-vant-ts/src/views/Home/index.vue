@@ -1,7 +1,7 @@
 <template>
   <div class="homePage">
   <h1>home页面</h1>
-  <p>num: {{store.state.num}}</p>
+  <!-- <p>num: {{store.state.num}}</p> -->
   <van-button type="primary">主要按钮</van-button>
   </div>
 </template>
@@ -9,17 +9,18 @@
 <script lang="ts">
 import { ref, defineComponent } from 'vue'
 import { useStore } from 'vuex'
+import { key } from './../../store/index'
 export default defineComponent({
   name: 'home',
-  props: {
-    msg: {
-      type: String,
-      // required: true
-    }
-  },
+  // props: {
+  //   msg: {
+  //     type: String,
+  //     required: true
+  //   }
+  // },
   setup: () => {
     const count = ref(0)
-    const store = useStore()
+    const store = useStore(key)
     console.log(store)
     return { count, store }
   }

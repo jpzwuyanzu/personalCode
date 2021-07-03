@@ -6,12 +6,12 @@
 import { ref, defineComponent } from 'vue'
 export default defineComponent({
   name: 'login',
-  props: {
-    msg: {
-      type: String,
-      required: true
-    }
-  },
+  // props: {
+  //   msg: {
+  //     type: String,
+  //     required: true
+  //   }
+  // },
   setup: () => {
     const count = ref(0)
     return { count }

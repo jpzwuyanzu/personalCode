@@ -3,7 +3,7 @@ export default [
     {
       path: '/home',
       name: 'home',
-      icon: 'home',
+      icon: 'wap-home-o',
       title: '电影/影院',
       component: DefaultLayOut,
       redirect: '/home/index',
@@ -17,7 +17,7 @@ export default [
     {
         path: '/video',
         name: 'video',
-        icon: 'video',
+        icon: 'video-o',
         title: '视频',
         component: DefaultLayOut,
         redirect: '/video/index',
@@ -31,7 +31,7 @@ export default [
       {
         path: '/smallVideo',
         name: 'smallVideo',
-        icon: 'smallVideo',
+        icon: 'eye-o',
         title: '小视频',
         component: DefaultLayOut,
         redirect: '/smallVideo/index',
@@ -45,7 +45,7 @@ export default [
       {
         path: '/show',
         name: 'show',
-        icon: 'show',
+        icon: 'desktop-o',
         title: '演出',
         component: DefaultLayOut,
         redirect: '/show/index',
@@ -59,7 +59,7 @@ export default [
       {
         path: '/my',
         name: 'my',
-        icon: 'my',
+        icon: 'user-o',
         title: '我的',
         component: DefaultLayOut,
         redirect: '/my/index',

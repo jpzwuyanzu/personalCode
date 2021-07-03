@@ -20,7 +20,7 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
     history: createWebHistory(),
     routes
-});
+})
 
 configRoute.forEach(item => {
     router.addRoute(item)
@@ -30,7 +30,5 @@ router.addRoute({
     path: '/:pathMatch(.*)*',
     component: notFound
   })
-
-console.log(routes)
 
 export default router

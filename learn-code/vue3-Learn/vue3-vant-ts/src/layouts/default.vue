@@ -7,15 +7,19 @@
         <router-view></router-view>
     </div>
     <div class="pageFooter">
-        <div class="bottomNav">
-            底部tabbar
-        </div>
+        <!-- <div class="bottomNav"> -->
+            <van-tabbar :route="true" v-model="active" active-color="#f66" :safe-area-inset-bottom="true">
+                <van-tabbar-item v-for="item of tabRoute" :to="item.path" :key="item.path" :icon="item.icon">{{ item.title }}</van-tabbar-item>
+            </van-tabbar>
+        <!-- </div> -->
     </div>
 </div>
 </template>
 
 <script lang="ts" setup>
-
+import tabRoute from './routes'
+import { ref } from 'vue'
+const active = ref(0)
 </script>
 
 <style lang="scss" scoped>

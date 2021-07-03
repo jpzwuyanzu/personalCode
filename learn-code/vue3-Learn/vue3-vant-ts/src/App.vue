@@ -1,10 +1,8 @@
 <template>
- <DefaultLayout></DefaultLayout>
-  
+ <router-view></router-view>
 </template>
 
 <script lang="ts" setup>
-import DefaultLayout from './layouts/default.vue'
 import { ref } from 'vue'
 
 

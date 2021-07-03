@@ -1,13 +1,10 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import configRoute from './../layouts/routes'
+import notFound from './../views/notFound/index.vue'
 const routes: Array<RouteRecordRaw> = [
    {
        path: '/',
-       name: 'home',
-       meta: {
-           title:'首页',
-           keepAlive: true
-       },
-       component: () => import("../views/Home/index.vue")
+       redirect: '/home/index'
    },
    {
        path: '/login',
@@ -24,5 +21,16 @@ const router = createRouter({
     history: createWebHistory(),
     routes
 });
+
+configRoute.forEach(item => {
+    router.addRoute(item)
+})
+
+router.addRoute({
+    path: '/:pathMatch(.*)*',
+    component: notFound
+  })
+
+console.log(routes)
 
 export default router

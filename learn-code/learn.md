@@ -18,7 +18,7 @@ wudaxun： https://gitee.com/daxunxun/sz-gp-04/tree/wudaxundev/week3
 
 vue相关：
 vue2， vue3  vue-router vuex 
-配套ui element-ui vant-ui vue3+typescript+element3  vue+antd
+配套ui element-ui vant-ui vue3+typescript+element3  vue+antd vue3+ts+vant
 
 react相关
 react+antd react-router redux  redux-thunk redux-saga mobx 
@@ -26,23 +26,17 @@ umi/dva
 react+typescript+umi
 react-native 
 react-taro
-
+ 
 小程序
 配套ui antd 
 vite打包工具，webpack工具
-
 vue+electron桌面应用程序
-
 es6常见用法
-
 数据模拟： json-server  mockjs  
-
 axios fetch等封装 websocked使用
-
-
 数据可视化echarts  D3js（https://d3js.org/）  antv
-
 大屏数据展示开发
+webrtc技术
 
 
 

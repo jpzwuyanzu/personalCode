@@ -2,9 +2,11 @@
   <div>
     <input type="text" v-model="username" @keydown.enter="addItem">
     <button @click="addItem">添加</button>
-    <button @click="deletItem(index)">删除</button>
     <ul>
-      <li v-for="(item, index) of list" :key="index">{{item}}</li>
+      <li v-for="(item, index) of list" :key="index">{{item}}
+    <button @click="deletItem(index)">删除</button>
+
+      </li>
     </ul>
   </div>
 </template>
@@ -21,9 +23,8 @@ export default defineComponent({
       store.dispatch('changeList', username.value)
     }
     const deletItem = (index) => {
-      store.dispatch('deleList', index)
+      store.dispatch('deleteItem', index)
     }
-    console.log(store)
     return {
       list,
       addItem,

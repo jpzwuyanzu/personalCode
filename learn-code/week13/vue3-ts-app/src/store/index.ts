@@ -16,13 +16,20 @@ export const store = createStore<State>({
     list: ['aa', 'vv']
   },
   actions: {
-    changeList ({ commit, state }, data) {
+    changeList ({ commit }, data) {
       commit('setList', data)
+    },
+    deleteItem ({ commit, state }, data) {
+      state.list.splice(data, 1)
+      commit('getList', state.list)
     }
   },
   mutations: {
     setList(state, data) {
       state.list.push(data)
+    },
+    getList(state, data) {
+      state.list = data
     }
   }
 })

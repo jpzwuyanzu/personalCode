@@ -1,12 +1,15 @@
 <template>
-  <!-- <main-layout/> -->
+<a-config-provider :locale="locale">
   <router-view></router-view>
+  </a-config-provider>
 </template>
 <script>
-// import MainLayout from '@/layout/main.vue'
+import zhCN from 'ant-design-vue/es/locale/zh_CN'
 export default {
-  components: {
-    // MainLayout
+  setup (props) {
+    return {
+      locale: zhCN
+    }
   }
 }
 </script>

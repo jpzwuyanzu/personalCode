@@ -1,0 +1,11 @@
+{
+    "result":{
+        "test":{
+            "userName":"test",
+            "role":"1",
+            "loginState":true,
+            "token":"123456"
+        }
+    },
+    "code": 200
+}

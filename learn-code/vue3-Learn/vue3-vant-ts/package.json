@@ -6,8 +6,10 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "@types/js-cookie": "^2.2.7",
     "autoprefixer": "^10.2.6",
     "axios": "^0.21.1",
+    "js-cookie": "^2.2.1",
     "lib-flexible": "^0.3.2",
     "postcss-px2rem-exclude": "^0.0.6",
     "vant": "^3.1.0",

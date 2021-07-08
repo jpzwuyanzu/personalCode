@@ -1,6 +1,6 @@
 import axios from "axios";
 const service = axios.create({
-  baseURL : '',
+  baseURL : 'http://localhost:3000/',
   timeout: 5000 // request timeout
 });
 // 发起请求之前的拦截器

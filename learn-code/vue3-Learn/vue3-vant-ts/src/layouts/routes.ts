@@ -61,6 +61,9 @@ export default [
         name: 'my',
         icon: 'user-o',
         title: '我的',
+        meta: {
+          auth: true
+        },
         component: DefaultLayOut,
         redirect: '/my/index',
         children: [

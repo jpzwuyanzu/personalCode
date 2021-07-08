@@ -1,8 +1,7 @@
-import { resolve } from 'url'
 import { InjectionKey } from 'vue'
 import { createStore, Store } from 'vuex'
 import { loginRequest } from './../api/login'
-import { getItem, setItem } from './../util/common'
+import { getItem, setItem, removeItem } from './../util/common'
 
 // 为 store state 声明类型
 export interface State {
@@ -13,7 +12,8 @@ export interface State {
     username: String,
     role: String,
     loginState: Boolean
-  }
+  },
+  tabChoosed: Number
 }
 
 // 定义 injection key
@@ -28,7 +28,8 @@ export const store = createStore<State>({
       username: getItem('username') || '',
       role: getItem('role') || '0',
       loginState: Boolean(getItem('loginState')) || false
-    }
+    },
+    tabChoosed: Number(getItem('tabChoosed')) || 0
   },
   actions: {
     changeList ({ commit }, data) {
@@ -52,6 +53,14 @@ export const store = createStore<State>({
           resolve(res)
         })
       })
+    },
+    changeTabChoose ({ commit, state }, data) {
+      setItem('tabChoosed', data)
+      commit('saveTabChoosed', data)
+    },
+    loginOut({ commit, state }, data) {
+      removeItem('token')
+      commit('loginOut')
     }
   },
   mutations: {
@@ -66,7 +75,15 @@ export const store = createStore<State>({
       state.loginInfo.username =  data.userName
       state.loginInfo.role =  data.role
       state.loginInfo.loginState = data.loginState
-      console.log(state)
+    },
+    saveTabChoosed(state, data) {
+      state.tabChoosed = data
+    },
+    loginOut(state, data) {
+      state.loginInfo.token =  ''
+      state.loginInfo.username = ''
+      state.loginInfo.role = '0'
+      state.loginInfo.loginState = false
     }
   }
 })

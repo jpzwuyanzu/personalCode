@@ -54,11 +54,11 @@ router.beforeEach((to,from,next) => {
             // })
           }else{
             next('/login');
+            console.log("请先登录");
           }
  
         }
   　} else {
-        console.log("请先登录");
         next()
     }
 })

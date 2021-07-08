@@ -1,10 +1,10 @@
 <template>
 <div class="defaultLayout">
-    <div class="pageHeader">
+    <div class="pageHeader" :class="route.path === '/my/index' ? 'myPageHeader': ''">
         <div class="headerNav">
             <nav-bar/>
-            <down-load-bar/>
-            <div class="topbar">
+            <down-load-bar v-if="route.path !== '/my/index'" />
+            <div class="topbar" v-if="route.path !== '/my/index'">
                 <div class="leftPart">北京 <van-icon name="arrow-down" /></div>
                 <div class="middlePart">
                     <van-tabs v-model="activeTab">
@@ -20,11 +20,11 @@
             </div>
         </div>
     </div>
-    <div class="pageContent">
+    <div class="pageContent" :class="route.path === '/my/index' ? 'myPageContent': ''">
         <router-view></router-view>
     </div>
     <div class="pageFooter">
-            <van-tabbar  v-model="active" active-color="#f03d37"  :safe-area-inset-bottom="true">
+            <van-tabbar  v-model="active" active-color="#f03d37"  :safe-area-inset-bottom="true" @change="changTabItem">
                 <van-tabbar-item  v-for="item of tabRoute" :to="item.path" :key="item.path" :icon="item.icon">{{ item.title }}</van-tabbar-item>
             </van-tabbar>
     </div>
@@ -32,12 +32,24 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { computed, ref, watch, watchEffect } from 'vue'
 import NavBar from './components/navBar.vue'
 import DownLoadBar from './components/downLoadBar.vue'
 import tabRoute from './routes'
-const active = ref(0)
+import { useStore } from 'vuex'
+import { useRoute } from 'vue-router'
+import { key } from './../store/index'
+const store = useStore(key)
+const route = useRoute()
 const activeTab = ref(0)
+const active = ref(store.state.tabChoosed)
+
+const changTabItem = (activeItem) => {
+    store.dispatch('changeTabChoose', activeItem)
+}
+watch(() => store.state.tabChoosed, newVal => {
+    active.value = Number(store.state.tabChoosed)
+})
 </script>
 
 <style lang="scss" scoped>
@@ -89,6 +101,9 @@ const activeTab = ref(0)
            }
        }
    }
+   .myPageHeader {
+       height: 46px;
+   }
    .pageContent {
        z-index: 1000;
        height: calc(100% - 200px);
@@ -96,6 +111,9 @@ const activeTab = ref(0)
        overflow-y: scroll;
        background-color: #f5f5f5;
        padding-right: 16px;
+   }
+   .myPageContent {
+       height: calc(100% - 96px);
    }
    .pageFooter {
        height: 50px;

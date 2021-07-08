@@ -57,7 +57,6 @@ export default defineComponent({
     onMounted(() => {
       getMovieList().then(res => {
         movieList.data = JSON.parse(JSON.stringify(res))
-        console.log(movieList.data)
       })
     })
     return { count, store, movieList }

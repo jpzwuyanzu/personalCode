@@ -49,13 +49,16 @@ export default defineComponent({
       password: '',
     });
     const onSubmit = (values) => {
-      console.log('submit', values);
       store.dispatch('loginNow', values).then(res => {
-        router.push('/my')
+        store.dispatch('changeTabChoose', 4)
+        router.push({
+          name: 'my'
+          })
       })
     };
     const onClickLeft = () => {
-      router.back()
+      store.dispatch('changeTabChoose', 0)
+      router.push('/home')
     }
     return { state, onSubmit, onClickLeft }
   }

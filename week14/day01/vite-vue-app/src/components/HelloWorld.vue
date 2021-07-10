@@ -4,11 +4,13 @@
 <button @click="increment">计数器</button>
 <div>count: {{ state.count }}</div>
 <div>number: {{ number }}</div>
+<div>newNum: {{ newNum }}</div>
+<van-button type="primary">主要按钮</van-button>
 </div>
 </template>
 
 <script setup>
-import { defineProps, reactive, watchEffect, watch, ref } from 'vue'
+import { reactive, watchEffect, watch, ref, computed, onMounted } from 'vue'
 
 defineProps({
   msg: String
@@ -31,6 +33,14 @@ watch(() => state.count, (newVal, oldVal) => {
 watchEffect(() => {
   console.log('count', state.count)
   console.log('number', number.value)
+})
+
+//计算属性
+const newNum = computed(() => number.value * 100)
+
+//钩子
+onMounted(() => {
+  number.value = 1
 })
 </script>
 

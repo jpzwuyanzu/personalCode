@@ -1,5 +1,5 @@
 <template>
-  <div>banner/list页面</div>
+  <div>user必须按参数id页面</div>
 </template>
 <script>
 </script>

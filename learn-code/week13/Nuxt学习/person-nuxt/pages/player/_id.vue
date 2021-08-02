@@ -1,5 +1,5 @@
 <template>
-  <div>banner/list页面</div>
+  <div>player页面参数为id</div>
 </template>
 <script>
 </script>

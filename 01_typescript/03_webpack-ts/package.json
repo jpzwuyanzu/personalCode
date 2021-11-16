@@ -1,0 +1,26 @@
+{
+  "name": "03_webpack-ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.config.js",
+    "build": "cross-env NODE_ENV=production webpack --config build/webpack.config.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "clean-webpack-plugin": "^4.0.0",
+    "cross-env": "^7.0.3",
+    "html-webpack-plugin": "^4.5.0",
+    "ts-loader": "^8.2.5",
+    "typescript": "^4.4.3",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.2"
+  },
+  "dependencies": {
+    "loader-utils": "^2.0.0"
+  }
+}

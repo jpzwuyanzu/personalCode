@@ -4,27 +4,34 @@ export default class Form extends Component {
     state = {
         keyword: ''
     }
-    handlerChange (e) {
+
+    constructor (props) {
+        super(props)
+        this.input = React.createRef()
+    }
+
+    handlerChange() {
         this.setState({
-            keyword: e.target.value
+            keyword: this.input.current.value
         })
     }
-    handlerKeyup (e) {
+    handlerKeyUp(e) {
         if(e.keyCode === 13) {
-            //传值给父组件, 通过props实现
-            this.props.onReceiveKeyWord(this.state.keyword)
-            this.setState({ keyword: '' })
+            this.props.onReceiveData(this.state.keyword)
+            // this.setState({ keyword: '' })
+            this.input.current.value = ''
         }
     }
     render() {
         return (
-            <>
-             <input type="text" value= { this.state.keyword }
-             onChange = { this.handlerChange.bind(this) }
-             onKeyUp = { this.handlerKeyup.bind(this) }
-             />
-             {this.state.keyword}
-            </>
+            <div>
+                <input 
+                type="text" 
+                ref={ this.input } 
+                onChange= { this.handlerChange.bind(this) }
+                onKeyUp = { this.handlerKeyUp.bind(this) }
+                 />
+            </div>
         )
     }
 }

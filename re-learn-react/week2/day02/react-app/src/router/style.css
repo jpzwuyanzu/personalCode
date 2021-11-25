@@ -1,0 +1,8 @@
+.active, .selected {
+    color: #f66;
+}
+
+/* 伪类选择器--自定义导航选中样式 */
+.active::before {
+    content: '>';
+}

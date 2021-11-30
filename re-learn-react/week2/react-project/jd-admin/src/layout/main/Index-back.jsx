@@ -1,12 +1,13 @@
-import React from 'react'
-import { Layout } from 'antd';
+import React, { Suspense, lazy } from 'react'
+import { Layout, Spin } from 'antd';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
 } from '@ant-design/icons';
+import { Route, Switch } from 'react-router-dom'
 import logo from './../../logo.svg'
 import SideMenu from './SideMenu'
-import RouterView from './../../router/RouterView'
+import menus from '../../router/menu'
 
 const { Header, Sider, Content } = Layout;
 
@@ -22,7 +23,19 @@ class Index extends React.Component {
   };
 
 
-  
+  renderRoute = (menus) => {
+    return menus.map(item => {
+      if(item.children) {
+        return this.renderRoute(item.children)
+      } else {
+        return(
+          <Route key={item.path} path={item.path}
+          exact
+          component = { item.component }></Route>
+        )
+      }
+    })
+  }
 
   render() {
     return (
@@ -50,8 +63,14 @@ class Index extends React.Component {
               position: 'relative'
             }}
           >
-            {/* 自定义的路由组件，类比vue中RouterView */}
-           <RouterView/>
+            <Suspense fallback={<div className="loading"><Spin size="large" /> </div>}>
+            <Switch>
+            {
+              this.renderRoute(menus)
+            }
+              {/* <Route path="/" exact component = { lazy(() => import('../../views/home/Index')) }></Route> */}
+            </Switch>
+            </Suspense>
           </Content>
         </Layout>
       </Layout>

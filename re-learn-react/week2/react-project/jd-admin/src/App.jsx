@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import Main from './layout/main/index'
+import Main from './layout/main/Index'
 
 const App = () => {
     return (

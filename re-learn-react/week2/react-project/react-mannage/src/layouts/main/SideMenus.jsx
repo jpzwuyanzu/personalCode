@@ -54,7 +54,7 @@ const SideMenus = withRouter((props) => {
 
     useEffect(() => {
         setOpenKeys([keys])
-        setSelectedKeys(pathname)
+        setSelectedKeys([pathname])
     }, [keys, pathname])
 
     

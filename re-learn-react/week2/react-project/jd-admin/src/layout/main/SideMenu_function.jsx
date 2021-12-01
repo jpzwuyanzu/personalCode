@@ -1,14 +1,13 @@
 import React from "react";
-import { withRouter, useHistory, useLocation} from 'react-router-dom'
+import { withRouter, useHistory } from 'react-router-dom'
 import { Menu } from "antd";
-import menus from "./../../router/menu";
+import menus from "../../router/menu";
 
 const { SubMenu } = Menu;  //二级菜单标识
 
 const SideMenu = withRouter((props) => { //通过withRouter包裹为了获取编程式导航的对象
 
   const history  = useHistory()
-  
 
   const renderMenu = (menus) => {
     return (
@@ -35,23 +34,16 @@ const SideMenu = withRouter((props) => { //通过withRouter包裹为了获取编
 
 
   const goPage = ({ key }) => {
+    // props.history.push(key) 
     history.push(key)
   }
-
-  // 为了显示当前左侧菜单栏选中的状态 - string[ key ]  key值就是path
-  // defaultSelectedKeys
-  // defaultOpenKeys
-  const { pathname } = useLocation() 
-  const type = '/' + pathname.split('/')[1] 
-
     return (
       <Menu theme="dark" 
       mode="inline" 
-      defaultSelectedKeys={[pathname]} // 数组
-      defaultOpenKeys={[type]} //数组
+      defaultSelectedKeys={["1"]}
       onClick = { goPage }
       >
-        {/* // 方便做多级菜单，用到递归的设计思想 */}
+          {/* // 方便做多级菜单，用到递归的设计思想 */}
         {renderMenu(menus)}
       </Menu>
     );

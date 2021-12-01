@@ -1,0 +1,5 @@
+
+const CHANGE_COLLAPSED = 'CHANGE_COLLAPSED' //左侧菜单收缩变量
+export {
+    CHANGE_COLLAPSED
+}

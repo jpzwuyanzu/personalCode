@@ -6,7 +6,8 @@ import {
     LinkOutlined,
     AlignCenterOutlined,
     FieldTimeOutlined,
-    UserOutlined
+    UserOutlined,
+    SettingOutlined
 } from '@ant-design/icons';
 const menus = [
     {
@@ -78,7 +79,16 @@ const menus = [
                 component: lazy(() => import('./../views/user/UserList'))
             }
         ]
-    }
+    },
+    {
+        title:'用户设置',
+        path: '/setting',
+        icon: <SettingOutlined />,
+        component: lazy(() => import('./../views/setting/Index')),
+        meta: {
+            hidden: true
+        }
+    },
 ]
 
 export default menus

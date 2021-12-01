@@ -1,44 +1,35 @@
 import React from 'react';
 import { Layout } from 'antd';
-import {
-  MenuUnfoldOutlined,
-  MenuFoldOutlined
-} from '@ant-design/icons';
 import SideMenu from './SideMenus'
 import RouterView from './../../router/RouterView'
 import logo from './../../logo.svg'
+import MainHeader from './MainHeader'
+import { connect } from 'react-redux'
 
-const { Header, Sider, Content } = Layout;
+const { Sider, Content } = Layout;
 
 class Index extends React.Component {
-  state = {
-    collapsed: false,
-  };
-
-  toggle = () => {
-    this.setState({
-      collapsed: !this.state.collapsed,
-    });
-  };
 
   render() {
+    const { collapsed } = this.props
     return (
       <Layout>
-        <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
+        <Sider trigger={null} collapsible collapsed={ collapsed }>
             <div className="logo">
                 <img src={ logo } style={{ height:'32px',width: '32px', margin: '0 10px 0 0 ' }}  alt=""/>
-                { this.state.collapsed ? null : <span>react-mannage</span> }
+                { collapsed ? null : <span>react-mannage</span> }
             </div>
           
           <SideMenu/>
         </Sider>
         <Layout className="site-layout">
-          <Header className="site-layout-background" style={{ padding: 0 }}>
+          {/* <Header className="site-layout-background" style={{ padding: 0 }}>
             {React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
               className: 'trigger',
               onClick: this.toggle,
             })}
-          </Header>
+          </Header> */}
+          <MainHeader/>
           <Content
             className="site-layout-background"
             style={{
@@ -56,4 +47,6 @@ class Index extends React.Component {
   }
 }
 
-export default Index
+export default connect( state => ({
+  collapsed: state.getIn(['common', 'collapsed'])
+}) )(Index)

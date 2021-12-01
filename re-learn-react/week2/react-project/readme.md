@@ -721,3 +721,476 @@ export default RouterView;
   <RouterView/>
 </Content>
 ```
+
++ 疑问： 如果有的页面不需要在左侧菜单栏出现，如何处理？
+
+
+先配置路由选项menu.js
+
+```js
+{
+        path: '/setting',
+        title: '用户设置',
+        icon: <UserOutlined />,
+        component: lazy(() => import('../views/setting/Index')),
+        meta: { // 该路由不出现在左侧菜单栏
+            hidden: true
+        }
+    }
+```
+
+SideMenu.jsx
+
+```jsx
+import React from "react";
+import { Menu } from "antd";
+import menus from "./../../router/menu";
+
+const { SubMenu } = Menu;  //二级菜单标识
+
+const SideMenu = () => {
+  const renderMenu = (menus) => {
+    return (
+      <>
+        {menus.map((item, index) => {
+          if (item.children) {  //有多级菜单
+            return (
+              <SubMenu key={item.path} icon={item.icon} title={item.title}>
+                {renderMenu(item.children)}
+              </SubMenu>
+            );
+          } else {  //只有一级菜单
+            // 在这里判断要不要在侧边栏出现路由
+            return item.meta && item.meta.hidden ? 
+            null
+             :
+            <Menu.Item key={item.path} icon={item.icon}>
+            {item.title}
+            </Menu.Item>
+          }
+        })}
+      </>
+    );
+  }
+
+    return (
+      <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
+          {/* // 方便做多级菜单，用到递归的设计思想 */}
+        {renderMenu(menus)}
+      </Menu>
+    );
+}
+
+export default SideMenu;
+
+```
+
+# 10 点击菜单栏跳转页面
+SideMenu.jsx
+
+```jsx
+import React from "react";
+import { withRouter } from 'react-router-dom' 
+import { Menu } from "antd";
+import menus from "./../../router/menu";
+
+const { SubMenu } = Menu;  //二级菜单标识
+
+const SideMenu = withRouter((props) => { //通过withRouter包裹为了获取编程式导航的对象
+
+  const renderMenu = (menus) => {
+    return (
+      <>
+        {menus.map((item, index) => {
+          if (item.children) {  //有多级菜单
+            return (
+              <SubMenu key={item.path} icon={item.icon} title={item.title}>
+                {renderMenu(item.children)}
+              </SubMenu>
+            );
+          } else {  //只有一级菜单
+            return item.meta && item.meta.hidden ? 
+            null
+             :
+            <Menu.Item key={item.path} icon={item.icon}>
+            {item.title}
+            </Menu.Item>
+          }
+        })}
+      </>
+    );
+  }
+
+
+  const goPage = ({ key }) => {
+    props.history.push(key) 
+  }
+    return (
+      <Menu theme="dark" 
+      mode="inline" 
+      defaultSelectedKeys={["1"]}
+      onClick = { goPage } //跳转页面
+      >
+          {/* // 方便做多级菜单，用到递归的设计思想 */}
+        {renderMenu(menus)}
+      </Menu>
+    );
+})
+
+export default SideMenu;
+
+```
+
++ 疑问： 点击轮播图列表，刷新之后，左侧菜单选中状态消失
+
+```jsx
+import React from "react";
+import { withRouter, useHistory, useLocation} from 'react-router-dom'
+import { Menu } from "antd";
+import menus from "./../../router/menu";
+
+const { SubMenu } = Menu;  //二级菜单标识
+
+const SideMenu = withRouter((props) => { //通过withRouter包裹为了获取编程式导航的对象
+
+  const history  = useHistory()
+  
+
+  const renderMenu = (menus) => {
+    return (
+      <>
+        {menus.map((item, index) => {
+          if (item.children) {  //有多级菜单
+            return (
+              <SubMenu key={item.path} icon={item.icon} title={item.title}>
+                {renderMenu(item.children)}
+              </SubMenu>
+            );
+          } else {  //只有一级菜单
+            return item.meta && item.meta.hidden ? 
+            null
+             :
+            <Menu.Item key={item.path} icon={item.icon}>
+            {item.title}
+            </Menu.Item>
+          }
+        })}
+      </>
+    );
+  }
+
+
+  const goPage = ({ key }) => {
+    history.push(key)
+  }
+
+  // 为了显示当前左侧菜单栏选中的状态 - string[ key ]  key值就是path
+  // defaultSelectedKeys
+  // defaultOpenKeys
+  const { pathname } = useLocation() 
+  const type = '/' + pathname.split('/')[1] 
+
+    return (
+      <Menu theme="dark" 
+      mode="inline" 
+      defaultSelectedKeys={[pathname]} // 数组
+      defaultOpenKeys={[type]} //数组
+      onClick = { goPage }
+      >
+        {/* // 方便做多级菜单，用到递归的设计思想 */}
+        {renderMenu(menus)}
+      </Menu>
+    );
+})
+
+export default SideMenu;
+
+```
+
+# 11 设计头部
+
+抽离头部header， 
+
+main/Index.jsx
+```jsx
+import React from 'react'
+import { Layout } from 'antd';
+import logo from './../../logo.svg'
+import SideMenu from './SideMenu'
+import RouterView from './../../router/RouterView'
+import MainHeader from './MainHeader'
+
+const { Sider, Content } = Layout;
+
+class Index extends React.Component {
+  state = {
+    collapsed: false,
+  };
+
+  render() {
+    return (
+      <Layout>
+        <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
+          <div className="logo">
+              <img src={logo} style={{ height:'32px',width: '32px', margin: '0 10px 0 0 ' }} alt=""/>
+              { this.state.collapsed ? null :  <span>JD_ADMIN</span>}
+          </div>
+          <SideMenu/>
+        </Sider>
+        <Layout className="site-layout">
+          {/* <Header className="site-layout-background" style={{ padding: 0 }}>
+            {React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+              className: 'trigger',
+              onClick: this.toggle,
+            })}
+          </Header> */}
+          <MainHeader/>
+          <Content
+            className="site-layout-background"
+            style={{
+              margin: '24px 16px',
+              padding: 24,
+              minHeight: 280,
+              position: 'relative'
+            }}
+          >
+            {/* 自定义的路由组件，类比vue中RouterView */}
+           <RouterView/>
+          </Content>
+        </Layout>
+      </Layout>
+    );
+  }
+}
+
+
+export default Index
+```
+
+创建/main/MainHeader.jsx
+
+```jsx
+import React, { useState } from 'react';
+import { Layout } from 'antd';
+import {
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+} from '@ant-design/icons';
+const { Header } = Layout
+
+const MainHeader = () => {
+    
+    const [collapsed, setCollapsed] = useState(false)
+    const toggle = () => {
+        setCollapsed(!collapsed)
+    }
+
+    return (
+        <Header className="site-layout-background" style={{ padding: '0 16px',  }}>
+            {/* {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+              className: 'trigger',
+              onClick: toggle,
+            })} */}
+            {
+               collapsed ?  
+               <MenuUnfoldOutlined style={{ fontSize: '24px' }} className="trigger" onClick={ toggle } />
+                : 
+               <MenuFoldOutlined style={{ fontSize: '24px' }} className="trigger" onClick={ toggle } />
+            }
+          </Header>
+    );
+}
+
+export default MainHeader;
+
+```
+
+此时点击小图标，左侧菜单不会打开关闭
+引入状态管理器
+
+```
+cnpm istall redux react-redux redux-thunk -D
+或者
+yarn add  redux react-redux redux-thunk -D
+
+如果需要使用持久化数据结构
+cnpm install immutable redux-immutable -D
+或者
+yarn add immutable redux-immutable -D
+```
++ 1.创建分reducer  store/modules/common.js
+
+```js
+import { Map } from 'immutable'
+import * as types from './../actionTypes'
+
+const reducer = (state = Map({
+    collapsed: false
+}), action) => {
+    switch (action.type) {
+        case types.CHANGE_COLLAPSED:
+            return state.set('collapsed', !state.get('collapsed'))
+        default:
+            return state
+    }
+}
+
+export default reducer
+```
+
++ 2. 创建actiontypes.js
+```js
+const CHANGE_COLLAPSED = 'CHANGE_COLLAPSED' //左侧菜单收缩变量
+export {
+    CHANGE_COLLAPSED
+}
+```
++ 3.创建状态管理器 store/index.js
+```js
+import { createStore, applyMiddleware } from 'redux'
+import { combineReducers } from 'redux-immutable'
+import thunk from 'redux-thunk'
+
+import commonReducer from './modules/common'
+
+const reducer = combineReducers({
+    common: commonReducer
+})
+
+const store = createStore(reducer, applyMiddleware(thunk))
+
+export default  store
+
+```
+
++ 4.入口文件引入状态管理器 src/index.js
+```js
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App'
+import './index.css'
+import { Provider } from 'react-redux'
+import store from './store/index'
+
+ReactDOM.render(
+    <Provider store = { store } >
+        <App/>
+    </Provider>,
+    document.getElementById('root')
+)
+```
++ 5. layout/main/MainHeader.jsx中使用状态管理器
+```jsx
+import React, { useState } from 'react';
+import { Layout } from 'antd';
+import {
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+} from '@ant-design/icons';
+import * as types from './../../store/actionTypes'
+import { connect } from 'react-redux'
+const { Header } = Layout
+
+const MainHeader = ({ collapsed, changeCollapsed }) => {
+    
+    // const [collapsed, setCollapsed] = useState(false)
+
+    const toggle = () => {
+        changeCollapsed()
+    }
+
+    return (
+        <Header className="site-layout-background" style={{ padding: '0 16px',  }}>
+            {/* {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+              className: 'trigger',
+              onClick: toggle,
+            })} */}
+            {
+               collapsed ?  
+               <MenuUnfoldOutlined style={{ fontSize: '24px' }} className="trigger" onClick={ toggle } />
+                : 
+               <MenuFoldOutlined style={{ fontSize: '24px' }} className="trigger" onClick={ toggle } />
+            }
+          </Header>
+    );
+}
+
+export default connect( state => ({
+        collapsed: state.getIn(['common', 'collapsed']) //immutable 中获取模块数据
+    }), dispatch => ({
+        changeCollapsed() {
+            dispatch({
+                type: types.CHANGE_COLLAPSED
+            })
+        }
+    }) )(MainHeader);
+```
+
++ 6. layout/main/Index.jsx
+```jsx
+import React from 'react'
+import { Layout } from 'antd';
+import logo from './../../logo.svg'
+import SideMenu from './SideMenu'
+import RouterView from './../../router/RouterView'
+import MainHeader from './MainHeader'
+import { connect } from 'react-redux'
+
+const { Sider, Content } = Layout;
+
+// state => { return { collapsed: state.common.collapsed } }
+// ({ common }) => ({ collapsed: common.collapsed })
+// ({ common: { collapsed } }) => ({ collapsed: collapsed })
+// ({ common: { collapsed } }) => ({ collapsed })
+
+@connect(state => { //用到装饰器语法，如果咩有配置，可以使用原来的方式调用
+  return {
+    collapsed: state.getIn(['common', 'collapsed'])
+  }
+})
+class Index extends React.Component {
+  
+
+  render() {
+    const { collapsed } = this.props
+
+    return (
+      <Layout>
+        <Sider trigger={null} collapsible collapsed={collapsed}>
+          <div className="logo">
+              <img src={logo} style={{ height:'32px',width: '32px', margin: '0 10px 0 0 ' }} alt=""/>
+              { collapsed ? null :  <span>JD_ADMIN</span>}
+          </div>
+          <SideMenu/>
+        </Sider>
+        <Layout className="site-layout">
+          {/* <Header className="site-layout-background" style={{ padding: 0 }}>
+            {React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+              className: 'trigger',
+              onClick: this.toggle,
+            })}
+          </Header> */}
+          <MainHeader/>
+          <Content
+            className="site-layout-background"
+            style={{
+              margin: '24px 16px',
+              padding: 24,
+              minHeight: 280,
+              position: 'relative'
+            }}
+          >
+            {/* 自定义的路由组件，类比vue中RouterView */}
+           <RouterView/>
+          </Content>
+        </Layout>
+      </Layout>
+    );
+  }
+}
+
+
+export default Index
+```
+
+# 12

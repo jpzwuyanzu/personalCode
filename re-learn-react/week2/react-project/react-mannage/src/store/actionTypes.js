@@ -1,0 +1,5 @@
+const CHANGE_COLLAPSED = 'CHANGE_COLLAPSED'
+
+export {
+    CHANGE_COLLAPSED
+}

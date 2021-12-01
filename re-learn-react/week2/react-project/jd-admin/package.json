@@ -39,5 +39,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "immutable": "^4.0.0",
+    "react-redux": "^7.2.6",
+    "redux": "^4.1.2",
+    "redux-immutable": "^4.0.0",
+    "redux-thunk": "^2.4.1"
   }
 }

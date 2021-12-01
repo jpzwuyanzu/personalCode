@@ -1,46 +1,46 @@
 import React from 'react'
 import { Layout } from 'antd';
-import {
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-} from '@ant-design/icons';
 import logo from './../../logo.svg'
 import SideMenu from './SideMenu'
 import RouterView from './../../router/RouterView'
+import MainHeader from './MainHeader'
+import { connect } from 'react-redux'
 
-const { Header, Sider, Content } = Layout;
+const { Sider, Content } = Layout;
 
+// state => { return { collapsed: state.common.collapsed } }
+// ({ common }) => ({ collapsed: common.collapsed })
+// ({ common: { collapsed } }) => ({ collapsed: collapsed })
+// ({ common: { collapsed } }) => ({ collapsed })
+
+@connect(state => {
+  return {
+    collapsed: state.getIn(['common', 'collapsed'])
+  }
+})
 class Index extends React.Component {
-  state = {
-    collapsed: false,
-  };
-
-  toggle = () => {
-    this.setState({
-      collapsed: !this.state.collapsed,
-    });
-  };
-
-
   
 
   render() {
+    const { collapsed } = this.props
+
     return (
       <Layout>
-        <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
+        <Sider trigger={null} collapsible collapsed={collapsed}>
           <div className="logo">
               <img src={logo} style={{ height:'32px',width: '32px', margin: '0 10px 0 0 ' }} alt=""/>
-              { this.state.collapsed ? null :  <span>JD_ADMIN</span>}
+              { collapsed ? null :  <span>JD_ADMIN</span>}
           </div>
           <SideMenu/>
         </Sider>
         <Layout className="site-layout">
-          <Header className="site-layout-background" style={{ padding: 0 }}>
+          {/* <Header className="site-layout-background" style={{ padding: 0 }}>
             {React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
               className: 'trigger',
               onClick: this.toggle,
             })}
-          </Header>
+          </Header> */}
+          <MainHeader/>
           <Content
             className="site-layout-background"
             style={{

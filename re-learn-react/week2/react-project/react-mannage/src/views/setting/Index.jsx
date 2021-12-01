@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Category = () => {
+const UserSeting = () => {
     return (
         <div>
-            category
+           用户设置
         </div>
     );
 }
 
-export default Category;
+export default UserSeting;

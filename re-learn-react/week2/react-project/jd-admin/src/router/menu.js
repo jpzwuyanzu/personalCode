@@ -80,14 +80,18 @@ const menus = [
                 title: '用户列表',
                 icon: <UserOutlined />,
                 component: lazy(() => import('./../views/user/List'))
-            }, 
+            }
         ]
+    },
+    {
+        path: '/setting',
+        title: '用户设置',
+        icon: <UserOutlined />,
+        component: lazy(() => import('../views/setting/Index')),
+        meta: {
+            hidden: true
+        }
     }
-    // {
-    //     path: '/admanager',
-    //     title: '广告管理',
-    //     icon: <GooglePlusOutlined />
-    // },
 ]
 
 export default menus

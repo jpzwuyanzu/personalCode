@@ -4,6 +4,7 @@ import {
   MenuUnfoldOutlined,
   MenuFoldOutlined
 } from '@ant-design/icons';
+import Breadcrumb from './Breadcrumb'
 import { connect } from 'react-redux'
 import * as types from './../../store/actionTypes'
 
@@ -16,17 +17,22 @@ const MainHeader = ({ collapsed, changeCollapsed }) => {
       };
 
     return (
-        <Header className="site-layout-background" style={{ padding: 0 }}>
+        <Header className="site-layout-background" style={{ padding: '0 16px', display: 'flex' }}>
             {/* {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
               className: 'trigger',
               onClick: toggle,
             })} */}
+            <div style={{ width: '50px' }}>
             {
                collapsed ?  
-               <MenuUnfoldOutlined className="trigger" onClick={ toggle } /> 
+               <MenuUnfoldOutlined style={{ fontSize: '24px', marginTop: '20px' }} className="trigger" onClick={ toggle } /> 
                : 
-               <MenuFoldOutlined className="trigger" onClick={ toggle } />
+               <MenuFoldOutlined style={{ fontSize: '24px', marginTop: '20px' }} className="trigger" onClick={ toggle } />
             }
+            </div>
+            <div style={{ flex: 1 }}>
+              <Breadcrumb/>
+            </div>
           </Header>
     );
 }

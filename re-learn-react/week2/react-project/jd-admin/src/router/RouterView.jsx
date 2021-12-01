@@ -2,6 +2,7 @@ import React, { Suspense } from "react";
 import { Spin } from "antd";
 import { Switch, Route } from "react-router-dom";
 import menus from "./menu";
+import  RedirectRouterView from './RedirectRouterView'
 
 const RouterView = () => {
   const renderRoute = (menus) => {
@@ -9,14 +10,12 @@ const RouterView = () => {
       if (item.children) {
         return renderRoute(item.children);
       } else {
-        return (
-          <Route
+        return item.path === '/' ? null : (<Route
             key={item.path}
             path={item.path}
             exact
             component={item.component}
-          ></Route>
-        );
+          ></Route>)
       }
     });
   };
@@ -29,6 +28,7 @@ const RouterView = () => {
       }
     >
       <Switch>{renderRoute(menus)}</Switch>
+      <RedirectRouterView/>
     </Suspense>
   );
 };

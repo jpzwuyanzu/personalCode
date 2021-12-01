@@ -15,6 +15,13 @@ import {
 const menus = [
     {
         path: '/',
+        redirect: '/home',
+        meta: {
+            hidden: true
+        }
+    },
+    {
+        path: '/home',
         title: '系统首页',
         icon: <HomeOutlined/>,
         component: lazy(() => import('./../views/home/Index'))
@@ -23,6 +30,7 @@ const menus = [
         path: '/bannermanager',
         title: '轮播图管理',
         icon: <PictureOutlined />,
+        redirect: '/bannermanager/list',
         children: [
             {
                 path: '/bannermanager/list',
@@ -36,6 +44,7 @@ const menus = [
         path: '/navigatormanager',
         title: '快捷导航管理',
         icon: <LinkOutlined />,
+        redirect: '/navigatormanager/list',
         children: [
             {
                 path: '/navigatormanager/list',
@@ -61,6 +70,7 @@ const menus = [
         path: '/seckillmanager',
         title: '秒杀管理',
         icon: <FieldTimeOutlined />,
+        redirect: '/seckillmanager/list',
         children: [
             {
                 path: '/seckillmanager/list',
@@ -74,6 +84,7 @@ const menus = [
         path: '/usermanager',
         title: '用户管理',
         icon: <UserOutlined />,
+        redirect: '/usermanager/list',
         children: [
             {
                 path: '/usermanager/list',

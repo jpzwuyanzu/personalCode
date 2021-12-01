@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Menu } from 'antd';
 import menus from './../../router/menu'
 import { withRouter, useLocation, useHistory } from 'react-router-dom'
 
 const { SubMenu } = Menu
+const rootSubmenuKeys = []
+menus.forEach(item => (
+    item.children && rootSubmenuKeys.push(item.path)
+))
 
 
 const SideMenus = withRouter((props) => {
-
+    const [openKeys, setOpenKeys] = useState([])
+    const [selectedKeys, setSelectedKeys] = useState([])
     const history = useHistory()
 
     const renderMenus = (menus) => {
@@ -35,8 +40,22 @@ const SideMenus = withRouter((props) => {
         history.push(key)
     }
 
+    const onOpenChange = keys => {
+        const latestOpenKey = keys.find(key => openKeys.indexOf(key) === -1);
+        if (rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
+          setOpenKeys(keys);
+        } else {
+          setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
+        }
+      };
+
     const { pathname } = useLocation()
     const keys = '/' + pathname.split('/')[1]
+
+    useEffect(() => {
+        setOpenKeys([keys])
+        setSelectedKeys(pathname)
+    }, [keys, pathname])
 
     
 
@@ -45,6 +64,9 @@ const SideMenus = withRouter((props) => {
         mode="inline" 
         defaultSelectedKeys={[pathname]}
         defaultOpenKeys={[keys]}
+        openKeys={ openKeys }
+        selectedKeys={ selectedKeys }
+        onOpenChange = { onOpenChange }
         onClick = { goPage }
         >
             {

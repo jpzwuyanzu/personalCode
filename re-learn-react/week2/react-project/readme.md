@@ -1193,4 +1193,456 @@ class Index extends React.Component {
 export default Index
 ```
 
-# 12
+# 12 左侧菜单选中的时候只展开一个菜单项
+
+SideMenu.jsx
+```jsx
+import React, { useState } from "react";
+import { withRouter, useHistory, useLocation} from 'react-router-dom'
+import { Menu } from "antd";
+import menus from "./../../router/menu";
+
+const { SubMenu } = Menu;  //二级菜单标识
+
+const rootSubmenuKeys = []
+menus.map(item => (
+  item.children ? rootSubmenuKeys.push(item.path) : null
+))
+
+
+const SideMenu = withRouter((props) => { //通过withRouter包裹为了获取编程式导航的对象
+
+  const [openKeys, setOpenKeys] = useState([])
+  // const [ rootSubmenuKeys, setRootSubmenuKeys ] = useState([])
+
+  const history  = useHistory()
+  
+
+  const renderMenu = (menus) => {
+    return (
+      <>
+        {menus.map((item, index) => {
+          if (item.children) {  //有多级菜单
+            return (
+              <SubMenu key={item.path} icon={item.icon} title={item.title}>
+                {renderMenu(item.children)}
+              </SubMenu>
+            );
+          } else {  //只有一级菜单
+            return item.meta && item.meta.hidden ? 
+            null
+             :
+            <Menu.Item key={item.path} icon={item.icon}>
+            {item.title}
+            </Menu.Item>
+          }
+        })}
+      </>
+    );
+  }
+
+
+  const goPage = ({ key }) => {
+    history.push(key)
+  }
+
+  const onOpenChange = keys => {
+    const latestOpenKey = keys.find(key => openKeys.indexOf(key) === -1);
+    if (rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
+      setOpenKeys(keys);
+    } else {
+      setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
+    }
+  };
+
+  // 为了显示当前左侧菜单栏选中的状态 - string[ key ]  key值就是path
+  // defaultSelectedKeys
+  // defaultOpenKeys
+  const { pathname } = useLocation() 
+  const type = '/' + pathname.split('/')[1] 
+
+    return (
+      <Menu theme="dark" 
+      mode="inline" 
+      defaultSelectedKeys={[pathname]} // 数组
+      defaultOpenKeys={[type]} //数组
+      openKeys={ openKeys }
+      onOpenChange={ onOpenChange }
+      onClick = { goPage }
+      >
+        {/* // 方便做多级菜单，用到递归的设计思想 */}
+        {renderMenu(menus)}
+      </Menu>
+    );
+})
+
+export default SideMenu;
+```
+
+# 13面包屑导航组件 layout/main/Breadcrumb.jsx
+```jsx
+import menus from './../../router/menu'
+import { withRouter, useLocation, Link } from 'react-router-dom'
+import { Breadcrumb } from 'antd'
+
+const breadcrumbNameMap = {}
+
+const renderbreadcrumbNameMap = (menus) => {
+    menus.forEach((item, index) => {
+        if(item.children) {
+            breadcrumbNameMap[item.path] = item.title
+            renderbreadcrumbNameMap(item.children)
+        } else {
+            breadcrumbNameMap[item.path] = item.title
+        }
+    })
+}
+
+renderbreadcrumbNameMap(menus)
+
+const Breadcrum = withRouter((props) => {
+    // console.log(useLocation(), props.location)
+    const location = useLocation()
+    const pathSnippets = location.pathname.split('/').filter(i => i);
+    // console.log(pathSnippets) //['bannermanager', 'list']
+    const extraBreadcrumbItems = pathSnippets.map((_, index) => {
+        const url = `/${pathSnippets.slice(0, index + 1).join('/')}`
+        return (
+            <Breadcrumb.Item key={url} style={{ lineHeight: '64px'}}>
+                <Link to={url}>{breadcrumbNameMap[url]}</Link>
+            </Breadcrumb.Item>
+        )
+    })
+
+    const breadcrumbItems = [
+        <Breadcrumb.Item key="home" style={{ lineHeight: '64px'}}>
+          <Link to="/">Home</Link>
+        </Breadcrumb.Item>,
+      ].concat(extraBreadcrumbItems);
+
+
+    return (
+        <>
+            <Breadcrumb>{breadcrumbItems}</Breadcrumb>
+        </>
+    )
+})
+
+export default Breadcrum
+```
+
+使用面包屑导航，在MainHeader.jsx组件
+```jsx
+import React from 'react';
+import { Layout } from 'antd';
+import {
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+} from '@ant-design/icons';
+import * as types from './../../store/actionTypes'
+import { connect } from 'react-redux'
+import Breadcrumb from './Breadcrumb'
+
+const { Header } = Layout
+
+const MainHeader = ({ collapsed, changeCollapsed }) => {
+
+    const toggle = () => {
+        changeCollapsed()
+    }
+
+    return (
+        <Header className="site-layout-background" style={{ padding: '0 16px',display: 'flex'  }}>
+            {/* {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+              className: 'trigger',
+              onClick: toggle,
+            })} */}
+            <div style={{ width: '50px' }}>
+            {
+               collapsed ?  
+               <MenuUnfoldOutlined style={{ fontSize: '24px', marginTop: '20px' }} className="trigger" onClick={ toggle } />
+                : 
+               <MenuFoldOutlined style={{ fontSize: '24px', marginTop: '20px' }} className="trigger" onClick={ toggle } />
+            }
+            </div>
+            <div style={{ flex: 1}}>
+              <Breadcrumb/>
+            </div>
+          </Header>
+    );
+}
+
+export default connect( state => ({
+        collapsed: state.getIn(['common', 'collapsed'])
+    }), dispatch => ({
+        changeCollapsed() {
+            dispatch({
+                type: types.CHANGE_COLLAPSED
+            })
+        }
+    }) )(MainHeader);
+
+```
+修改路由配置menu.js
+```js
+import React, { lazy } from 'react'
+import {
+    HomeOutlined,
+    PictureOutlined,
+    MenuOutlined,
+    LinkOutlined,
+    OrderedListOutlined,
+    PicRightOutlined,
+    DashOutlined,
+    FieldTimeOutlined,
+    UnorderedListOutlined,
+    UserOutlined
+  } from '@ant-design/icons';
+
+const menus = [
+    {
+        path: '/',
+        redirect: '/home',
+        meta: {
+            hidden: true
+        }
+    },
+    {
+        path: '/home',
+        title: '系统首页',
+        icon: <HomeOutlined/>,
+        component: lazy(() => import('./../views/home/Index'))
+    },
+    {
+        path: '/bannermanager',
+        title: '轮播图管理',
+        icon: <PictureOutlined />,
+        redirect: '/bannermanager/list',
+        children: [
+            {
+                path: '/bannermanager/list',
+                title: '轮播图列表',
+                icon: <MenuOutlined />,
+                component: lazy(() => import('./../views/banner/Index'))
+            }, 
+        ]
+    },
+    {
+        path: '/navigatormanager',
+        title: '快捷导航管理',
+        icon: <LinkOutlined />,
+        redirect: '/navigatormanager/list',
+        children: [
+            {
+                path: '/navigatormanager/list',
+                title: '导航列表',
+                icon: <OrderedListOutlined />,
+                component: lazy(() => import('./../views/navgator/List'))
+            }, 
+            {
+                path: '/navigatormanager/category',
+                title: '导航分类',
+                icon: <PicRightOutlined />,
+                component: lazy(() => import('./../views/navgator/Category'))
+            }, 
+            {
+                path: '/navigatormanager/homelist',
+                title: '首页导航',
+                icon: <DashOutlined />,
+                component: lazy(() => import('./../views/navgator/HomeList'))
+            }, 
+        ]
+    },
+    {
+        path: '/seckillmanager',
+        title: '秒杀管理',
+        icon: <FieldTimeOutlined />,
+        redirect: '/seckillmanager/list',
+        children: [
+            {
+                path: '/seckillmanager/list',
+                title: '首页秒杀列表',
+                icon: <UnorderedListOutlined />,
+                component: lazy(() => import('./../views/seckill/List'))
+            }, 
+        ]
+    },
+    {
+        path: '/usermanager',
+        title: '用户管理',
+        icon: <UserOutlined />,
+        redirect: '/usermanager/list',
+        children: [
+            {
+                path: '/usermanager/list',
+                title: '用户列表',
+                icon: <UserOutlined />,
+                component: lazy(() => import('./../views/user/List'))
+            }
+        ]
+    },
+    {
+        path: '/setting',
+        title: '用户设置',
+        icon: <UserOutlined />,
+        component: lazy(() => import('../views/setting/Index')),
+        meta: {
+            hidden: true
+        }
+    }
+]
+
+export default menus
+```
+创建router/RedirectRouterView.jsx组件
+```jsx
+import React from 'react';
+import { Redirect, Switch  } from 'react-router-dom'
+import menus from './menu'
+
+// 把含有redirect重定向属性的过滤出来
+const redirectMenus = menus.filter(item => item.redirect)
+
+const RedirectRouterView = () => {
+    return (
+        <Switch>
+            {
+                redirectMenus.map(item => <Redirect key={ item.path } path={ item.path } exact to={ item.redirect } />)
+            }
+        </Switch>
+    );
+}
+
+export default RedirectRouterView;
+
+```
+
+在router/RouterView.jsx中使用上面定义的组件, 同时把新增的 path='/'的Route过滤掉
+```jsx
+import React, { Suspense } from "react";
+import { Spin } from "antd";
+import { Switch, Route } from "react-router-dom";
+import menus from "./menu";
+import  RedirectRouterView from './RedirectRouterView'
+
+const RouterView = () => {
+  const renderRoute = (menus) => {
+    return menus.map((item) => {
+      if (item.children) {
+        return renderRoute(item.children);
+      } else {
+        return item.path === '/' ? null : (<Route
+            key={item.path}
+            path={item.path}
+            exact
+            component={item.component}
+          ></Route>)
+      }
+    });
+  };
+  return (
+    <Suspense
+      fallback={
+        <div className="loading">
+          <Spin size="large" />
+        </div>
+      }
+    >
+      <Switch>{renderRoute(menus)}</Switch>
+      <RedirectRouterView/>
+    </Suspense>
+  );
+};
+
+export default RouterView;
+
+```
+
+修改SideMenu.jsx组件，当页面刷新的时候也要保持左侧菜单的选中状态
+```jsx
+import React, { useState, useEffect } from "react";
+import { withRouter, useHistory, useLocation} from 'react-router-dom'
+import { Menu } from "antd";
+import menus from "./../../router/menu";
+
+const { SubMenu } = Menu;  //二级菜单标识
+const rootSubmenuKeys = []
+menus.forEach(item => (
+  item.children && rootSubmenuKeys.push(item.path)
+))
+
+
+const SideMenu = withRouter((props) => { //通过withRouter包裹为了获取编程式导航的对象
+  const [openKeys, setOpenKeys] = useState([])
+  const [selectedKeys, setSelectedKeys] = useState([])
+  const history  = useHistory()
+  
+
+  const renderMenu = (menus) => {
+    return (
+      <>
+        {menus.map((item) => {
+          if (item.children) {  //有多级菜单
+            return (
+              <SubMenu key={item.path} icon={item.icon} title={item.title}>
+                {renderMenu(item.children)}
+              </SubMenu>
+            );
+          } else {  //只有一级菜单
+            return item.meta && item.meta.hidden ?  null
+             :
+            (
+              <Menu.Item key={item.path} icon={item.icon}>
+              {item.title}
+              </Menu.Item>
+            )
+          }
+        })}
+      </>
+    );
+  }
+
+
+  const goPage = ({ key }) => {
+    history.push(key)
+  }
+
+  const onOpenChange = keys => {
+    const latestOpenKey = keys.find(key => openKeys.indexOf(key) === -1);
+    if (rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
+      setOpenKeys(keys);
+    } else {
+      setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
+    }
+  };
+
+  // 为了显示当前左侧菜单栏选中的状态 - string[ key ]  key值就是path
+  // defaultSelectedKeys
+  // defaultOpenKeys
+  const { pathname } = useLocation() 
+  const type = '/' + pathname.split('/')[1] 
+
+  useEffect(() => {
+    setOpenKeys([type])
+    setSelectedKeys([pathname])
+  }, [type ,pathname])
+
+    return (
+      <Menu theme="dark" 
+      mode="inline" 
+      defaultSelectedKeys={[pathname]} // 数组
+      defaultOpenKeys={[type]} //数组
+      openKeys={ openKeys }
+      selectedKeys={selectedKeys}
+      onOpenChange={ onOpenChange }
+      onClick = { goPage }
+      >
+        {/* // 方便做多级菜单，用到递归的设计思想 */}
+        {renderMenu(menus)}
+      </Menu>
+    );
+})
+
+export default SideMenu;
+
+```

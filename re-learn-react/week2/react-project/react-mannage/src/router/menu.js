@@ -11,8 +11,15 @@ import {
 } from '@ant-design/icons';
 const menus = [
     {
-        title:'系统首页',
         path: '/',
+        redirect: '/home',
+        meta: {
+            hidden: true
+        }
+    },
+    {
+        title:'系统首页',
+        path: '/home',
         icon: <HomeOutlined />,
         component: lazy(() => import('./../views/home/Index'))
     },
@@ -20,6 +27,7 @@ const menus = [
         title:'轮播图管理',
         path: '/bannermannage',
         icon: <PictureOutlined />,
+        redirect: '/bannermannage/list',
         children: [
             {
                 title:'轮播图列表',
@@ -33,6 +41,7 @@ const menus = [
         title:'快捷导航管理',
         path: '/navigatormannage',
         icon: <LinkOutlined />,
+        redirect: '/navigatormannage/category',
         children: [
             {
                 title:'导航分类',
@@ -58,6 +67,7 @@ const menus = [
         title:'秒杀管理',
         path: '/seckillmannage',
         icon: <FieldTimeOutlined />,
+        redirect: '/seckillmannage/seckilllist',
         children: [
             {
                 title:'首页秒杀列表',
@@ -71,6 +81,7 @@ const menus = [
         title:'用户管理',
         path: '/usermannage',
         icon: <UserOutlined />,
+        redirect: '/usermannage/userlist',
         children: [
             {
                 title:'用户列表',

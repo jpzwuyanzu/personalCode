@@ -38,6 +38,15 @@ const menus = [
                 icon: <MenuOutlined />,
                 component: lazy(() => import('./../views/banner/Index'))
             }, 
+            {
+                path: '/bannermanager/add',
+                title: '添加轮播图',
+                icon: <MenuOutlined />,
+                component: lazy(() => import('./../views/banner/Add')),
+                meta: {
+                    hidden: true
+                }
+            }, 
         ]
     },
     {

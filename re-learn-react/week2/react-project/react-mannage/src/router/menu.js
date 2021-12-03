@@ -35,6 +35,15 @@ const menus = [
                 icon: <OrderedListOutlined />,
                 component: lazy(() => import('./../views/banner/BannerList'))
             },
+            {
+                title:'新增轮播图',
+                path: '/bannermannage/add',
+                icon: <OrderedListOutlined />,
+                component: lazy(() => import('./../views/banner/AddBanner')),
+                meta: {
+                    hidden: true
+                }
+            },
         ]
     },
     {

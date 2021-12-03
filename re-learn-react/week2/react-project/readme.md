@@ -1,8 +1,10 @@
-# 1，创建项目
+# 一，React后台管理系统
+
+## 1，创建项目
 ```js
 npx create-react-app react-admin
 ```
-# 2，配置装饰器(不是必须)
+## 2，配置装饰器(不是必须)
   
   1- 安装模块
   ```js
@@ -25,7 +27,7 @@ npx create-react-app react-admin
      addDecoratorsLegacy(), //配置装饰器模式
  )
  ```
- # 3, 配置UI库
+ ## 3, 配置UI库
  https://ant.design/docs/react/introduce-cn 查看文档
 
  https://ant.design/docs/react/use-with-create-react-app-cn  查看具体使用文档
@@ -69,7 +71,7 @@ export default App;
 
 ```
 
- # 4，修改目录结构
+ ## 4，修改目录结构
  ```
  src/
    api/
@@ -81,7 +83,7 @@ export default App;
    router/
 
  ```
-# 5, 搭建项目主结构
+## 5, 搭建项目主结构
 
 查看layout布局组件，修改App.jsx
 ```jsx
@@ -295,7 +297,7 @@ export default App;
 
 ```
 
-# 6, 设计左侧菜单栏
+## 6, 设计左侧菜单栏
  1.系统首页
  2.轮播图管理
   2-1.轮播图列表
@@ -377,7 +379,7 @@ const menus = [
 
 export default menus
 ```
-# 7 左侧菜单
+## 7 左侧菜单
 配置左侧菜单栏(抽离左侧菜单栏组件/layout/main/SideMenu.jsx)
 ```jsx
 import React, { Component } from "react";
@@ -423,11 +425,11 @@ export default SideMenu;
 
 ```
 
-# 8创建相应页面
+## 8创建相应页面
 在views中创建页面对应的组件
 
 
-# 9 配置路由
+## 9 配置路由
 
 使用路由的懒加载，lazy， Suspense
 
@@ -785,7 +787,7 @@ export default SideMenu;
 
 ```
 
-# 10 点击菜单栏跳转页面
+## 10 点击菜单栏跳转页面
 SideMenu.jsx
 
 ```jsx
@@ -907,7 +909,7 @@ export default SideMenu;
 
 ```
 
-# 11 设计头部
+## 11 设计头部
 
 抽离头部header， 
 
@@ -1193,7 +1195,7 @@ class Index extends React.Component {
 export default Index
 ```
 
-# 12 左侧菜单选中的时候只展开一个菜单项
+## 12 左侧菜单选中的时候只展开一个菜单项
 
 SideMenu.jsx
 ```jsx
@@ -1279,7 +1281,7 @@ const SideMenu = withRouter((props) => { //通过withRouter包裹为了获取编
 export default SideMenu;
 ```
 
-# 13面包屑导航组件 layout/main/Breadcrumb.jsx
+## 13面包屑导航组件 layout/main/Breadcrumb.jsx
 ```jsx
 import menus from './../../router/menu'
 import { withRouter, useLocation, Link } from 'react-router-dom'
@@ -1494,6 +1496,7 @@ const menus = [
 
 export default menus
 ```
+## 14 封装RedirectRouterView.jsx组件
 创建router/RedirectRouterView.jsx组件
 ```jsx
 import React from 'react';
@@ -1646,3 +1649,232 @@ const SideMenu = withRouter((props) => { //通过withRouter包裹为了获取编
 export default SideMenu;
 
 ```
+
+## 15 轮播图管理页面
+ ++ 1.前端页面构建 banner/Index.jsx
+ ```jsx
+ import React, { Fragment } from 'react';
+import { Button, Table, Space } from 'antd'
+
+const dataSource = [
+    
+  ];
+  
+  const columns = [
+    {
+      title: '序号',
+      align: 'center',
+      // text: 当前字段的值，index： 当前索引值
+      render: (text, record, index) => <span>{ index + 1 }</span>
+    },
+    {
+      title: '轮播图',
+      align: 'center',
+      dataIndex: 'bannerimg',
+      key: 'bannerimg',
+    },
+    {
+      title: '链接地址',
+      align: 'center',
+      dataIndex: 'link',
+      key: 'link',
+    },
+    {
+        title: '操作',
+        align: 'center',
+        render: (text, record, index) => {
+            return (
+                <>  
+                <Space>
+                    <span style={{ color: '#00a' }}>编辑</span>
+                    <span>|</span>
+                    <span style={{ color: '#f00' }}>删除</span>
+                </Space>
+                </>
+            )
+        }
+      },
+  ];
+
+const BannerList = () => {
+    return (
+        <Fragment>
+            <Button type="primary">新增轮播图</Button>
+            <Table dataSource={dataSource} columns={columns} />
+        </Fragment>
+    );
+}
+
+export default BannerList;
+
+ ```
+ ++ 2.添加轮播图的页面
+
+  /views/banner/Add.jsx
+
+  ```jsx
+import React from 'react';
+
+const AddBanner = () => {
+    return (
+        <div>
+            添加轮播图
+        </div>
+    );
+}
+
+export default AddBanner;
+```
+
+配置路由，添加Add的路由，并且设置不显示在左侧菜单项
+
+点击新增轮播图按钮，切换到添加页面
+
+```jsx
+const BannerList = (props) => {
+
+    return (
+        <Fragment>
+            <Button type="primary" onClick={ () => {
+                props.history.push('/bannermanager/add')
+            } }>新增轮播图</Button>
+            <Table dataSource={dataSource} columns={columns} />
+        </Fragment>
+    );
+}
+```
+++ 3. 添加页面的布局
+Add.jsx
+```jsx
+import React, { useState } from "react";
+import { Form, Button, Upload, Input, Image } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
+const formItemLayout = {
+  labelCol: {
+    span: 6,
+  },
+  wrapperCol: {
+    span: 14,
+  },
+};
+
+const AddBanner = () => {
+  const [url, setUrl] = useState("");
+
+  const onFinish = (values) => {
+    // console.log("Received values of form: ", values.bannerimg[0].thumbUrl);
+    values.bannerimg = values.bannerimg[0].thumbUrl
+    console.log(values)
+  };
+
+  const normFile = (e) => {
+    console.log("Upload event:", e);
+    setUrl(e.fileList[0].thumbUrl);
+    if (Array.isArray(e)) {
+      return e;
+    }
+
+    return e && e.fileList;
+  };
+
+  return (
+    <Form
+      name="validate_other"
+      {...formItemLayout}
+      onFinish={onFinish}
+      initialValues={{
+        "input-number": 3,
+        "checkbox-group": ["A", "B"],
+        rate: 3.5,
+      }}
+    >
+      <Form.Item
+        {...formItemLayout}
+        name="link"
+        label="跳转页面地址"
+        rules={[
+          {
+            required: true,
+            message: "请输入跳转地址",
+          },
+        ]}
+      >
+        <Input placeholder="请输入跳转地址" />
+      </Form.Item>
+      <Form.Item
+        {...formItemLayout}
+        name="alt"
+        label="alt"
+        rules={[
+          {
+            required: true,
+            message: "请输入提示语句",
+          },
+        ]}
+      >
+        <Input placeholder="请输入提示语句" />
+      </Form.Item>
+      <Form.Item
+        name="bannerimg"
+        label="上传图片"
+        valuePropName="fileList"
+        getValueFromEvent={normFile}
+        rules={[
+            {
+              required: true,
+              message: "请选择轮播图片",
+            },
+          ]}
+      >
+        <Upload name="logo" listType="picture">
+          <Button icon={<UploadOutlined />}>Click to upload</Button>
+          <Image width={200} src={url} />
+        </Upload>
+      </Form.Item>
+      <Form.Item
+        wrapperCol={{
+          span: 12,
+          offset: 6,
+        }}
+      >
+        <Button type="primary" htmlType="submit">
+          Submit
+        </Button>
+      </Form.Item>
+    </Form>
+  );
+};
+
+export default AddBanner;
+
+```
+++ 4. 调用轮播图接口
+
+必须先封装axios
+
+++ 5. 封装axios
+
+```
+yarn add axios 
+```
+
+utils/request.js
+```js
+import axios from 'axios'
+
+const isDev = process.env.NODE_ENV === 'development'
+
+const request = axios.create({
+    baseURL: isDev ? 'http://39.99.182.33/api' : 'http://www.test.com/api'
+
+})
+
+//设置拦截器
+
+export default request
+```
+
+
+
+
+# 二. node接口

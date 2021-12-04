@@ -1,11 +1,11 @@
 import React from 'react';
 
-const List = () => {
+const Steps = () => {
     return (
         <div>
-            list
+            steps
         </div>
     );
 }
 
-export default List;
+export default Steps;

@@ -1,11 +1,11 @@
 import React from 'react';
 
-const SecKillList = () => {
+const Table = () => {
     return (
         <div>
-            seckill
+            table
         </div>
     );
 }
 
-export default SecKillList;
+export default Table;

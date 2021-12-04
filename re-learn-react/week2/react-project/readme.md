@@ -1020,7 +1020,7 @@ cnpm install immutable redux-immutable -D
 或者
 yarn add immutable redux-immutable -D
 ```
-+ 1.创建分reducer  store/modules/common.js
+### 1.创建分reducer  store/modules/common.js
 
 ```js
 import { Map } from 'immutable'
@@ -1040,14 +1040,14 @@ const reducer = (state = Map({
 export default reducer
 ```
 
-+ 2. 创建actiontypes.js
+### 2. 创建actiontypes.js
 ```js
 const CHANGE_COLLAPSED = 'CHANGE_COLLAPSED' //左侧菜单收缩变量
 export {
     CHANGE_COLLAPSED
 }
 ```
-+ 3.创建状态管理器 store/index.js
+### 3.创建状态管理器 store/index.js
 ```js
 import { createStore, applyMiddleware } from 'redux'
 import { combineReducers } from 'redux-immutable'
@@ -1065,7 +1065,7 @@ export default  store
 
 ```
 
-+ 4.入口文件引入状态管理器 src/index.js
+### 4.入口文件引入状态管理器 src/index.js
 ```js
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -1081,7 +1081,7 @@ ReactDOM.render(
     document.getElementById('root')
 )
 ```
-+ 5. layout/main/MainHeader.jsx中使用状态管理器
+### 5. layout/main/MainHeader.jsx中使用状态管理器
 ```jsx
 import React, { useState } from 'react';
 import { Layout } from 'antd';
@@ -1128,7 +1128,7 @@ export default connect( state => ({
     }) )(MainHeader);
 ```
 
-+ 6. layout/main/Index.jsx
+### 6. layout/main/Index.jsx
 ```jsx
 import React from 'react'
 import { Layout } from 'antd';
@@ -1651,7 +1651,7 @@ export default SideMenu;
 ```
 
 ## 15 轮播图管理页面
- ++ 1.前端页面构建 banner/Index.jsx
+ ### 1.前端页面构建 banner/Index.jsx
  ```jsx
  import React, { Fragment } from 'react';
 import { Button, Table, Space } from 'antd'
@@ -1708,7 +1708,7 @@ const BannerList = () => {
 export default BannerList;
 
  ```
- ++ 2.添加轮播图的页面
+ ### 2.添加轮播图的页面
 
   /views/banner/Add.jsx
 
@@ -1743,7 +1743,7 @@ const BannerList = (props) => {
     );
 }
 ```
-++ 3. 添加页面的布局
+### 3. 添加页面的布局
 Add.jsx
 ```jsx
 import React, { useState } from "react";
@@ -1848,11 +1848,11 @@ const AddBanner = () => {
 export default AddBanner;
 
 ```
-++ 4. 调用轮播图接口
+### 4. 调用轮播图接口
 
 必须先封装axios
 
-++ 5. 封装axios
+### 5. 封装axios
 
 ```
 yarn add axios 
@@ -1873,6 +1873,206 @@ const request = axios.create({
 
 export default request
 ```
+在api/下创建banner.js，处理轮播图相关的接口,如果出现跨域的情况，需要在package.json中配置proxy字段,解决跨域问题
+
+```json
+"proxy": "http://example.com/api/"
+```
+api/banner.js
+```js
+import request from './../utils/request'
+
+
+export function addBanner (params) {
+    return request.post('/banner/add', params)
+}
+
+export function loadBannerList () {
+    return request.get('/pro/category')
+}
+```
+在组件中使用即可
+
+### 6，渲染轮播图列表
+
+ 添加成功之后返回轮播图列表页面
+```jsx
+props.history.goBack()
+```
+
+在api/banner.js中封装请求
+```js
+import request from './../utils/request'
+
+
+export function addBanner (params) {
+    return request.post('/banner/add', params)
+}
+
+export function loadBannerList (params) {
+    return request.get('/banner', { params })
+}
+```
+
+在views/banner/Index.jsx中请求数据
+```jsx
+import React, { Fragment, useEffect, useState } from 'react';
+import { Button, Table, Space, Image } from 'antd'
+// import { loadBannerList } from './../../api/banner'
+  
+  const columns = [
+    {
+      title: '序号',
+      align: 'center',
+      // text: 当前字段的值，index： 当前索引值
+      render: (text, record, index) => <span>{ index + 1 }</span>
+    },
+    {
+      title: '轮播图',
+      align: 'center',
+      dataIndex: 'bannerimg',
+      key: 'bannerimg',
+      render: (text, record, index) => {
+        return (
+          <Image src={ record.bannerimg  } style={{ width: '60xp', height: '60px' }} />
+        )
+      }
+    },
+    {
+      title: '链接地址',
+      align: 'center',
+      dataIndex: 'link',
+      key: 'link',
+    },
+    {
+        title: '操作',
+        align: 'center',
+        render: (text, record, index) => {
+            return (
+                <>  
+                <Space>
+                    <span style={{ color: '#00a' }}>编辑</span>
+                    <span>|</span>
+                    <span style={{ color: '#f00' }}>删除</span>
+                </Space>
+                </>
+            )
+        }
+      },
+  ];
+
+const BannerList = (props) => {
+
+  const [ bannerList, setBannerList ] = useState([])
+
+  useEffect(() => {
+    fetch('/lunbo.json').then(res => res.json()).then(result => {
+      console.log(result)
+      setBannerList(result.data)
+    })
+  }, [])
+
+    return (
+        <Fragment>
+            <Button type="primary" onClick={ () => {
+                props.history.push('/bannermanager/add')
+            } }>新增轮播图</Button>
+            <Table dataSource={bannerList}  columns={columns} />
+        </Fragment>
+    );
+}
+
+export default BannerList;
+
+```
+
+### 7，删除数据 banner/Index.jsx
+
+```jsx
+import React, { Fragment, useEffect, useState } from 'react';
+import { Button, Table, Space, Image, Popconfirm } from 'antd'
+// import { loadBannerList } from './../../api/banner'
+  
+
+  const deleteItem = (bannberid) => () =>  {
+    console.log(bannberid)
+    // 在这里删除单条数据
+  }
+
+  const columns = [
+    {
+      title: '序号',
+      align: 'center',
+      // text: 当前字段的值，index： 当前索引值
+      render: (text, record, index) => <span>{ index + 1 }</span>
+    },
+    {
+      title: '轮播图',
+      align: 'center',
+      dataIndex: 'bannerimg',
+      key: 'bannerimg',
+      render: (text, record, index) => {
+        return (
+          <Image src={ text } width="60px" height="60px" />
+        )
+      }
+    },
+    {
+      title: '链接地址',
+      align: 'center',
+      dataIndex: 'link',
+      key: 'link',
+    },
+    {
+        title: '操作',
+        align: 'center',
+        render: (text, record, index) => {
+            return (
+                <>  
+                <Space>
+                <Popconfirm
+                  title="确定删除吗？"
+                  onConfirm={ deleteItem(record.bannerid) }
+                  okText="确定"
+                  cancelText="取消"
+                >
+                  <span style={{ color: '#f00', cursor: 'pointer' }}>删除</span>
+                </Popconfirm>
+                </Space>
+                </>
+            )
+        }
+      },
+  ];
+
+const BannerList = (props) => {
+
+  const [ bannerList, setBannerList ] = useState([])
+
+  useEffect(() => {
+    fetch('/lunbo.json').then(res => res.json()).then(result => {
+      console.log(result)
+      setBannerList(result.data)
+    })
+  }, [])
+
+    return (
+        <Fragment>
+            <Button type="primary" onClick={ () => {
+                props.history.push('/bannermanager/add')
+            } }>新增轮播图</Button>
+            <Table rowKey={ (record) => record.bannerid }  dataSource={bannerList}  columns={columns} />
+        </Fragment>
+    );
+}
+
+export default BannerList;
+
+```
+组件的自动分页还存在问题
+
+
+### 8,配置表格的分页信息
 
 
 

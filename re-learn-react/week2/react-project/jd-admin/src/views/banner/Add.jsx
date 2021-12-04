@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Form, Button, Upload, Input, Image } from "antd";
+import React from "react";
+import { Form, Button, Upload, Input } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 const formItemLayout = {
   labelCol: {
@@ -10,18 +10,19 @@ const formItemLayout = {
   },
 };
 
-const AddBanner = () => {
-  const [url, setUrl] = useState("");
+const AddBanner = (props) => {
 
   const onFinish = (values) => {
     // console.log("Received values of form: ", values.bannerimg[0].thumbUrl);
     values.bannerimg = values.bannerimg[0].thumbUrl
     console.log(values)
+    // 在这里调用添加接口
+    //添加成功之后返回轮播图列表页面
+    props.history.goBack()
   };
 
   const normFile = (e) => {
     console.log("Upload event:", e);
-    setUrl(e.fileList[0].thumbUrl);
     if (Array.isArray(e)) {
       return e;
     }
@@ -80,7 +81,6 @@ const AddBanner = () => {
       >
         <Upload name="logo" listType="picture">
           <Button icon={<UploadOutlined />}>Click to upload</Button>
-          <Image width={200} src={url} />
         </Upload>
       </Form.Item>
       <Form.Item

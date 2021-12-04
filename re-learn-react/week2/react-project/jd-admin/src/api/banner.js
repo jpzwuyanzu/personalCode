@@ -5,6 +5,6 @@ export function addBanner (params) {
     return request.post('/banner/add', params)
 }
 
-export function loadBannerList () {
-    return request.get('/banner')
+export function loadBannerList (params) {
+    return request.get('/banner', { params })
 }

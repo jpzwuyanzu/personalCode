@@ -3,6 +3,9 @@
 html,body, #root,.ant-layout {
     height: 100%;
 }
+.ant-layout-content {
+  overflow-y: scroll;
+}
 .logo {
     display: flex;
     justify-content: center;

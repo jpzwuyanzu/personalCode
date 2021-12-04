@@ -1,11 +1,11 @@
 import React from 'react';
 
-const HomeList = () => {
+const Menu = () => {
     return (
         <div>
-            homeList
+            menu
         </div>
     );
 }
 
-export default HomeList;
+export default Menu;

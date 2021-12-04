@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Category = () => {
+const Layout = () => {
     return (
         <div>
-            category
+            layout
         </div>
     );
 }
 
-export default Category;
+export default Layout;

@@ -5,7 +5,7 @@ import { Button, Table, Space, Image, Popconfirm } from 'antd'
 
   const deleteItem = (bannberid) => () =>  {
     console.log(bannberid)
-    // 在这里删除单条数据,并重新拉取数据
+    // 在这里删除单条数据
   }
 
   const columns = [
@@ -70,12 +70,7 @@ const BannerList = (props) => {
             <Button type="primary" onClick={ () => {
                 props.history.push('/bannermanager/add')
             } }>新增轮播图</Button>
-            <Table 
-            rowKey={ (record) => record.bannerid }
-            dataSource={bannerList}  
-            columns={columns}
-            bordered={ true } //边框属性
-             />
+            <Table rowKey={ (record) => record.bannerid }  dataSource={bannerList}  columns={columns} />
         </Fragment>
     );
 }

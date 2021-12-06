@@ -1,0 +1,502 @@
+{
+    "result": {
+        "data": [
+            {
+                "categoryid": 42,
+                "categoryname": "热门推荐M",
+                "titleImg": "https://m.360buyimg.com/mobilecms/jfs/t19375/228/2147833578/3539/56b9e876/5ae95f90N06fb6b8e.png!q70.jpg",
+                "navid": 572,
+                "name": "闪购",
+                "icon": "https://m.360buyimg.com/mobilecms/s120x120_jfs/t18802/237/1502687907/7460/2f227c66/5acc51efN1dae98b2.png!q70.jpg",
+                "jump": {
+                    "des": "m",
+                    "params": {
+                        "needLogin": "0",
+                        "url": "https://wqs.jd.com/portal/wx/seckill_m/brand.shtml"
+                    },
+                    "srv": "42_闪购_热门推荐M_572_sg-m_-100"
+                }
+            },
+            {
+                "categoryid": 42,
+                "categoryname": "热门推荐M",
+                "titleImg": "https://m.360buyimg.com/mobilecms/jfs/t19375/228/2147833578/3539/56b9e876/5ae95f90N06fb6b8e.png!q70.jpg",
+                "navid": 810,
+                "name": "唯品会",
+                "icon": "https://m.360buyimg.com/mobilecms/s120x120_jfs/t1/106342/37/16553/4901/5e7cc859E4a33be03/f52cec80c8dc344d.png!q70.jpg",
+                "jump": {
+                    "des": "m",
+                    "params": {
+                        "needLogin": "0",
+                        "url": "https://pro.m.jd.com/mall/active/2aiozXgZK1PUVZA37WNq62KLtjcC/index.html"
+                    },
+                    "srv": "42_唯品会_热门推荐M_810_wph-m_-100"
+                }
+            },
+            {
+                "categoryid": 38,
+                "categoryname": "3C专区",
+                "titleImg": "https://m.360buyimg.com/mobilecms/jfs/t18223/34/1754855975/5488/9ffacd82/5ad8000aNdfd98f23.png!q70.jpg",
+                "navid": 588,
+                "name": "手机馆",
+                "icon": "https://m.360buyimg.com/mobilecms/s120x120_jfs/t18859/148/1985801887/5540/79c57f95/5ae0605bN31eb138b.png!q70.jpg",
+                "jump": {
+                    "des": "m",
+                    "params": {
+                        "needLogin": "0",
+                        "url": "https://pro.m.jd.com/mall/active/Y9FVe619hMoajzqpxky1CQQJAkk/index.html"
+                    },
+                    "srv": "38_手机馆_3C专区_588_sjg-m_-100"
+                }
+            },
+            {
+                "categoryid": 38,
+                "categoryname": "3C专区",
+                "titleImg": "https://m.360buyimg.com/mobilecms/jfs/t18223/34/1754855975/5488/9ffacd82/5ad8000aNdfd98f23.png!q70.jpg",
+                "navid": 587,
+                "name": "玩3C",
+                "icon": "https://m.360buyimg.com/mobilecms/s120x120_jfs/t18376/164/1541644268/6421/ead422d3/5acdae58N63f7e1dd.jpg!q70.jpg",
+                "jump": {
+                    "des": "m",
+                    "params": {
+                        "needLogin": "0",
+                        "url": "https://pro.m.jd.com/mall/active/3JAoyewPmdVBMeRWTBiHDdGH5M36/index.html"
+                    },
+                    "srv": "38_玩3C_3C专区_587_w3c-m_-100"
+                }
+            },
+            {
+                "categoryid": 38,
+                "categoryname": "3C专区",
+                "titleImg": "https://m.360buyimg.com/mobilecms/jfs/t18223/34/1754855975/5488/9ffacd82/5ad8000aNdfd98f23.png!q70.jpg",
+                "navid": 589,
+                "name": "京东家电",
+                "icon": "https://m.360buyimg.com/mobilecms/s120x120_jfs/t19129/11/1997624184/4584/f1b38046/5ae06098N0fd3a5ac.png!q70.jpg",
+                "jump": {
+                    "des": "m",
+                    "params": {
+                        "needLogin": "0",
+                        "url": "https://pro.m.jd.com/mall/active/48v7Xzb3FfKt6mKgMaS9EoHrvieE/index.html"
+                    },
+                    "srv": "38_京东家电_3C专区_589_jdjd-m_-100"
+                }
+            },
+            {
+                "categoryid": 38,
+                "categoryname": "3C专区",
+                "titleImg": "https://m.360buyimg.com/mobilecms/jfs/t18223/34/1754855975/5488/9ffacd82/5ad8000aNdfd98f23.png!q70.jpg",
+                "navid": 636,
+                "name": "电脑办公",
+                "icon": "https://m.360buyimg.com/mobilecms/s120x120_jfs/t18301/164/2005078858/4649/c7d7540e/5ae062baN937b5e1d.png!q70.jpg",
+                "jump": {
+                    "des": "m",
+                    "params": {
+                        "needLogin": "0",
+                        "url": "https://pro.m.jd.com/mall/active/31XPWPTonxJ9e5YoQ85HS7z8XNYQ/index.html"
+                    },
+                    "srv": "38_电脑办公_3C专区_636_dnbg-m_-100"
+                }
+            },
+            {
+                "categoryid": 38,
+                "categoryname": "3C专区",
+                "titleImg": "https://m.360buyimg.com/mobilecms/jfs/t18223/34/1754855975/5488/9ffacd82/5ad8000aNdfd98f23.png!q70.jpg",
+                "navid": 1019,
+                "name": "拍拍验机",
+                "icon": "https://m.360buyimg.com/mobilecms/s120x120_jfs/t1/78894/12/9054/6394/5d6e250aE019a121d/d746e2ad3f4d07cc.png!q70.jpg",
+                "jump": {
+                    "des": "m",
+                    "params": {
+                        "needLogin": "0",
+                        "url": "https://paipai.m.jd.com/direct/?entryid=p005ppyj0jdapp5"
+                    },
+                    "srv": "38_拍拍验机_3C专区_1019_ppyj-m_-100"
+                }
+            },
+            {
+                "categoryid": 38,
+                "categoryname": "3C专区",
+                "titleImg": "https://m.360buyimg.com/mobilecms/jfs/t18223/34/1754855975/5488/9ffacd82/5ad8000aNdfd98f23.png!q70.jpg",
+                "navid": 1020,
+                "name": "拍拍回收",
+                "icon": "https://m.360buyimg.com/mobilecms/s120x120_jfs/t23398/266/591438711/7785/2e4fc95e/5b38409fN0192ac56.png!q70.jpg",
+                "jump": {
+                    "des": "m",
+                    "params": {
+                        "needLogin": "0",
+                        "url": "https://huishou.m.jd.com/index"
+                    },
+                    "srv": "38_拍拍回收_3C专区_1020_pphs-m_-100"
+                }
+            },
+            {
+                "categoryid": 39,
+                "categoryname": "超市生活",
+                "titleImg": "https://m.360buyimg.com/mobilecms/jfs/t18631/61/1776041327/5928/de57170f/5ad80054Ndbc865ec.png!q70.jpg",
+                "navid": 594,
+                "name": "京东超市",
+                "icon": "https://m.360buyimg.com/mobilecms/s120x120_jfs/t17749/340/1545725508/7727/738cd479/5acdb885N66a4aec2.png!q70.jpg",
+                "jump": {
+                    "des": "m",
+                    "params": {
+                        "needLogin": "0",
+                        "url": "https://pro.m.jd.com/mall/active/WDFXanZGBTUPMcNicUEZ8q8nhRF/index.html"
+                    },
+                    "srv": "39_京东超市_超市生活_594_jdcs-m_-100"
+                }
+            },
+            {
+                "categoryid": 39,
+                "categoryname": "超市生活",
+                "titleImg": "https://m.360buyimg.com/mobilecms/jfs/t18631/61/1776041327/5928/de57170f/5ad80054Ndbc865ec.png!q70.jpg",
+                "navid": 599,
+                "name": "沃尔玛",
+                "icon": "https://m.360buyimg.com/mobilecms/s120x120_jfs/t1/87664/20/16561/5314/5e7cc946E7e532dff/678c6520e0d3059b.png!q70.jpg",
+                "jump": {
+                    "des": "m",
+                    "params": {
+                        "needLogin": "0",
+                        "url": "https://pro.m.jd.com/mall/active/3d34Pm49obpjLEdhhagSZuM5QrwC/index.html"
+                    },
+                    "srv": "39_沃尔玛_超市生活_599_wem-m_-100"
+                }
+            },
+            {
+                "categoryid": 39,
+                "categoryname": "超市生活",
+                "titleImg": "https://m.360buyimg.com/mobilecms/jfs/t18631/61/1776041327/5928/de57170f/5ad80054Ndbc865ec.png!q70.jpg",
+                "navid": 600,
+                "name": "山姆店",
+                "icon": "https://m.360buyimg.com/mobilecms/s120x120_jfs/t18703/92/1540811278/7831/b08d3a2f/5acdb954Na451ebe3.png!q70.jpg",
+                "jump": {
+                    "des": "m",
+                    "params": {
+                        "needLogin": "0",
+                        "url": "https://shop.m.jd.com/?shopId=598847"
+                    },
+                    "srv": "39_山姆店_超市生活_600_smd-m_-100"
+                }
+            },
+            {
+                "categoryid": 39,
+                "categoryname": "超市生活",
+                "titleImg": "https://m.360buyimg.com/mobilecms/jfs/t18631/61/1776041327/5928/de57170f/5ad80054Ndbc865ec.png!q70.jpg",
+                "navid": 601,
+                "name": "图书音像",
+                "icon": "https://m.360buyimg.com/mobilecms/s120x120_jfs/t19120/326/2015194654/5703/bb2c7da9/5ae060d7N7a921d20.png!q70.jpg",
+                "jump": {
+                    "des": "m",
+                    "params": {
+                        "needLogin": "0",
+                        "url": "https://pro.m.jd.com/mall/active/3u1Q7ZjCfQKrRb52c623WNf3Cjz5/index.html"
+                    },
+                    "srv": "39_图书音像_超市生活_601_tsyx-m_-100"
+                }
+            },
+            {
+                "categoryid": 39,
+                "categoryname": "超市生活",
+                "titleImg": "https://m.360buyimg.com/mobilecms/jfs/t18631/61/1776041327/5928/de57170f/5ad80054Ndbc865ec.png!q70.jpg",
+                "navid": 605,
+                "name": "中外名酒",
+                "icon": "https://m.360buyimg.com/mobilecms/s120x120_jfs/t19684/90/2029898820/5560/748cfaf1/5ae06148Nfde7d99c.png!q70.jpg",
+                "jump": {
+                    "des": "m",
+                    "params": {
+                        "needLogin": "0",
+                        "url": "https://pro.m.jd.com/mall/active/zGwAUzL3pVGjptBBGeYfpKjYdtX/index.html"
+                    },
+                    "srv": "39_中外名酒_超市生活_605_zwmj-m_-100"
+                }
+            },
+            {
+                "categoryid": 39,
+                "categoryname": "超市生活",
+                "titleImg": "https://m.360buyimg.com/mobilecms/jfs/t18631/61/1776041327/5928/de57170f/5ad80054Ndbc865ec.png!q70.jpg",
+                "navid": 606,
+                "name": "爱美丽",
+                "icon": "https://m.360buyimg.com/mobilecms/s120x120_jfs/t17569/222/1962890348/5757/a9d42ee3/5ae06168N529944f3.png!q70.jpg",
+                "jump": {
+                    "des": "m",
+                    "params": {
+                        "needLogin": "0",
+                        "url": "https://pro.m.jd.com/mall/active/2kmaPNrGDNYo1LKwYtRoaSmsgbj6/index.html"
+                    },
+                    "srv": "39_爱美丽_超市生活_606_aml-m_-100"
+                }
+            },
+            {
+                "categoryid": 39,
+                "categoryname": "超市生活",
+                "titleImg": "https://m.360buyimg.com/mobilecms/jfs/t18631/61/1776041327/5928/de57170f/5ad80054Ndbc865ec.png!q70.jpg",
+                "navid": 608,
+                "name": "个护清洁",
+                "icon": "https://m.360buyimg.com/mobilecms/s120x120_jfs/t17443/206/2024826859/5801/907d0843/5ae06199Nd92cdfe3.png!q70.jpg",
+                "jump": {
+                    "des": "m",
+                    "params": {
+                        "needLogin": "0",
+                        "url": "https://pro.m.jd.com/mall/active/icTjaGCfgvk53N36uZFX7WLBoTK/index.html"
+                    },
+                    "srv": "39_个护清洁_超市生活_608_ghqj-m_-100"
+                }
+            },
+            {
+                "categoryid": 39,
+                "categoryname": "超市生活",
+                "titleImg": "https://m.360buyimg.com/mobilecms/jfs/t18631/61/1776041327/5928/de57170f/5ad80054Ndbc865ec.png!q70.jpg",
+                "navid": 610,
+                "name": "家装城",
+                "icon": "https://m.360buyimg.com/mobilecms/s120x120_jfs/t20113/188/1953566/6389/fae1eb1/5ae061a5Nf8b362d4.png!q70.jpg",
+                "jump": {
+                    "des": "m",
+                    "params": {
+                        "needLogin": "0",
+                        "url": "https://pro.m.jd.com/mall/active/387eAn8NbK2b52rdJyJSGA3xpQdT/index.html"
+                    },
+                    "srv": "39_家装城_超市生活_610_jzc-m_-100"
+                }
+            },
+            {
+                "categoryid": 39,
+                "categoryname": "超市生活",
+                "titleImg": "https://m.360buyimg.com/mobilecms/jfs/t18631/61/1776041327/5928/de57170f/5ad80054Ndbc865ec.png!q70.jpg",
+                "navid": 614,
+                "name": "童装馆",
+                "icon": "https://m.360buyimg.com/mobilecms/s120x120_jfs/t18757/157/2047065647/5924/3026c3b/5ae061daNf4cc5db7.png!q70.jpg",
+                "jump": {
+                    "des": "m",
+                    "params": {
+                        "needLogin": "0",
+                        "url": "https://pro.m.jd.com/mall/active/3Af6mZNcf5m795T8dtDVfDwWVNhJ/index.html"
+                    },
+                    "srv": "39_童装馆_超市生活_614_tzg-m_-100"
+                }
+            },
+            {
+                "categoryid": 39,
+                "categoryname": "超市生活",
+                "titleImg": "https://m.360buyimg.com/mobilecms/jfs/t18631/61/1776041327/5928/de57170f/5ad80054Ndbc865ec.png!q70.jpg",
+                "navid": 617,
+                "name": "大药房",
+                "icon": "https://m.360buyimg.com/mobilecms/s120x120_jfs/t18721/355/1552352057/6451/aac83cfe/5acdbbe8Ndb0625c4.png!q70.jpg",
+                "jump": {
+                    "des": "m",
+                    "params": {
+                        "needLogin": "0",
+                        "url": "https://pro.m.jd.com/mall/active/2btYJRGQbBERp23M6aXGwm1tve3X/index.html"
+                    },
+                    "srv": "39_大药房_超市生活_617_dyf-m_-100"
+                }
+            },
+            {
+                "categoryid": 39,
+                "categoryname": "超市生活",
+                "titleImg": "https://m.360buyimg.com/mobilecms/jfs/t18631/61/1776041327/5928/de57170f/5ad80054Ndbc865ec.png!q70.jpg",
+                "navid": 618,
+                "name": "汽车用品",
+                "icon": "https://m.360buyimg.com/mobilecms/s120x120_jfs/t19726/325/2005987992/6401/2075e896/5ae06206N8412b247.png!q70.jpg",
+                "jump": {
+                    "des": "m",
+                    "params": {
+                        "needLogin": "0",
+                        "url": "https://pro.m.jd.com/mall/active/2X7RWsf6YroLanMXGz6Z8p3W9jjV/index.html"
+                    },
+                    "srv": "39_汽车用品_超市生活_618_qcsh-m_-100"
+                }
+            },
+            {
+                "categoryid": 39,
+                "categoryname": "超市生活",
+                "titleImg": "https://m.360buyimg.com/mobilecms/jfs/t18631/61/1776041327/5928/de57170f/5ad80054Ndbc865ec.png!q70.jpg",
+                "navid": 619,
+                "name": "爱车生活",
+                "icon": "https://m.360buyimg.com/mobilecms/s120x120_jfs/t16603/270/2022426636/7650/199cf9bd/5ae06211N55458fb6.png!q70.jpg",
+                "jump": {
+                    "des": "m",
+                    "params": {
+                        "needLogin": "0",
+                        "url": "https://pro.m.jd.com/mall/active/dj6us2JJRLMMBb4iDaSK4wxvBMt/index.html"
+                    },
+                    "srv": "39_爱车生活_超市生活_619_acsh-m_-100"
+                }
+            },
+            {
+                "categoryid": 39,
+                "categoryname": "超市生活",
+                "titleImg": "https://m.360buyimg.com/mobilecms/jfs/t18631/61/1776041327/5928/de57170f/5ad80054Ndbc865ec.png!q70.jpg",
+                "navid": 1067,
+                "name": "工业品",
+                "icon": "https://m.360buyimg.com/mobilecms/s120x120_jfs/t1/11450/28/11433/7104/5c889da6Ebb724d42/0a53d60ab3603557.png!q70.jpg",
+                "jump": {
+                    "des": "m",
+                    "params": {
+                        "needLogin": "0",
+                        "url": "https://pro.m.jd.com/mall/active/4RYbb8NtVAegmT35SuM2N3KKYLWt/index.html"
+                    },
+                    "srv": "39_工业品_超市生活_1067_gyp-m_-100"
+                }
+            },
+            {
+                "categoryid": 39,
+                "categoryname": "超市生活",
+                "titleImg": "https://m.360buyimg.com/mobilecms/jfs/t18631/61/1776041327/5928/de57170f/5ad80054Ndbc865ec.png!q70.jpg",
+                "navid": 873,
+                "name": "京东汽车",
+                "icon": "https://m.360buyimg.com/mobilecms/s120x120_jfs/t1/3314/29/6094/7416/5ba20dbeE93e7cc02/10349aa463525de5.png!q70.jpg",
+                "jump": {
+                    "des": "m",
+                    "params": {
+                        "needLogin": "0",
+                        "url": "https://pro.m.jd.com/mall/active/7buZFEUJouLZZywhvvRWkGNSRMS/index.html"
+                    },
+                    "srv": "39_京东汽车_超市生活_873_jdqc-m_-100"
+                }
+            },
+            {
+                "categoryid": 43,
+                "categoryname": "时尚穿搭",
+                "titleImg": "https://m.360buyimg.com/mobilecms/jfs/t1/42344/26/83/3342/5cc04b47E6adaaf2d/294f1bc4298b752f.jpg!q70.jpg",
+                "navid": 620,
+                "name": "服装馆",
+                "icon": "https://m.360buyimg.com/mobilecms/s120x120_jfs/t16741/258/1541877121/7017/6e03894b/5acdc628Nf7d6f780.png!q70.jpg",
+                "jump": {
+                    "des": "m",
+                    "params": {
+                        "needLogin": "0",
+                        "url": "https://pro.m.jd.com/mall/active/3GTca2WsjgRdohGtJCUnWB3bDs8o/index.html"
+                    },
+                    "srv": "43_服装馆_时尚穿搭_620_fzg-m_-100"
+                }
+            },
+            {
+                "categoryid": 43,
+                "categoryname": "时尚穿搭",
+                "titleImg": "https://m.360buyimg.com/mobilecms/jfs/t1/42344/26/83/3342/5cc04b47E6adaaf2d/294f1bc4298b752f.jpg!q70.jpg",
+                "navid": 622,
+                "name": "女装馆",
+                "icon": "https://m.360buyimg.com/mobilecms/s120x120_jfs/t18544/26/1952502036/6690/15b4ae4c/5ae06227N98bd13c4.png!q70.jpg",
+                "jump": {
+                    "des": "m",
+                    "params": {
+                        "needLogin": "0",
+                        "url": "https://pro.m.jd.com/mall/active/DpSh7ma8JV7QAxSE2gJNro8Q2h9/index.html"
+                    },
+                    "srv": "43_女装馆_时尚穿搭_622_nzg-m_-100"
+                }
+            },
+            {
+                "categoryid": 43,
+                "categoryname": "时尚穿搭",
+                "titleImg": "https://m.360buyimg.com/mobilecms/jfs/t1/42344/26/83/3342/5cc04b47E6adaaf2d/294f1bc4298b752f.jpg!q70.jpg",
+                "navid": 624,
+                "name": "内衣馆",
+                "icon": "https://m.360buyimg.com/mobilecms/s120x120_jfs/t19102/69/1987169084/6757/e53b7760/5ae06242Nc044c906.png!q70.jpg",
+                "jump": {
+                    "des": "m",
+                    "params": {
+                        "needLogin": "0",
+                        "url": "https://pro.m.jd.com/mall/active/4PgpL1xqPSW1sVXCJ3xopDbB1f69/index.html"
+                    },
+                    "srv": "43_内衣馆_时尚穿搭_624_nyg-m_-100"
+                }
+            },
+            {
+                "categoryid": 43,
+                "categoryname": "时尚穿搭",
+                "titleImg": "https://m.360buyimg.com/mobilecms/jfs/t1/42344/26/83/3342/5cc04b47E6adaaf2d/294f1bc4298b752f.jpg!q70.jpg",
+                "navid": 626,
+                "name": "运动户外",
+                "icon": "https://m.360buyimg.com/mobilecms/s120x120_jfs/t19957/358/3216993/6100/3abf816a/5ae06259N29275358.png!q70.jpg",
+                "jump": {
+                    "des": "m",
+                    "params": {
+                        "needLogin": "0",
+                        "url": "https://pro.m.jd.com/mall/active/oKAAQpTfmbKWmL338JdgxNDeWK2/index.html"
+                    },
+                    "srv": "43_运动户外_时尚穿搭_626_ydhw-m_-100"
+                }
+            },
+            {
+                "categoryid": 43,
+                "categoryname": "时尚穿搭",
+                "titleImg": "https://m.360buyimg.com/mobilecms/jfs/t1/42344/26/83/3342/5cc04b47E6adaaf2d/294f1bc4298b752f.jpg!q70.jpg",
+                "navid": 628,
+                "name": "珠宝首饰",
+                "icon": "https://m.360buyimg.com/mobilecms/s120x120_jfs/t19948/66/3191014/6800/7429b1fd/5ae0629dN6ea95c15.png!q70.jpg",
+                "jump": {
+                    "des": "m",
+                    "params": {
+                        "needLogin": "0",
+                        "url": "https://pro.m.jd.com/mall/active/zHUHpTHNTaztSRfNBFNVZscyFZU/index.html"
+                    },
+                    "srv": "43_珠宝首饰_时尚穿搭_628_zbss-m_-100"
+                }
+            },
+            {
+                "categoryid": 43,
+                "categoryname": "时尚穿搭",
+                "titleImg": "https://m.360buyimg.com/mobilecms/jfs/t1/42344/26/83/3342/5cc04b47E6adaaf2d/294f1bc4298b752f.jpg!q70.jpg",
+                "navid": 621,
+                "name": "男装馆",
+                "icon": "https://m.360buyimg.com/mobilecms/s120x120_jfs/t17803/169/1530358935/12101/d01c64c8/5acdc644N509e3ae3.png!q70.jpg",
+                "jump": {
+                    "des": "m",
+                    "params": {
+                        "needLogin": "0",
+                        "url": "https://pro.m.jd.com/mall/active/32EphPL81Mb6FD4qLCTtYmd31YXr/index.html"
+                    },
+                    "srv": "43_男装馆_时尚穿搭_621_nz-m_-100"
+                }
+            },
+            {
+                "categoryid": 41,
+                "categoryname": "特色频道",
+                "titleImg": "https://m.360buyimg.com/mobilecms/jfs/t19456/19/1745795307/6112/d391b68d/5ad8002cN28a96e4a.png!q70.jpg",
+                "navid": 630,
+                "name": "京东拍卖",
+                "icon": "https://m.360buyimg.com/mobilecms/s120x120_jfs/t18079/183/1510693228/11548/45734eb3/5acdcd69N09472720.png!q70.jpg",
+                "jump": {
+                    "des": "m",
+                    "params": {
+                        "needLogin": "0",
+                        "url": "https://mauction.jd.com/home.html"
+                    },
+                    "srv": "41_京东拍卖_特色频道_630_jdpm-m_-100"
+                }
+            },
+            {
+                "categoryid": 41,
+                "categoryname": "特色频道",
+                "titleImg": "https://m.360buyimg.com/mobilecms/jfs/t19456/19/1745795307/6112/d391b68d/5ad8002cN28a96e4a.png!q70.jpg",
+                "navid": 631,
+                "name": "京东智能",
+                "icon": "https://m.360buyimg.com/mobilecms/s120x120_jfs/t17968/290/1529570480/6438/33c45b16/5acdcda6Nc6a0a289.png!q70.jpg",
+                "jump": {
+                    "des": "m",
+                    "params": {
+                        "needLogin": "0",
+                        "url": "https://pro.m.jd.com/mall/active/KcfFqWvhb5hHtaQkS4SD1UU6RcQ/index.html?utm_source=pdappwakeupup_20170001"
+                    },
+                    "srv": "41_京东智能_特色频道_631_jdzn-m_-100"
+                }
+            },
+            {
+                "categoryid": 41,
+                "categoryname": "特色频道",
+                "titleImg": "https://m.360buyimg.com/mobilecms/jfs/t19456/19/1745795307/6112/d391b68d/5ad8002cN28a96e4a.png!q70.jpg",
+                "navid": 1050,
+                "name": "彩票",
+                "icon": "https://m.360buyimg.com/mobilecms/s120x120_jfs/t16855/264/1777290411/12102/e339fc7/5ad88e8aNda959270.png!q70.jpg",
+                "jump": {
+                    "des": "m",
+                    "params": {
+                        "needLogin": "0",
+                        "url": "https://caipiao.m.jd.com"
+                    },
+                    "srv": "41_彩票_特色频道_1050_cp-m_-100"
+                }
+            }
+        ]
+    }
+}

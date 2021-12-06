@@ -32,8 +32,8 @@ const Breadcrum = withRouter((props) => {
     );
   });
   const breadcrumbItems = [
-    <Breadcrumb.Item key="home" style={{ lineHeight: '64px' }}>
-      <Link to="/">Home</Link>
+    <Breadcrumb.Item key="welcome" style={{ lineHeight: '64px' }}>
+      <Link to="/">Welcome</Link>
     </Breadcrumb.Item>,
   ].concat(extraBreadcrumbItems);
 

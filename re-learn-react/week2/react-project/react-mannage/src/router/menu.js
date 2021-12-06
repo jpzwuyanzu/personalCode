@@ -20,15 +20,22 @@ import {
     FormOutlined,
     UnorderedListOutlined,
     AppstoreOutlined,
-    BorderlessTableOutlined
+    BorderlessTableOutlined,
+    GithubOutlined
 } from '@ant-design/icons';
 const menus = [
     {
         path: '/',
-        redirect: '/home',
+        redirect: '/welcome',
         meta: {
             hidden: true
         }
+    },
+    {
+        title:'欢迎页',
+        path: '/welcome',
+        icon: <GithubOutlined />,
+        component: lazy(() => import('./../views/welcome/Welcome'))
     },
     {
         title:'系统首页',
@@ -145,6 +152,12 @@ const menus = [
                 path: '/show/table',
                 icon: <BorderlessTableOutlined />,
                 component: lazy(() => import('./../views/show/Table'))
+            },
+            {
+                title: '表格功能展示',
+                path: '/show/mytable',
+                icon: <BorderlessTableOutlined />,
+                component: lazy(() => import('./../views/show/MyTable'))
             }
         ]
     },

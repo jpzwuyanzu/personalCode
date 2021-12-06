@@ -3,9 +3,6 @@
 html,body, #root,.ant-layout {
     height: 100%;
 }
-.ant-layout-content {
-  overflow-y: scroll;
-}
 .logo {
     display: flex;
     justify-content: center;
@@ -43,4 +40,9 @@ html,body, #root,.ant-layout {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+  }
+
+  /* banner/Index.jsx */
+  .tableHeader {
+    height: 60px;
   }

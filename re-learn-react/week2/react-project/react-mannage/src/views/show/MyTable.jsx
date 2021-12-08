@@ -218,8 +218,6 @@ const MyTable = () => {
           <h1>Table表格：固定表头和固定列</h1>
           <Divider/>
           <Table columns={ columns3 } dataSource={ data3 } pagination={{ pageSize: 50 }} scroll={{ x: 1500, y: 300 }} />
-          <h1>Table表格：固定列</h1>
-          <Divider/>
 
       </div>
     );

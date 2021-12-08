@@ -158,6 +158,12 @@ const menus = [
                 path: '/show/mytable',
                 icon: <BorderlessTableOutlined />,
                 component: lazy(() => import('./../views/show/MyTable'))
+            },
+            {
+                title: 'SHOW组件',
+                path: '/show/moreShow',
+                icon: <BorderlessTableOutlined />,
+                component: lazy(() => import('./../views/show/MoreShow'))
             }
         ]
     },

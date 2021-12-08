@@ -2504,7 +2504,7 @@ export default BannerList;
 
 ```
 
-## 16 快捷导航观
+## 16 快捷导航实现
  ### 1, 抓取数据-分类 public/category.json
 
  ### 2,前端渲染数据 navgator/Category.jsx
@@ -2541,10 +2541,715 @@ const NavgatorCategory = () => {
 }
 export default NavgatorCategory;
  ```
+### 3,渲染导航列表 navgator/List.jsx
+
+```jsx
+import React, { useEffect, useState } from 'react';
+import { Table, Image, Button, Space } from 'antd'
+
+const NavgatorList = () => {
+    const [navlist, setNavList] = useState([])
+
+    useEffect(() => {
+        fetch('/navlist.json').then(res => res.json()).then(result => {
+            // console.log(result)
+            setNavList(result.result.data)
+        })
+    }, [])
+
+    const columns = [
+        {
+            title: '序号',
+            render: (text, record, index) => {
+                return (
+                    <span>{ index + 1 }</span>
+                )
+            }
+        },
+        {
+            title: '分类',
+            dataIndex: 'categoryname',
+            key: 'categoryname'
+        },
+        {
+            title: '分类',
+            dataIndex: 'name',
+            key: 'name'
+        },
+        {
+            title: '分类图标',
+            dataIndex: 'icon',
+            key: 'icon',
+            render: (text) => {
+                return (
+                    <Image src={ text } />
+                )
+            }
+        },
+        {
+            title: '操作',
+            render: (text) => {
+                return (
+                    <Space>
+                        <Button type="primary" >编辑</Button>
+                        <Button type="primary" >删除</Button>
+                    </Space>
+                )
+            }
+        }
+    ]
 
 
+    return (
+       <>
+        <Table rowKey={ record => record.navid } dataSource={ navlist } columns={ columns } scroll={{ y: 650 }} />
+       </>
+    );
+}
+
+export default NavgatorList;
+
+```
+
+### 4, 首页的导航列表
+navGator/HomeList.jsx
+穿梭框组件
+```jsx
+import React, { useState, useEffect } from 'react';
+import { Transfer, Image, Space, message } from 'antd';
 
 
+const NavigatorHomeList = () => {
+  const [targetKeys, setTargetKeys] = useState([]);
+  const [selectedKeys, setSelectedKeys] = useState([]);
+  const [navlist, setNavList]  = useState([])
+
+  useEffect(() => {
+      fetch('/navlist.json').then(res => res.json()).then(result => {
+        setNavList(result.result.data)
+      })
+  }, [])
+
+  // 点击左右箭头时的事件
+  const onChange = (nextTargetKeys, direction, moveKeys) => {
+    console.log('targetKeys:', nextTargetKeys);
+    console.log('direction:', direction);
+    console.log('moveKeys:', moveKeys);
+    setTargetKeys(nextTargetKeys);
+    //在这里把nextTargetKeys用接口传递到后端
+  };
+
+  const onSelectChange = (sourceSelectedKeys, targetSelectedKeys) => {
+      // 最多选择10条数据
+    if((sourceSelectedKeys.length + targetKeys.length) > 10) {
+        message.error('最多选择10项数据', 2)
+    }else {
+        // 表示当前的数据被选中
+        setSelectedKeys([...sourceSelectedKeys, ...targetSelectedKeys]);
+    }
+  };
+
+  const onScroll = (direction, e) => {
+    // console.log('direction:', direction);
+    // console.log('target:', e.target);
+  };
+
+  return (
+    <Transfer
+      dataSource={navlist}
+      rowKey={ record => record.navid }
+      titles={['所有导航', '选中导航']}
+      targetKeys={targetKeys}
+      selectedKeys={selectedKeys}
+      onChange={onChange}
+      onSelectChange={onSelectChange}
+      onScroll={onScroll}
+      listStyle={{ width: '40%', height: 600 }}
+      render={ (item) => {
+          return (
+              <Space>
+                  <Image src={ item.icon } width={ 20 } height={ 20 } />
+                  <span>{ item.name }</span>
+              </Space>
+          )
+      } }
+    />
+  );
+};
+
+export default NavigatorHomeList;
+```
+
+## 17，商品管理
+
+### 1,创建页面
+views/product/List.jsx
+```jsx
+import React from 'react';
+
+const List = () => {
+    return (
+        <div>
+            商品列表
+        </div>
+    );
+}
+
+export default List;
+```
+### 2， 在路由文件中把商品管理添加到配置中
+router/meus.js
+```js
+import React, { lazy } from 'react'
+import {
+    HomeOutlined,
+    PictureOutlined,
+    MenuOutlined,
+    LinkOutlined,
+    OrderedListOutlined,
+    PicRightOutlined,
+    DashOutlined,
+    FieldTimeOutlined,
+    UnorderedListOutlined,
+    UserOutlined
+  } from '@ant-design/icons';
+
+const menus = [
+    {
+        path: '/',
+        redirect: '/home',
+        meta: {
+            hidden: true
+        }
+    },
+    {
+        path: '/home',
+        title: '系统首页',
+        icon: <HomeOutlined/>,
+        component: lazy(() => import('./../views/home/Index'))
+    },
+    {
+        path: '/bannermanager',
+        title: '轮播图管理',
+        icon: <PictureOutlined />,
+        redirect: '/bannermanager/list',
+        children: [
+            {
+                path: '/bannermanager/list',
+                title: '轮播图列表',
+                icon: <MenuOutlined />,
+                component: lazy(() => import('./../views/banner/Index'))
+            }, 
+            {
+                path: '/bannermanager/add',
+                title: '添加轮播图',
+                icon: <MenuOutlined />,
+                component: lazy(() => import('./../views/banner/Add')),
+                meta: {
+                    hidden: true
+                }
+            }, 
+        ]
+    },
+    {
+        path: '/navigatormanager',
+        title: '快捷导航管理',
+        icon: <LinkOutlined />,
+        redirect: '/navigatormanager/list',
+        children: [
+            {
+                path: '/navigatormanager/list',
+                title: '导航列表',
+                icon: <OrderedListOutlined />,
+                component: lazy(() => import('./../views/navgator/List'))
+            }, 
+            {
+                path: '/navigatormanager/category',
+                title: '导航分类',
+                icon: <PicRightOutlined />,
+                component: lazy(() => import('./../views/navgator/Category'))
+            }, 
+            {
+                path: '/navigatormanager/homelist',
+                title: '首页导航',
+                icon: <DashOutlined />,
+                component: lazy(() => import('./../views/navgator/HomeList'))
+            }, 
+        ]
+    },
+    {
+        path: '/seckillmanager',
+        title: '秒杀管理',
+        icon: <FieldTimeOutlined />,
+        redirect: '/seckillmanager/list',
+        children: [
+            {
+                path: '/seckillmanager/list',
+                title: '首页秒杀列表',
+                icon: <UnorderedListOutlined />,
+                component: lazy(() => import('./../views/seckill/List'))
+            }, 
+        ]
+    },
+    {
+        path: '/productmanager',
+        title: '商品管理',
+        icon: <FieldTimeOutlined />,
+        redirect: '/productmanager/list',
+        children: [
+            {
+                path: '/productmanager/list',
+                title: '商品列表',
+                icon: <UnorderedListOutlined />,
+                component: lazy(() => import('./../views/product/List'))
+            }, 
+        ]
+    },
+    {
+        path: '/usermanager',
+        title: '用户管理',
+        icon: <UserOutlined />,
+        redirect: '/usermanager/list',
+        children: [
+            {
+                path: '/usermanager/list',
+                title: '用户列表',
+                icon: <UserOutlined />,
+                component: lazy(() => import('./../views/user/List'))
+            }
+        ]
+    },
+    {
+        path: '/setting',
+        title: '用户设置',
+        icon: <UserOutlined />,
+        component: lazy(() => import('../views/setting/Index')),
+        meta: {
+            hidden: true
+        }
+    }
+]
+
+export default menus
+```
+### 3, 渲染商品列表
+views/List.jsx
+```jsx
+import React, { useState, useEffect } from 'react';
+import { Table } from 'antd'
+
+const List = () => {
+
+    const [productList, setProList] = useState([])
+    const [current, setCurrent] = useState(1)
+    const [total, setTotal] = useState(0)
+    const [pageSize, setPageSize] = useState(10)
+
+    const columns = [
+        {
+            title: '序号',
+            render: (text, record, index) => <span>{ (current - 1) * pageSize + index + 1 }</span>
+        },
+        {
+            title: '商品名称',
+            dataIndex: 'proname',
+            key: 'proname'
+        }
+    ]
+
+    useEffect(() => {
+       fetch('/product.json').then(res => res.json()).then(result => {
+           setProList(result.result)
+           setTotal(result.result.length)
+       })
+    }, []);
+
+    return (
+        <>
+        <Table rowKey={ record => record.id }
+         dataSource={ productList }
+         columns={ columns }
+         pagination={{
+            showSizeChanger: true,
+            showQuickJumper: true,
+            pageSizeOptions: [10,15,20,50],
+            total: total,
+             current: current,
+             pageSize: pageSize,
+             showTotal: (total, range) => {
+                 return `共有${total}条数据`
+             },
+             onChange: (page, pageSize) => {
+                setCurrent(page)
+             },
+             onShowSizeChange: (current, size) => {
+                 setPageSize(size)
+             }
+         }}
+         />
+        </>
+    );
+}
+
+export default List;
+
+```
+
+### 4,美化表格
+```jsx
+import React, { useState, useEffect } from 'react';
+import { Table, Image, Switch, Space, Button } from 'antd'
+
+const List = () => {
+
+    const [productList, setProList] = useState([])
+    const [current, setCurrent] = useState(1)
+    const [total, setTotal] = useState(0)
+    const [pageSize, setPageSize] = useState(10)
+
+    const columns = [
+        {
+            title: '序号',
+            render: (text, record, index) => <span>{ (current - 1) * pageSize + index + 1 }</span>,
+            align: 'center',
+            fixed: 'left',
+            width: 150
+        },
+        {
+            title: '商品名称',
+            dataIndex: 'proname',
+            key: 'proname',
+            align: 'center',
+            fixed: 'left',
+            width: 150
+            
+        },
+        {
+            title: '商品分类',
+            dataIndex: 'categoryname',
+            key: 'categoryname',
+            align: 'center',
+            width: 150
+        },
+        {
+            title: '商品图片',
+            dataIndex: 'img',
+            width: 150,
+            key: 'img',
+            render: (text, record, index) => {
+                return (
+                    <Image src={ text } width={ 100 } height={ 100 } />
+                )
+            },
+            align: 'center'
+        },
+        {
+            title: '商品原价',
+            dataIndex: 'originPrice',
+            key: 'originPrice',
+            align: 'center',
+            width: 150,
+        },
+        {
+            title: '现售价',
+            dataIndex: 'newPrice',
+            key: 'newPrice',
+            align: 'center',
+            width: 150
+        },
+        {
+            title: '商品描述',
+            dataIndex: 'descri',
+            key: 'descri',
+            width: 500,
+            align: 'center'
+        },
+        {
+            title: '是否秒杀',
+            dataIndex: 'isKill',
+            key: 'isKill',
+            align: 'center',
+            width: 100,
+            fixed: 'right',
+            render: (text, record, index) => {
+                return(
+                    <Switch checked={ text*1 === 1 } onChange={ (checked) => {
+                            // const tempArr = productList
+                            // tempArr[index].isKill = checked * 1
+                            // sessionStorage.setItem('admin_product', JSON.stringify(tempArr))
+                            // setProList(tempArr)
+                        }
+                    } />
+                )
+            }
+        },
+        {
+            title: '是否推荐',
+            dataIndex: 'isRecommond',
+            key: 'isRecommond',
+            align: 'center',
+            width: 100,
+            fixed: 'right',
+            render: (text, record, index) => {
+                return(
+                    <Switch checked={ text*1 === 1 } />
+                )
+            }
+        },
+        {
+            title: '上架状态',
+            dataIndex: 'isSale',
+            key: 'isSale',
+            align: 'center',
+            width: 100,
+            fixed: 'right',
+            render: (text) => {
+                return(
+                    <Switch checked={ text*1 === 1 } />
+                )
+            }
+        },
+        {
+            title: '操作',
+            fixed: 'right',
+            width: 200,
+            align: 'center',
+            render: (text, record, index) => {
+                return(
+                    <Space>
+                        <Button type="primary">编辑</Button>
+                        <Button type="primary" danger>删除</Button>
+                    </Space>
+                )
+            }
+        }
+    ]
+
+    useEffect(() => {
+        if(sessionStorage.getItem('admin_product')) {
+            console.log('222')
+            const cacheArr = JSON.parse(sessionStorage.getItem('admin_product'))
+            setProList(cacheArr)
+            setTotal(cacheArr.length)
+        } else {
+            fetch('/product.json').then(res => res.json()).then(result => {
+                sessionStorage.setItem('admin_product', JSON.stringify(result.result))
+                setProList(result.result)
+                setTotal(result.result.length)
+            })
+        }
+    }, []);
+
+
+    return (
+        <>
+        <Table rowKey={ record => record.id }
+         dataSource={ productList }
+         columns={ columns }
+         pagination={{
+            showSizeChanger: true,
+            showQuickJumper: true,
+            pageSizeOptions: [10,15,20,50],
+            total: total,
+             current: current,
+             pageSize: pageSize,
+             showTotal: (total, range) => {
+                 return `共有${total}条数据`
+             },
+             onChange: (page, pageSize) => {
+                setCurrent(page)
+             },
+             onShowSizeChange: (current, size) => {
+                 setPageSize(size)
+             }
+         }}
+         scroll={{ y: 650, x: 1400 }}
+         />
+        </>
+    );
+}
+
+export default List;
+
+```
+### 5，秒杀可以切换开关
+// 需要设置defaultChecked的值
+```jsx
+import React, { useState, useEffect } from 'react';
+import { Table, Image, Switch, Space, Button } from 'antd'
+
+const List = () => {
+
+    const [productList, setProductList] = useState([])
+    const [current, setCurrent] = useState(1)
+    const [total, setTotal] = useState(0)
+    const [pageSize, setPageSize] = useState(10)
+
+    useEffect(() => {
+        if(sessionStorage.getItem('admin_product')) {
+            console.log('222')
+            const cacheArr = JSON.parse(sessionStorage.getItem('admin_product'))
+            setProductList(cacheArr)
+            setTotal(cacheArr.length)
+        } else {
+            fetch('/product.json').then(res => res.json()).then(result => {
+                sessionStorage.setItem('admin_product', JSON.stringify(result.result))
+                setProductList(result.result)
+                setTotal(result.result.length)
+            })
+        }
+    }, []);
+
+    const columns = [
+        {
+            title: '序号',
+            render: (text, record, index) => <span>{ (current - 1) * pageSize + index + 1 }</span>,
+            align: 'center',
+            fixed: 'left',
+            width: 150
+        },
+        {
+            title: '商品名称',
+            dataIndex: 'proname',
+            key: 'proname',
+            align: 'center',
+            fixed: 'left',
+            width: 150
+            
+        },
+        {
+            title: '商品分类',
+            dataIndex: 'categoryname',
+            key: 'categoryname',
+            align: 'center',
+            width: 150
+        },
+        {
+            title: '商品图片',
+            dataIndex: 'img',
+            width: 150,
+            key: 'img',
+            render: (text, record, index) => {
+                return (
+                    <Image src={ text } width={ 100 } height={ 100 } />
+                )
+            },
+            align: 'center'
+        },
+        {
+            title: '商品原价',
+            dataIndex: 'originPrice',
+            key: 'originPrice',
+            align: 'center',
+            width: 150,
+        },
+        {
+            title: '现售价',
+            dataIndex: 'newPrice',
+            key: 'newPrice',
+            align: 'center',
+            width: 150
+        },
+        {
+            title: '商品描述',
+            dataIndex: 'descri',
+            key: 'descri',
+            width: 500,
+            align: 'center'
+        },
+        {
+            title: '是否秒杀',
+            dataIndex: 'isKill',
+            key: 'isKill',
+            align: 'center',
+            width: 100,
+            fixed: 'right',
+            render: (text, record, index) => {
+                return <Switch defaultChecked={text * 1 === 1} onChange={(checked) => {
+                    console.log(checked)
+                    const arr = productList
+                    arr[index].isKill = checked
+                    sessionStorage.setItem('admin_product', JSON.stringify(arr))
+                    setProductList(arr)
+                }}/>
+            }
+        },
+        {
+            title: '是否推荐',
+            dataIndex: 'isRecommond',
+            key: 'isRecommond',
+            align: 'center',
+            width: 100,
+            fixed: 'right',
+            render: (text, record, index) => {
+                return(
+                    <Switch checked={ text*1 === 1 } />
+                )
+            }
+        },
+        {
+            title: '上架状态',
+            dataIndex: 'isSale',
+            key: 'isSale',
+            align: 'center',
+            width: 100,
+            fixed: 'right',
+            render: (text) => {
+                return(
+                    <Switch checked={ text*1 === 1 } />
+                )
+            }
+        },
+        {
+            title: '操作',
+            fixed: 'right',
+            width: 200,
+            align: 'center',
+            render: (text, record, index) => {
+                return(
+                    <Space>
+                        <Button type="primary">编辑</Button>
+                        <Button type="primary" danger>删除</Button>
+                    </Space>
+                )
+            }
+        }
+    ]
+
+
+    return (
+        <>
+        <Table rowKey={ record => record.id }
+         dataSource={ productList }
+         columns={ columns }
+         pagination={{
+            showSizeChanger: true,
+            showQuickJumper: true,
+            pageSizeOptions: [10,15,20,50],
+            total: total,
+             current: current,
+             pageSize: pageSize,
+             showTotal: (total, range) => {
+                 return `共有${total}条数据`
+             },
+             onChange: (page, pageSize) => {
+                setCurrent(page)
+             },
+             onShowSizeChange: (current, size) => {
+                 setPageSize(size)
+             }
+         }}
+         scroll={{ y: 650, x: 1400 }}
+         />
+        </>
+    );
+}
+
+export default List;
+
+```
+不使用自带的分页器，
+### 7，自定义分页器
 
 
 # 二. node接口

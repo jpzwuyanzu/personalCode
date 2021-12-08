@@ -11,17 +11,18 @@ const ShowTable = () => {
     const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
     useEffect(() => {
-        fetch('/product.json').then(res => res.json()).then(result => {
-            // console.log(result)
+        if(sessionStorage.getItem('admin_table_data')) {
+          const cacheArr = JSON.parse(sessionStorage.getItem('admin_table_data'))
+          setDataSource(cacheArr)
+        } else {
+          fetch('/product.json').then(res => res.json()).then(result => {
+            sessionStorage.setItem('admin_table_data', JSON.stringify(result.data))
             setDataSource(result.data)
             setTotal(result.data.length)
         })
+        }
     }, [])
 
-      const confirm = (e) => {
-        console.log(e)
-      }
-      
       const columns = [
         {
           title: '序号',
@@ -65,7 +66,13 @@ const ShowTable = () => {
                 <Space>
                   <Popconfirm
                     title="确定要删除该产品吗?"
-                    onConfirm={confirm}
+                    onConfirm={ (e) => {
+                      // 在这里执行删除
+                      let tempArr = dataSource
+                      tempArr = tempArr.filter(item => item.proid !== record.proid)
+                      setDataSource(tempArr)
+                      sessionStorage.setItem('admin_table_data', JSON.stringify(tempArr))
+                    } }
                     okText="确定"
                     cancelText="取消"
                   >

@@ -153,16 +153,16 @@ const BannerList = (props) => {
             pagination={ {
               position: ['bottomRight'],
               showSizeChanger: true,
-              pageSizeOptions: [10 ,15, 20,50],
               showQuickJumper: true,
+              pageSizeOptions: [10 ,15, 20,50],
+              total: total,
+              current: current,
               pageSize: pageSize,
               // hideOnSinglePage: true //慎用，不可逆
               showTotal: (total, range) => {
                 // console.log(total, range)
                 return `共有${ total }条数据`
               },
-              total: total,
-              current: current,
               onChange: (page, pageSize) => {
                 setCurrent(page)
               },

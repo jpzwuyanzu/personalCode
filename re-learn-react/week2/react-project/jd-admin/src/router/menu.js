@@ -90,6 +90,20 @@ const menus = [
         ]
     },
     {
+        path: '/productmanager',
+        title: '商品管理',
+        icon: <FieldTimeOutlined />,
+        redirect: '/productmanager/list',
+        children: [
+            {
+                path: '/productmanager/list',
+                title: '商品列表',
+                icon: <UnorderedListOutlined />,
+                component: lazy(() => import('./../views/product/List'))
+            }, 
+        ]
+    },
+    {
         path: '/usermanager',
         title: '用户管理',
         icon: <UserOutlined />,

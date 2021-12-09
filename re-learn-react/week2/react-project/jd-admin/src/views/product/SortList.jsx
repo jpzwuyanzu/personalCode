@@ -1,32 +1,37 @@
-import React, { useState, useEffect } from 'react';
-import { Table, Image, Switch, Space, Button, Pagination } from 'antd'
+import React, { useState, useEffect } from "react";
+import { Form, Button, Row, Col, Input, Select } from "antd";
+// import { getProCategory, searchPro } from './../../api/pro'
+import { Table, Image, Space, Switch} from 'antd'
 
-const List = () => {
+const { Option } = Select
 
-    const [productList, setProductList] = useState([])
-    const [current, setCurrent] = useState(1)
-    const [total, setTotal] = useState(0)
-    const [pageSize, setPageSize] = useState(10)
+const SortList = () => {
+    const [ categoryList, setCategoryList ] = useState([])
+    const [ proList, setproList ] = useState([])
+
+    useEffect(() => {
+        fetch('/procategory.json').then(res => res.json()).then(result => {
+            console.log(result)
+            setCategoryList(result.result)
+        })
+    }, [])
 
     useEffect(() => {
         if(sessionStorage.getItem('admin_product')) {
-            console.log('222')
             const cacheArr = JSON.parse(sessionStorage.getItem('admin_product'))
-            setProductList(cacheArr)
-            setTotal(cacheArr.length)
+            setproList(cacheArr)
         } else {
             fetch('/product.json').then(res => res.json()).then(result => {
                 sessionStorage.setItem('admin_product', JSON.stringify(result.result))
-                setProductList(result.result)
-                setTotal(result.result.length)
+                setproList(result.result)
             })
         }
-    }, []);
+    }, [])
 
     const columns = [
         {
             title: '序号',
-            render: (text, record, index) => <span>{ (current - 1) * pageSize + index + 1 }</span>,
+            render: (text, record, index) => <span>{ index + 1 }</span>,
             align: 'center',
             fixed: 'left',
             width: 100
@@ -124,17 +129,21 @@ const List = () => {
             render: (text, record, index) => {
                 return <Switch defaultChecked={text * 1 === 1} onChange={(checked) => {
                     console.log(checked)
-                    const arr = productList
+                    const arr = proList
+                    let tempArr = []
                     arr[index].isKill = checked
+                    tempArr = sessionStorage.getItem('sort_product') ? JSON.parse(sessionStorage.getItem('sort_product')) : []
+                    tempArr.push(arr[index])
                     sessionStorage.setItem('admin_product', JSON.stringify(arr))
-                    setProductList(arr)
+                    sessionStorage.setItem('sort_product', JSON.stringify(tempArr))
+                    setproList(arr)
                 }}/>
             }
         },
         {
             title: '操作',
             fixed: 'right',
-            width: 150,
+            width: 200,
             align: 'center',
             render: (text, record, index) => {
                 return(
@@ -147,56 +156,62 @@ const List = () => {
         }
     ]
 
-    const showTotal = (total) => {
-        return `共有 ${total} 条数据`;
-      }
-    const changeCurrent = (page, pageSize) => {
-        //在这里请求新数据，并修改productList和current的值
-        setCurrent(page)
-    }
-
-    const showSizeChange = (current, size) => {
-        setPageSize(size)
-    }
-      
+    const [form] = Form.useForm();
+    const onFinish = (values) => {
+        console.log(values);
+        // 在这里根据参数查询产品列表,因为没有使用axios，暂时使用fetch请求本地数据代替
+        fetch('/product.json').then(res => res.json()).then(result => {
+            setproList(result.result)
+        })
+    };
 
     return (
         <>
-        <Table rowKey={ record => record.id }
-         dataSource={ productList }
-         columns={ columns }
-         pagination={ false }
-        //  pagination={{
-        //     showSizeChanger: true,
-        //     showQuickJumper: true,
-        //     pageSizeOptions: [10,15,20,50],
-        //     total: total,
-        //      current: current,
-        //      pageSize: pageSize,
-        //      showTotal: (total, range) => {
-        //          return `共有${total}条数据`
-        //      },
-        //      onChange: (page, pageSize) => {
-        //         setCurrent(page)
-        //      },
-        //      onShowSizeChange: (current, size) => {
-        //          setPageSize(size)
-        //      }
-        //  }}
-         scroll={{ y: 700, x: 1000 }}
-         />
-         <Pagination 
-         showQuickJumper 
-         showSizeChanger
-         current = { current }
-         pageSize = { pageSize } 
-         total = { total }
-         showTotal={showTotal}
-         onChange = { changeCurrent }
-         onShowSizeChange={ showSizeChange }
-         />
+            <Form
+                form={form}
+                name="advanced_search"
+                className="ant-advanced-search-form"
+                initialValues={{
+                    category: ''
+                }}
+                onFinish={onFinish}
+            >
+                <Row gutter={24}>
+                    <Col span={3}>
+                        <Form.Item
+                            name="category"
+                        >
+                            <Select showSearch>
+                            <Option value="">全部</Option>
+                                {
+                                    categoryList.map((item, index) => {
+                                        return (
+                                            <Option key={ index } value={ item.categoryname }>{ item.categoryname }</Option>
+                                        )
+                                    })
+                                }
+                            </Select>
+                        </Form.Item>
+                    </Col>
+                    <Col span={4}>
+                        <Form.Item
+                            name="search"
+                        >
+                            <Input placeholder="输入关键词搜索产品" allowClear />
+                        </Form.Item>
+                    </Col>
+                    <Col
+                        span={4}
+                    >
+                        <Button type="primary" htmlType="submit">
+                            查询
+                        </Button>
+                    </Col>
+                </Row>
+            </Form>
+            <Table rowKey={ record => record.id  } dataSource={ proList } columns={ columns } scroll={{ y: 600 }} />
         </>
     );
-}
+};
 
-export default List;
+export default SortList;

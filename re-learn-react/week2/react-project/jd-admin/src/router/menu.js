@@ -76,16 +76,22 @@ const menus = [
         ]
     },
     {
-        path: '/seckillmanager',
-        title: '秒杀管理',
+        path: '/homemanager',
+        title: '首页数据管理',
         icon: <FieldTimeOutlined />,
-        redirect: '/seckillmanager/list',
+        redirect: '/homemanager/seckilllist',
         children: [
             {
-                path: '/seckillmanager/list',
+                path: '/homemanager/seckilllist',
                 title: '首页秒杀列表',
                 icon: <UnorderedListOutlined />,
-                component: lazy(() => import('./../views/seckill/List'))
+                component: lazy(() => import('../views/homedata/SeckillList'))
+            }, 
+            {
+                path: '/homemanager/recommendlist',
+                title: '首页推荐列表',
+                icon: <UnorderedListOutlined />,
+                component: lazy(() => import('../views/homedata/RecomendList'))
             }, 
         ]
     },
@@ -100,6 +106,12 @@ const menus = [
                 title: '商品列表',
                 icon: <UnorderedListOutlined />,
                 component: lazy(() => import('./../views/product/List'))
+            }, 
+            {
+                path: '/productmanager/sortlist',
+                title: '筛选商品',
+                icon: <UnorderedListOutlined />,
+                component: lazy(() => import('./../views/product/SortList'))
             }, 
         ]
     },

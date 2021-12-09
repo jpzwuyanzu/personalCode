@@ -1,32 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Image, Switch, Space, Button, Pagination } from 'antd'
+import { Table, Image, Switch, Space, Button } from 'antd'
 
-const List = () => {
-
-    const [productList, setProductList] = useState([])
-    const [current, setCurrent] = useState(1)
-    const [total, setTotal] = useState(0)
-    const [pageSize, setPageSize] = useState(10)
-
+const SecKillList = () => {
+    const [secKillList, setSecKillList] = useState([])
     useEffect(() => {
-        if(sessionStorage.getItem('admin_product')) {
-            console.log('222')
-            const cacheArr = JSON.parse(sessionStorage.getItem('admin_product'))
-            setProductList(cacheArr)
-            setTotal(cacheArr.length)
-        } else {
-            fetch('/product.json').then(res => res.json()).then(result => {
-                sessionStorage.setItem('admin_product', JSON.stringify(result.result))
-                setProductList(result.result)
-                setTotal(result.result.length)
-            })
+        if(sessionStorage.getItem('sort_product')) {
+            const cacheArr = JSON.parse(sessionStorage.getItem('sort_product'))
+            console.log(cacheArr)
+            setSecKillList(cacheArr)
         }
-    }, []);
+    }, [])
 
     const columns = [
         {
             title: '序号',
-            render: (text, record, index) => <span>{ (current - 1) * pageSize + index + 1 }</span>,
+            render: (text, record, index) => <span>{ index + 1 }</span>,
             align: 'center',
             fixed: 'left',
             width: 100
@@ -123,18 +111,14 @@ const List = () => {
             fixed: 'right',
             render: (text, record, index) => {
                 return <Switch defaultChecked={text * 1 === 1} onChange={(checked) => {
-                    console.log(checked)
-                    const arr = productList
-                    arr[index].isKill = checked
-                    sessionStorage.setItem('admin_product', JSON.stringify(arr))
-                    setProductList(arr)
+                    //在这里删除sort_list中对应项，并且修改admin_product的数据
                 }}/>
             }
         },
         {
             title: '操作',
             fixed: 'right',
-            width: 150,
+            width: 200,
             align: 'center',
             render: (text, record, index) => {
                 return(
@@ -147,56 +131,11 @@ const List = () => {
         }
     ]
 
-    const showTotal = (total) => {
-        return `共有 ${total} 条数据`;
-      }
-    const changeCurrent = (page, pageSize) => {
-        //在这里请求新数据，并修改productList和current的值
-        setCurrent(page)
-    }
-
-    const showSizeChange = (current, size) => {
-        setPageSize(size)
-    }
-      
-
     return (
         <>
-        <Table rowKey={ record => record.id }
-         dataSource={ productList }
-         columns={ columns }
-         pagination={ false }
-        //  pagination={{
-        //     showSizeChanger: true,
-        //     showQuickJumper: true,
-        //     pageSizeOptions: [10,15,20,50],
-        //     total: total,
-        //      current: current,
-        //      pageSize: pageSize,
-        //      showTotal: (total, range) => {
-        //          return `共有${total}条数据`
-        //      },
-        //      onChange: (page, pageSize) => {
-        //         setCurrent(page)
-        //      },
-        //      onShowSizeChange: (current, size) => {
-        //          setPageSize(size)
-        //      }
-        //  }}
-         scroll={{ y: 700, x: 1000 }}
-         />
-         <Pagination 
-         showQuickJumper 
-         showSizeChanger
-         current = { current }
-         pageSize = { pageSize } 
-         total = { total }
-         showTotal={showTotal}
-         onChange = { changeCurrent }
-         onShowSizeChange={ showSizeChange }
-         />
+        <Table rowKey="id"  dataSource={ secKillList } columns={ columns } scroll={{ y: 700, x: 1300 }} />
         </>
     );
 }
 
-export default List;
+export default SecKillList;

@@ -1,0 +1,44 @@
+{
+    "result": [
+        {
+            "categoryid": "001",
+            "categoryname": "电脑"
+        },
+        {
+            "categoryid": "002",
+            "categoryname": "数码配件"
+        },
+        {
+            "categoryid": "003",
+            "categoryname": "零食"
+        },
+        {
+            "categoryid": "004",
+            "categoryname": "化妆品"
+        },
+        {
+            "categoryid": "005",
+            "categoryname": "手表"
+        },
+        {
+            "categoryid": "006",
+            "categoryname": "服装"
+        },
+        {
+            "categoryid": "007",
+            "categoryname": "男装"
+        },
+        {
+            "categoryid": "008",
+            "categoryname": "女装"
+        },
+        {
+            "categoryid": "009",
+            "categoryname": "眼睛"
+        },
+        {
+            "categoryid": "010",
+            "categoryname": "电视"
+        }
+    ]
+}

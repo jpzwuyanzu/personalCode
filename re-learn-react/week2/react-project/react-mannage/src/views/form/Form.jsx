@@ -1,81 +1,17 @@
 import React from "react";
-import { Form, Input, Checkbox, Button } from "antd";
-
+import { Divider } from 'antd'
+import AutoFinish from './component/AutoFinish'
+import CasCom from './component/CasCom'
 const ShowForm = () => {
-
-    const onFinish = (values) => {
-        console.log(values)
-    }
-    
-    const onFinishFailed = (values) => {
-        console.log(values)
-    }
-
   return (
     <>
-      <Form
-        name="basic"
-        labelCol={{
-          span: 8,
-        }}
-        wrapperCol={{
-          span: 16,
-        }}
-        initialValues={{
-          remember: true,
-        }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        autoComplete="off"
-      >
-        <Form.Item
-          label="Username"
-          name="username"
-          rules={[
-            {
-              required: true,
-              message: "Please input your username!",
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          label="Password"
-          name="password"
-          rules={[
-            {
-              required: true,
-              message: "Please input your password!",
-            },
-          ]}
-        >
-          <Input.Password />
-        </Form.Item>
-
-        <Form.Item
-          name="remember"
-          valuePropName="checked"
-          wrapperCol={{
-            offset: 8,
-            span: 16,
-          }}
-        >
-          <Checkbox>Remember me</Checkbox>
-        </Form.Item>
-
-        <Form.Item
-          wrapperCol={{
-            offset: 8,
-            span: 16,
-          }}
-        >
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
-        </Form.Item>
-      </Form>
+    <h1>自动完成组件AutoComplete</h1>
+    <Divider/>
+    <AutoFinish/>
+    <Divider/>
+    <h1>级联选择器Cascader</h1>
+    <Divider/>
+    <CasCom/>
     </>
   );
 };

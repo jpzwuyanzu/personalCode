@@ -1,0 +1,28 @@
+{
+    "result": [
+        {
+            "id": 1,
+            "phone": "15637646475",
+            "avator": "https://m.360buyimg.com/mobilecms/s750x750_jfs/t1/163652/6/1428/120414/5ff6d564Eaabf2f88/b50c2814b70ef1ba.jpg!q80.dpg.webp",
+            "regtime": "2021/12/11",
+            "username": "ximeng",
+            "level": "level-1"
+        },
+        {
+            "id": 2,
+            "phone": "15637646475",
+            "avator": "https://m.360buyimg.com/mobilecms/s750x750_jfs/t1/163652/6/1428/120414/5ff6d564Eaabf2f88/b50c2814b70ef1ba.jpg!q80.dpg.webp",
+            "regtime": "2021/11/11",
+            "username": "qiange",
+            "level": "level-2"
+        },
+        {
+            "id": 3,
+            "phone": "15637646475",
+            "avator": "https://m.360buyimg.com/mobilecms/s750x750_jfs/t1/163652/6/1428/120414/5ff6d564Eaabf2f88/b50c2814b70ef1ba.jpg!q80.dpg.webp",
+            "regtime": "2021/10/11",
+            "username": "zhiqiu",
+            "level": "level-3"
+        }
+    ]
+}

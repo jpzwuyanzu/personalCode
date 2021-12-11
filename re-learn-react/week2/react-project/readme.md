@@ -27,7 +27,7 @@ npx create-react-app react-admin
      addDecoratorsLegacy(), //配置装饰器模式
  )
  ```
- ## 3, 配置UI库
+## 3, 配置UI库
  https://ant.design/docs/react/introduce-cn 查看文档
 
  https://ant.design/docs/react/use-with-create-react-app-cn  查看具体使用文档
@@ -71,7 +71,7 @@ export default App;
 
 ```
 
- ## 4，修改目录结构
+## 4，修改目录结构
  ```
  src/
    api/
@@ -3949,6 +3949,551 @@ views/homedata/SeckillList.jsx
 views/homedata/RecomendList.jsx
 
 并在router/menu.js中配置菜单
+
+## 19,注册用户
+views/user/Register.jsx
+并且配置menu.js左侧菜单
+```jsx
+import React from 'react';
+import { Form, Input, Button } from 'antd';
+
+const { Search } = Input
+
+const Register = () => {
+
+    const [myForm] = Form.useForm()
+
+    const onFinish = (values) => {
+        console.log('Success:', values);
+      }
+    
+      const onFinishFailed = (errorInfo) => {
+        console.log('Failed:', errorInfo);
+      }
+
+      const sendCode = (values) => {
+        console.log(myForm.getFieldValue())
+      }
+
+    return (
+        <Form
+      form={ myForm }
+      name="basic"
+      labelCol={{ span: 8 }}
+      wrapperCol={{ span: 8 }}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+      autoComplete="off"
+    >
+      <Form.Item
+        label="手机号"
+        name="phone"
+        rules={[{ required: true, message: '请输入手机号!' }]}
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item
+        label="手机验证码"
+        name="telcode"
+        rules={[{ required: true, message: '请输入手机验证码!' }]}
+      >
+        <Search enterButton="发送短信验证码" onSearch={ sendCode } disabled />
+      </Form.Item>
+
+      <Form.Item
+        label="密码"
+        name="password"
+        rules={[{ required: true, message: '请输入密码!' }]}
+      >
+        <Input.Password />
+      </Form.Item>
+
+      <Form.Item wrapperCol={{ offset: 8, span: 8 }}>
+        <Button type="primary" htmlType="submit">
+          Submit
+        </Button>
+      </Form.Item>
+    </Form>
+    );
+}
+
+export default Register;
+
+```
+如果手机号码验证不通过，发送短信验证码的按钮不可以点击
+```jsx
+const [flag, setFlag] = useState(true)
+
+const phoneReg = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/
+      const handlerPhone = (e) => {
+        //   console.log(e.target.value)
+          //在这里正则验证手机号
+          phoneReg.test(e.target.value) ? setFlag(false) : setFlag(true)
+      }
+<Form.Item
+        label="手机号"
+        name="phone"
+        rules={[{ required: true, message: '请输入手机号!' }]}
+      >
+        <Input maxLength={ 11 } onChange={ handlerPhone } />
+      </Form.Item>
+      <Form.Item
+        label="手机验证码"
+        name="telcode"
+        rules={[{ required: true, message: '请输入手机验证码!' }]}
+      >
+        <Search enterButton="发送短信验证码" onSearch={ sendCode } disabled = { flag } />
+</Form.Item>
+```
+如果需要分步骤实现注册功能 views/user/Register.jsx
+```jsx
+import React, { useState } from "react";
+import { Form, Input, Button, Row, Col, Steps, message } from "antd";
+
+const { Step } = Steps;
+
+const steps = [
+  {
+    title: "第一步",
+    content: "输入手机号",
+  },
+  {
+    title: "第二步",
+    content: "输入验证码",
+  },
+  {
+    title: "第三步",
+    content: "输入密码",
+  },
+];
+
+const Register = () => {
+  const [myForm] = Form.useForm();
+  const [flag, setFlag] = useState(true);
+
+  const onFinish = (values) => {
+    console.log("Success:", values);
+  };
+
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
+
+  const sendCode = (values) => {
+    console.log(myForm.getFieldValue());
+  };
+
+  const phoneReg =
+    /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
+  const handlerPhone = (e) => {
+    //   console.log(e.target.value)
+    //在这里正则验证手机号
+    phoneReg.test(e.target.value) ? setFlag(false) : setFlag(true);
+  };
+
+  //步骤条
+  const [current, setCurrent] = React.useState(0);
+
+  const next = () => {
+    setCurrent(current + 1);
+  };
+
+//   const prev = () => {
+//     setCurrent(current - 1);
+//   };
+
+  return (
+    <>
+      <Steps current={current}>
+        {steps.map((item) => (
+          <Step key={item.title} title={item.title} />
+        ))}
+      </Steps>
+      <Form
+        form={myForm}
+        name="basic"
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 8 }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
+      >
+        {current === 0 && (
+          <Form.Item
+            label="手机号"
+            name="phone"
+            rules={[{ required: true, message: "请输入手机号!" }]}
+          >
+            <Row>
+              <Col span={24}>
+                <Input maxLength={11} onChange={handlerPhone} />
+              </Col>
+            </Row>
+          </Form.Item>
+        )}
+        {current === 1 && (
+          <Form.Item
+            label="手机验证码"
+            name="telcode"
+            rules={[{ required: true, message: "请输入手机验证码!" }]}
+          >
+            <Row>
+              <Col span={16}>
+                <Input />
+              </Col>
+              <Col span={8}>
+                <Button type="primary" onClick={sendCode} disabled={flag}>
+                  发送验证码
+                </Button>
+              </Col>
+            </Row>
+          </Form.Item>
+        )}
+
+        {current === 2 && (
+          <>
+            <Form.Item
+              label="密码"
+              name="password"
+              rules={[{ required: true, message: "请输入密码!" }]}
+            >
+              <Row>
+                <Col span={24}>
+                  <Input.Password />
+                </Col>
+              </Row>
+            </Form.Item>
+            <Form.Item wrapperCol={{ offset: 8, span: 8 }}>
+            {current === steps.length - 1 && (
+                <Button
+                    type="primary"
+                    htmlType="submit"
+                    onClick={() => message.success("Processing complete!")}
+                >
+                    注册
+                </Button>
+            )}
+            </Form.Item>
+          </>
+        )}
+      </Form>
+      <div className="steps-action">
+        {current < steps.length - 1 && (
+          <Button type="primary" onClick={() => next()}>
+            Next
+          </Button>
+        )}
+        {/* {current > 0 && (
+          <Button style={{ margin: "0 8px" }} onClick={() => prev()}>
+            Previous
+          </Button>
+        )} */}
+      </div>
+    </>
+  );
+};
+
+export default Register;
+
+```
+发送验证码倒计时效果
+```jsx
+const [flag, setFlag] = useState(true);
+const [text, setText] = useState('发送短信验证码')
+
+
+ const sendCode = (values) => {
+    // console.log(myForm.getFieldValue());
+    let timer = null
+    let time = 10
+    timer = setInterval(() => {
+        time -- 
+        setText(time + 's后重新发送')
+        setFlag(true)
+        if(time <= 0) {
+            clearInterval(timer)
+            setText('发送短信验证码')
+            setFlag(false)
+            time = 10
+        }
+    }, 1000)
+  };
+```
+配合Steps以及表单实现注册 Register.jsx
+```jsx
+import React, { useState } from "react";
+import { Form, Input, Button, Row, Col, Steps } from "antd";
+
+const { Step } = Steps;
+
+const steps = [
+  {
+    title: "第一步",
+    content: "输入手机号",
+  },
+  {
+    title: "第二步",
+    content: "输入验证码",
+  },
+  {
+    title: "第三步",
+    content: "输入密码",
+  },
+];
+
+const Register = () => {
+  const [myForm] = Form.useForm();
+  const [flag, setFlag] = useState(true);
+  const [text, setText] = useState('发送短信验证码')
+  //步骤条
+  const [current, setCurrent] = React.useState(0);
+  const [phone, setPhone] = useState('')
+  const [telcode, setTelCode] = useState('')
+  const [pass, setPass] = useState('')
+  const [phoneflag, setPhoneFlag] = useState(false)
+  const [telcodeFlag, setTelCodFlag] = useState(false)
+  const [passflag, setPassFlag] = useState(false)
+
+
+  const onFinish = (values) => {
+    // console.log("Success:", values);
+  };
+
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
+
+  const phoneReg = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
+  const handlerPhone = (e) => {
+    //   console.log(e.target.value)
+    //在这里正则验证手机号
+    if(phoneReg.test(e.target.value)) {
+        setFlag(false) 
+        setPhone(e.target.value)
+        setPhoneFlag(true)
+    } else {
+        setFlag(true)
+    }
+  };
+
+  const sendCode = (values) => {
+    // console.log(myForm.getFieldValue());
+    let timer = null
+    let time = 10
+    timer = setInterval(() => {
+        time -- 
+        setText(time + 's后重新发送')
+        setFlag(true)
+        if(time <= 0) {
+            clearInterval(timer)
+            setText('发送短信验证码')
+            setFlag(false)
+            time = 10
+        }
+    }, 1000)
+  };
+
+  const handlerTelCode = (e) => {
+    //   console.log(e.target.value)
+      setTelCode(e.target.value)
+      setTelCodFlag(true)
+  }
+
+  const handlerPass = (e) => {
+    //   console.log(e.target.value)
+      setPass(e.target.value)
+      setPassFlag(true)
+  }
+
+  const next = () => {
+    setCurrent(current + 1);
+  };
+
+  const submitForm = (e) => {
+    console.log('phone:', phone, 'telcode:', telcode, 'pass:', pass)
+  }
+
+  return (
+    <>
+      <Steps current={current}>
+        {steps.map((item) => (
+          <Step key={item.title} title={item.title} />
+        ))}
+      </Steps>
+      <Form
+        form={myForm}
+        name="basic"
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 8 }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
+        style={{ marginTop: '40px' }}
+      >
+        {current === 0 && (
+          <Form.Item
+            label="手机号"
+            name="phone"
+            rules={[{ required: true, message: "请输入手机号!" }]}
+          >
+            <Row>
+              <Col span={24}>
+                <Input maxLength={11} onChange={handlerPhone} />
+                {phoneflag && (
+                <Button type="primary" style={{ marginTop: '30px' }} onClick={() => next()}>
+                    下一步
+                </Button>
+                )}
+              </Col>
+            </Row>
+          </Form.Item>
+        )}
+        {current === 1 && (
+          <Form.Item
+            label="手机验证码"
+            name="telcode"
+            rules={[{ required: true, message: "请输入手机验证码!" }]}
+          >
+            <Row>
+              <Col span={16}>
+                <Input onChange={ handlerTelCode } />
+              </Col>
+              <Col span={8}>
+                <Button type="primary"  onClick={sendCode} disabled={flag}>
+                  { text }
+                </Button>
+              </Col>
+              {telcodeFlag && (
+                <Button type="primary" style={{ marginTop: '30px' }} onClick={() => next()}>
+                    下一步
+                </Button>
+                )}
+            </Row>
+          </Form.Item>
+        )}
+
+        {current === 2 && (
+          <>
+            <Form.Item
+              label="密码"
+              name="password"
+              rules={[{ required: true, message: "请输入密码!" }]}
+            >
+              <Row>
+                <Col span={24}>
+                  <Input.Password onChange={ handlerPass } />
+                </Col>
+              </Row>
+            </Form.Item>
+            <Form.Item wrapperCol={{ offset: 8, span: 8 }}>
+            {passflag && (
+                <Button
+                    type="primary"
+                    htmlType="submit"
+                    onClick={ submitForm }
+                >
+                    注册
+                </Button>
+            )}
+            </Form.Item>
+          </>
+        )}
+      </Form>
+    </>
+  );
+};
+
+export default Register;
+
+```
+
+
+## 20, 渲染用户列表
+views/user/List.jsx
+```jsx
+import React, { useState, useEffect } from 'react';
+import { Table, Avatar, Image } from 'antd'
+import TelShow from './../../components/TelShow'
+import TimeShow from './../../components/TimeShow'
+
+
+
+const UserList = () => {
+  const [userlist, setUserList] = useState([])
+
+  useEffect(() => {
+      async function fetchData() {
+          const res = await fetch('/userlist.json').then(res => res.json())
+          setUserList(res.result)
+      }
+      fetchData()
+  },[])
+
+  const columns = [
+      {
+          title: '序号',
+          render: (text, record, index) => <span>{ index + 1 }</span>
+      },
+      {
+          title: '手机号',
+          dataIndex: 'phone',
+          key: 'phone',
+          width: 200,
+          render: (text) => {
+              return(
+                  <TelShow tel={ text } />
+              )
+          }
+      },
+      {
+          title: '头像',
+          dataIndex: 'avator',
+          render: (text, record, index) => {
+              return (
+                <Avatar src={<Image src={ text } style={{ width: 32 }} />} />
+              )
+          }
+      },
+      {
+          title: '用户名',
+          dataIndex: 'username',
+          key: 'username'
+      },
+      {
+          title: '用户等级',
+          dataIndex: 'level',
+          key: 'level'
+      },
+      {
+          title: '注册时间',
+          dataIndex: 'regtime',
+          key: 'regtime',
+          render: (text) => {
+              return(
+                  <TimeShow regTime={ text } />
+              )
+          }
+      }
+  ]
+
+
+    return (
+        <>
+            <Table rowKey={ record => record.id }  dataSource={ userlist }  columns={ columns }/>
+        </>
+    );
+}
+
+export default UserList;
+
+```
+
+
+
+
+
+
+
 
 
 # 二. node接口

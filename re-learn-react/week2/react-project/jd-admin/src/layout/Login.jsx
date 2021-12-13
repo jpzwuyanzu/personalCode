@@ -1,9 +1,13 @@
 import React from "react";
 import { Form, Input, Button } from "antd";
+import { adminLogin } from './../api/admin'
 
 const Login = () => {
   const onFinish = (values) => {
-    console.log("Success:", values);
+    adminLogin(values).then(res => {
+      console.log(res)
+    })
+    // console.log("Success:", values);
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -25,7 +29,7 @@ const Login = () => {
           rules={[
             {
               required: true,
-              message: "Please input your username!",
+              message: "请输入账号!",
             },
           ]}
         >
@@ -37,7 +41,7 @@ const Login = () => {
           rules={[
             {
               required: true,
-              message: "Please input your password!",
+              message: "请输入密码!",
             },
           ]}
         >
@@ -50,7 +54,7 @@ const Login = () => {
           }}
         >
           <Button type="primary" htmlType="submit">
-            Submit
+            登录
           </Button>
         </Form.Item>
       </Form>

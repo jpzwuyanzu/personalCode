@@ -4584,6 +4584,94 @@ const Login = () => {
 export default Login;
 
 ```
+### 2, 执行登录功能
+
+在登录页面调用登录接口  Login.jsx
+```jsx
+import React from "react";
+import { Form, Input, Button } from "antd";
+import { adminLogin } from './../api/admin'
+
+const Login = () => {
+  const onFinish = (values) => {
+    adminLogin(values).then(res => {
+      console.log(res)
+    })
+    // console.log("Success:", values);
+  };
+
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
+
+  return (
+    <div className="loginpage">
+      <div className="loginCom">
+      <Form
+        name="basic"
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
+      >
+          <h1 style={{ textAlign:'center', marginBottom: '30px' }}>JD_ADMIN</h1>
+        <Form.Item
+          name="username"
+          rules={[
+            {
+              required: true,
+              message: "请输入账号!",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          name="password"
+          rules={[
+            {
+              required: true,
+              message: "请输入密码!",
+            },
+          ]}
+        >
+          <Input.Password />
+        </Form.Item>
+        <Form.Item
+          wrapperCol={{
+            offset: 8,
+            span: 16,
+          }}
+        >
+          <Button type="primary" htmlType="submit">
+            登录
+          </Button>
+        </Form.Item>
+      </Form>
+      </div>
+    </div>
+  );
+};
+
+export default Login;
+
+```
+
+### 3， 思考问题
+
+#### 1， 登录之后需要保存一些用户信息
+
+  管理员名称username
+
+  权限role
+
+  前端登录状态loginstate
+
+  后端的登录验证token
+
+
+
+
 
 
 

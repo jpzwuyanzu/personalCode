@@ -1,0 +1,15 @@
+{
+    
+    "normal": {
+        "adminid": 1,
+        "adminname": "normal",
+        "password": 123456,
+        "roleid": 1
+    },
+    "admin": {
+        "adminid": 2,
+        "adminname": "admin",
+        "password": 123456,
+        "roleid": 2
+    }
+}

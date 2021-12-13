@@ -195,7 +195,7 @@ const menus = [
         meta: {
             hidden: true
         }
-    },
+    }
 ]
 
 export default menus

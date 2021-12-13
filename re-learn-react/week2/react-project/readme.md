@@ -4410,6 +4410,7 @@ export default Register;
 
 ## 20, 渲染用户列表
 views/user/List.jsx
+同时添加了手机号以及日期的处理组件
 ```jsx
 import React, { useState, useEffect } from 'react';
 import { Table, Avatar, Image } from 'antd'
@@ -4487,7 +4488,102 @@ const UserList = () => {
 export default UserList;
 
 ```
+后续可以加上冻结以及解冻功能
 
+## 21，后台管理系统登录功能
+
+### 1，设计登录页面，以及配置登录路由
+
+App.jsx配置路由，登录页面的要放在前面
+```jsx
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import Main from './layout/main/Index'
+import Login from './layout/Login'
+
+const App = () => {
+    return (
+        <>
+            <Router>
+                <Switch>
+                    <Route path="/login" component={ Login } />
+                    <Route path="/" component={ Main }></Route>
+                </Switch>
+            </Router>
+        </>
+    );
+}
+
+export default App;
+```
+
+layout/Login.jsx
+
+```jsx
+import React from "react";
+import { Form, Input, Button } from "antd";
+
+const Login = () => {
+  const onFinish = (values) => {
+    console.log("Success:", values);
+  };
+
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
+
+  return (
+    <div className="loginpage">
+      <div className="loginCom">
+      <Form
+        name="basic"
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
+      >
+          <h1 style={{ textAlign:'center', marginBottom: '30px' }}>JD_ADMIN</h1>
+        <Form.Item
+          name="username"
+          rules={[
+            {
+              required: true,
+              message: "Please input your username!",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          name="password"
+          rules={[
+            {
+              required: true,
+              message: "Please input your password!",
+            },
+          ]}
+        >
+          <Input.Password />
+        </Form.Item>
+        <Form.Item
+          wrapperCol={{
+            offset: 8,
+            span: 16,
+          }}
+        >
+          <Button type="primary" htmlType="submit">
+            Submit
+          </Button>
+        </Form.Item>
+      </Form>
+      </div>
+    </div>
+  );
+};
+
+export default Login;
+
+```
 
 
 

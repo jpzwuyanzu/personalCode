@@ -4669,7 +4669,24 @@ export default Login;
 
   后端的登录验证token
 
+### 4，统一添加token校验 
 
+#### 1,封装登录信息保存到cookie中，安装js-cookie模块，封装utils/common.js
+```js
+import Cookies from 'js-cookie'
+
+export function setItem (key, value) {
+    Cookies.set(key, value)
+}
+
+export function getItem (key) {
+   return  Cookies.get(key)
+}
+
+export function removeItem (key) {
+    Cookies.remove(key)
+}
+```
 
 
 

@@ -9,5 +9,19 @@ const request = axios.create({
 })
 
 //设置拦截器
+// 添加请求拦截器 --- 所有的数据请求都需要先经过这个拦截器
+axios.interceptors.request.use(function (config) {
+    // 在发送请求之前做些什么 -- 发送token -- 通过头部信息
+
+    config.defaults.headers.common.token = ''
+
+    return config;
+  }, function (error) {
+    // 对请求错误做些什么
+    return Promise.reject(error);
+  });
+
+
+
 
 export default request

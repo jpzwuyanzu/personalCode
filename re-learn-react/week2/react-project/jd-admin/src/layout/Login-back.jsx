@@ -1,27 +1,13 @@
 import React from "react";
 import { Form, Input, Button } from "antd";
-import { connect } from 'react-redux'
-import userAction from './../store/actionCreators/user'
-import { setItem } from './../utils/common'
+import { adminLogin } from '../api/admin'
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    login(values) {
-      return dispatch(userAction(values))
-    }
-  }
-}
-
-const Login =  (props) => {
+const Login = () => {
   const onFinish = (values) => {
-    console.log("Success:", values);
-    props.login(values).then(res => {
+    adminLogin(values).then(res => {
       console.log(res)
-      //在这里将用户信息存储到本地的cookie中，并且跳转页面
-      setItem('adminname', res.adminname)
-      setItem('role', res.roleid)
-      setItem('token', res.token)
     })
+    // console.log("Success:", values);
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -77,4 +63,4 @@ const Login =  (props) => {
   );
 };
 
-export default connect(null, mapDispatchToProps)(Login);
+export default Login;

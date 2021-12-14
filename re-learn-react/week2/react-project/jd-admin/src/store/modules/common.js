@@ -1,5 +1,5 @@
 import { Map } from 'immutable'
-import * as types from './../actionTypes'
+import * as types from '../actionTypes'
 
 const reducer = (state = Map({
     collapsed: false,

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
- import { Table, Image, Button, Space , Popconfirm} from 'antd'
+import { Table, Image, Button, Space , Popconfirm} from 'antd'
+import { laodProData } from './../../api/pro'
 
 const ShowTable = () => {
 
@@ -15,10 +16,10 @@ const ShowTable = () => {
           const cacheArr = JSON.parse(sessionStorage.getItem('admin_table_data'))
           setDataSource(cacheArr)
         } else {
-          fetch('/product.json').then(res => res.json()).then(result => {
-            sessionStorage.setItem('admin_table_data', JSON.stringify(result.data))
-            setDataSource(result.data)
-            setTotal(result.data.length)
+        laodProData({}).then(res => {
+          sessionStorage.setItem('admin_table_data', JSON.stringify(res.data.data))
+            setDataSource(res.data.data)
+            setTotal(res.data.data.length)
         })
         }
     }, [])

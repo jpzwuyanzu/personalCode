@@ -1,11 +1,12 @@
 import { Map } from 'immutable'
 import * as tyeps from './../actionTypes'
+import { getItem } from './../../utils/common'
 
 const reducer = (state = Map({
-    adminname: '',
-    token: '',
-    role: '',
-    loginState: ''
+    adminname: getItem('adminname') || '',
+    role: getItem('role') || '',
+    loginState:  getItem('loginState') === 'true' || false,
+    token: getItem('token') || ''
 }), action) => {
     switch (action.type) {
         case tyeps.CHANGE_ADMINNAME:

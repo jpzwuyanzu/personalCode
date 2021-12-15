@@ -1,20 +1,38 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
-import { Layout } from 'antd';
+import { Layout, Menu, Dropdown } from 'antd';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
+  DownOutlined
 } from '@ant-design/icons';
 import * as types from './../../store/actionTypes'
 import { connect } from 'react-redux'
 import Breadcrumb from './Breadcrumb'
+import { setItem } from './../../utils/common'
 
 const { Header } = Layout
 
-const MainHeader = ({ collapsed, changeCollapsed, color, changeColor }) => {
+const MainHeader = ({ collapsed, changeCollapsed, color, changeColor, changeLoginState }) => {
 
     const toggle = () => {
         changeCollapsed()
     }
+
+    const onClick = ({ key }) => {
+      console.log(key)
+      if(key === '2') {
+        setItem('loginState', 'false')
+        changeLoginState()
+      }
+    };
+    
+    const menu = (
+      <Menu onClick={onClick}>
+        <Menu.Item key="1">个人中心</Menu.Item>
+        <Menu.Item key="2">退出登录</Menu.Item>
+      </Menu>
+    );
 
     return (
         <Header className="site-layout-background" style={{ padding: '0 16px',display: 'flex', backgroundColor: color  }}>
@@ -39,6 +57,13 @@ const MainHeader = ({ collapsed, changeCollapsed, color, changeColor }) => {
               changeColor(e.target.value)
             } } />
             </div>
+            <div style={{ marginRight: '20px'}}>
+            <Dropdown overlay={menu}>
+              <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                用户名：admin <DownOutlined />
+              </a>
+            </Dropdown>
+            </div>
           </Header>
     );
 }
@@ -56,6 +81,12 @@ export default connect( state => ({
           dispatch({
             type: types.CHANGE_COLOR,
             payload
+          })
+        },
+        changeLoginState () {
+          dispatch({
+            type: types.CHANGE_LOGINSTATE,
+            payload: false
           })
         }
     }) )(MainHeader);

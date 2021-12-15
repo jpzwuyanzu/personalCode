@@ -4669,9 +4669,9 @@ export default Login;
 
   后端的登录验证token
 
-### 4，统一添加token校验 
+#### 2，统一添加token校验 
 
-#### 1,封装登录信息保存到cookie中，安装js-cookie模块，封装utils/common.js
+#### 3,封装登录信息保存到cookie中，安装js-cookie模块，封装utils/common.js
 ```js
 import Cookies from 'js-cookie'
 
@@ -4687,12 +4687,385 @@ export function removeItem (key) {
     Cookies.remove(key)
 }
 ```
+#### 4，封装状态管理器用户模块
+
+store/actionTypes.js
+```js
+const CHANGE_COLLAPSED = 'CHANGE_COLLAPSED' //左侧菜单收缩变量
+const CHANGE_COLOR = 'CHANGE_COLOR' // 修改主题色
 
 
+//登录相关
+const CHANGE_ADMINNAME = 'CHANGE_ADMINNAME' //修改用户名称
+const CHANGE_LOGINSTATE = 'CHANGE_LOGINSTATE' // 修改用户登录状态
+const CHANGE_TOKEN = 'CHANGE_TOKEN' //修改用户token
+const CHANGE_ROLE = 'CHANGE_ROLE' //修改用户role
+
+export {
+    CHANGE_COLLAPSED,
+    CHANGE_COLOR,
+    CHANGE_ADMINNAME,
+    CHANGE_LOGINSTATE,
+    CHANGE_TOKEN,
+    CHANGE_ROLE
+}
+```
+
+store/modules/user.js
+
+```js
+import { Map } from 'immutable'
+import * as tyeps from './../actionTypes'
+import { getItem } from './../../utils/common'
+
+const reducer = (state = Map({
+    adminname: getItem('adminname') || '',
+    role: getItem('role') || '',
+    loginState:  getItem('loginState') === 'true' || false,
+    token: getItem('token') || ''
+}), action) => {
+    switch (action.type) {
+        case tyeps.CHANGE_ADMINNAME:
+            return state.set('adminname', action.payload)
+        case tyeps.CHANGE_LOGINSTATE:
+            return state.set('loginState', action.payload)
+        case tyeps.CHANGE_TOKEN:
+            return state.set('token', action.payload)
+        case tyeps.CHANGE_ROLE:
+            return state.set('role', action.payload)
+        default:
+           return state
+    }
+}
 
 
+export default reducer
+```
+store/index.js 添加user模块到状态管理
+```js
+import { createStore, applyMiddleware } from 'redux'
+import { combineReducers } from 'redux-immutable'
+import thunk from 'redux-thunk'
 
+import commonReducer from './modules/common'
+import userReducer from './modules/user'
 
+const reducer = combineReducers({
+    common: commonReducer,
+    user: userReducer
+})
+
+const store = createStore(reducer, applyMiddleware(thunk))
+
+export default  store
+
+```
+#### 5， 创建登录的actionCreator
+
+封装登录接口 api/admin.js
+```js
+import request from './../utils/request'
+
+export function adminLogin (params) {
+   return  request.get('account.json', { params })
+}
+```
+
+store/actionCreators/user.js
+```js
+import { adminLogin } from './../../api/admin'
+import * as types from './../actionTypes'
+const  userAction = (values) => {
+    return (dispatch) => {
+        return new Promise(resolve => {
+            adminLogin(values).then(res => {
+                console.log(res)
+                console.log(res.data[values.username])
+                // 修改状态
+                dispatch({
+                    type: types.CHANGE_ADMINNAME,
+                    payload: res.data[values.username]['adminname']
+                })
+                dispatch({
+                    type: types.CHANGE_TOKEN,
+                    payload: res.data[values.username]['token']
+                })
+                dispatch({
+                    type: types.CHANGE_LOGINSTATE,
+                    payload: 'true'
+                })
+                dispatch({
+                    type: types.CHANGE_ROLE,
+                    payload: res.data[values.username]['roleid']
+                })
+                resolve(res.data[values.username])
+            })
+        })
+    }
+}
+
+export default userAction
+```
+
+#### 6,改造登录组件 react-redux
+ 
+ layout/Login.jsx
+ ```jsx
+import React from "react";
+import { Form, Input, Button } from "antd";
+import { connect } from 'react-redux'  /// **** 添加connect
+import userAction from './../store/actionCreators/user' //
+import { setItem } from './../utils/common'
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    login(values) {
+      return dispatch(userAction(values)) 
+      //这里注意要使用return， 得到的是promise对象
+      //需要将promise返回给ui组件处理
+    }
+  }
+}
+
+const Login =  (props) => {
+  const onFinish = (values) => {
+    console.log("Success:", values);
+    props.login(values).then(res => {
+      console.log(res)
+      //在这里将用户信息存储到本地的cookie中
+      setItem('adminname', res.adminname)
+      setItem('role', res.roleid)
+      setItem('token', res.token)
+      setItem('loginState', 'true')
+
+      //判断有没有上一页，没有则返回
+
+    })
+  };
+
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
+
+  return (
+    <div className="loginpage">
+      <div className="loginCom">
+      <Form
+        name="basic"
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
+      >
+          <h1 style={{ textAlign:'center', marginBottom: '30px' }}>JD_ADMIN</h1>
+        <Form.Item
+          name="username"
+          rules={[
+            {
+              required: true,
+              message: "请输入账号!",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          name="password"
+          rules={[
+            {
+              required: true,
+              message: "请输入密码!",
+            },
+          ]}
+        >
+          <Input.Password />
+        </Form.Item>
+        <Form.Item
+          wrapperCol={{
+            offset: 8,
+            span: 16,
+          }}
+        >
+          <Button type="primary" htmlType="submit">
+            登录
+          </Button>
+        </Form.Item>
+      </Form>
+      </div>
+    </div>
+  );
+};
+
+export default connect(null, mapDispatchToProps)(Login); //改造组件
+ ```
+
+### 4, 封装axios的拦截器
+
+utils/request.js
+```js
+import axios from 'axios'
+// import { getItem } from './common'
+import store from './../store/index'
+
+const isDev = process.env.NODE_ENV === 'development'
+const request = axios.create({
+    baseURL: isDev ? '' : 'http://www.test.com/api' // 如果dev模式下跨域，按照这个配置，在package.json中配置proxy字段
+    // baseURL: isDev ? 'http://39.99.182.33/api' : 'http://www.test.com/api'
+
+})
+
+//设置拦截器
+// 添加请求拦截器 --- 所有的数据请求都需要先经过这个拦截器
+axios.interceptors.request.use(function (config) {
+    // 在发送请求之前做些什么 -- 发送token -- 通过头部信息
+    config.headers.common.token = store.getState.getIn(['user', 'token'])
+    return config;
+  }, function (error) {
+    // 对请求错误做些什么
+    return Promise.reject(error);
+  });
+export default request
+```
+
+### 5，前端验证用户的登录状态
+App.jsx
+```jsx
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
+import Main from './layout/main/Index'
+import Login from './layout/Login'
+import { connect } from 'react-redux'
+
+const mapState = (state) => {
+    return {
+        loginState: state.getIn(['user', 'loginState'])
+    }
+}
+const App = ({ loginState }) => {
+    return (
+        <>
+            <Router>
+                <Switch>
+                    {
+                        loginState ? 
+                        <Redirect path="/login" to="/" />
+                        :
+                        <Route path="/login" component={ Login } />
+                    }
+                    {/* <Route path="/login" component={ Login } /> */}
+                    {
+                        loginState ? 
+                        <Route path="/" component={ Main }></Route> 
+                        : 
+                        <Redirect exact to="/login" />
+                    }
+                    
+                </Switch>
+            </Router>
+        </>
+    );
+}
+
+export default connect(mapState)(App);
+```
+### 6, 退出登录
+在页面头部使用下拉菜单，实现退出登录功能，修改登录状态即可
+layout/main/MainHeader.jsx
+```jsx
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React from 'react';
+import { Layout, Menu, Dropdown } from 'antd';
+import {
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+  DownOutlined
+} from '@ant-design/icons';
+import * as types from './../../store/actionTypes'
+import { connect } from 'react-redux'
+import Breadcrumb from './Breadcrumb'
+import { setItem } from './../../utils/common'
+
+const { Header } = Layout
+
+const MainHeader = ({ collapsed, changeCollapsed, color, changeColor, changeLoginState }) => {
+
+    const toggle = () => {
+        changeCollapsed()
+    }
+
+    const onClick = ({ key }) => {
+      console.log(key)
+      if(key === '2') {
+        setItem('loginState', 'false')
+        changeLoginState()
+      }
+    };
+    
+    const menu = (
+      <Menu onClick={onClick}>
+        <Menu.Item key="1">个人中心</Menu.Item>
+        <Menu.Item key="2">退出登录</Menu.Item>
+      </Menu>
+    );
+
+    return (
+        <Header className="site-layout-background" style={{ padding: '0 16px',display: 'flex', backgroundColor: color  }}>
+            {/* {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+              className: 'trigger',
+              onClick: toggle,
+            })} */}
+            <div style={{ width: '50px' }}>
+            {
+               collapsed ?  
+               <MenuUnfoldOutlined style={{ fontSize: '24px', marginTop: '20px' }} className="trigger" onClick={ toggle } />
+                : 
+               <MenuFoldOutlined style={{ fontSize: '24px', marginTop: '20px' }} className="trigger" onClick={ toggle } />
+            }
+            </div>
+            <div style={{ flex: 1}}>
+              <Breadcrumb/>
+            </div>
+            <div style={{ flex: 1 }}>
+            <input type="color" onChange={ (e) => {
+              console.log(e.target.value)
+              changeColor(e.target.value)
+            } } />
+            </div>
+            <div style={{ marginRight: '20px'}}>
+            <Dropdown overlay={menu}>
+              <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                用户名：admin <DownOutlined />
+              </a>
+            </Dropdown>
+            </div>
+          </Header>
+    );
+}
+
+export default connect( state => ({
+        collapsed: state.getIn(['common', 'collapsed']),
+        color: state.getIn(['common', 'color'])
+    }), dispatch => ({
+        changeCollapsed() {
+            dispatch({
+                type: types.CHANGE_COLLAPSED
+            })
+        },
+        changeColor(payload) {
+          dispatch({
+            type: types.CHANGE_COLOR,
+            payload
+          })
+        },
+        changeLoginState () {
+          dispatch({
+            type: types.CHANGE_LOGINSTATE,
+            payload: false
+          })
+        }
+    }) )(MainHeader);
+
+```
 
 
 

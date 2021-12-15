@@ -5,8 +5,8 @@ import { getItem } from './../../utils/common'
 const reducer = (state = Map({
     adminname: getItem('adminname') || '',
     role: getItem('role') || '',
-    loginState:  getItem('loginState') === 'true' || '',
-    token: getItem('token') || ''
+    loginState:  getItem('loginState') === 'true' || 'false',
+    token: getItem('token') || false
 }), action) => {
     switch (action.type) {
         case types.CHANGE_ADMIN_NAME:

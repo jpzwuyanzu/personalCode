@@ -1,13 +1,15 @@
 import React from "react";
 import { Form, Input, Button } from "antd";
-import { connect } from 'react-redux'
-import userAction from './../store/actionCreators/user'
+import { connect } from 'react-redux'  /// **** 添加connect
+import userAction from './../store/actionCreators/user' //
 import { setItem } from './../utils/common'
 
 const mapDispatchToProps = (dispatch) => {
   return {
     login(values) {
-      return dispatch(userAction(values))
+      return dispatch(userAction(values)) 
+      //这里注意要使用return， 得到的是promise对象
+      //需要将promise返回给ui组件处理
     }
   }
 }
@@ -17,10 +19,15 @@ const Login =  (props) => {
     console.log("Success:", values);
     props.login(values).then(res => {
       console.log(res)
-      //在这里将用户信息存储到本地的cookie中，并且跳转页面
+      //在这里将用户信息存储到本地的cookie中
       setItem('adminname', res.adminname)
       setItem('role', res.roleid)
       setItem('token', res.token)
+      setItem('loginState', 'true')
+
+      //判断有没有上一页，没有则返回
+      props.history.push('/')
+
     })
   };
 
@@ -36,6 +43,10 @@ const Login =  (props) => {
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
+        initialValues={{
+          username: 'admin',
+          password: '123456'
+        }}
       >
           <h1 style={{ textAlign:'center', marginBottom: '30px' }}>JD_ADMIN</h1>
         <Form.Item

@@ -20,12 +20,13 @@ const Login = (props) => {
     const onFinish = (values) => {
         // console.log('Success:', values);
         props.loginNow(values).then(res => {
-            console.log(res)
+            // console.log(res)
             //保存用户信息到cookie中
             setItem('adminname', res.adminname)
             setItem('role', res.roleid)
             setItem('token', res.token)
             setItem('loginState', 'true')
+            props.history.push('/')
         })
       }
     

@@ -195,6 +195,15 @@ const menus = [
         meta: {
             hidden: true
         }
+    },
+    {
+        title:'个人中心',
+        path: '/userCenter',
+        icon: <SettingOutlined />,
+        component: lazy(() => import('./../views/user/UserCenter')),
+        meta: {
+            hidden: true
+        }
     }
 ]
 

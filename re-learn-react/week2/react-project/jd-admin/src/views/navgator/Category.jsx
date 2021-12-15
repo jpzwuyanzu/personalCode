@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Table } from 'antd'
+import { getCategory } from './../../api/navigetor'
 
 const NavgatorCategory = () => {
     const [categorylist, setCategoryList] = useState([])
     useEffect(() => {
-        fetch('/navcategory.json').then(res => res.json()).then(result => {
-            // console.log(result)
-            setCategoryList(result.result.data)
+        // fetch('/navcategory.json').then(res => res.json()).then(result => {
+        //     // console.log(result)
+        //     setCategoryList(result.result.data)
+        // })
+        getCategory({}).then(res => {
+            // console.log(res)
+            setCategoryList(res.data.result.data)
         })
     }, [])
     const columns = [

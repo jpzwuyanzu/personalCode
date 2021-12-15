@@ -2,7 +2,7 @@ import { adminLogin } from './../../api/admin'
 import * as types from './../actionTypes'
 const  userAction = (values) => {
     return (dispatch) => {
-        return new Promise(resolve => {
+        return new Promise(resolve => { //将后续的业务逻辑交给组件处理
             adminLogin(values).then(res => {
                 console.log(res)
                 console.log(res.data[values.username])
@@ -17,7 +17,7 @@ const  userAction = (values) => {
                 })
                 dispatch({
                     type: types.CHANGE_LOGINSTATE,
-                    payload: true
+                    payload: 'true'
                 })
                 dispatch({
                     type: types.CHANGE_ROLE,

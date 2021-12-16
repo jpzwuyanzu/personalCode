@@ -5067,7 +5067,304 @@ export default connect( state => ({
 
 ```
 
+## 22, 权限管理
+
+### 1，添加一个管理员的页面，只有超级管理员可见
+
+views/user/AdminList.jsx 同时添加到路由配置中
+```jsx
+import React from 'react';
+
+const AdminList = () => {
+    return (
+        <div>
+            管理员列表
+        </div>
+    );
+}
+
+export default AdminList;
+
+```
+
+### 2，添加管理员--使用抽屉组件实现
+
+views/user/AdminList.jsx
+
+```jsx
+import React, { useState } from 'react';
+import { Table, Button, Drawer, Form, Input, Select } from 'antd'
+
+const AdminList = () => {
+    const [adminlist, setAdminList] = useState([])
+    const [visible, setVisiable] = useState(false)
+    const columns = []
+
+    const finish = (values) => {
+        console.log(values)
+    }
+
+    return (
+       <>
+        <Button type="primary" onClick={ () => setVisiable(true) } style={{ marginBottom: 20 }}>添加管理员</Button>
+        <Table 
+        dataSource={ adminlist } 
+        columns={ columns } 
+        rowKey = 'adminid'
+        />
+        <Drawer title="Basic Drawer" placement="right" width='500' onClose={() => setVisiable(false)} visible={visible}>
+        <Form 
+         onFinish={ finish }
+         initialValues={{
+             role: 1
+         }}
+        >
+            <Form.Item 
+            name="adminname"
+            rules={[{
+                required: true,
+                message: '请输入管理员账号'
+            }]}
+            >
+                <Input placeholder="请输入管理员账号"></Input>
+            </Form.Item>
+            <Form.Item 
+            name="password"
+            rules={[{
+                    required: true,
+                    message: '请输入管理员密码'
+                }]}
+            >
+                <Input.Password placeholder="请输入管理员密码"/>
+            </Form.Item>
+            <Form.Item 
+            name="role">
+                <Select>
+                    <Select.Option value={ 2 }>超级管理员</Select.Option>
+                    <Select.Option value={ 1 }>管理员</Select.Option>
+                </Select>
+            </Form.Item>
+            <Button type="primary" htmlType="submit">添加</Button>
+        </Form>
+      </Drawer>
+       </>
+    );
+}
+
+export default AdminList;
+
+```
+
+添加树形菜单测试
+```jsx
+import React, { useState } from 'react';
+import { Table, Button, Drawer, Form, Input, Select, Tree } from 'antd'
+import menus from './../../router/menu'
+
+function  getMenu (menus) {
+    const arr  = []
+    menus.forEach(item => {
+        let childrenarr = []
+        if(item.children) {
+            childrenarr = getMenu(item.children)
+        }
+        item.key = item.path
+        item.childrenarr && (item.children = childrenarr)
+       !(item.meta && item.meta.hidden) && arr.push(item)
+    })
+    return arr
+}
+
+const treeData = getMenu(menus)
+
+const AdminList = () => {
+    const [adminlist, setAdminList] = useState([])
+    const [visible, setVisiable] = useState(false)
+    const columns = []
+
+    const finish = (values) => {
+        console.log(values)
+    }
+
+    return (
+       <>
+        <Button type="primary" onClick={ () => setVisiable(true) } style={{ marginBottom: 20 }}>添加管理员</Button>
+        <Table 
+        dataSource={ adminlist } 
+        columns={ columns } 
+        rowKey = 'adminid'
+        />
+        <Drawer title="Basic Drawer" placement="right" width='500' onClose={() => setVisiable(false)} visible={visible}>
+        <Form 
+         onFinish={ finish }
+         initialValues={{
+             role: 1
+         }}
+        >
+            <Form.Item 
+            name="adminname"
+            rules={[{
+                required: true,
+                message: '请输入管理员账号'
+            }]}
+            >
+                <Input placeholder="请输入管理员账号"></Input>
+            </Form.Item>
+            <Form.Item 
+            name="password"
+            rules={[{
+                    required: true,
+                    message: '请输入管理员密码'
+                }]}
+            >
+                <Input.Password placeholder="请输入管理员密码"/>
+            </Form.Item>
+            <Form.Item 
+            name="role">
+                <Select>
+                    <Select.Option value={ 2 }>超级管理员</Select.Option>
+                    <Select.Option value={ 1 }>管理员</Select.Option>
+                </Select>
+            </Form.Item>
+            <Button type="primary" htmlType="submit">添加</Button>
+        </Form>
+      </Drawer>
+      {/* 树形菜单 */}
+        <Tree
+        // defaultExpandedKeys={['0-0-0', '0-0-1']}
+        defaultExpandAll={ true }
+        defaultSelectedKeys={['/home', '/bannermanager/list']}
+        defaultCheckedKeys={['/home', '/bannermanager/list']}
+        checkable
+        treeData={treeData}
+        onSelect={(selectedKeys, info) => {
+            console.log('selected', selectedKeys, info)
+        }}
+        onCheck={(checkedKeys, info) => {
+            console.log('checked', checkedKeys, info)
+        }}
+        />
+       </>
+    );
+}
+
+export default AdminList;
+
+```
 
 
+最终添加管理员版本，在menu.js中添加key值为path的值 views/user/AdminList.jsx
+```jsx
+import React, { useState } from 'react';
+import { Table, Button, Drawer, Form, Input, Select, Tree } from 'antd'
+import menus from './../../router/menu'
+
+function  getMenu (menus) {
+    const arr  = []
+    menus.forEach(item => {
+        let childrenarr = []
+        if(item.children) {
+            childrenarr = getMenu(item.children)
+        }
+        item.key = item.path
+        item.childrenarr && (item.children = childrenarr)
+       !(item.meta && item.meta.hidden) && arr.push(item)
+    })
+    return arr
+}
+
+const treeData = getMenu(menus)
+
+const AdminList = () => {
+    const [adminlist, setAdminList] = useState([])
+    const [visible, setVisiable] = useState(false)
+
+    const [adminname, setAdminName] = useState('')
+    const [password, setPassWord] = useState('')
+    const [role, setRole] = useState(1)
+    const [checkedKeys, setCheckedKeys] = useState([])
+
+
+    const columns = []
+
+    const addAdmin = () => {
+        console.log(adminname)
+        console.log(password)
+        console.log(role)
+        console.log(checkedKeys)
+    }
+   
+
+    return (
+       <>
+        <Button type="primary" onClick={ () => setVisiable(true) } style={{ marginBottom: 20 }}>添加管理员</Button>
+        <Table 
+        dataSource={ adminlist } 
+        columns={ columns } 
+        rowKey = 'adminid'
+        />
+        <Drawer 
+           closable={ true }
+            title="添加管理员" 
+            placement="right" 
+            width='500' 
+            
+            onClose={() => setVisiable(false)} 
+            visible={visible}
+            footer={
+                <div style={{ textAlign: 'right' }}>
+                    <Button type="primary" style={{ marginRight: 8 }}>取消</Button>
+                    <Button type="primary" onClick={ addAdmin  }>添加</Button>
+                </div>
+            }
+        >
+        <Form>
+            <Form.Item 
+            name="adminname"
+            rules={[{
+                required: true,
+                message: '请输入管理员账号'
+            }]}>
+                <Input placeholder="请输入管理员账号" onChange={ (e) => setAdminName(e.target.value) }></Input>
+            </Form.Item>
+            <Form.Item 
+            name="password"
+            rules={[{
+                    required: true,
+                    message: '请输入管理员密码'
+                }]}>
+                <Input.Password placeholder="请输入管理员密码" onChange={ (e) => setPassWord(e.target.value) }/>
+            </Form.Item>
+            <Form.Item 
+            name="role">
+                <Select onChange={ (value) => setRole(value) }>
+                    <Select.Option value={ 2 }>超级管理员</Select.Option>
+                    <Select.Option value={ 1 }>管理员</Select.Option>
+                </Select>
+            </Form.Item>
+        </Form>
+        {/* 树形菜单 */}
+        <Tree
+        // defaultExpandedKeys={['0-0-0', '0-0-1']}
+        defaultExpandAll={ true }
+        // defaultSelectedKeys={['/home', '/bannermanager/list']}
+        // defaultCheckedKeys={['/home', '/bannermanager/list']}
+        checkable
+        treeData={treeData}
+        onSelect={(selectedKeys, info) => {
+            // console.log('selected', selectedKeys, info)
+        }}
+        onCheck={(checkedKeys, info) => {
+            console.log('checked', checkedKeys, info)
+            setCheckedKeys(info.checkedNodes)
+        }}/>
+      </Drawer>
+       </>
+    );
+}
+
+export default AdminList;
+
+```
 
 # 二. node接口

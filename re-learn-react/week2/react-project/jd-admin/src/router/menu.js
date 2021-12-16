@@ -132,6 +132,12 @@ const menus = [
                 title: '注册用户',
                 icon: <UserOutlined />,
                 component: lazy(() => import('./../views/user/Register'))
+            },
+            {
+                path: '/usermanager/adminlist',
+                title: '管理员列表',
+                icon: <UserOutlined />,
+                component: lazy(() => import('./../views/user/AdminList'))
             }
         ]
     },

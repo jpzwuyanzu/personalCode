@@ -13,7 +13,7 @@ import { setItem } from './../../utils/common'
 
 const { Header } = Layout
 
-const MainHeader = ({ collapsed, changeCollapsed, color, changeColor, changeLoginState }) => {
+const MainHeader = ({ collapsed, changeCollapsed, color, adminname, changeColor, changeLoginState }) => {
 
     const toggle = () => {
         changeCollapsed()
@@ -60,7 +60,7 @@ const MainHeader = ({ collapsed, changeCollapsed, color, changeColor, changeLogi
             <div style={{ marginRight: '20px'}}>
             <Dropdown overlay={menu}>
               <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                用户名：admin <DownOutlined />
+                用户名：{ adminname } <DownOutlined />
               </a>
             </Dropdown>
             </div>
@@ -70,7 +70,8 @@ const MainHeader = ({ collapsed, changeCollapsed, color, changeColor, changeLogi
 
 export default connect( state => ({
         collapsed: state.getIn(['common', 'collapsed']),
-        color: state.getIn(['common', 'color'])
+        color: state.getIn(['common', 'color']),
+        adminname: state.getIn(['user', 'adminname'])
     }), dispatch => ({
         changeCollapsed() {
             dispatch({

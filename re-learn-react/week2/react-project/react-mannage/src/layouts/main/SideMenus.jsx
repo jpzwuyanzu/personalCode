@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Menu } from 'antd';
 import menus from './../../router/menu'
 import { withRouter, useLocation, useHistory } from 'react-router-dom'
+import { getItem } from './../../utils/common'
 
 const { SubMenu } = Menu
 const rootSubmenuKeys = []
@@ -14,9 +15,14 @@ const SideMenus = withRouter((props) => {
     const [openKeys, setOpenKeys] = useState([])
     const [selectedKeys, setSelectedKeys] = useState([])
     const history = useHistory()
+    const userRole = getItem('role') * 1 
 
     const renderMenus = (menus) => {
         return menus.map(item => {
+            //在这里通过角色判断，只渲染对应角色所属的菜单
+            if(item.auth && item.auth !== userRole) {
+                return null
+            }
             if(item.children) {
                 return(
                   <SubMenu  key={ item.path } icon={item.icon} title={ item.title }>

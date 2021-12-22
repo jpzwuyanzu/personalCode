@@ -2,21 +2,23 @@ import React, { useState } from 'react';
 import { Table, Button, Drawer, Form, Input, Select, Tree } from 'antd'
 import menus from './../../router/menu'
 
-function  getMenu (menus) {
-    const arr  = []
-    menus.forEach(item => {
-        let childrenarr = []
-        if(item.children) {
-            childrenarr = getMenu(item.children)
-        }
-        item.key = item.path
-        item.childrenarr && (item.children = childrenarr)
-       !(item.meta && item.meta.hidden) && arr.push(item)
-    })
-    return arr
-}
+// function  getMenu (menus) {
+//     const arr  = []
+//     menus.forEach(item => {
+//         let childrenarr = []
+//         if(item.children) {
+//             childrenarr = getMenu(item.children)
+//         }
+//         item.key = item.path
+//         item.childrenarr && (item.children = childrenarr)
+//        !(item.meta && item.meta.hidden) && arr.push(item)
+//     })
+//     return arr
+// }
 
-const treeData = getMenu(menus)
+menus.splice(0, 1) //过滤重定向的第一项
+
+const treeData = menus
 
 const AdminList = () => {
     const [adminlist, setAdminList] = useState([])
@@ -31,10 +33,14 @@ const AdminList = () => {
     const columns = []
 
     const addAdmin = () => {
-        console.log(adminname)
-        console.log(password)
-        console.log(role)
-        console.log(checkedKeys)
+        let params = {
+            "adminname": adminname,
+            "password": password,
+            "role": role,
+            "checkedKeys": checkedKeys,
+        }
+        console.log(params)
+        //在这里调用添加管理员的接口
     }
    
 
@@ -56,7 +62,7 @@ const AdminList = () => {
             visible={visible}
             footer={
                 <div style={{ textAlign: 'right' }}>
-                    <Button type="primary" style={{ marginRight: 8 }}>取消</Button>
+                    <Button type="primary" danger style={{ marginRight: 8 }}>取消</Button>
                     <Button type="primary" onClick={ addAdmin  }>添加</Button>
                 </div>
             }

@@ -1,19 +1,29 @@
 import React, { Suspense } from 'react';
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import { Spin } from 'antd';
 import menus from './menu'
 import RedirectRouterView from './RedirectRouterView'
+import { getItem } from './../utils/common'
+
+const userRole = getItem('role') * 1
 
 const RouterView = () => {
+  
     const renderRoutes = (menus) => {
         return menus.map(item => {
           if(item.children) {
            return renderRoutes(item.children)
           } else {
             return item.path === '/' ? null : (
+              (item.auth && item.auth !== userRole) ? 
+              <Redirect path={ item.path } key={ item.path } to="/403" />
+              :
               <Route key={ item.path }
                exact
-               path={ item.path } component={ item.component }></Route>
+               path={ item.path } 
+               component={ item.component }
+               >
+               </Route>
             )
           }
         })

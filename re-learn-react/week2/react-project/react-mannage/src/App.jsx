@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import Main from './layouts/main/Index'
 import Login from './layouts/login/Login'
+import NotFound from './views/result/NotFound'
 import { connect } from 'react-redux'
 
 const mapState = (state) => {
@@ -17,6 +18,7 @@ const App = ({ loginState }) => {
                 <Switch>
                     {/* <Route path="/login" component={ Login } />
                     <Route path="/" component={ Main } ></Route> */}
+                    <Route path="/403" component={ NotFound } />
                     {
                         String(loginState) === 'true' ? 
                         <Redirect path="/login" to="/" />

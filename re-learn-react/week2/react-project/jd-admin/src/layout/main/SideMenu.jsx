@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { withRouter, useHistory, useLocation} from 'react-router-dom'
 import { Menu } from "antd";
 import menus from "./../../router/menu";
+import { connect } from 'react-redux'
 
 const { SubMenu } = Menu;  //二级菜单标识
 const rootSubmenuKeys = []
@@ -14,6 +15,7 @@ const SideMenu = withRouter((props) => { //通过withRouter包裹为了获取编
   const [openKeys, setOpenKeys] = useState([])
   const [selectedKeys, setSelectedKeys] = useState([])
   const history  = useHistory()
+  console.log(props.adminname)
   
 
   const renderMenu = (menus) => {
@@ -59,7 +61,6 @@ const SideMenu = withRouter((props) => { //通过withRouter包裹为了获取编
   // defaultOpenKeys
   const { pathname } = useLocation() 
   const type = '/' + pathname.split('/')[1] 
-
   useEffect(() => {
     setOpenKeys([type])
     setSelectedKeys([pathname])
@@ -81,4 +82,4 @@ const SideMenu = withRouter((props) => { //通过withRouter包裹为了获取编
     );
 })
 
-export default SideMenu;
+export default connect(state => ({ adminname: state.getIn(["user", "adminname"]) }))(SideMenu);

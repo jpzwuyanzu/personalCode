@@ -104,7 +104,7 @@ const AdminList = () => {
             // console.log('selected', selectedKeys, info)
         }}
         onCheck={(checkedKeys, info) => {
-            console.log('checked', checkedKeys, info)
+            // console.log('checked', checkedKeys, info)
             setCheckedKeys(info.checkedNodes)
         }}/>
       </Drawer>

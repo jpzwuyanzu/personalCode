@@ -2,20 +2,6 @@ import React, { useState } from 'react';
 import { Table, Button, Drawer, Form, Input, Select, Tree } from 'antd'
 import menus from './../../router/menu'
 
-// function  getMenu (menus) {
-//     const arr  = []
-//     menus.forEach(item => {
-//         let childrenarr = []
-//         if(item.children) {
-//             childrenarr = getMenu(item.children)
-//         }
-//         item.key = item.path
-//         item.childrenarr && (item.children = childrenarr)
-//        !(item.meta && item.meta.hidden) && arr.push(item)
-//     })
-//     return arr
-// }
-
 menus.splice(0, 1) //过滤重定向的第一项
 
 const treeData = menus

@@ -45,12 +45,14 @@ html, body, #root, .ant-layout {
     width: 100%;
     height: 100%;
     position: relative;
-    background: #baa1ff linear-gradient(90deg,#baa1ff,#7988fa)!important;
+    background: url('./meta.jpeg') no-repeat center;
+    background-size: cover;
+    /* background: #baa1ff linear-gradient(90deg,#baa1ff,#7988fa)!important; */
   }
   .loginCom {
     width: 350px;
     height: 350px;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.3);
     position: absolute;
     left: 50%;
     top: 50%;

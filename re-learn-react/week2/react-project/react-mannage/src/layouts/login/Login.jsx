@@ -1,5 +1,5 @@
-import React from 'react';
-import { Form, Input, Button } from 'antd'
+import React, { useEffect } from 'react';
+import { Form, Input, Button, notification } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { connect } from 'react-redux'
 // import { loginAdmin } from './../../api/user'
@@ -16,7 +16,18 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const Login = (props) => {
-
+    useEffect(() => {
+        notification.success({
+            message: "温馨提示",
+            description: "管理员：admin 密码：1234",
+            duration: 0
+        })
+        notification.success({
+            message: "温馨提示",
+            description: "普通用户：normal 密码：1234",
+            duration: 0
+        })
+    }, [])
     const onFinish = (values) => {
         // console.log('Success:', values);
         props.loginNow(values).then(res => {
@@ -44,7 +55,7 @@ const Login = (props) => {
                 onFinishFailed={onFinishFailed}
                 autoComplete="off"
                 >
-                <h1 style={{ textAlign: 'center', marginBottom: '40px' }}>REACT-ADMIN</h1>
+                <h1 style={{ textAlign: 'center', marginBottom: '40px', color: '#fff'  }}>REACT-ADMIN</h1>
                 <Form.Item
                     name="username"
                     rules={[{ required: true, message: '请输入用户名!' }]}

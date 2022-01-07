@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
+import ScrollTotop from './components/ScrollToTop'
 import Main from './layouts/main/Index'
 import Login from './layouts/login/Login'
 import NotFound from './views/result/NotFound'
@@ -15,6 +16,7 @@ const App = ({ loginState }) => {
     return (
         <>
             <Router>
+                <ScrollTotop>
                 <Switch>
                     {/* <Route path="/login" component={ Login } />
                     <Route path="/" component={ Main } ></Route> */}
@@ -34,6 +36,7 @@ const App = ({ loginState }) => {
                     }
 
                 </Switch>
+                </ScrollTotop>
             </Router>
         </>
     );

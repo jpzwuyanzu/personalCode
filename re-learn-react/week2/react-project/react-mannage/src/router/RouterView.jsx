@@ -1,9 +1,10 @@
 import React, { Suspense } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom'
-import { Spin } from 'antd';
+// import { Spin } from 'antd';
 import menus from './menu'
 import RedirectRouterView from './RedirectRouterView'
 import { getItem } from './../utils/common'
+import Loading from './../components/Loading'
 
 const userRole = getItem('role') * 1
 
@@ -29,7 +30,9 @@ const RouterView = () => {
         })
       }
     return (
-        <Suspense fallback={ <div className="loading"><Spin size="large" /></div> }>
+        // <Suspense fallback={ <div className="loading"><Spin size="large" /></div> }>
+        // 更换loading组件为nprogress，同时在请求拦截也要加上
+        <Suspense fallback={ <Loading/> }>
             <Switch>
               {
                 renderRoutes(menus)

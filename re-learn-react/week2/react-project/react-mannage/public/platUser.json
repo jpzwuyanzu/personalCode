@@ -1,0 +1,44 @@
+{
+    "result": [
+        {
+            "userName": "test-001",
+            "userId": "2021001",
+            "level": "level-1",
+            "isVip": true,
+            "coin": 1000,
+            "userState": 1,
+            "phoneNum": "18817673456",
+            "lastLoginTime": "1641541114950"
+        },
+        {
+            "userName": "test-002",
+            "userId": "2021002",
+            "level": "level-2",
+            "isVip": true,
+            "coin": 2000,
+            "userState": 2,
+            "phoneNum": "18817673456",
+            "lastLoginTime": "1641541114950"
+        },
+        {
+            "userName": "test-003",
+            "userId": "2021003",
+            "level": "level-3",
+            "isVip": true,
+            "coin": 3000,
+            "userState": 1,
+            "phoneNum": "18817673456",
+            "lastLoginTime": "1641541114950"
+        },
+        {
+            "userName": "test-004",
+            "userId": "2021004",
+            "level": "level-4",
+            "isVip": true,
+            "coin": 4000,
+            "userState": 2,
+            "phoneNum": "18817673456",
+            "lastLoginTime": "1641541114950"
+        }
+    ]
+}

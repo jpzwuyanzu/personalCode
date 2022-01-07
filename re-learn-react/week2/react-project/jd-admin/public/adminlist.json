@@ -1,0 +1,18 @@
+{
+    "result": [
+        {
+            "adminid": 1,
+            "adminname": "normal",
+            "password": 123456,
+            "roleid": 1,
+            "token": "test-token-01"
+        },
+        {
+            "adminid": 2,
+            "adminname": "admin",
+            "password": 123456,
+            "roleid": 2,
+            "token": "test-token-02"
+        }
+    ]
+}

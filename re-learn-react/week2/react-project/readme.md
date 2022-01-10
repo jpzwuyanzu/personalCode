@@ -5375,6 +5375,9 @@ export default AdminList;
 
 ## 23 ，渲染管理员的列表
 
+## 24， 首页的数据统计
+
+
 
 
 

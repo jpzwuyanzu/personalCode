@@ -5377,6 +5377,11 @@ export default AdminList;
 
 ## 24， 首页的数据统计
 
+## 25 富文本编辑器
+
+https://braft.margox.cn/
+
+在react中插入html标签的时候使用dangerouslySetInnerHTML， 作用类似于vue中的v-html指令
 
 
 

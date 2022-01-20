@@ -64,3 +64,37 @@ html, body, #root, .ant-layout {
   .ant-input-affix-wrapper {
     color: #ccc  !important;
   }
+
+  /*首页样式*/
+  .static-main-body {
+    margin-bottom: 60px;
+  }
+  .baseStyle {
+    display: flex;
+    margin-bottom: 10px;
+    padding:15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 13px 0 rgb(228 228 228 / 60%)
+  }
+  .wechat {
+    background-color:#70ca63 ;
+  }
+  .qq {
+    background-color:#967adc ;
+  }
+  .ding {
+    background-color:#5d5dfd ;
+  }
+  .weibo {
+    background-color:#fb452d ;
+  }
+
+  .wechat>span,.qq>span,.ding>span,.weibo>span {
+    font-size: 60px;
+    color: white;
+ }
+ .wechat>div,.qq>div,.ding>div,.weibo>div {
+  font-size: 18px;
+  color: white;
+  margin-left: 20px;
+}

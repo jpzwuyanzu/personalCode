@@ -1,12 +1,15 @@
 import React from 'react';
+import Statistics from './../../components/Statistics'
+import Charts from './../../components/Charts'
 
-const Index = () => {
+const Home = () => {
+
     return (
-        <div>
-            系统首页
-        </div>
+        <>
+        <Statistics/>
+        <Charts/>
+        </>
     );
 }
 
-export default Index;
-
+export default Home;

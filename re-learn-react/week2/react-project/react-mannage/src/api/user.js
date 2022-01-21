@@ -5,5 +5,5 @@ export function  loginAdmin (params) {
 }
 
 export function loadUserList (params) {
-   return request.get('/platUser.json', params)
+   return request.get('/platUser.json', {params})
 }

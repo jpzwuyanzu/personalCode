@@ -193,6 +193,13 @@ const menus = [
                 path: '/show/moretable',
                 icon: <BorderlessTableOutlined />,
                 component: lazy(() => import('./../views/show/OtherTable'))
+            },
+            {
+                title: 'Braft-Editor',
+                key: '0-6-4',
+                path: '/show/BraftEditor',
+                icon: <BorderlessTableOutlined />,
+                component: lazy(() => import('./../views/show/Editor'))
             }
         ]
     },

@@ -8,6 +8,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "antd": "^4.17.2",
+    "braft-editor": "^2.3.9",
     "echarts": "^5.2.2",
     "js-cookie": "^3.0.1",
     "nprogress": "^0.2.0",

@@ -74,7 +74,7 @@ const DropdownPart = () => {
               <Dropdown overlay={leftmenu} placement="bottomLeft" arrow>
                 <Button>bottomLeft</Button>
               </Dropdown>
-              <Dropdown overlay={leftmenu} placement="bottomCenter" arrow>
+              <Dropdown overlay={leftmenu} placement="bottom" arrow>
                 <Button>bottomCenter</Button>
               </Dropdown>
               <Dropdown overlay={leftmenu} placement="bottomRight" arrow>
@@ -84,7 +84,7 @@ const DropdownPart = () => {
               <Dropdown overlay={leftmenu} placement="topLeft" arrow>
                 <Button>topLeft</Button>
               </Dropdown>
-              <Dropdown overlay={leftmenu} placement="topCenter" arrow>
+              <Dropdown overlay={leftmenu} placement="top" arrow>
                 <Button>topCenter</Button>
               </Dropdown>
               <Dropdown overlay={leftmenu} placement="topRight" arrow>
@@ -99,7 +99,7 @@ const DropdownPart = () => {
               </Dropdown.Button>
               <Dropdown.Button
                 overlay={rightmenu}
-                placement="bottomCenter"
+                placement="bottom"
                 icon={<UserOutlined />}
               >
                 Dropdown

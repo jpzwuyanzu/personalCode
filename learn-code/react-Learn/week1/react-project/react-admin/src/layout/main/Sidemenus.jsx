@@ -33,8 +33,7 @@ const SideMenu = withRouter((props) => {
           } else {
             // 只有一级菜单
             // 此处判断要不要在侧边栏出现该路由
-            return item.meta && item.meta.hidden ? null : (<Menu.Item key={item.path} icon={item.icon}>{item.title}</Menu.Item> 
-            );
+            return item.meta && item.meta.hidden ? null : (<Menu.Item key={item.path} icon={item.icon}>{item.title}</Menu.Item>);
           }
         })}
       </>

@@ -1858,7 +1858,7 @@ const withCopyright = (WrappedComponent) => {
       return (
         <Fragment>
           <WrappedComponent />
-          <div>&copy;版权所有 千锋教育 2019 </div>
+          <div>&copy;版权所有 学习项目 2019 </div>
         </Fragment>
       )
     }
@@ -2609,7 +2609,7 @@ React Router甚至大部分的前端路由都是依赖于[`history.js`](<https:/
 
 ```js
 const state = {
-  str: '千锋教育',
+  str: '学习项目',
   obj: {
     y: 1
   },
@@ -2626,7 +2626,7 @@ console.log(newState === state) // true
 
 ```js
 const state = {
-  str: '千锋教育',
+  str: '学习项目',
   obj: {
     y: 1
   },
@@ -2634,7 +2634,7 @@ const state = {
 }
 const newState = state
 
-newState.str = '千锋教育H5学院'
+newState.str = '学习项目H5学院'
 
 console.log(state.str, newState.str)
 ```
@@ -2643,7 +2643,7 @@ console.log(state.str, newState.str)
 
 ```js
 const state = {
-  str: '千锋教育',
+  str: '学习项目',
   obj: {
     y: 1
   },
@@ -2651,7 +2651,7 @@ const state = {
 }
 const newState = Object.assign({}, state)
 
-newState.str = '千锋教育H5学院'
+newState.str = '学习项目H5学院'
 
 console.log(state.str, newState.str)
 ```
@@ -2660,7 +2660,7 @@ console.log(state.str, newState.str)
 
 ```js
 const state = {
-  str: '千锋教育',
+  str: '学习项目',
   obj: {
     y: 1
   },
@@ -2680,7 +2680,7 @@ console.log(state, newState)
 import { cloneDeep } from 'lodash'
 
 const state = {
-  str: '千锋教育',
+  str: '学习项目',
   obj: {
     y: 1
   },

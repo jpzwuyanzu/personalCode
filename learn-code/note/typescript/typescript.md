@@ -14,7 +14,7 @@ npm install -g typescript
 ## 2、用 tsc 命令编译 .ts 文件
 app.ts 文件：
 ```
-let title: string = '千锋教育'
+let title: string = '学习项目'
 ```
 在命令行里输入以下命令都可以将.ts文件编译为.js文件：
 ```
@@ -124,7 +124,7 @@ let decLiteral: number = 6
 ## 字符串
 TypeScript像其它语言里一样，使用`string`表示文本数据类型。 和JavaScript一样，可以使用双引号（"）或单引号（'）表示字符串。
 ```
-let from: string = "千锋教育"
+let from: string = "学习项目"
 from = "好程序员"
 ```
 
@@ -3296,7 +3296,7 @@ var a = 10
 我们也可以在函数内部定义变量：
 ```
 function f() {
-  var message = "千锋教育·好程序员"
+  var message = "学习项目·好程序员"
   return message
 }
 ```

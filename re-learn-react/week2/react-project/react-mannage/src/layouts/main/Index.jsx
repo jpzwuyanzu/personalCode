@@ -17,7 +17,7 @@ class Index extends React.Component {
         <Sider trigger={null} collapsible collapsed={ collapsed }>
             <div className="logo">
                 <img src={ logo } style={{ height:'32px',width: '32px', margin: '0 10px 0 0 ' }}  alt=""/>
-                { collapsed ? null : <span>REACT-ADMIN</span> }
+                { collapsed ? null : <span style={{ whiteSpace: 'nowrap' }}>REACT-ADMIN</span> }
             </div>
           
           <SideMenu/>

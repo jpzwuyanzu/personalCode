@@ -1,6 +1,6 @@
 # Vue 3 + Vite + ant-design-vue 3.2.2
 
-## 核心库版本
+## 库版本
 ```json
 {
   "name": "vue3-cms",

@@ -8,12 +8,12 @@ export function loadSideMenu() {
     const adminRole = getCookieItem('role')*1
     if(adminRole === 1) {
         menuData.sideMenus = reactive([
-            {
-                path: '/home',
-                key: '1',
-                title: '系统首页',
-                icon: 'HomeOutlined'
-            },
+            // {
+            //     path: '/home',
+            //     key: '1',
+            //     title: '系统首页',
+            //     icon: 'HomeOutlined'
+            // },
             {
                 path: '/dash-Mannage',
                 redirect: '/dash-Mannage/analyze',
@@ -137,12 +137,12 @@ export function loadSideMenu() {
         ])
     } else {
         menuData.sideMenus = reactive([
-            {
-                path: '/home',
-                key: '1',
-                title: '系统首页',
-                icon: 'HomeOutlined'
-            },
+            // {
+            //     path: '/home',
+            //     key: '1',
+            //     title: '系统首页',
+            //     icon: 'HomeOutlined'
+            // },
             {
                 path: '/sys-Mannage',
                 redirect: '/sys-Mannage/sysSetting',

@@ -20,6 +20,9 @@ export default createStore({
             state.role = payload.role
             state.loginState = payload.loginState
             state.token = payload.token
+        },
+        changeLoginState(state, payload) {
+            state.loginState = payload.loginState
         }
     },
     actions: {
@@ -48,6 +51,9 @@ export default createStore({
                 })
             })
 
+        },
+        changeLoginStateAction({ commit }, payload) {
+            commit('changeLoginState', payload)
         }
-    }
+     }
 })

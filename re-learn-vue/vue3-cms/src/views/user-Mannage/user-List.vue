@@ -1,15 +1,56 @@
-<script setup>
-import { ref } from 'vue'
-import { useStore } from 'vuex'
-
-const store = useStore()
-const counter = ref(store.state.counter)
-console.log(counter)
-</script>
-
 <template>
-<div>user-list {{ counter}}<a-button type="primary">Primary Button</a-button></div>
+  <a-table :columns="columns" :data-source="data" bordered>
+    <template #bodyCell="{ column, text }">
+      <template v-if="column.dataIndex === 'name'">
+        <a>{{ text }}</a>
+      </template>
+    </template>
+    <template #title>Header</template>
+    <template #footer>Footer</template>
+  </a-table>
 </template>
+<script>
+import { defineComponent } from 'vue';
+const columns = [{
+  title: 'Name',
+  dataIndex: 'name',
+}, {
+  title: 'Cash Assets',
+  className: 'column-money',
+  dataIndex: 'money',
+}, {
+  title: 'Address',
+  dataIndex: 'address',
+}];
+const data = [{
+  key: '1',
+  name: 'John Brown',
+  money: '￥300,000.00',
+  address: 'New York No. 1 Lake Park',
+}, {
+  key: '2',
+  name: 'Jim Green',
+  money: '￥1,256,000.00',
+  address: 'London No. 1 Lake Park',
+}, {
+  key: '3',
+  name: 'Joe Black',
+  money: '￥120,000.00',
+  address: 'Sidney No. 1 Lake Park',
+}];
+export default defineComponent({
+  setup() {
+    return {
+      data,
+      columns,
+    };
+  },
 
-<style lang="scss" scoped>
+});
+</script>
+<style>
+th.column-money,
+td.column-money {
+  text-align: right !important;
+}
 </style>

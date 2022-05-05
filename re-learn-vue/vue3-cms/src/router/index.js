@@ -20,10 +20,80 @@ const routes = [
                     breadCrum_title: [
                         { 
                             name: '系统首页',
-                            redirectPath: '/home'
+                            redirectPath: '/home',
+                            comName: 'home'
                         }
                     ]
                 }
+            },
+            {
+                path: 'dash-Mannage/analyze',
+                name: 'analyze',
+                meta: {
+                    auth: true,
+                    title: '分析页',
+                    icon: 'el-icon-s-home',
+                    breadCrum: true,
+                    breadCrum_title: [
+                        { 
+                            name: 'Dashboard',
+                            redirectPath: '/dash-Mannage/analyze',
+                            comName: 'analyze'
+                        },
+                        { 
+                            name: '分析页',
+                            redirectPath: '/dash-Mannage/analyze',
+                            comName: 'analyze'
+                        }
+                    ]
+                },
+                component: () => import('@/views/dash-Mannage/analyze.vue')
+            },
+            {
+                path: 'dash-Mannage/monitor',
+                name: 'monitor',
+                meta: {
+                    auth: true,
+                    title: '监控页',
+                    icon: 'el-icon-s-home',
+                    breadCrum: true,
+                    breadCrum_title: [
+                        { 
+                            name: 'Dashboard',
+                            redirectPath: '/dash-Mannage/monitor',
+                            comName: 'analyze'
+                        },
+                        { 
+                            name: '监控页',
+                            redirectPath: '/dash-Mannage/monitor',
+                            comName: 'monitor'
+                        }
+                    ]
+                },
+                component: () => import('@/views/dash-Mannage/monitor.vue')
+            },
+            {
+                path: 'dash-Mannage/workBench',
+                name: 'workBench',
+                meta: {
+                    auth: true,
+                    title: '工作台',
+                    icon: 'el-icon-s-home',
+                    breadCrum: true,
+                    breadCrum_title: [
+                        { 
+                            name: 'Dashboard',
+                            redirectPath: '/dash-Mannage/workBench',
+                            comName: 'analyze'
+                        },
+                        { 
+                            name: '工作台',
+                            redirectPath: '/dash-Mannage/workBench',
+                            comName: 'workBench'
+                        }
+                    ]
+                },
+                component: () => import('@/views/dash-Mannage/workBench.vue')
             },
             {
                 path: 'order-Mannage/orderList',
@@ -36,11 +106,13 @@ const routes = [
                     breadCrum_title: [
                         { 
                             name: '订单管理',
-                            redirectPath: '/order-Mannage/orderList'
+                            redirectPath: '/order-Mannage/orderList',
+                            comName: 'orderMannage'
                         },
                         { 
                             name: '订单列表',
-                            redirectPath: '/order-Mannage/orderList'
+                            redirectPath: '/order-Mannage/orderList',
+                            comName: 'orderMannage'
                         },
                     ]
                 },
@@ -57,11 +129,13 @@ const routes = [
                     breadCrum_title: [
                         { 
                             name: '充值管理',
-                            redirectPath: '/recharge-Mannage/rechargeList'
+                            redirectPath: '/recharge-Mannage/rechargeList',
+                            comName: 'rechargeList'
                         },
                         { 
                             name: '充值列表',
-                            redirectPath: '/recharge-Mannage/rechargeList'
+                            redirectPath: '/recharge-Mannage/rechargeList',
+                            comName: 'rechargeList'
                         },
                     ]
                 },
@@ -78,11 +152,13 @@ const routes = [
                     breadCrum_title: [
                         { 
                             name: '充值管理',
-                            redirectPath: '/recharge-Mannage/rechargeSetting'
+                            redirectPath: '/recharge-Mannage/rechargeSetting',
+                            comName: 'rechargeList'
                         },
                         { 
                             name: '充值设置',
-                            redirectPath: '/recharge-Mannage/rechargeSetting'
+                            redirectPath: '/recharge-Mannage/rechargeSetting',
+                            comName: 'rechargeSetting'
                         },
                     ]
                 },
@@ -99,11 +175,13 @@ const routes = [
                     breadCrum_title: [
                         { 
                             name: '系统管理',
-                            redirectPath: '/sys-Mannage/sysSetting'
+                            redirectPath: '/sys-Mannage/sysSetting',
+                            comName: 'sysSetting'
                         },
                         { 
                             name: '系统设置',
-                            redirectPath: '/sys-Mannage/sysSetting'
+                            redirectPath: '/sys-Mannage/sysSetting',
+                            comName: 'sysSetting'
                         },
                     ]
                 },
@@ -120,11 +198,13 @@ const routes = [
                     breadCrum_title: [
                         { 
                             name: '用户管理',
-                            redirectPath: '/user-Mannage/userList'
+                            redirectPath: '/user-Mannage/userList',
+                            comName: 'userList'
                         },
                         { 
                             name: '用户列表',
-                            redirectPath: '/user-Mannage/userList'
+                            redirectPath: '/user-Mannage/userList',
+                            comName: 'userList'
                         },
                     ]
                 },
@@ -141,15 +221,63 @@ const routes = [
                     breadCrum_title: [
                         { 
                             name: '用户管理',
-                            redirectPath: '/user-Mannage/adminList'
+                            redirectPath: '/user-Mannage/adminList',
+                            comName: 'userList'
                         },
                         { 
                             name: '管理员列表',
-                            redirectPath: '/user-Mannage/adminList'
+                            redirectPath: '/user-Mannage/adminList',
+                            comName: 'setting'
                         },
                     ]
                 },
                 component: () => import('@/views/user-Mannage/admin-List.vue')
+            },
+            {
+                path: 'personal-Mannage/personalCenter',
+                name: 'personalCenter',
+                meta: {
+                    auth: true,
+                    title: '个人中心',
+                    icon: 'el-icon-s-home',
+                    breadCrum: true,
+                    breadCrum_title: [
+                        { 
+                            name: '个人页',
+                            redirectPath: '/personal-Mannage/personalCenter',
+                            comName: 'personalCenter'
+                        },
+                        { 
+                            name: '个人中心',
+                            redirectPath: '/personal-Mannage/personalCenter',
+                            comName: 'personalCenter'
+                        },
+                    ]
+                },
+                component: () => import('@/views/personal-Mannage/personal-Center.vue')
+            },
+            {
+                path: 'personal-Mannage/personalSetting',
+                name: 'personalSetting',
+                meta: {
+                    auth: true,
+                    title: '个人设置',
+                    icon: 'el-icon-s-home',
+                    breadCrum: true,
+                    breadCrum_title: [
+                        { 
+                            name: '个人页',
+                            redirectPath: '/personal-Mannage/personalSetting',
+                            comName: 'personalCenter'
+                        },
+                        { 
+                            name: '个人设置',
+                            redirectPath: '/personal-Mannage/personalSetting',
+                            comName: 'personalSetting'
+                        },
+                    ]
+                },
+                component: () => import('@/views/personal-Mannage/personal-Setting.vue')
             }
         ]
     },

@@ -34,7 +34,7 @@
     </a-layout-sider>
 </template>
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
 import { loadSideMenu } from './model/sideMenu'
@@ -54,6 +54,9 @@ menuData.sideMenus.forEach((item, index) => {
   if(item.children) {
     comState.rootSubmenuKeys.push(item.path)
   }
+})
+watch(route, (newVal, oldVal) => {
+  comState.selectedMenuKeys = [newVal.path]
 })
 const onOpenChange = openKeys => {
   const latestOpenKey = openKeys.find(key => comState.openKeys.indexOf(key) === -1);
@@ -86,6 +89,11 @@ const switchSideBar = () =>  {
   text-align: left;
   line-height: 40px;
   font-size: 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  background: #fff;
 }
 .switchSideBtn:hover {
   color: #1890FF;

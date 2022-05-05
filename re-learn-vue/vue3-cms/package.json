@@ -2,6 +2,9 @@
   "name": "vue3-cms",
   "private": true,
   "version": "0.0.0",
+  "author": {
+    "name": "dahe"
+  },
   "scripts": {
     "dev": "cross-env NODE_ENV=development vite",
     "build": "vite build",
@@ -15,8 +18,7 @@
     "nprogress": "^0.2.0",
     "vue": "^3.2.25",
     "vue-router": "^4.0.13",
-    "vuex": "^4.0.2",
-    "vuex-persistedstate": "^4.1.0"
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.1",

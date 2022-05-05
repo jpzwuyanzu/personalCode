@@ -1,5 +1,39 @@
 # Vue 3 + Vite + ant-design-vue 3.2.2
 
+## 核心库版本
+```json
+{
+  "name": "vue3-cms",
+  "private": true,
+  "version": "0.0.0",
+  "author": {
+    "name": "dahe"
+  },
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "ant-design-vue": "^3.2.2",
+    "axios": "^0.27.2",
+    "js-cookie": "^3.0.1",
+    "nprogress": "^0.2.0",
+    "vue": "^3.2.25",
+    "vue-router": "^4.0.13",
+    "vuex": "^4.0.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.3.1",
+    "cross-env": "^7.0.3",
+    "sass": "^1.51.0",
+    "unplugin-auto-import": "^0.7.1",
+    "unplugin-vue-components": "^0.19.3",
+    "vite": "^2.9.7"
+  }
+}
+```
+
 ## 目录结构
 ```txt
 vue3-cms

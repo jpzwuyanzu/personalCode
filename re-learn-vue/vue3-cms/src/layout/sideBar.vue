@@ -34,7 +34,7 @@
     </a-layout-sider>
 </template>
 <script setup>
-import { ref, reactive, watch } from 'vue'
+import { ref, reactive, watch, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
 import { loadSideMenu } from './model/sideMenu'
@@ -55,9 +55,14 @@ menuData.sideMenus.forEach((item, index) => {
     comState.rootSubmenuKeys.push(item.path)
   }
 })
-watch(route, (newVal, oldVal) => {
-  comState.selectedMenuKeys = [newVal.path]
+//监听路由变化
+const temPath =  computed(() => {
+  return route.path + ''
 })
+watch(temPath, (newVal, oldVal) => {
+  comState.selectedMenuKeys = [newVal]
+})
+//左侧菜单打开关闭
 const onOpenChange = openKeys => {
   const latestOpenKey = openKeys.find(key => comState.openKeys.indexOf(key) === -1);
   if (comState.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {

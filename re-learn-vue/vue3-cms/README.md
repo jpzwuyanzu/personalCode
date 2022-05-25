@@ -17,9 +17,10 @@
   "dependencies": {
     "ant-design-vue": "^3.2.2",
     "axios": "^0.27.2",
+    "echarts": "^5.3.2",
     "js-cookie": "^3.0.1",
     "nprogress": "^0.2.0",
-    "vue": "^3.2.25",
+    "vue": "^3.2.29",
     "vue-router": "^4.0.13",
     "vuex": "^4.0.2"
   },
@@ -32,6 +33,7 @@
     "vite": "^2.9.7"
   }
 }
+
 ```
 
 ## 目录结构

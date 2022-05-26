@@ -13,7 +13,7 @@ const service = axios.create({
 })
 
 //请求拦截
-service.interceptors.response.use(
+service.interceptors.request.use(
 (config: any) => {
     //模拟请求令牌
     config.headers['X-Token'] = 'test token'

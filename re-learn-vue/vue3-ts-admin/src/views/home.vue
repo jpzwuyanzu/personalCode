@@ -18,7 +18,7 @@
     </a-card-meta>
   </a-card>
 </template>
-<script>
+<script lang="ts">
 import { SettingOutlined, EditOutlined, EllipsisOutlined } from '@ant-design/icons-vue';
 import { defineComponent } from 'vue';
 export default defineComponent({

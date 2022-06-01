@@ -10,11 +10,11 @@
       </a-breadcrumb>
  </div>
 </template>
-<script setup>
+<script lang="ts" setup>
 import { useRouter, useRoute } from 'vue-router'
 import { reactive, watch } from 'vue'
 const route = useRoute()
-const state = reactive({
+const state: any = reactive({
     breadList: route.path !== '/home' ? route.meta.breadCrum_title : []
 })
 watch(route, (newVal, oldVal) => {

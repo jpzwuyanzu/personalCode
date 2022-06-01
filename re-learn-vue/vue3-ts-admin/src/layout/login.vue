@@ -35,7 +35,7 @@
     </div>
   </div>
 </template>
-<script setup>
+<script lang="ts" setup>
 import { reactive } from "vue";
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
@@ -47,7 +47,7 @@ const formState = reactive({
 const store = useStore()
 const router = useRouter()
 
-const onFinish = (values) => {
+const onFinish = (values: any) => {
   console.log("Success:", values);
   store.dispatch('saveUserInfoAction', { username: formState.username }).then(res => {
       console.log(res)
@@ -59,7 +59,7 @@ const onFinish = (values) => {
 
 };
 
-const onFinishFailed = (errorInfo) => {
+const onFinishFailed = (errorInfo: any) => {
   console.log("Failed:", errorInfo);
 };
 </script>

@@ -5,7 +5,7 @@
       </div>
   </div>
 </template>
-<script setup>
+<script lang="ts" setup>
 import * as echarts from 'echarts'
 import { onMounted, onUnmounted } from 'vue'
  /// 声明定义一下echart
@@ -20,7 +20,7 @@ import { onMounted, onUnmounted } from 'vue'
 	
     // 基础配置一下Echarts
     const  initChart = () =>  {
-      let chart = echart.init(document.getElementById("myMonitorEcharts"), "dark");
+      let chart = echart.init((document.getElementById("myMonitorEcharts") as HTMLDivElement), "dark");
       // 把配置和数据放这里
       chart.setOption({
   title: {

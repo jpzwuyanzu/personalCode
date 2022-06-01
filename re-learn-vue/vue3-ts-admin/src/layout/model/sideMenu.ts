@@ -1,7 +1,7 @@
 import { reactive } from 'vue'
-import { getCookieItem } from './../../utils/common'
+import { getCookieItem } from '../../utils/common'
 export function loadSideMenu() {
-    const menuData = {
+    const menuData: any = {
         sideMenus: reactive([])
     }
     //获取登录用户的角色

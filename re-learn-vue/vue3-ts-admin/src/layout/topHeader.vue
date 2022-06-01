@@ -52,7 +52,7 @@
     </div>
   </a-layout-header>
 </template>
-<script setup>
+<script lang="ts" setup>
 import { ref } from "vue";
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
@@ -60,12 +60,12 @@ import { BellOutlined, UserOutlined, SettingOutlined, LogoutOutlined } from "@an
 import { removeCookieItem, setCookieItem } from './../utils/common'
 const router = useRouter()
 const store = useStore()
-const chooseUserInfoBtn = (path) => {
+const chooseUserInfoBtn = (path: string) => {
   if(path === 'login') {
     removeCookieItem('token')
     removeCookieItem('role')
     removeCookieItem('username')
-    setCookieItem("loginState", false);
+    setCookieItem("loginState", 'false');
     store.dispatch("changeLoginStateAction", {loginState: false});
     router.push({ name: "login" });
   } else {

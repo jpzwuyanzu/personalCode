@@ -33,7 +33,7 @@
       </div>
     </a-layout-sider>
 </template>
-<script setup>
+<script lang="ts" setup>
 import { ref, reactive, watch, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
@@ -45,12 +45,12 @@ const store = useStore()
 const router = useRouter()
 const route = useRoute()
 const { menuData } = loadSideMenu()
-const comState = reactive({
+const comState: any = reactive({
   rootSubmenuKeys: [],
   openKeys:[],
   selectedMenuKeys: [route.path]
 })
-menuData.sideMenus.forEach((item, index) => {
+menuData.sideMenus.forEach((item: any, index: any) => {
   if(item.children) {
     comState.rootSubmenuKeys.push(item.path)
   }
@@ -63,8 +63,8 @@ watch(temPath, (newVal, oldVal) => {
   comState.selectedMenuKeys = [newVal]
 })
 //左侧菜单打开关闭
-const onOpenChange = openKeys => {
-  const latestOpenKey = openKeys.find(key => comState.openKeys.indexOf(key) === -1);
+const onOpenChange = (openKeys: any) => {
+  const latestOpenKey: any = openKeys.find((key: any) => comState.openKeys.indexOf(key) === -1);
   if (comState.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
     comState.openKeys = openKeys;
   } else {
@@ -72,7 +72,7 @@ const onOpenChange = openKeys => {
   }
 };
 //跳转页面
-const changeView= ({item, key, selectedKeys}) => {
+const changeView= ({ item }: any) => {
   router.push(item.keypath)
 }
 //切换左侧菜单显示隐藏

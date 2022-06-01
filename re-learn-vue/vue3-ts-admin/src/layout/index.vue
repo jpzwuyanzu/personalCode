@@ -21,11 +21,10 @@
     </a-layout>
   </a-layout>
 </template>
-<script  setup>
+<script lang="ts"  setup>
 import SideBar from "@/layout/sideBar.vue";
 import TopHeader from "@/layout/topHeader.vue";
 import BreadCom from "@/layout/breadCom.vue"
-import { ref } from "vue";
 </script>
 <style lang="scss" scoped>
 .ant-layout {

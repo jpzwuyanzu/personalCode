@@ -278,6 +278,30 @@ const routes = [
                     ]
                 },
                 component: () => import('@/views/personal-Mannage/personal-Setting.vue')
+            },
+            {
+                path: 'personal-Mannage/personalSetting/test',
+                name: 'personalTest',
+                meta: {
+                    isChildren: true,
+                    auth: true,
+                    title: '个人设置',
+                    icon: 'el-icon-s-home',
+                    breadCrum: true,
+                    breadCrum_title: [
+                        { 
+                            name: '个人页',
+                            redirectPath: '/personal-Mannage/personalSetting',
+                            comName: 'personalCenter'
+                        },
+                        { 
+                            name: '个人设置',
+                            redirectPath: '/personal-Mannage/personalSetting',
+                            comName: 'personalSetting'
+                        },
+                    ]
+                },
+                component: () => import('@/views/personal-Mannage/test.vue')
             }
         ]
     },

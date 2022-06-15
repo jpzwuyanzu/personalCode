@@ -1,5 +1,10 @@
 <template>
-  <a-table :columns="columns" :data-source="data" :scroll="{ x: 1500, y: '85%' }" :pagination="pagination">
+  <a-table
+    :columns="columns"
+    :data-source="orderData.list"
+    :scroll="{ x: 1600, y: '90%' }"
+    :pagination="pagination"
+  >
     <template #bodyCell="{ column }">
       <template v-if="column.key === 'operation'">
         <a>action</a>
@@ -8,10 +13,10 @@
   </a-table>
 </template>
 <script lang="ts" setup>
-import { reactive, onMounted } from 'vue'
-import type { TableColumnsType } from 'ant-design-vue';
-import type { IOrderItem, IPagnation } from './../../interface/index'
-import { getOrderList } from './../../api/index'
+import { reactive, onMounted } from "vue";
+import type { TableColumnsType } from "ant-design-vue";
+import type { IOrderItem, IPagnation, IResult } from "./../../interface/index";
+import { getOrderList } from "./../../api/index";
 //分页配置项
 const pagination: IPagnation = reactive({
   current: 1,
@@ -19,47 +24,44 @@ const pagination: IPagnation = reactive({
   pageSize: 10,
   showQuickJumper: true,
   showTotal: (total) => {
-    return `共${total}条数据`
-  }
-})
+    return `共${total}条数据`;
+  },
+});
 const columns: TableColumnsType = [
-  { title: 'Full Name', width: 100, dataIndex: 'name', key: 'name', fixed: 'left' },
-  { title: 'Age', width: 100, dataIndex: 'age', key: 'age', fixed: 'left' },
-  { title: 'Column 1', dataIndex: 'address', key: '1', width: 150 },
-  { title: 'Column 2', dataIndex: 'address', key: '2', width: 150 },
-  { title: 'Column 3', dataIndex: 'address', key: '3', width: 150 },
-  { title: 'Column 4', dataIndex: 'address', key: '4', width: 150 },
-  { title: 'Column 5', dataIndex: 'address', key: '5', width: 150 },
-  { title: 'Column 6', dataIndex: 'address', key: '6', width: 150 },
-  { title: 'Column 7', dataIndex: 'address', key: '7', width: 150 },
-  { title: 'Column 8', dataIndex: 'address', key: '8' },
   {
-    title: 'Action',
-    key: 'operation',
-    fixed: 'right',
+    title: "应用ID",
+    width: 100,
+    dataIndex: "app_id",
+    key: "app_id",
+    align: "center",
+    fixed: "left"
+  },
+  { title: "应用名称", width: 100, dataIndex: "app_name", key: "app_name", fixed: "left",align: "center" },
+  { title: "订单号", dataIndex: "order_num", key: "order_num",align: "center", width: 200 },
+  { title: "渠道ID", dataIndex: "pay_channel", key: "pay_channel",align: "center", width: 150 },
+  { title: "应用订单号", dataIndex: "pay_order_num", key: "pay_order_num",align: "center", width: 200 },
+  { title: "支付平台ID", dataIndex: "pay_platform", key: "pay_platform",align: "center", width: 150 },
+  { title: "支付平台名称", dataIndex: "pay_platform_name", key: "pay_platform_name",align: "center", width: 150 },
+  { title: "支付类型", dataIndex: "pay_type", key: "pay_type",align: "center", width: 150 },
+  { title: "订单金额", dataIndex: "price", key: "price",align: "center", width: 150 },
+  { title: "订单状态", dataIndex: "status_name",align: "center", key: "status_name" },
+  {
+    title: "Action",
+    key: "operation",
+    align: "center",
+    fixed: "right",
     width: 100,
   },
 ];
-
-const orderData = reactive({ list: [] })
+const orderData: IResult = reactive({ list: [] });
 const loadOrderData = async () => {
-  let res = await getOrderList({})
-  console.log(res)
-}
-
-const data: IOrderItem[] = [];
-for (let i = 0; i < 100; i++) {
-  data.push({
-    key: i,
-    name: `Edrward ${i}`,
-    age: 32,
-    address: `London Park no. ${i}`,
-  });
-}
-
+  let res: any = await getOrderList({});
+  console.log(res);
+  orderData.list = res.result.list
+};
+//钩子函数
 onMounted(() => {
-  loadOrderData()
-})
-
+  loadOrderData();
+});
 </script>
 

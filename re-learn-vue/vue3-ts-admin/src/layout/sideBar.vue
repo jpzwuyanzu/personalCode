@@ -57,6 +57,7 @@ menuData.sideMenus.forEach((item: any, index: any) => {
 })
 //监听路由变化
 const temPath =  computed(() => {
+  console.log(route)
   return route.path + ''
 })
 watch(temPath, (newVal, oldVal) => {

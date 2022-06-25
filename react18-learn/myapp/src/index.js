@@ -13,7 +13,8 @@ import ReactDOM from 'react-dom/client'
 // import App from  './01-base/12-卖座选项卡'
 // import App from  './01-base/13-setstate同步异步'
 // import App from  './01-base/14-betterScroll'
-import App from  './01-base/16-props'
+// import App from  './01-base/16-props'
+import App from  './01-base/17-props函数式组件'
 const root = ReactDOM.createRoot(document.getElementById('root'))
 // root.render(
 // <React.StrictMode>

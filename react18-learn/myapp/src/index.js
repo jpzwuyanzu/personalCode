@@ -14,7 +14,10 @@ import ReactDOM from 'react-dom/client'
 // import App from  './01-base/13-setstate同步异步'
 // import App from  './01-base/14-betterScroll'
 // import App from  './01-base/16-props'
-import App from  './01-base/17-props函数式组件'
+// import App from  './01-base/17-props函数式组件'
+// import App from  './01-base/18-状态vs属性'
+// import App from  './01-base/19-非受控'
+import App from  './01-base/20-受控组件'
 const root = ReactDOM.createRoot(document.getElementById('root'))
 // root.render(
 // <React.StrictMode>

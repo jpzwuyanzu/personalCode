@@ -21,7 +21,16 @@ import ReactDOM from 'react-dom/client'
 // import App from  './01-base/21-受控Cinima'
 // import App from  './01-base/22-受控todoList'
 // import App from  './02-advanced/01-子传父'
-import App from  './02-advanced/03-受控卖座选项卡'
+// import App from  './02-advanced/03-受控卖座选项卡'
+// import App from  './02-advanced/04-父子通信版-表单域组件'
+// import App from  './02-advanced/05-ref版-表单域组件'
+// import App from  './02-advanced/06-中间人模式'
+// import App from  './02-advanced/07-发布订阅模式'
+// import App from  './02-advanced/08-订阅发布模式案例'
+// import App from  './02-advanced/09-contex'
+// import App from  './02-advanced/10-插槽'
+// import App from  './02-advanced/11-插槽抽屉'
+import App from  './02-advanced/12-生命周期-初始化'
 const root = ReactDOM.createRoot(document.getElementById('root'))
 // root.render(
 // <React.StrictMode>

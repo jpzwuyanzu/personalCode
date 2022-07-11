@@ -9,7 +9,21 @@ import "./css/02-maizuo.css";
 class App extends Component {
 
  state = {
-     current: 0
+     current: 0,
+     list: [
+      {
+        id: 1,
+        text: "电影",
+      },
+      {
+        id: 2,
+        text: "影院",
+      },
+      {
+        id: 3,
+        text: "我的",
+      },
+    ],
  }
   render() {
     return (
@@ -29,7 +43,7 @@ class App extends Component {
             this.setState({
                 current: index
             })
-        } } current={ this.state.current }></TabBar>
+        } } current={ this.state.current } list={ this.state.list }></TabBar>
       </div>
     );
   }

@@ -12,10 +12,16 @@ export default class App extends Component {
         this.setState({
             myName: 'oooooo'
         })
+
+        //初始化数据的作用
     }
 
     componentDidMount() {
         console.log('第一次DidMount')
+        // 可以做数据请求 axios
+        // 订阅函数的调用
+        // setInterval
+        // 基于创建完的dom进行初始化， 例如betterScroll库
     }
 
     render() {

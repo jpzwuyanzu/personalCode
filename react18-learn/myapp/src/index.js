@@ -30,7 +30,13 @@ import ReactDOM from 'react-dom/client'
 // import App from  './02-advanced/09-contex'
 // import App from  './02-advanced/10-插槽'
 // import App from  './02-advanced/11-插槽抽屉'
-import App from  './02-advanced/12-生命周期-初始化'
+// import App from  './02-advanced/12-生命周期-初始化'
+// import App from  './02-advanced/13-生命周期-初始化案例'
+// import App from  './02-advanced/14-生命周期-更新阶段'
+// import App from  './02-advanced/15-生命周期-更新阶段2'
+// import App from  './02-advanced/16-生命周期-更新阶段2-案例'
+// import App from  './02-advanced/17-生命周期-更新阶段3'
+import App from  './02-advanced/18-生命周期-更新阶段3-案例'
 const root = ReactDOM.createRoot(document.getElementById('root'))
 // root.render(
 // <React.StrictMode>

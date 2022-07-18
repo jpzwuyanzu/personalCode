@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import "./../02-advanced/css/03-communination.css";
 

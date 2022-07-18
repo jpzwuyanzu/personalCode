@@ -1,82 +1,64 @@
-import React, { Component } from "react";
+import React, { Component, useEffect, useState, useContext } from "react";
 import axios from "axios";
 import "./../02-advanced/css/03-communination.css";
 
 const GloabalContext = React.createContext(); //创建context对象
+const App = () => {
+  const [filmList, setFilmList] = useState([]);
+  const [info, setInfo] = useState("");
 
-export default class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      filmList: [],
-      info: "",
-    };
+  useEffect(() => {
     axios.get("/test.json").then((res) => {
-      //   console.log(res.data.data.films);
-      this.setState({
-        filmList: res.data.data.films,
-      });
+      setFilmList(res.data.data.films);
     });
-  }
+  }, []);
 
-  render() {
-    return (
-      <GloabalContext.Provider
-        value={{
-          call: "test---",
-          sms: "短信",
-          info: this.state.info,
-          changeInfo: (value) => {
-            this.setState({
-              info: value
-            })
-          }
-        }}
-      >
-        <div>
-          {this.state.filmList.map((item) => (
-            <FilmItem key={item.filmId} {...item}></FilmItem>
-          ))}
-          <FilmDetail></FilmDetail>
-        </div>
-      </GloabalContext.Provider>
-    );
-  }
-}
+  return (
+    <GloabalContext.Provider
+      value={{
+        call: "test---",
+        sms: "短信",
+        info: info,
+        changeInfo: (value) => {
+          setInfo(value);
+        },
+      }}
+    >
+      <div>
+        {filmList.map((item) => (
+          <FilmItem key={item.filmId} {...item}></FilmItem>
+        ))}
+        <FilmDetail></FilmDetail>
+      </div>
+    </GloabalContext.Provider>
+  );
+};
 
-//受控组件
-class FilmItem extends Component {
-  render() {
-    // console.log(this.props);
-    let { name, poster, grade, synopsis } = this.props;
-    return (
-      <GloabalContext.Consumer>
-        {(value) => {
-          return (
-            <div
-              className="FilmItem"
-              onClick={() => {
-                console.log(synopsis);
-                value.changeInfo(synopsis)
-              }}
-            >
-              <img src={poster} alt={name} />
-              <h4>{name}</h4>
-              <div> {grade}</div>
-            </div>
-          );
-        }}
-      </GloabalContext.Consumer>
-    );
-  }
-}
+export default App;
 
-class FilmDetail extends Component {
-  render() {
-    return (
-      <GloabalContext.Consumer>
-        {(value) => <div className="FilmDetail">{value.info}</div>}
-      </GloabalContext.Consumer>
-    );
-  }
-}
+const FilmItem = (props) => {
+  let { name, poster, grade, synopsis } = props;
+  const value = useContext(GloabalContext)
+  return (
+    <div
+      className="FilmItem"
+      onClick={() => {
+        console.log(synopsis);
+        value.changeInfo(synopsis);
+      }}
+    >
+      <img src={poster} alt={name} />
+      <h4>{name}</h4>
+      <div> {grade}</div>
+    </div>
+  );
+};
+
+const FilmDetail = () => {
+    const value = useContext(GloabalContext)
+  return (
+      <div>
+          {<div className="FilmDetail">{value.info}</div>}
+      </div>
+  );
+};

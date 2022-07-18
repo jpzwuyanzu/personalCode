@@ -1,7 +1,5 @@
 import React, {
-  Component,
   useEffect,
-  useState,
   useContext,
   useReducer,
 } from "react";

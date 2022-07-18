@@ -19,7 +19,6 @@ const reducer = (pervState, action) => {
     default:
       return pervState;
   }
-  return pervState;
 };
 
 const GlobalContext = React.createContext();

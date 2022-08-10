@@ -6,10 +6,11 @@ import TabBar from './components/TabBar'
 function App() {
   return (
    <BrowserRouter>
+   {/* 选项卡 */}
+   <TabBar/>
      <MRouter></MRouter>
 
-     {/* 选项卡 */}
-     <TabBar/>
+     
    </BrowserRouter>
   );
 }

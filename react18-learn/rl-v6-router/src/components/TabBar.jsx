@@ -1,10 +1,11 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import './../style/index.css'
+import style from './Tabbar.module.css'
 
 export default function TabBar() {
     return (
-        <footer>
+        <footer className={ style.tabbar }>
             <ul>
                 <li>
                    <NavLink className={({ isActive }) => isActive ? 'myActive' : ''} to="/films">电影</NavLink>

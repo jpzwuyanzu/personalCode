@@ -14,6 +14,7 @@ export default function NowPlaying() {
                 'X-Host': 'mall.film-ticket.film.list'
             }
         }).then(res => {
+            console.log(res)
             setList(res.data.data.films)
         })
     },[])

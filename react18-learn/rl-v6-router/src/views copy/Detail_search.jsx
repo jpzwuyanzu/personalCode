@@ -7,6 +7,7 @@ export default function Detail() {
     //searchParams.get('id') 获取参数
     //searchParams.has('id') 判断是否存在该参数
     //searchParams.set('id') 可以改变参数
+    console.log(searchParams.get('id'))
 
     return (
         <div>

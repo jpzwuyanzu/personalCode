@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-// import store from './../05-Redux/redux/store'
-import store from './../06-Redux/redux/store'
-// import { hide, show  } from './../05-Redux/redux/actionCreator/TabbarActionCreator'
-import { hide, show  } from './../06-Redux/redux/actionCreator/tabbarActionCreator'
+import store from './../05-Redux/redux/store'
+import { hide, show  } from './../05-Redux/redux/actionCreator/TabbarActionCreator'
 
 export default function Detail() {
     const params = useParams();
@@ -13,7 +11,6 @@ export default function Detail() {
         // store.dispatch 通知App
         store.dispatch(hide())
         return () => {
-            console.log('destory')
             store.dispatch(show())
         }
     }, [])

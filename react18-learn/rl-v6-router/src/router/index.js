@@ -35,6 +35,10 @@ const MRouter = () =>  {
             element: LazyLoad('Login')
         },
         {
+            path: '/city',
+            element: LazyLoad('City')
+        },
+        {
             path: '/center',
             element: <AuthComponent>{ LazyLoad('Center') }</AuthComponent>
         },

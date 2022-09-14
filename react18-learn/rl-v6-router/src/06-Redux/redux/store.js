@@ -1,24 +1,12 @@
 // 引入redux
 // 使用createStore(reducer)
 
-import { createStore } from 'redux'
+import {combineReducers, createStore } from 'redux'
+import CityReducer  from './reducers/cityReducer'
+import TabBarReducer from './reducers/tabbarReducer'
 
-const reducer = (prevState={ show: true }, action={}) => {
-    console.log(action)
-    let newState = { ...prevState }
-    switch (action.type) {
-        case 'hide':
-            newState.show = false
-            return newState
-        case 'show':
-            newState.show = true
-            return newState
-        default:
-            return prevState
-    }
-}
-
-const store = createTestStore(reducer);
+const reducer = combineReducers({CityReducer, TabBarReducer})
+const store = createStore(reducer);
 
 /**
  * store.dispatch
@@ -27,27 +15,27 @@ const store = createTestStore(reducer);
  */
 
 //下边是自己封装的redux
-function createTestStore (reducer) {
-    var list = [];
-    var state = reducer();
-    function subscribe(callback) {
-        list.push(callback)
-    }
-    function dispatch(action) {
-        state = reducer(state,action)
-        for(var i in list) {
-            list[i] && list[i]()
-        }
-    }
-    function getState() {
-        return state
-    }
-    return {
-        subscribe,
-        dispatch,
-        getState
-    }
-}
+// function createTestStore (reducer) {
+//     var list = [];
+//     var state = reducer();
+//     function subscribe(callback) {
+//         list.push(callback)
+//     }
+//     function dispatch(action) {
+//         state = reducer(state,action)
+//         for(var i in list) {
+//             list[i] && list[i]()
+//         }
+//     }
+//     function getState() {
+//         return state
+//     }
+//     return {
+//         subscribe,
+//         dispatch,
+//         getState
+//     }
+// }
 
 /**
  * 纯函数：

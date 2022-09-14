@@ -9,11 +9,11 @@ import './views/css/App.css'
 
 const App = () =>  {
 
-  const [isShow, setIsShow] = useState(store.getState().show)
+  const [isShow, setIsShow] = useState(store.getState().TabBarReducer.show)
 
   useEffect(() => {
     store.subscribe(() => {
-      setIsShow(store.getState().show)
+      setIsShow(store.getState().TabBarReducer.show)
     })
   }, [])
 

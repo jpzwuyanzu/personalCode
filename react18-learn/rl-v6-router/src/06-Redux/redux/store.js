@@ -1,12 +1,14 @@
 // 引入redux
 // 使用createStore(reducer)
 
-import {combineReducers, createStore } from 'redux'
+import {combineReducers, createStore, applyMiddleware } from 'redux'
 import CityReducer  from './reducers/cityReducer'
 import TabBarReducer from './reducers/tabbarReducer'
+import CinemaListReducer from './reducers/CinemaListReducer'
+import reduxThunk from 'redux-thunk'
 
-const reducer = combineReducers({CityReducer, TabBarReducer})
-const store = createStore(reducer);
+const reducer = combineReducers({CityReducer, TabBarReducer, CinemaListReducer})
+const store = createStore(reducer, applyMiddleware(reduxThunk));
 
 /**
  * store.dispatch

@@ -9,7 +9,6 @@ export default function Detail() {
     const params = useParams();
     const navigate = useNavigate()
     useEffect(() => {
-        console.log('create')
         // store.dispatch 通知App
         store.dispatch(hide())
         return () => {

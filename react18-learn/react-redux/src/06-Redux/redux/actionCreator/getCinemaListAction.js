@@ -1,6 +1,7 @@
 import axios from 'axios'
 // redux promise风格
 function getCinemaListAction(value) {
+    console.log(value)
     return (dispatch) => {
         return new Promise(resolve => {
             axios({

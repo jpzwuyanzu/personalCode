@@ -58,7 +58,7 @@ export default MRouter;
  {/* <Route index element={ <Film/> } /> */}
 ```
 
-### 3， 路由重定向
+### 3，路由重定向
 
  1.可以用用Navigate组件替代
  ```js
@@ -73,7 +73,7 @@ export default MRouter;
 <Route path="*" element={ <Redirect to="/films"/> } />
  ```
 
- ### 4，嵌套路由
+### 4，嵌套路由
  ```js
 {/* 嵌套路由 */}
 <Route path="/films" element={ <Film/> }>
@@ -82,7 +82,7 @@ export default MRouter;
 </Route>
  ```
 
- ### 5，申明式导航和编程式导航
+### 5，申明式导航和编程式导航
 
  申明式导航
 src/components/TabBar.jsx
@@ -157,6 +157,7 @@ export default function NowPlaying() {
 }
 
 ```
+
 ### 6, 路由拦截(登录状态拦截)
 ```jsx
 import React from 'react'
@@ -238,6 +239,7 @@ export default function withRouter(Component) {
     }
 }
 ```
+
 ### 9，路由懒加载
 router/index.js
 ```js
@@ -394,14 +396,111 @@ const LazyLoad = (path) => {
 }
 ```
 
-### HOC与contex通信在react-redux底层中的应用
+# react-redux 和 redux
+
+### 1，HOC与contex通信在react-redux底层中的应用
 1，connect是HOC，高阶组件
 2，Provide组件，可以让容器组件拿到state，使用了contex
 
-### 高阶组件构建与应用
+### 2，高阶组件构建与应用
 
 HOC不仅仅是一个方法，确切说是一个组件工厂，获取低阶组件，生成高阶组件
 作用：
 1,代码复用，代码模块化
 2，增删改低阶组件的props
 3，渲染劫持
+NotFound.jsx
+```jsx
+import React, { useEffect } from 'react'
+
+const NotFound = (props) => {
+    useEffect(() => {
+        console.log(props)
+    }, [])
+    return (
+        <div>
+            404
+        </div>
+    )
+}
+
+//自定义高阶组件
+
+function TestHoc(cb, obj) {
+    var value = cb();
+    return (MyCom) => {
+        return (props) => {
+            return <div style={{ color: "red" }}><MyCom { ...value } { ...props } { ...obj } /></div>
+        }
+    }
+}
+
+export default TestHoc(() => {
+    return {
+        a: 1,
+        b: 2
+    }
+}, {
+    aa(){},
+    bb(){}
+})(NotFound)
+
+```
+
+### 3，redux数据持久化
+
+使用redux-persist实现
+store.js
+```js
+import {combineReducers, createStore, applyMiddleware } from 'redux'
+import CityReducer  from './reducers/cityReducer'
+import TabBarReducer from './reducers/tabbarReducer'
+import CinemaListReducer from './reducers/CinemaListReducer'
+import reduxThunk from 'redux-thunk'
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
+
+const persistConfig = {
+    key: 'root',
+    storage,
+    whitelist: ['CityReducer'] // 白名单代表想要持久化的模块
+    // blacklist: ['CityReducer']  黑名单代表不需要持久化的模块
+  }
+
+const rootReducer = combineReducers({CityReducer, TabBarReducer, CinemaListReducer})
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+const store = createStore(persistedReducer, applyMiddleware(reduxThunk));
+const persistor = persistStore(store)
+
+export {
+    store, persistor
+}
+```
+index.js
+```js
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App.jsx';
+import { Provider } from 'react-redux';
+import { store, persistor } from './06-Redux/redux/store'
+import reportWebVitals from './reportWebVitals';
+import { PersistGate } from 'redux-persist/integration/react'
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <Provider store={ store }>
+    <PersistGate loading={null} persistor={persistor}>
+      <App />
+    </PersistGate>
+    </Provider>
+  </React.StrictMode>
+);
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
+
+```

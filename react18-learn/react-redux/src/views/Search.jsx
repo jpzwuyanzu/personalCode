@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import store from "../06-Redux/redux/store";
+import {store} from "../06-Redux/redux/store";
 import { getCinemaListAction } from "./../06-Redux/redux/actionCreator/getCinemaListAction";
 
 export default function Search() {

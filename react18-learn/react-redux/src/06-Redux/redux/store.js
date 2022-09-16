@@ -6,9 +6,26 @@ import CityReducer  from './reducers/cityReducer'
 import TabBarReducer from './reducers/tabbarReducer'
 import CinemaListReducer from './reducers/CinemaListReducer'
 import reduxThunk from 'redux-thunk'
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
 
-const reducer = combineReducers({CityReducer, TabBarReducer, CinemaListReducer})
-const store = createStore(reducer, applyMiddleware(reduxThunk));
+const persistConfig = {
+    key: 'root',
+    storage,
+    whitelist: ['CityReducer'] // 白名单代表想要持久化的模块
+    // blacklist: ['CityReducer']  黑名单代表不需要持久化的模块
+  }
+
+const rootReducer = combineReducers({CityReducer, TabBarReducer, CinemaListReducer})
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+
+// const store = createStore(persistedReducer, applyMiddleware(reduxThunk));
+const store = createStore(persistedReducer, applyMiddleware(reduxThunk));
+const persistor = persistStore(store)
+
+export {
+    store, persistor
+}
 
 /**
  * store.dispatch
@@ -46,4 +63,4 @@ const store = createStore(reducer, applyMiddleware(reduxThunk));
  */
 
 
-export default store
+// export default store

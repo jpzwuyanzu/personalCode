@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { BrowserRouter} from 'react-router-dom'
 import MRouter from './router/index'
 import TabBar from './components/TabBar'
-import store from './06-Redux/redux/store'
 import { connect } from 'react-redux'
 import './views/css/App.css'
 

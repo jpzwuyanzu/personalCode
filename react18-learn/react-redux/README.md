@@ -394,3 +394,14 @@ const LazyLoad = (path) => {
 }
 ```
 
+### HOC与contex通信在react-redux底层中的应用
+1，connect是HOC，高阶组件
+2，Provide组件，可以让容器组件拿到state，使用了contex
+
+### 高阶组件构建与应用
+
+HOC不仅仅是一个方法，确切说是一个组件工厂，获取低阶组件，生成高阶组件
+作用：
+1,代码复用，代码模块化
+2，增删改低阶组件的props
+3，渲染劫持

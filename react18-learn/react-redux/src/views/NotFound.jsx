@@ -1,9 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-export default function NotFound() {
+const NotFound = (props) => {
+    useEffect(() => {
+        console.log(props)
+    }, [])
     return (
         <div>
             404
         </div>
     )
 }
+
+export default NotFound

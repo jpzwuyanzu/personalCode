@@ -2,6 +2,8 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { NavBar } from 'antd-mobile'
+import { SearchOutline } from 'antd-mobile-icons'
 import { connect } from 'react-redux'
 import { getCinemaListAction } from "./../06-Redux/redux/actionCreator/getCinemaListAction";
 
@@ -12,7 +14,7 @@ import { getCinemaListAction } from "./../06-Redux/redux/actionCreator/getCinema
   // const [cinemaList, setCinemaList] = useState(
   //   store.getState().CinemaListReducer.list
   // );
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
   useEffect(() => {
     if (props.cinemaList.length === 0) {
       //去后台取数据
@@ -23,14 +25,19 @@ import { getCinemaListAction } from "./../06-Redux/redux/actionCreator/getCinema
 
   return (
     <div>
-      <div style={{ overflow: 'hidden' }}>
+      {/* <div style={{ overflow: 'hidden' }}>
         <div style={{ float: 'left' }} onClick={() => {
                 navigate("/city");
             }}>城市： {props.cityName}</div>
         <div style={{ float: 'right' }} onClick={() => {
                 navigate("/cinemas/search");
             }}>搜索</div>
-      </div>
+      </div> */}
+      <NavBar left={ <div onClick={() => {
+                navigate("/city");
+            }}>{ props.cityName }</div> } right={<SearchOutline onClick={() => {
+              navigate("/cinemas/search");
+          }} />} onBack={null}></NavBar>
       {props.cinemaList.map((item, index) => (
         <dl style={{ padding: "10px" }} key={item.cinemaId}>
           <dt>{item.name}</dt>

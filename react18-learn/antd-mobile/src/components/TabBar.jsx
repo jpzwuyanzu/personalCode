@@ -15,7 +15,6 @@ export default function MyTabBar() {
     const { pathname } = location
 
     const setRouteActive = (value) => {
-        console.log(value)
         navigate(value)
     }
 
@@ -49,7 +48,7 @@ export default function MyTabBar() {
                     <NavLink className={({ isActive }) => isActive ? 'myActive' : ''} to="/center">我的</NavLink>
                 </li>
             </ul> */}
-            <TabBar activeKey={pathname} onChange={value => setRouteActive(value)}>
+            <TabBar activeKey={'/' + pathname.split('/')[1]} onChange={value => setRouteActive(value)}>
                 {tabs.map(item => (
                     <TabBar.Item key={item.key} icon={item.icon} title={item.title} />
                 ))}

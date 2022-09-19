@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import { SearchBar } from 'antd-mobile'
 import {store} from "../06-Redux/redux/store";
 import { getCinemaListAction } from "./../06-Redux/redux/actionCreator/getCinemaListAction";
 
@@ -33,14 +34,18 @@ export default function Search() {
   }, []);
   return (
     <div>
-      <div>
-        <input
+      <div style={{ padding: '10px' }}>
+        {/* <input
           type="text"
           value={myText}
           onChange={(evt) => {
             setMyText(evt.target.value);
           }}
-        />
+        /> */}
+        <SearchBar placeholder='请输入内容' showCancelButton={() => true} value={myText}
+          onChange={(value) => {
+            setMyText(value);
+          }} />
       </div>
       {getCinemaList.map((item, index) => (
         <dl style={{ padding: "10px" }} key={item.cinemaId}>

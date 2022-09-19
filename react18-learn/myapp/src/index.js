@@ -66,7 +66,7 @@ import ReactDOM from 'react-dom/client'
 // import App from './04-antd/02-栅格'
 import 'antd/dist/antd.min.css';
 import './index.css'
-import App from './04-antd/04-下拉菜单'
+import App from './04-antd/08-树形控件'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 // root.render(

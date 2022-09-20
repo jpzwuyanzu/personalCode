@@ -67,7 +67,7 @@ import ReactDOM from 'react-dom/client'
 import 'antd/dist/antd.min.css';
 import './index.css'
 // import App from './04-antd/08-树形控件'
-import App from './05-immutable/02-map'
+import App from './05-immutable/06-修改信息'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 // root.render(

@@ -28,7 +28,7 @@ export default class App extends Component {
                 <h1>个人信息修改页面</h1>
                 <button onClick={ () => {
                     this.setState({
-                        info: this.state.info.setIn(['name'], 'tom').setIn(['location', 'city'], '深圳')
+                        info: this.state.info.set('name', 'tom').setIn(['location', 'city'], '深圳')
                     })
                 } }>修改</button>
                 <div>{ this.state.info.getIn(['name']) }</div>

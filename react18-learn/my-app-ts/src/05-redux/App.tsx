@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { HashRouter } from 'react-router-dom'
-import MRouter from '../04-router/router/index'
+import MRouter from '../05-redux/router/index'
 import store from './redux/store'
 
 export default class App extends Component {
@@ -9,9 +9,11 @@ export default class App extends Component {
     }
     componentDidMount() {
         store.subscribe(() => {
-            console.log(store)
+            console.log(this.state.isShowTab)
+            this.setState({
+                isShowTab: store.getState().isShow
+            })
         })
-        console.log(this.state.isShowTab)
     }
     render() {
         return (

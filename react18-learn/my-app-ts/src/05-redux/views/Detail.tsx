@@ -6,8 +6,11 @@ export default function Detail() {
         store.dispatch({
             type: 'hide'
         })
-        console.log('详情页面')
-        console.log(store.getState().isShow)
+        return () => {
+            store.dispatch({
+                type: 'show'
+            })
+        }
     }, [])
     return (
         <div>

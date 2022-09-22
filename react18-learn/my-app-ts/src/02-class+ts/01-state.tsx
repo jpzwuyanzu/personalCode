@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
+interface IState{
+    name: string
+}
 
-export default class App extends Component {
-
-
-
+export default class App extends Component<any, IState> {
+    // 上面的泛型中第一个参数是约束属性，第二个是约束状态
     state = {
         name: 'test'
     }

@@ -69,7 +69,9 @@ import './index.css'
 // import App from './04-antd/08-树形控件'
 // import App from './05-immutable/06-修改信息'
 // import App from './06-redux-saga/App'
-import App from './07-懒加载/App'
+// import App from './07-懒加载/App'
+// import App from './08-forwardRef/App'
+import App from './09-memo/App'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 // root.render(

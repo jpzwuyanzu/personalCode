@@ -5,6 +5,7 @@ const Redirect = ({ to }: any) => {
     const navigate = useNavigate();
     useEffect(() => {
         navigate(to, { replace: true })
+        // eslint-disable-next-line
     },[])
     return null
 }

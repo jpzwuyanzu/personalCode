@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { HashRouter } from 'react-router-dom'
 import MRouter from './router/index'
+import './App.css'
 
 const App = () => {
   return (

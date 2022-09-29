@@ -121,3 +121,6 @@ const LazyLoad = (path: string) => {
 
 ### 5,Antd引入
 
+#### 5,1 yarn add antd 
+
+#### 5,2 引入antd的样式

@@ -13,6 +13,7 @@
     "antd": "^4.23.3",
     "axios": "^0.27.2",
     "http-proxy-middleware": "^2.0.6",
+    "nprogress": "^0.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.1",
@@ -44,5 +45,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/nprogress": "^0.2.0"
   }
 }

@@ -211,32 +211,32 @@ export default function SideMenu() {
   const items: any = [
       {
         label: '首页',
-        key: '/home',
+        key: '/auth/home',
         icon: <HomeOutlined />,
       },
       {
           label: '用户管理',
-          key: '/user-mannage',
+          key: '/auth/user-mannage',
           icon: <OrderedListOutlined />,
           children: [
               {
                   label: '用户列表',
-                  key: '/user-mannage/list',
+                  key: '/auth/user-mannage/user-list',
               }
           ]
       },
       {
           label: '权限管理',
-          key: '/right-mannage',
+          key: '/auth/right-mannage',
           icon: <UsergroupAddOutlined />,
           children: [
               {
                   label: '权限列表',
-                  key: '/right-mannage/right-list',
+                  key: '/auth/right-mannage/right-list',
               },
               {
                   label: '角色列表',
-                  key: '/right-mannage/role-list'
+                  key: '/auth/right-mannage/role-list'
               }
           ]
       }
@@ -247,7 +247,7 @@ export default function SideMenu() {
       <Menu
         theme="dark"
         mode="inline"
-        defaultSelectedKeys={["/home"]}
+        defaultSelectedKeys={["/auth/home"]}
         items={items}
         onClick={ (e) => {
             navigate(e.key)
@@ -257,3 +257,49 @@ export default function SideMenu() {
   );
 }
 ```
+
+### JSON Server 
+ 
+ npm install -g json-server
+ ```tsx
+ // post 新增
+ axios.post('http://localhost:3000/posts/',{
+    title: 'test',
+    author: 'tony'
+})
+// 查询
+axios.get('http://localhost:3000/posts/',{
+    title: 'test',
+    author: 'tony'
+})
+//整个替换
+axios.put('http://localhost:3000/posts/',{
+    title: 'test',
+    author: 'tony'
+})
+// 更新部分
+axios.patch('http://localhost:3000/posts/',{
+    title: 'test',
+    author: 'tony'
+})
+// 删除
+axios.delte('http://localhost:3000/posts/1')
+
+//_embed 多表关联查询，向下关联
+axios.get('http://localhost:3000/posts?_embed=comments',{
+    title: 'test',
+    author: 'tony'
+})
+
+//_expand 多表关联查询，向上关联
+axios.get('http://localhost:3000/comments?_expand=posts',{
+    title: 'test',
+    author: 'tony'
+})
+
+ ```
+
+
+
+
+

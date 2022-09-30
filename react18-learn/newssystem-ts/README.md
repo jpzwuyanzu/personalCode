@@ -258,7 +258,7 @@ export default function SideMenu() {
 }
 ```
 
-### JSON Server 
+### 7,JSON Server 
  
  npm install -g json-server
  ```tsx
@@ -298,7 +298,28 @@ axios.get('http://localhost:3000/comments?_expand=posts',{
 })
 
  ```
+### 8, 添加nprogress 
 
+npm install --save nprogress @types/nprogress
+
+ 封装Loading.tsx组件
+ ```tsx
+import React, { useEffect } from 'react'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
+
+
+export default function Loding() {
+    useEffect(() => {
+        NProgress.start()
+        return () => {
+            NProgress.done()
+        }
+    }, [])
+    return (<div></div>)
+}
+ ``` 
+在Suspense 的fallback中使用
 
 
 

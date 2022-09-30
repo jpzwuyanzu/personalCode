@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { memo } from 'react'
 
-export default function RightList() {
+const RightList = () => {
     return (
         <div>
             RightList
         </div>
     )
 }
+
+export default RightList

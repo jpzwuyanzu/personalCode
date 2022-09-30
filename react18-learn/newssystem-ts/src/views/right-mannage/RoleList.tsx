@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { memo } from 'react'
 
-export default function RoleList() {
+const RoleList = () => {
     return (
         <div>
             RoleList
         </div>
     )
 }
+
+export default RoleList

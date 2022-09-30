@@ -8,38 +8,38 @@ const MRouter = () => {
             element: LazyLoad('login/Login.tsx')
         },
         {
-            path: '/',
-            element: <AuthComponent>{ LazyLoad('newssandbox/NewsSandBox.tsx') }</AuthComponent>,
+            path: '/auth',
+            element: LazyLoad('newssandbox/NewsSandBox.tsx'),
             children: [
                 {
                     path: '',
-                    element: <Redirect to="/home"/>
+                    element: <Redirect to="/auth/home"/>
                 },
                 {
                     path: 'home',
-                    element: LazyLoad('home/Home.tsx')
+                    element: <AuthComponent>{ LazyLoad('home/Home.tsx') }</AuthComponent>
                 },
                 {
-                    path: 'user-mannage/list',
-                    element: LazyLoad('user-mannage/UserList.tsx')
+                    path: 'user-mannage/user-list',
+                    element: <AuthComponent>{ LazyLoad('user-mannage/UserList.tsx') }</AuthComponent>
                 },
                 {
                     path: 'right-mannage/right-list',
-                    element: LazyLoad('right-mannage/RightList.tsx')
+                    element: <AuthComponent>{ LazyLoad('right-mannage/RightList.tsx') }</AuthComponent>
                 },
                 {
                     path: 'right-mannage/role-list',
-                    element: LazyLoad('right-mannage/RoleList.tsx')
+                    element: <AuthComponent>{ LazyLoad('right-mannage/RoleList.tsx') }</AuthComponent>
                 }
             ]
         },
         {
             path: '/',
-            element: <Redirect to="/"/>
+            element: <Redirect to="/auth"/>
         },
         {
             path: '*',
-            element: LazyLoad('404/NotFound.tsx')
+            element: LazyLoad('../views/404/NotFound.tsx')
         }
     ])
     return (element)

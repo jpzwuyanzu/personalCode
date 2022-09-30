@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Button } from 'antd'
 
-export default function Home() {
+const Home = () => {
     return (
         <div>
-            <Button type="primary">button</Button>
+            {/* <Button type="primary">button</Button> */}
+            home
         </div>
     )
 }
+
+export default Home

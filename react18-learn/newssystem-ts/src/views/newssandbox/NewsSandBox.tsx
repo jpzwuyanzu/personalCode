@@ -1,28 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import { Outlet } from "react-router-dom";
 import { Layout } from "antd";
 import SideMenu from "../../layout/SideMenu";
 import TopHeader from "../../layout/TopHeader";
 import "./NewsSandBox.css";
 
-const { Content } = Layout;
+const { Sider, Content } = Layout;
 
-export default function NewsSandBox() {
-  return (
-    <Layout>
-      <SideMenu />
-      <Layout className="site-layout">
-        <TopHeader />
-        <Content
-          className="site-layout-background"
-          style={{
-            margin: "24px 16px",
-            padding: 24,
-            minHeight: 280,
-          }}>
-          <Outlet />
-        </Content>
-      </Layout>
-    </Layout>
-  );
-}
+ const NewsSandBox = () => {
+    const [collapsed, setCollapsed] = useState(false);
+     return (
+       <Layout>
+           <Sider trigger={null} collapsible collapsed={collapsed}>
+           <SideMenu />
+           </Sider>
+         <Layout className="site-layout">
+           <TopHeader />
+           <Content
+             className="site-layout-background"
+             style={{
+               margin: "24px 16px",
+               padding: 24,
+               minHeight: 280,
+             }}>
+               {/* 路由容器 */}
+             <Outlet />
+           </Content>
+         </Layout>
+       </Layout>
+     );
+   }
+
+export default NewsSandBox

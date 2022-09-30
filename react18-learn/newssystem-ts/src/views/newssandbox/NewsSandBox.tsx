@@ -1,4 +1,4 @@
-import React, { useState, memo } from "react";
+import React, { useState, memo, Suspense } from "react";
 import { Outlet } from "react-router-dom";
 import { Layout } from "antd";
 import SideMenu from "../../layout/SideMenu";
@@ -23,8 +23,10 @@ const { Sider, Content } = Layout;
                padding: 24,
                minHeight: 280,
              }}>
+               {/* <Suspense fallback={ <>....</> }> */}
+               <Outlet />
+               {/* </Suspense> */}
                {/* 路由容器 */}
-             <Outlet />
            </Content>
          </Layout>
        </Layout>

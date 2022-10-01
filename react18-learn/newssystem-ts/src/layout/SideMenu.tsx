@@ -1,50 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Layout, Menu } from "antd";
 import {
     HomeOutlined,
     UsergroupAddOutlined,
-    OrderedListOutlined
+    UserOutlined,
+    MessageOutlined,
+    CheckSquareOutlined,
+    CloudUploadOutlined
 } from "@ant-design/icons";
 import { useNavigate } from 'react-router-dom'
 import './SideMenu.scss'
-
+import axios from 'axios';
 const { Sider } = Layout;
+const IconList: any = {
+    '/home': <HomeOutlined />,
+    '/user-manage': <UserOutlined />,
+    '/right-manage': <UsergroupAddOutlined />,
+    '/news-manage': <MessageOutlined />,
+    '/audit-manage': <CheckSquareOutlined />,
+    '/publish-manage': <CloudUploadOutlined />
+}
+
 export default function SideMenu() {
   const [collapsed, setCollapsed] = useState(false);
+  const [menuList, setMenuList] = useState([])
   const navigate = useNavigate();
-  const items: any = [
-      {
-        label: '首页',
-        key: '/home',
-        icon: <HomeOutlined />,
-      },
-      {
-          label: '用户管理',
-          key: '/user-manage',
-          icon: <OrderedListOutlined />,
-          children: [
-              {
-                  label: '用户列表',
-                  key: '/user-manage/list',
-              }
-          ]
-      },
-      {
-          label: '权限管理',
-          key: '/right-manage',
-          icon: <UsergroupAddOutlined />,
-          children: [
-              {
-                  label: '权限列表',
-                  key: '/right-manage/right/list',
-              },
-              {
-                  label: '角色列表',
-                  key: '/right-manage/role/list'
-              }
-          ]
-      }
-  ]
+  const filterMenu = (menuArr: any) => {
+     menuArr.map((item: any, index: any) => {
+            item.icon = IconList[item.key]
+     })
+     return menuArr
+  } 
+  useEffect(() => {
+    axios.get('http://localhost:3000/menu').then(res => {
+        let tempArr: any = filterMenu(res.data)
+        setMenuList(tempArr)
+    })
+  }, [])
   return (
     <Sider trigger={null} collapsible collapsed={collapsed}>
       <div className="logo">全球新闻发布系统</div>
@@ -52,10 +44,10 @@ export default function SideMenu() {
         theme="dark"
         mode="inline"
         defaultSelectedKeys={["/home"]}
-        items={items}
+        items={menuList}
         onClick={ (e) => {
             navigate(e.key)
-        } }
+        }}
       />
     </Sider>
   );

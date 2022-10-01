@@ -6,16 +6,3 @@
     text-align: center;
     margin: 10px;
 }
-.menu {
-    display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	height: 100%;
-    width: 200px;
-    .ant-spin-nested-loading {
-        width: 100%;
-        .ant-spin-container {
-            width: 100%;
-        }
-    }
-}

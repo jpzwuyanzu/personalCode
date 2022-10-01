@@ -39,16 +39,20 @@ export default function SideMenu() {
   }, [])
   return (
     <Sider trigger={null} collapsible collapsed={collapsed}>
-      <div className="logo">全球新闻发布系统</div>
-      <Menu
-        theme="dark"
-        mode="inline"
-        defaultSelectedKeys={["/home"]}
-        items={menuList}
-        onClick={ (e) => {
-            navigate(e.key)
-        }}
-      />
+      <div style={{display: 'flex', height: '100%', flexDirection: 'column'}}>
+        <div className="logo">全球新闻发布系统</div>
+        <div style={{ flex: 1, overflow: 'hidden'}}>
+            <Menu
+                theme="dark"
+                mode="inline"
+                defaultSelectedKeys={["/home"]}
+                items={menuList}
+                onClick={ (e) => {
+                    navigate(e.key)
+                }}
+            />
+        </div>
+      </div>
     </Sider>
   );
 }

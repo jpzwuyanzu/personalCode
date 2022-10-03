@@ -8,7 +8,7 @@ import {
     CheckSquareOutlined,
     CloudUploadOutlined
 } from "@ant-design/icons";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import './SideMenu.scss'
 import axios from 'axios';
 const { Sider } = Layout;
@@ -23,8 +23,10 @@ const IconList: any = {
 
 export default function SideMenu() {
   const [collapsed, setCollapsed] = useState(false);
-  const [menuList, setMenuList] = useState([])
+  const [menuList, setMenuList] = useState([]);
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const openKeys = ['/' + pathname.split('/')[1]]
   const filterMenu = (menuArr: any) => {
      menuArr.map((item: any, index: any) => {
             item.icon = IconList[item.key]
@@ -45,7 +47,9 @@ export default function SideMenu() {
             <Menu
                 theme="dark"
                 mode="inline"
-                defaultSelectedKeys={["/home"]}
+                // defaultSelectedKeys={[pathname]}
+                selectedKeys={[pathname]}
+                defaultOpenKeys={openKeys}
                 items={menuList}
                 onClick={ (e) => {
                     navigate(e.key)

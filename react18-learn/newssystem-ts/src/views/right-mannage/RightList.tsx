@@ -33,7 +33,7 @@ const RightList = () => {
 
     return (
         <div>
-            <Table dataSource={dataSource} columns={columns} />
+            <Table dataSource={dataSource} columns={columns} pagination={{ pageSize: 3 }}/>
         </div>
     )
 }

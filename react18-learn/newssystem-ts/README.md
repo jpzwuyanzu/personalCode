@@ -302,8 +302,8 @@ axios.get('http://localhost:3000/comments?_expand=posts',{
 
 npm install --save nprogress @types/nprogress
 
- 封装Loading.tsx组件
- ```tsx
+封装Loading.tsx组件
+```tsx
 import React, { useEffect } from 'react'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
@@ -318,7 +318,7 @@ export default function Loding() {
     }, [])
     return (<div></div>)
 }
- ``` 
+``` 
 在Suspense 的fallback中使用
 
 

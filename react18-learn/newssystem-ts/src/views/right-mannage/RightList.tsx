@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Table, Space, Button, Modal } from 'antd';
+import { Table, Space, Button, Modal, Switch } from 'antd';
 import axios from 'axios'
 import {
     EditOutlined,
@@ -11,7 +11,7 @@ import { render } from '@testing-library/react';
 const RightList = () => {
 
     const [dataSource, setDataSource] = useState([])
-    const columns = [
+    const columns: any = [
         {
           title: 'ID',
           dataIndex: 'id',
@@ -31,13 +31,20 @@ const RightList = () => {
           key: 'key',
         },
         {
+            title: '权限状态',
+            render: (text: any) => {
+                console.log(text)
+               return <Switch defaultChecked />
+            },
+        },
+        {
             title: '操作',
             render: (text: any) => {
                 return <Space>
-                    <Button type="primary" shape="circle" icon={<EditOutlined />} />
+                    {/* <Button type="primary" shape="circle" icon={<EditOutlined />} /> */}
                     <Button danger shape="circle" icon={<DeleteOutlined />} onClick={ () => showModal() } />
                 </Space>
-            }
+            },
         }
       ];
 

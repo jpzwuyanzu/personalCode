@@ -34,8 +34,8 @@ export default function SideMenu() {
      return menuArr
   } 
   useEffect(() => {
-    axios.get('http://localhost:3000/menu').then(res => {
-        let tempArr: any = filterMenu(res.data)
+    axios.get('menu.json').then(res => {
+        let tempArr: any = filterMenu(res.data.menu)
         setMenuList(tempArr)
     })
   }, [])

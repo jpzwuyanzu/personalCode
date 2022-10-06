@@ -1,0 +1,244 @@
+{
+    "rights": [
+        {
+          "id": 1,
+          "label": "首页",
+          "title": "首页",
+          "key": "/home",
+          "pagepermisson": 1,
+          "grade": 1,
+          "children": []
+        },
+        {
+          "id": 2,
+          "label": "用户管理",
+          "title": "用户管理",
+          "key": "/user-manage",
+          "pagepermisson": 1,
+          "grade": 1,
+          "children": [
+            {
+              "id": 3,
+              "label": "添加用户",
+              "title": "添加用户",
+              "rightId": 2,
+              "key": "/user-manage/add",
+              "grade": 2
+            },
+            {
+              "id": 4,
+              "label": "删除用户",
+              "title": "删除用户",
+              "rightId": 2,
+              "key": "/user-manage/delete",
+              "grade": 2
+            },
+            {
+              "id": 5,
+              "label": "修改用户",
+              "title": "修改用户",
+              "rightId": 2,
+              "key": "/user-manage/update",
+              "grade": 2
+            },
+            {
+              "id": 6,
+              "label": "用户列表",
+              "title": "用户列表",
+              "rightId": 2,
+              "key": "/user-manage/list",
+              "pagepermisson": 1,
+              "grade": 2
+            }
+          ]
+        },
+        {
+          "id": 7,
+          "label": "权限管理",
+          "title": "权限管理",
+          "key": "/right-manage",
+          "pagepermisson": 1,
+          "grade": 1,
+          "children": [
+            {
+              "id": 8,
+              "label": "角色列表",
+              "title": "角色列表",
+              "rightId": 7,
+              "key": "/right-manage/role/list",
+              "pagepermisson": 1,
+              "grade": 2
+            },
+            {
+              "id": 9,
+              "label": "权限列表",
+              "title": "权限列表",
+              "rightId": 7,
+              "key": "/right-manage/right/list",
+              "pagepermisson": 1,
+              "grade": 2
+            },
+            {
+              "id": 10,
+              "label": "修改角色",
+              "title": "修改角色",
+              "rightId": 7,
+              "key": "/right-manage/role/update",
+              "grade": 2
+            },
+            {
+              "id": 11,
+              "label": "删除角色",
+              "title": "删除角色",
+              "rightId": 7,
+              "key": "/right-manage/role/delete",
+              "grade": 2
+            },
+            {
+              "id": 12,
+              "label": "修改权限",
+              "title": "修改权限",
+              "rightId": 7,
+              "key": "/right-manage/right/update",
+              "grade": 2
+            },
+            {
+              "id": 13,
+              "label": "删除权限",
+              "title": "删除权限",
+              "rightId": 7,
+              "key": "/right-manage/right/delete",
+              "grade": 2
+            }
+          ]
+        },
+        {
+          "id": 14,
+          "label": "新闻管理",
+          "title": "新闻管理",
+          "key": "/news-manage",
+          "pagepermisson": 1,
+          "grade": 1,
+          "children": [
+            {
+              "id": 15,
+              "label": "新闻列表",
+              "title": "新闻列表",
+              "rightId": 14,
+              "key": "/news-manage/list",
+              "grade": 2
+            },
+            {
+              "id": 16,
+              "label": "撰写新闻",
+              "title": "撰写新闻",
+              "rightId": 14,
+              "key": "/news-manage/add",
+              "grade": 2,
+              "pagepermisson": 1
+            },
+            {
+              "id": 17,
+              "label": "新闻更新",
+              "title": "新闻更新",
+              "rightId": 14,
+              "key": "/news-manage/update/:id",
+              "grade": 2,
+              "routepermisson": 1
+            },
+            {
+              "id": 18,
+              "label": "新闻预览",
+              "title": "新闻预览",
+              "rightId": 14,
+              "key": "/news-manage/preview/:id",
+              "grade": 2,
+              "routepermisson": 1
+            },
+            {
+              "id": 19,
+              "label": "草稿箱",
+              "title": "草稿箱",
+              "rightId": 14,
+              "key": "/news-manage/draft",
+              "pagepermisson": 1,
+              "grade": 2
+            },
+            {
+              "id": 20,
+              "label": "新闻分类",
+              "title": "新闻分类",
+              "rightId": 14,
+              "key": "/news-manage/category",
+              "pagepermisson": 1,
+              "grade": 2
+            }
+          ]
+        },
+        {
+          "id": 21,
+          "label": "审核管理",
+          "title": "审核管理",
+          "key": "/audit-manage",
+          "pagepermisson": 1,
+          "grade": 1,
+          "children": [
+            {
+              "id": 22,
+              "label": "审核新闻",
+              "title": "审核新闻",
+              "rightId": 21,
+              "key": "/audit-manage/audit",
+              "pagepermisson": 1,
+              "grade": 2
+            },
+            {
+              "id": 23,
+              "label": "审核列表",
+              "title": "审核列表",
+              "rightId": 21,
+              "key": "/audit-manage/list",
+              "pagepermisson": 1,
+              "grade": 2
+            }
+          ]
+        },
+        {
+          "id": 24,
+          "label": "发布管理",
+          "title": "发布管理",
+          "key": "/publish-manage",
+          "pagepermisson": 1,
+          "grade": 1,
+          "children": [
+            {
+              "id": 25,
+              "label": "待发布",
+              "title": "待发布",
+              "rightId": 24,
+              "key": "/publish-manage/unpublished",
+              "pagepermisson": 1,
+              "grade": 2
+            },
+            {
+              "id": 26,
+              "label": "已发布",
+              "title": "已发布",
+              "rightId": 24,
+              "key": "/publish-manage/published",
+              "pagepermisson": 1,
+              "grade": 2
+            },
+            {
+              "id": 27,
+              "label": "已下线",
+              "title": "已下线",
+              "rightId": 24,
+              "key": "/publish-manage/sunset",
+              "pagepermisson": 1,
+              "grade": 2
+            }
+          ]
+        }
+      ]
+}

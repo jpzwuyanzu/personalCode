@@ -23,37 +23,36 @@ const RightList = () => {
         {
           title: '权限名称',
           dataIndex: 'label',
-          key: 'label',
+          key: 'label'
         },
         {
           title: '权限路径',
           dataIndex: 'key',
-          key: 'key',
+          key: 'key'
         },
-        {
-            title: '权限状态',
-            render: (text: any) => {
-                console.log(text)
-               return <Switch defaultChecked />
-            },
-        },
-        {
-            title: '操作',
-            render: (text: any) => {
-                return <Space>
-                    {/* <Button type="primary" shape="circle" icon={<EditOutlined />} /> */}
-                    <Button danger shape="circle" icon={<DeleteOutlined />} onClick={ () => showModal() } />
-                </Space>
-            },
-        }
+        // {
+        //     title: '权限状态',
+        //     render: (text: any) => {
+        //         console.log(text)
+        //        return <Switch defaultChecked />
+        //     },
+        // },
+        // {
+        //     title: '操作',
+        //     render: (text: any) => {
+        //         return <Space>
+        //             <Button type="primary" shape="circle" icon={<EditOutlined />} />
+        //             <Button danger shape="circle" icon={<DeleteOutlined />} onClick={ () => showModal() } />
+        //         </Space>
+        //     },
+        // }
       ];
 
     useEffect(() => {
-        axios.get('http://localhost:3000/rights?_embed=children').then(res => {
-            console.log(res.data)
-            const list = res.data
+        axios.get('/right.json').then(res => {
+            const list = res.data.rights
             list[0].children = '';
-            setDataSource(res.data)
+            setDataSource(res.data.rights)
         })
     },[])
     const showModal = () => {

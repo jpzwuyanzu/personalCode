@@ -1,0 +1,87 @@
+{
+    "roles": [
+        {
+          "id": 1,
+          "roleName": "超级管理员",
+          "roleType": 1,
+          "rights": [
+            "/user-manage/add",
+            "/user-manage/delete",
+            "/user-manage/update",
+            "/right-manage",
+            "/right-manage/right/list",
+            "/right-manage/role/update",
+            "/right-manage/right/update",
+            "/news-manage",
+            "/news-manage/list",
+            "/news-manage/add",
+            "/news-manage/update/:id",
+            "/news-manage/preview/:id",
+            "/news-manage/draft",
+            "/news-manage/category",
+            "/audit-manage",
+            "/audit-manage/audit",
+            "/audit-manage/list",
+            "/publish-manage",
+            "/publish-manage/unpublished",
+            "/publish-manage/published",
+            "/publish-manage/sunset",
+            "/user-manage",
+            "/user-manage/list",
+            "/right-manage/role/list",
+            "/right-manage/role/delete",
+            "/right-manage/right/delete",
+            "/home"
+          ]
+        },
+        {
+          "id": 2,
+          "roleName": "区域管理员",
+          "roleType": 2,
+          "rights": [
+            "/home",
+            "/user-manage",
+            "/user-manage/add",
+            "/user-manage/delete",
+            "/user-manage/update",
+            "/user-manage/list",
+            "/news-manage/list",
+            "/news-manage/add",
+            "/publish-manage",
+            "/publish-manage/unpublished",
+            "/publish-manage/published",
+            "/publish-manage/sunset",
+            "/news-manage",
+            "/audit-manage",
+            "/audit-manage/audit",
+            "/audit-manage/list",
+            "/news-manage/update/:id",
+            "/news-manage/preview/:id",
+            "/news-manage/draft",
+            "/news-manage/category"
+          ]
+        },
+        {
+          "id": 3,
+          "roleName": "区域编辑",
+          "roleType": 3,
+          "rights": [
+            "/home",
+            "/audit-manage",
+            "/audit-manage/list",
+            "/publish-manage",
+            "/publish-manage/unpublished",
+            "/publish-manage/published",
+            "/publish-manage/sunset",
+            "/audit-manage/audit",
+            "/news-manage/list",
+            "/news-manage/add",
+            "/news-manage/update/:id",
+            "/news-manage/preview/:id",
+            "/news-manage/draft",
+            "/news-manage/category",
+            "/news-manage"
+          ]
+        }
+      ]
+}

@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { Table, Space, Button, Modal, Form, Input, Select } from "antd";
+import React, { useState, useEffect, useRef } from "react";
+import { Table, Space, Button, Modal } from "antd";
+import UseForm from '../../components/useForm'
 import axios from "axios";
-const { Option } = Select;
 
 const UserList = () => {
   const [dataSource, setDataSource] = useState([]);
-  const [regions, setRegions] = useState([]);
-  const [roleList, setRoleList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modelType, setModelType] = useState(1);
+  const [disableOpt, setDisabledOpt] = useState(false);
+  const [currentItem, setCurrentItem] = useState({});
   const columns: any = [
     {
       title: "用户名",
@@ -30,11 +31,11 @@ const UserList = () => {
     {
       title: "操作",
       align: "center",
-      render: () => {
+      render: (text: any) => {
         return (
           <>
             <Space>
-              <Button type="primary">编辑</Button>
+              <Button type="primary" onClick={ () => updateModal(text) }>编辑</Button>
               <Button type="primary" danger>
                 删除
               </Button>
@@ -44,48 +45,40 @@ const UserList = () => {
       },
     },
   ];
-
+  const formRef: any = useRef(null)
   useEffect(() => {
     axios.get("user.json").then((res) => {
       setDataSource(res.data.users);
     });
   }, []);
-  useEffect(() => {
-    axios.get("regions.json").then((res) => {
-        setRegions(res.data.regions);
-    });
-  }, []);
-  useEffect(() => {
-    axios.get("role.json").then((res) => {
-        setRoleList(res.data.roles);
-    });
-  }, []);
-
   const showModal = () => {
     setIsModalOpen(true);
   };
-
+  const updateModal = async (item: any) => {
+    setCurrentItem(item);
+    //这里要先创建表单元素之后才可以获取到表单方法
+    await setIsModalOpen(true); 
+    formRef.current.setFieldsValue(item)
+    
+  }
   const handleOk = () => {
-    setIsModalOpen(false);
+      // validateFields() 触发校验
+      // setFieldValue() //设置某一项的值
+      // resetFields() // 重置一组字段的值
+      formRef.current.validateFields().then((res: any) => {
+          console.log(res)
+          //在这里将数据提交到后台
+          setIsModalOpen(false);
+      })
   };
-
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  const onFinish = (values: any) => {
-    console.log("Success:", values);
-  };
-
-  const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
-  };
-
-
   return (
     <div>
       <Button
         type="primary"
-        onClick={showModal}
+        onClick={() => showModal()}
         style={{ marginBottom: "20px" }}>
         新增用户
       </Button>
@@ -94,50 +87,11 @@ const UserList = () => {
         columns={columns}
         rowKey={(item: any) => item.id}/>
       <Modal
-        title="新增用户"
+        title={ modelType === 1 ? '新增用户' : '编辑用户' }
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}>
-        <Form
-          name="basic"
-          labelCol={{ span: 5 }}
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-          autoComplete="off">
-          <Form.Item
-            label="用户名"
-            name="username"
-            rules={[{ required: true, message: "请输入用户名称!" }]}>
-            <Input />
-          </Form.Item>
-
-          <Form.Item
-            label="密码"
-            name="password"
-            rules={[{ required: true, message: "请输入密码!" }]}>
-            <Input.Password />
-          </Form.Item>
-          <Form.Item
-          label="区域"
-          name="region"
-          rules={[{ required: true, message: "请选择用户区域!" }]}>
-            <Select>
-                {
-                    regions.map((item: any) => <Option value={ item.value } key={ item.id }>{ item.title }</Option>)
-                }
-            </Select>
-          </Form.Item>
-          <Form.Item
-          label="角色"
-          name="roleId"
-          rules={[{ required: true, message: "请选择用户角色!" }]}>
-             <Select>
-                {
-                    roleList.map((item: any) => <Option value={ item.id } key={ item.id }>{ item.roleName }</Option>)
-                }
-            </Select>
-          </Form.Item>
-        </Form>
+        <UseForm ref={ formRef } disableOpt={disableOpt} currentItem={ currentItem } modelType={ modelType }></UseForm>
       </Modal>
     </div>
   );

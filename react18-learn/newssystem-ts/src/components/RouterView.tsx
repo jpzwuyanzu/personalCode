@@ -8,7 +8,7 @@ const RouterView = () => {
     const routeRights = JSON.parse((localStorage.getItem('rights') as any));
     useEffect(() => {
         routeRights.includes(pathname) ? setHasRights(true) : setHasRights(false)
-    } ,[pathname])
+    } ,[pathname, routeRights])
     return (
         <>
          { hasRights ?  <Outlet/> : <NotFind/>}

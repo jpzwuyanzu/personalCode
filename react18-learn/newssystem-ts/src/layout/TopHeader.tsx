@@ -40,7 +40,7 @@ const TopHeader = () => {
         {
           collapsed ? <MenuUnfoldOutlined style={{ fontSize: '18px' }} onClick={ changeCollapsed } /> : <MenuFoldOutlined style={{ fontSize: '18px' }} onClick={ changeCollapsed } />
         }
-        <div style={{ float: 'right',paddingRight: '10px' }}>
+        <div style={{ float: 'right',paddingRight: '10px', cursor: 'pointer' }}>
             <Dropdown overlay={menu}>
               <span onClick={e => e.preventDefault()}>
               <Space>

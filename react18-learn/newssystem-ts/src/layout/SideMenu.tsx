@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { Layout, Menu } from "antd";
 import {
@@ -22,13 +24,14 @@ const IconList: any = {
 }
 
 export default function SideMenu() {
-  const [collapsed, setCollapsed] = useState(false);
+  // const [collapsed, setCollapsed] = useState(false);
+  const collapsed = false;
   const [menuList, setMenuList] = useState([]);
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const openKeys = ['/' + pathname.split('/')[1]]
   const filterMenu = (menuArr: any) => {
-     menuArr.map((item: any, index: any) => {
+     menuArr.forEach((item: any, index: any) => {
             item.icon = IconList[item.key]
      })
      return menuArr

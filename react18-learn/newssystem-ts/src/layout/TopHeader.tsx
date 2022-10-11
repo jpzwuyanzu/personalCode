@@ -27,7 +27,8 @@ const TopHeader = () => {
             danger: true,
             label: '退出',
             onClick: () => {
-              localStorage.removeItem('token')
+              localStorage.removeItem('token');
+              localStorage.removeItem('rights');
               navigate('/login')
             }
           },
@@ -41,7 +42,7 @@ const TopHeader = () => {
   return (
       <Header className="site-layout-background" style={{ padding: '0 16px' }}>
         {
-          collapsed ? <MenuUnfoldOutlined onClick={ changeCollapsed } /> : <MenuFoldOutlined onClick={ changeCollapsed } />
+          collapsed ? <MenuUnfoldOutlined style={{ fontSize: '18px' }} onClick={ changeCollapsed } /> : <MenuFoldOutlined style={{ fontSize: '18px' }} onClick={ changeCollapsed } />
         }
         <div style={{ float: 'right',paddingRight: '10px' }}>
             <Dropdown overlay={menu}>

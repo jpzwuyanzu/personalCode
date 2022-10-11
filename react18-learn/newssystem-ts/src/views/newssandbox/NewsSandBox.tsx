@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Outlet } from "react-router-dom";
+import React from "react";
 import RouterView from '../../components/RouterView'
 import { Layout } from "antd";
 import SideMenu from "../../layout/SideMenu";
@@ -9,7 +8,6 @@ import "./NewsSandBox.css";
 const { Content } = Layout;
 
  const NewsSandBox = () => {
-    const [collapsed, setCollapsed] = useState(false);
      return (
        <Layout>
            <SideMenu />

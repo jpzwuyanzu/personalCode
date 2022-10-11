@@ -7,7 +7,6 @@ const RoleList = () => {
     const [open, setOpen] = useState(false);
     const [treeData, setTreeData] = useState([]);
     const [checkedList, setCheckList] = useState([]);
-    const [currentId, setCurrentId] = useState([]);
     const columns: any = [
         {
             title: 'ID',

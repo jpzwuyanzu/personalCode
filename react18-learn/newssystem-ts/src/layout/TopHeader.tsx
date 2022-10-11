@@ -1,4 +1,4 @@
-import React, { useState, memo } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Layout, Dropdown, Menu, Space, Avatar } from 'antd'
 import {
@@ -16,11 +16,7 @@ const TopHeader = () => {
         items={[
           {
             key: '1',
-            label: (
-              <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
-                超级管理员
-              </a>
-            ),
+            label:'超级管理员',
           },
           {
             key: '2',
@@ -46,11 +42,11 @@ const TopHeader = () => {
         }
         <div style={{ float: 'right',paddingRight: '10px' }}>
             <Dropdown overlay={menu}>
-              <a onClick={e => e.preventDefault()}>
+              <span onClick={e => e.preventDefault()}>
               <Space>
                   <Avatar size="large" icon={<UserOutlined />} />
               </Space>
-              </a>
+              </span>
           </Dropdown>
           <span style={{ marginLeft: '10px' }}>{ username }</span>
         </div>

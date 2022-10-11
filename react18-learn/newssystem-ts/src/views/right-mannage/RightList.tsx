@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Table, Space, Button, Modal, Switch } from 'antd';
+import { Table } from 'antd';
 import axios from 'axios'
-import {
-    EditOutlined,
-    DeleteOutlined,
-    ExclamationCircleOutlined
-} from "@ant-design/icons";
-import { render } from '@testing-library/react';
 
 const RightList = () => {
 
@@ -55,21 +49,21 @@ const RightList = () => {
             setDataSource(res.data.rights)
         })
     },[])
-    const showModal = () => {
-        Modal.confirm({
-            title: 'Confirm',
-            icon: <ExclamationCircleOutlined />,
-            content: '确认删除该权限吗？',
-            okText: '确认',
-            cancelText: '取消',
-            onOk: () => {
-                confirmDelete()
-            }
-          });
-    }
-    const confirmDelete = () => {
-        console.log('确认删除')
-    }
+    // const showModal = () => {
+    //     Modal.confirm({
+    //         title: 'Confirm',
+    //         icon: <ExclamationCircleOutlined />,
+    //         content: '确认删除该权限吗？',
+    //         okText: '确认',
+    //         cancelText: '取消',
+    //         onOk: () => {
+    //             confirmDelete()
+    //         }
+    //       });
+    // }
+    // const confirmDelete = () => {
+    //     console.log('确认删除')
+    // }
 
     return (
         <div>

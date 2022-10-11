@@ -6,8 +6,6 @@ import axios from "axios";
 const UserList = () => {
   const [dataSource, setDataSource] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modelType, setModelType] = useState(1);
-  const [disableOpt, setDisabledOpt] = useState(false);
   const [currentItem, setCurrentItem] = useState({});
   const columns: any = [
     {
@@ -87,11 +85,11 @@ const UserList = () => {
         columns={columns}
         rowKey={(item: any) => item.id}/>
       <Modal
-        title={ modelType === 1 ? '新增用户' : '编辑用户' }
+        title='新增用户'
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}>
-        <UseForm ref={ formRef } disableOpt={disableOpt} currentItem={ currentItem } modelType={ modelType }></UseForm>
+        <UseForm ref={ formRef } currentItem={ currentItem }></UseForm>
       </Modal>
     </div>
   );

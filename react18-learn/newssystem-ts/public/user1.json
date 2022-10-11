@@ -1,0 +1,24 @@
+{
+    "admin": [
+        {
+          "id": 1,
+          "username": "admin",
+          "password": 123456,
+          "roleState": true,
+          "default": true,
+          "region": "全球",
+          "roleId": 1
+        }
+      ],
+      "visitor": [
+        {
+          "id": 1,
+          "username": "visitor",
+          "password": 123456,
+          "roleState": true,
+          "default": true,
+          "region": "亚洲",
+          "roleId": 1
+        }
+      ]
+}

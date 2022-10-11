@@ -1,4 +1,5 @@
 import React, { useState, memo } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Layout, Dropdown, Menu, Space, Avatar } from 'antd'
 import {
     MenuUnfoldOutlined,
@@ -6,10 +7,10 @@ import {
     UserOutlined
   } from "@ant-design/icons";
 const { Header } = Layout;
-
 const TopHeader = () => {
-
+  const username = JSON.parse((localStorage.getItem('token') as any))[0]['username'];
   const [collapsed, setCollapsed] = useState(false);
+  const navigate = useNavigate();
   const menu = (
       <Menu
         items={[
@@ -25,11 +26,14 @@ const TopHeader = () => {
             key: '2',
             danger: true,
             label: '退出',
+            onClick: () => {
+              localStorage.removeItem('token')
+              navigate('/login')
+            }
           },
         ]}
       />
     );
-
   const changeCollapsed = () => {
       setCollapsed(!collapsed)
   }
@@ -39,8 +43,7 @@ const TopHeader = () => {
         {
           collapsed ? <MenuUnfoldOutlined onClick={ changeCollapsed } /> : <MenuFoldOutlined onClick={ changeCollapsed } />
         }
-        <div style={{ float: 'right' }}>
-            <span>欢迎Admin回来</span>
+        <div style={{ float: 'right',paddingRight: '10px' }}>
             <Dropdown overlay={menu}>
               <a onClick={e => e.preventDefault()}>
               <Space>
@@ -48,6 +51,7 @@ const TopHeader = () => {
               </Space>
               </a>
           </Dropdown>
+          <span style={{ marginLeft: '10px' }}>{ username }</span>
         </div>
       </Header>
   )

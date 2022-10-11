@@ -133,6 +133,7 @@ const LazyLoad = (path: string) => {
 #### 5,2 引入antd的样式
 
 ### 6，改造TopHeader组件和SideMenu组件
+
 TopHeader.tsx
 ```tsx
 import React, { useState } from 'react'
@@ -298,6 +299,7 @@ axios.get('http://localhost:3000/comments?_expand=posts',{
 })
 
  ```
+
 ### 8, 添加nprogress 
 
 npm install --save nprogress @types/nprogress
@@ -324,3 +326,10 @@ export default function Loding() {
 
 
 
+
+### 9,构建登录页面
+
+```jsx
+```
+
+### 10, 路由权限

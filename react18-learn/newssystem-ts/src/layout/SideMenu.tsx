@@ -34,8 +34,9 @@ export default function SideMenu() {
      return menuArr
   } 
   useEffect(() => {
+    const username = JSON.parse((localStorage.getItem('token') as any))[0]['username'];
     axios.get('menu.json').then(res => {
-        let tempArr: any = filterMenu(res.data.menu)
+        let tempArr: any = filterMenu(res.data[username])
         setMenuList(tempArr)
     })
   }, [])

@@ -1,0 +1,144 @@
+{
+  "menu": [
+    {
+      "id": 1,
+      "label": "首页",
+      "key": "/home",
+      "pagepermisson": 1,
+      "grade": 1
+    },
+    {
+      "id": 2,
+      "label": "用户管理",
+      "key": "/user-manage",
+      "pagepermisson": 1,
+      "grade": 1,
+      "children": [
+          {
+            "id": 6,
+            "label": "用户列表",
+            "rightid": 2,
+            "key": "/user-manage/list",
+            "pagepermisson": 1,
+            "grade": 2
+          }
+      ]
+    },
+    {
+      "id": 7,
+      "label": "权限管理",
+      "key": "/right-manage",
+      "pagepermisson": 1,
+      "grade": 1,
+      "children": [
+        {
+            "id": 8,
+            "label": "角色列表",
+            "rightid": 7,
+            "key": "/right-manage/role/list",
+            "pagepermisson": 1,
+            "grade": 2
+          },
+          {
+            "id": 9,
+            "label": "权限列表",
+            "rightid": 7,
+            "key": "/right-manage/right/list",
+            "pagepermisson": 1,
+            "grade": 2
+          }
+      ]
+    },
+    {
+      "id": 14,
+      "label": "新闻管理",
+      "key": "/news-manage",
+      "pagepermisson": 1,
+      "grade": 1,
+      "children": [
+          {
+            "id": 16,
+            "label": "撰写新闻",
+            "rightid": 14,
+            "key": "/news-manage/add",
+            "grade": 2,
+            "pagepermisson": 1
+          },
+          {
+            "id": 19,
+            "label": "草稿箱",
+            "rightid": 14,
+            "key": "/news-manage/draft",
+            "pagepermisson": 1,
+            "grade": 2
+          },
+          {
+            "id": 20,
+            "label": "新闻分类",
+            "rightid": 14,
+            "key": "/news-manage/category",
+            "pagepermisson": 1,
+            "grade": 2
+          }
+      ]
+    },
+    {
+      "id": 21,
+      "label": "审核管理",
+      "key": "/audit-manage",
+      "pagepermisson": 1,
+      "grade": 1,
+      "children": [
+        {
+            "id": 22,
+            "label": "审核新闻",
+            "rightid": 21,
+            "key": "/audit-manage/audit",
+            "pagepermisson": 1,
+            "grade": 2
+          },
+          {
+            "id": 23,
+            "label": "审核列表",
+            "rightid": 21,
+            "key": "/audit-manage/list",
+            "pagepermisson": 1,
+            "grade": 2
+          }
+      ]
+    },
+    {
+      "id": 24,
+      "label": "发布管理",
+      "key": "/publish-manage",
+      "pagepermisson": 1,
+      "grade": 1,
+      "children": [
+        {
+            "id": 25,
+            "label": "待发布",
+            "rightid": 24,
+            "key": "/publish-manage/unpublished",
+            "pagepermisson": 1,
+            "grade": 2
+          },
+          {
+            "id": 26,
+            "label": "已发布",
+            "rightid": 24,
+            "key": "/publish-manage/published",
+            "pagepermisson": 1,
+            "grade": 2
+          },
+          {
+            "id": 27,
+            "label": "已下线",
+            "rightid": 24,
+            "key": "/publish-manage/sunset",
+            "pagepermisson": 1,
+            "grade": 2
+          }
+      ]
+    }
+  ]  
+}

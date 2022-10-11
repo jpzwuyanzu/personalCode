@@ -80,6 +80,15 @@
           "roleState": true,
           "default": false,
           "id": 10
+        },
+        {
+          "username": "visitor",
+          "password": "123456",
+          "region": "北美洲",
+          "roleId": 2,
+          "roleState": true,
+          "default": false,
+          "id": 11
         }
       ]
 }

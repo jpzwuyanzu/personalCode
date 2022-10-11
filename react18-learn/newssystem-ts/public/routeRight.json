@@ -1,0 +1,27 @@
+{
+    "admin": [
+        "/home",
+        "/user-manage/list",
+        "/right-manage/role/list",
+        "/right-manage/right/list",
+        "/news-manage/add",
+        "/news-manage/draft",
+        "/news-manage/category",
+        "/audit-manage/audit",
+        "/audit-manage/list",
+        "/publish-manage/unpublished",
+        "/publish-manage/published",
+        "/publish-manage/sunset"
+    ],
+    "visitor": [
+        "/home",
+        "/news-manage/add",
+        "/news-manage/draft",
+        "/news-manage/category",
+        "/audit-manage/audit",
+        "/audit-manage/list",
+        "/publish-manage/unpublished",
+        "/publish-manage/published",
+        "/publish-manage/sunset"
+    ]
+}

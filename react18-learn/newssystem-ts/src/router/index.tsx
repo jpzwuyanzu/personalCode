@@ -8,6 +8,14 @@ const Home = React.lazy(() => import('../views/home/Home'))
 const UserList = React.lazy(() => import('../views/user-mannage/UserList'))
 const RightList = React.lazy(() => import('../views/right-mannage/RightList'))
 const RoleList = React.lazy(() => import('../views/right-mannage/RoleList'))
+const AddNews = React.lazy(() => import('../views/news-manage/Add'))
+const DraftNews = React.lazy(() => import('../views/news-manage/Draft'))
+const CategoryNews = React.lazy(() => import('../views/news-manage/Category'))
+const AuditNews = React.lazy(() => import('../views/audit-manage/Audit'))
+const NewsList = React.lazy(() => import('../views/audit-manage/List'))
+const UnpublishedNews = React.lazy(() => import('../views/publish-manage/Unpublished'))
+const PublishedNews = React.lazy(() => import('../views/publish-manage/Published'))
+const SunsetNews = React.lazy(() => import('../views/publish-manage/Sunset'))
 const NotFound = React.lazy(() => import('../views/404/NotFound'))
 const MRouter = () => {
     const element = useRoutes([
@@ -17,7 +25,7 @@ const MRouter = () => {
         },
         {
             path: '/',
-            element: <Suspense fallback={ <Loading/>}><NewsSandBox/></Suspense>,
+            element: <Suspense fallback={ <Loading/>}><AuthComponent><NewsSandBox/></AuthComponent></Suspense>,
             children: [
                 {
                     path: '',
@@ -38,6 +46,38 @@ const MRouter = () => {
                 {
                     path: 'right-manage/role/list',
                     element: <Suspense fallback={ <Loading/>}><AuthComponent><RoleList/></AuthComponent></Suspense>
+                },
+                {
+                    path: 'news-manage/add',
+                    element: <Suspense fallback={ <Loading/>}><AuthComponent><AddNews/></AuthComponent></Suspense>
+                },
+                {
+                    path: 'news-manage/draft',
+                    element: <Suspense fallback={ <Loading/>}><AuthComponent><DraftNews/></AuthComponent></Suspense>
+                },
+                {
+                    path: 'news-manage/category',
+                    element: <Suspense fallback={ <Loading/>}><AuthComponent><CategoryNews/></AuthComponent></Suspense>
+                },
+                {
+                    path: 'audit-manage/audit',
+                    element: <Suspense fallback={ <Loading/>}><AuthComponent><AuditNews/></AuthComponent></Suspense>
+                },
+                {
+                    path: 'audit-manage/list',
+                    element: <Suspense fallback={ <Loading/>}><AuthComponent><NewsList/></AuthComponent></Suspense>
+                },
+                {
+                    path: 'publish-manage/unpublished',
+                    element: <Suspense fallback={ <Loading/>}><AuthComponent><UnpublishedNews/></AuthComponent></Suspense>
+                },
+                {
+                    path: 'publish-manage/published',
+                    element: <Suspense fallback={ <Loading/>}><AuthComponent><PublishedNews/></AuthComponent></Suspense>
+                },
+                {
+                    path: 'publish-manage/sunset',
+                    element: <Suspense fallback={ <Loading/>}><AuthComponent><SunsetNews/></AuthComponent></Suspense>
                 }
             ]
         },

@@ -1,0 +1,19 @@
+{
+  "routes": [
+    {
+      "id": 1,
+      "path": "/home",
+      "element": "Home"
+    },
+    {
+      "id": 2,
+      "key": "/user-manage/list",
+      "element": "UserList"
+    },
+    {
+      "id": 3,
+      "key": "/right-manage/role/list",
+      "element": "RoleList"
+    }
+  ]  
+}

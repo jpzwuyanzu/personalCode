@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
+import RouterView from '../../components/RouterView'
 import { Layout } from "antd";
 import SideMenu from "../../layout/SideMenu";
 import TopHeader from "../../layout/TopHeader";
@@ -23,9 +24,9 @@ const { Content } = Layout;
                overflow: 'auto'
              }}>
                {/* <Suspense fallback={ <>....</> }> */}
-               <Outlet />
+               <RouterView />
                {/* </Suspense> */}
-               {/* 路由容器 */}
+               {/* 自定义React路由容器 */}
            </Content>
          </Layout>
        </Layout>

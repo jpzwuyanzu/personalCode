@@ -1,0 +1,85 @@
+{
+    "users": [
+        {
+          "id": 1,
+          "username": "admin",
+          "password": 123456,
+          "roleState": true,
+          "default": true,
+          "region": "全球",
+          "roleId": 1
+        },
+        {
+          "username": "钢蛋",
+          "password": "123",
+          "roleState": true,
+          "default": false,
+          "region": "亚洲",
+          "roleId": 2,
+          "id": 3
+        },
+        {
+          "username": "诸葛山珍",
+          "password": "123",
+          "roleState": true,
+          "default": false,
+          "region": "南美洲",
+          "roleId": 2,
+          "id": 4
+        },
+        {
+          "username": "西门吹灯",
+          "password": "123",
+          "roleState": true,
+          "default": false,
+          "region": "南极洲",
+          "roleId": 3,
+          "id": 5
+        },
+        {
+          "username": "轩辕翠花",
+          "password": "123",
+          "roleState": true,
+          "default": false,
+          "region": "南极洲",
+          "roleId": 3,
+          "id": 6
+        },
+        {
+          "username": "司马海味",
+          "password": "123",
+          "roleState": true,
+          "default": false,
+          "region": "亚洲",
+          "roleId": 3,
+          "id": 7
+        },
+        {
+          "username": "咕噜墩子",
+          "password": "123",
+          "roleState": true,
+          "default": false,
+          "region": "亚洲",
+          "roleId": 3,
+          "id": 8
+        },
+        {
+          "username": "starbug",
+          "password": "123456",
+          "region": "南美洲",
+          "roleId": 3,
+          "roleState": true,
+          "default": false,
+          "id": 9
+        },
+        {
+          "username": "lhh",
+          "password": "123456",
+          "region": "北美洲",
+          "roleId": 2,
+          "roleState": true,
+          "default": false,
+          "id": 10
+        }
+      ]
+}

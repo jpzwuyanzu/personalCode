@@ -461,3 +461,29 @@ const RouterView = () => {
 
 export default RouterView
 ```
+
+### 11, 构建编写新闻组件，使用富文本编辑器以及步骤条组件
+
+#### 11.1 安装draft 以及对应的申明文件
+
+npm install --save react-draft-wysiwyg draft-js
+
+npm install --save draftjs-to-html
+
+npm install --save @types/draft-js
+
+npm install --save @types/react-draft-wysiwyg
+
+npm install --save @types/draftjs-to-html
+
+```tsx
+import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+<Editor
+  editorState={editorState}
+  toolbarClassName="toolbarClassName"
+  wrapperClassName="wrapperClassName"
+  editorClassName="editorClassName"
+  onEditorStateChange={this.onEditorStateChange}
+/>;
+```

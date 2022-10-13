@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { PageHeader, Steps, Button, Space, Form, Input, Select, message } from 'antd'
+import { useNavigate } from 'react-router-dom'
 import { Editor } from "react-draft-wysiwyg";
 import { convertToRaw } from 'draft-js'
 import draftToHtml from 'draftjs-to-html'
@@ -14,12 +15,12 @@ export default function Add() {
     const [category, setCategory] = useState([]);
     const [editorState, setEditorState] = useState(undefined)
     const addFormRef: any = useRef(null);
+    const navigate = useNavigate();
 
     const handleNext = () => {
         if(current === 0) {
             addFormRef.current.validateFields()
             .then((res: any) => {
-                console.log(res)
                 setCurrent(current + 1)
             }).catch((error: any) => {
                 console.log(error)
@@ -42,6 +43,13 @@ export default function Add() {
     }
     const handleblurEdit = () => {
         console.log(draftToHtml(convertToRaw((editorState as any).getCurrentContent())))
+    }
+    const handleSaveNews = (status: number) => {
+        if(status === 0) {
+            navigate('/news-manage/draft')
+        } else {
+            navigate('/audit-manage/list')
+        }
     }
 
     useEffect(() => {
@@ -67,21 +75,18 @@ export default function Add() {
                     wrapperCol={{ span: 18 }}
                     autoComplete="off"
                     style={{ width: '600px' }}
-                    ref={ addFormRef }
-                    >
+                    ref={ addFormRef }>
                     <Form.Item
                         label="新闻标题"
                         name="title"
-                        rules={[{ required: true, message: '请输入新闻标题!' }]}
-                    >
+                        rules={[{ required: true, message: '请输入新闻标题!' }]}>
                         <Input />
                     </Form.Item>
 
                     <Form.Item
                         label="新闻分类"
                         name="categoryId"
-                        rules={[{ required: true, message: '请选择新闻分类!' }]}
-                    >
+                        rules={[{ required: true, message: '请选择新闻分类!' }]}>
                         <Select>
                             {
                                 category.map((item: any) => <Option value={ item.id } key={ item.id }>{ item.title }</Option>)
@@ -91,14 +96,14 @@ export default function Add() {
                     </Form>
                 </div>
                 <div className={ current !== 1 ? style.hidenStep : ''}>
-                <Editor
-                editorState={editorState}
-                toolbarClassName="toolbarClassName"
-                wrapperClassName="wrapperClassName"
-                editorClassName="editorClassName"
-                onEditorStateChange={editorStateChange}
-                onBlur = { handleblurEdit }
-                />
+                    <Editor
+                    editorState={editorState}
+                    toolbarClassName="toolbarClassName"
+                    wrapperClassName="wrapperClassName"
+                    editorClassName="editorClassName"
+                    onEditorStateChange={editorStateChange}
+                    onBlur = { handleblurEdit }
+                    />
                 </div>
                 </div>
                 <div>
@@ -110,7 +115,7 @@ export default function Add() {
                         current < 2 && <Button onClick={ () => handleNext() }>下一步</Button>
                     }
                     {
-                        current === 2 && <><Button>保存草稿</Button><Button type="primary" danger>提交审核</Button></>
+                        current === 2 && <><Button onClick={ () => handleSaveNews(0) }>保存草稿</Button><Button type="primary" danger onClick={ () => handleSaveNews(1) }>提交审核</Button></>
                     }
                     </Space>
                 </div>

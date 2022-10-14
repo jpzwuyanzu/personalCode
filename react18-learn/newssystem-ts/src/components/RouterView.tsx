@@ -7,7 +7,12 @@ const RouterView = () => {
     const { pathname } = useLocation();
     const routeRights = JSON.parse((localStorage.getItem('rights') as any));
     useEffect(() => {
-        routeRights.includes(pathname) ? setHasRights(true) : setHasRights(false)
+        if(pathname.indexOf('/news-manage/preview') !== -1 || pathname.indexOf('/news-manage/update') !== -1) {
+            setHasRights(true)
+        }  else {
+            routeRights.includes(pathname) ? setHasRights(true) : setHasRights(false)
+        }
+        
     } ,[pathname, routeRights])
     return (
         <>

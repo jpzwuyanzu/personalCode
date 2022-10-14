@@ -11,6 +11,8 @@ const RoleList = React.lazy(() => import('../views/right-mannage/RoleList'))
 const AddNews = React.lazy(() => import('../views/news-manage/Add'))
 const DraftNews = React.lazy(() => import('../views/news-manage/Draft'))
 const CategoryNews = React.lazy(() => import('../views/news-manage/Category'))
+const NewsPreview = React.lazy(() => import('../views/news-manage/NewsPreview'))
+const NewsUpdate = React.lazy(() => import('../views/news-manage/NewsUpdate'))
 const AuditNews = React.lazy(() => import('../views/audit-manage/Audit'))
 const NewsList = React.lazy(() => import('../views/audit-manage/List'))
 const UnpublishedNews = React.lazy(() => import('../views/publish-manage/Unpublished'))
@@ -58,6 +60,14 @@ const MRouter = () => {
                 {
                     path: 'news-manage/category',
                     element: <Suspense fallback={ <Loading/>}><AuthComponent><CategoryNews/></AuthComponent></Suspense>
+                },
+                {
+                    path: 'news-manage/preview/:id',
+                    element: <Suspense fallback={ <Loading/>}><AuthComponent><NewsPreview/></AuthComponent></Suspense>
+                },
+                {
+                    path: 'news-manage/update/:id',
+                    element: <Suspense fallback={ <Loading/>}><AuthComponent><NewsUpdate/></AuthComponent></Suspense>
                 },
                 {
                     path: 'audit-manage/audit',

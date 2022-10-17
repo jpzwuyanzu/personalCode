@@ -616,3 +616,157 @@ export default function Add() {
 }
 
 ```
+
+### 12.Redux Toolkit 学习
+
+教程地址：https://www.bilibili.com/video/BV1Ju411o779/?spm_id_from=333.788
+
+
+#### 12.1新项目中使用ReduxTookit 
+
+```
+1,新项目中集成
+
+##### 1.1，npx create-react-app my-app --template redux  创建javascript 模版
+
+##### 1.2, npx create-react-app my-app --template redux-typescript  创建typescript模版
+
+2, 现有项目集成
+
+##### 2.1, npm install @reduxjs/toolkit react-redux
+```
+
+#### 12.2创建slice文件
+/src/store/collapse.slice.ts
+```ts
+import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
+import axios from 'axios';
+//createSlice 用于创建状态切片
+
+// Define a type for the slice state
+interface CollapseState {
+    status: boolean,
+    list: Array<any>
+  }
+  
+  // Define the initial state using that type
+  const initialState: CollapseState = {
+    status: false,
+    list: []
+  }
+
+//  reduxToolkit 处理异步状态管理, 使用中间件的方式来实现
+  export const loadTodos: any = createAsyncThunk('collapse/loadTodos', (payload: string) => {
+    try {
+        return axios.get(payload).then(res => res.data);
+    } catch {
+        throw new Error('自定义错误信息')
+    }
+  })
+
+//actions: 对象类型，用于存储action creator函数
+const { actions, reducer: CollapseReducer } = createSlice({
+    // name 将会作为action 对象中type属性值的前缀
+    // { type: 'collapse/switchCollapsed' }
+    name: 'collapse',
+    // 初始状态
+    initialState: initialState,
+    // reducer 函数配置
+    reducers: {
+        // 修改状态的任务
+        switchCollapsed: (state: CollapseState) =>  {
+            // 此处可以直接对状态进行操作
+            // 因为内部集成了不可变的数据结构，所以此处并不会改变原油状态，
+            // 而是返回了新的状态，只不过内部帮我们自动赋值了新的状态
+            state.status = !state.status;
+        }
+    },
+    extraReducers: {
+        [loadTodos.pending] () {
+            console.log('pending')
+        },
+        [loadTodos.fulfilled] (state, action) {
+            console.log('fulfilled')
+            state.list = [...action.payload.categories]
+            console.log(state.list)
+        },
+        [loadTodos.rejected] () {
+            console.log('rejected')
+        }
+    }
+})
+ 
+// 导出action creator 函数
+ export const { switchCollapsed } = actions;
+
+ // 导出reducer函数
+ export default CollapseReducer;
+```
+
+#### 12.3 创建store文件
+src/store/index.ts
+```ts
+import { configureStore } from '@reduxjs/toolkit'
+// configureStore: 用于创建，配置store对象的方法
+import CollapseReducer from './slices/collapse.slice'
+// 导入CollapseReducer， 用于配置store对象
+
+// 创建，配置，导出store对象
+const store = configureStore({
+    // reducer选项用于替换原有的combineReducer方法
+    // 用于合并应用中的多个reducer函数，组成最终的store对象
+    reducer: {
+        collapse: CollapseReducer
+    }
+});
+
+// Infer the `RootState` and `AppDispatch` types from the store itself
+export type RootState = ReturnType<typeof store.getState>
+// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
+export type AppDispatch = typeof store.dispatch
+
+export default store;
+```
+
+#### 12.4 使用react-redux中的Provider组件连接视图组件和状态组件
+src/index.tsx
+```tsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import { Provider } from 'react-redux'
+import store from './store/index'
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
+// root.render(
+//   <React.StrictMode>
+//     <App />
+//   </React.StrictMode>
+// );
+root.render(
+  <Provider store={ store }>
+    <App />
+  </Provider>
+);
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
+
+```
+
+
+
+
+
+
+
+
+
+
+

@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from './../hook/hooks'
 import { Layout, Dropdown, Menu, Space, Avatar } from 'antd'
+import  { loadTodos, switchCollapsed } from '../store/slices/collapse.slice'
 import {
     MenuUnfoldOutlined,
     MenuFoldOutlined,
@@ -9,8 +11,9 @@ import {
 const { Header } = Layout;
 const TopHeader = () => {
   const username = JSON.parse((localStorage.getItem('token') as any))[0]['username'];
-  const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const collapsed =  useAppSelector((state) => state.collapse.status)
   const menu = (
       <Menu
         items={[
@@ -32,8 +35,11 @@ const TopHeader = () => {
       />
     );
   const changeCollapsed = () => {
-      setCollapsed(!collapsed)
+      dispatch(switchCollapsed())
   }
+  useEffect(() => {
+    dispatch(loadTodos('category.json'))
+  },[dispatch])
 
   return (
       <Header className="site-layout-background" style={{ padding: '0 16px' }}>

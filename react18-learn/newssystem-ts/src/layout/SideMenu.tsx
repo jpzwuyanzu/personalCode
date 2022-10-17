@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { Layout, Menu } from "antd";
+import { useAppDispatch, useAppSelector } from './../hook/hooks'
 import {
     HomeOutlined,
     UsergroupAddOutlined,
@@ -25,7 +26,7 @@ const IconList: any = {
 
 export default function SideMenu() {
   // const [collapsed, setCollapsed] = useState(false);
-  const collapsed = false;
+  // const collapsed = false;
   const [menuList, setMenuList] = useState([]);
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -36,6 +37,7 @@ export default function SideMenu() {
      })
      return menuArr
   } 
+  const collapsed =  useAppSelector((state) => state.collapse.status)
   useEffect(() => {
     const username = JSON.parse((localStorage.getItem('token') as any))[0]['username'];
     axios.get('menu.json').then(res => {
@@ -46,7 +48,7 @@ export default function SideMenu() {
   return (
     <Sider trigger={null} collapsible collapsed={collapsed}>
       <div style={{display: 'flex', height: '100%', flexDirection: 'column'}}>
-        <div className="logo">新闻发布系统</div>
+        <div className="logo">{ !collapsed ? '新闻发布系统' : '新闻' }</div>
         <div style={{ flex: 1, overflow: 'hidden'}}>
             <Menu
                 theme="dark"

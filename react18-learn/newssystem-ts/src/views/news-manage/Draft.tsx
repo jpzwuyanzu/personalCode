@@ -8,21 +8,25 @@ export default function Draft() {
           title: '测试新闻001',
           content: '新闻内容001',
           date: '1665822159338',
+          id: 11
         },
         {
             key: '2',
             title: '测试新闻002',
             content: '新闻内容002',
             date: '1665822270531',
+            id: 22
           }
       ];
       
       const columns: any = [
         {
           title: '新闻标题',
-          dataIndex: 'title',
           key: 'title',
-          align: 'center'
+          align: 'center',
+          render: (item: any) => {
+              return <a href={ `/#/news-manage/preview/${item.id}` }>{item.title}</a>
+          }
         },
         {
           title: '新闻内容',

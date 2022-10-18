@@ -2,7 +2,6 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
 // 导入CollapseReducer， 用于配置store对象
 import CollapseReducer from './slices/collapse.slice'
-// 引入日志中间件
 // 定义状态名称常量
 import { COLLAPSE_FEATURE_KEY } from './slices/collapse.slice'
 

@@ -1,5 +1,5 @@
 
-### 1,创建react+ts 项目
+### 1,创建react+ts PC后管项目
 
 #### 1.1 create-react-app myapp --template typescript
 

@@ -37,9 +37,9 @@ const TopHeader = () => {
   const changeCollapsed = () => {
       dispatch(switchCollapsed())
   }
-  useEffect(() => {
-    dispatch(loadTodos('category.json'))
-  },[dispatch])
+  // useEffect(() => {
+  //   dispatch(loadTodos('category.json'))
+  // },[dispatch])
 
   return (
       <Header className="site-layout-background" style={{ padding: '0 16px' }}>

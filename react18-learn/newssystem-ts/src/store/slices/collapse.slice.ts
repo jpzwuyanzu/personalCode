@@ -14,8 +14,11 @@ interface CollapseState {
     list: []
   }
 
+  //定义状态名称字符串常量
+  export const COLLAPSE_FEATURE_KEY: any = 'collapse';
+
 //  reduxToolkit 处理异步状态管理, 使用中间件的方式来实现
-  export const loadTodos: any = createAsyncThunk('collapse/loadTodos', (payload: string) => {
+  export const loadTodos: any = createAsyncThunk(`${COLLAPSE_FEATURE_KEY}/loadTodos`, (payload: string) => {
     try {
         return axios.get(payload).then(res => res.data);
     } catch {
@@ -27,7 +30,7 @@ interface CollapseState {
 const { actions, reducer: CollapseReducer } = createSlice({
     // name 将会作为action 对象中type属性值的前缀
     // { type: 'collapse/switchCollapsed' }
-    name: 'collapse',
+    name: COLLAPSE_FEATURE_KEY,
     // 初始状态
     initialState: initialState,
     // reducer 函数配置
@@ -42,6 +45,7 @@ const { actions, reducer: CollapseReducer } = createSlice({
     },
     extraReducers: {
         [loadTodos.pending] () {
+            // 在这里可以左请求的loading效果
             console.log('pending')
         },
         [loadTodos.fulfilled] (state, action) {
@@ -49,8 +53,8 @@ const { actions, reducer: CollapseReducer } = createSlice({
             state.list = [...action.payload.categories]
             console.log(state.list)
         },
-        [loadTodos.rejected] () {
-            console.log('rejected')
+        [loadTodos.rejected] (state, action) {
+            console.log(action.error)
         }
     }
 })

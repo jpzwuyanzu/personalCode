@@ -4,7 +4,57 @@ import Redirect from '../components/Redirect';
 
 const MRouter = () => {
     const element = useRoutes([
-        
+        {
+          path: '/films',
+          element: LazyLoad('films/Film'),
+          children: [
+              {
+                  path: '',
+                  element: <Redirect to={'/films/NowPlaying'} />
+              },
+              {
+                  path: 'NowPlaying',
+                  element: LazyLoad('films/NowPlaying')
+              },
+              {
+                  path: 'comingSoon',
+                  element: LazyLoad('films/ComingSoon')
+              }
+          ]  
+        },
+        {
+            path: '/film/detail/:filmId',
+            element: LazyLoad('films/Detail')
+        },
+        {
+            path: '/cinema',
+            element: LazyLoad('cinemas/Cinema')
+        },
+        {
+            path: '/cinema/search',
+            element: LazyLoad('cinemas/Search')
+        },
+        {
+            path: '/city',
+            element: LazyLoad('cinemas/City')
+        },
+        {
+            path: '/cinema/detail/:filmId',
+            element: LazyLoad('cinemas/Detail')
+        },
+        {
+            path: '/center',
+            element: <AuthComponent>{ LazyLoad('center/Center') }</AuthComponent>
+        },
+        {
+            path: '/',
+            element: <Redirect to="/films" />
+        },
+        {
+            path: '*',
+            element: LazyLoad('NotFound')
+        }
+
     ])
     return element
 }

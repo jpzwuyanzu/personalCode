@@ -1,9 +1,12 @@
-import React from 'react'
+import { HashRouter } from 'react-router-dom'
+import MRouter from './router/index'
+import MyTabBar from './components/MyTabBar';
 
 export default function App() {
   return (
-    <div>
-      app
-    </div>
+    <HashRouter>
+      <MRouter></MRouter>
+      <MyTabBar/>
+    </HashRouter>
   )
 }

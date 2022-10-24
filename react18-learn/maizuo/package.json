@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@craco/craco": "^6.4.5",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -11,7 +12,10 @@
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
     "antd-mobile": "^5.24.1",
+    "autoprefixer": "^10.4.12",
     "http-proxy-middleware": "^2.0.6",
+    "lib-flexible": "0.3",
+    "postcss-pxtorem": "5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.2",
@@ -20,9 +24,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

@@ -6,3 +6,8 @@ body {
   bottom: 0;
   width: 100%;
 }
+.myTitle {
+  width: 375px;
+  height: 50px;
+  font-size: 19px;
+}

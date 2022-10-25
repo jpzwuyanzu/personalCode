@@ -10,7 +10,7 @@ module.exports = {
                     plugins: [
                         autoprefixer(),
                         pxtorem({
-                            rootValue: 37.5,
+                            rootValue: 75,
                             unitPrecision: 5, // （数字）允许 REM 单位增长到的十进制数字
                             propList: ["*"],
                             //unitPrecision: 5, // （数字）允许 REM 单位增长到的十进制数字

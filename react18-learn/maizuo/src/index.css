@@ -11,3 +11,6 @@ body {
   height: 100px;
   font-size: 29px;
 }
+:root:root {
+  --adm-color-primary: #ff5f16;
+}

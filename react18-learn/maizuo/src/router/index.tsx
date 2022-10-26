@@ -43,8 +43,16 @@ const MRouter = () => {
             element: LazyLoad('cinemas/Detail')
         },
         {
+            path: '/news/mz-act',
+            element: LazyLoad('news/News')
+        },
+        {
             path: '/center',
             element: <AuthComponent>{ LazyLoad('center/Center') }</AuthComponent>
+        },
+        {
+            path: '/login',
+            element: LazyLoad('login/Login')
         },
         {
             path: '/',

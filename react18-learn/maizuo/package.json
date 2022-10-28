@@ -14,7 +14,6 @@
     "@types/react-dom": "^18.0.6",
     "antd-mobile": "^5.24.1",
     "autoprefixer": "^10.4.12",
-    "better-scroll": "^2.5.0",
     "http-proxy-middleware": "^2.0.6",
     "lib-flexible": "0.3",
     "postcss-pxtorem": "5",

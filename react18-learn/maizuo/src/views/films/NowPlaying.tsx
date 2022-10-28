@@ -1,37 +1,29 @@
-import React, { Component } from 'react'
-import BetterScroll from 'better-scroll'
+import React, { useEffect, useState } from 'react'
+import { InfiniteScroll, List } from 'antd-mobile'
+import styles from './NowPlaying.module.scss'
 
-class NowPlaying extends Component {
 
-    state = {
-        list: []
+export default function NowPlaying() {
+    const [data, setData] = useState<string[]>([]);
+    const [hasMore, setHasMore] = useState(true);
+    const loadMore = async () => {
+        // 向后端请求数据
+        const append = ['1','2','3']
+        setData(val => [...val, ...append]);
+        if(append.length > 0) {
+            console.log('加载更多')
+        }
+        setHasMore(append.length > 0)
+       
     }
-
-    getData = () => {
-        var list = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
-        this.setState({
-            list: list
-        }, () => {
-            new BetterScroll(".wrapper")
-        })
-    }
-
-    render() {
-        return (
-            <div>
-                <button onClick={ () => { this.getData() } }>click获取数据</button>
-                <div className="wrapper" style={{ height: '200px', background: 'yellow', overflow: 'hidden' }}>
-                    <ul className="content">
-                        {
-                            this.state.list.map((item, index) => <li key={ index }>{ item }</li>)
-                        }
-                    </ul>
-                    {/* 这里可以放一些其它的 DOM，但不会影响滚动 */}
-                </div>
-            </div>
-        )
-    }
+    return (
+        <div className={ styles.homeList_content }>
+          <List>
+            {data.map((item, index) => (
+            <List.Item key={index}>{item}</List.Item>
+            ))}
+        </List>
+        <InfiniteScroll loadMore={loadMore} hasMore={hasMore} threshold={0} /> 
+        </div>
+    )
 }
-
-
-export default NowPlaying;

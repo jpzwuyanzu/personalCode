@@ -1,7 +1,6 @@
 import { Outlet, useNavigate } from 'react-router-dom'
 import SwiperCom from '../../components/SwiperCom';
 import { Tabs } from 'antd-mobile'
-import BetterScroll from 'better-scroll'
 import styles from './film.module.scss'
 
 

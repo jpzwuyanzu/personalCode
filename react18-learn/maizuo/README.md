@@ -202,3 +202,5 @@ module.exports = {
 ```ts
 import 'lib-flexible'
 ```
+
+### 6,使用nprogress 组件

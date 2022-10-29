@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { InfiniteScroll, List } from 'antd-mobile'
+import { InfiniteScroll, List, Image, Button } from 'antd-mobile'
 import axios from 'axios'
 import styles from './NowPlaying.module.scss'
 
@@ -27,13 +27,38 @@ export default function NowPlaying() {
         // eslint-disable-next-line
     }, [])
     return (
-        <div className={ styles.homeList_content }>
+        <div className={ styles.film_contianer }>
+            <div className={ styles.homeList_content }>
           <List>
             {data.map((item: any, index) => (
-            <List.Item key={index}>{item.name}</List.Item>
+            <List.Item 
+            key={index}
+            prefix={
+                <Image
+                  src={item.poster}
+                  fit='cover'
+                  width={66}
+                  height={92}
+                />
+            }
+            description={
+                <div className={ styles.film_right_part }>
+                    <div className={ styles.film_desc }>
+                        <div className={styles.detail}>观众评分<span className={ styles.grade }>{item.grade}</span></div>
+                        <div className={styles.detail}>导演：{item.director}</div>
+                        <div className={styles.detail}>{item.nation} | {item.runtime}分钟</div>
+                    </div>
+                    <Button className={ styles.buyNow_btn } color='primary' fill='outline'>购票</Button>
+                </div>
+            }>
+                <div className={ styles.film_title }>
+                    <span className={ styles.film_name }>{ item.name }</span><span className={ styles.film_type }>{ item.item.name }</span>
+                </div>
+            </List.Item>
             ))}
         </List>
         <InfiniteScroll loadMore={loadMore} hasMore={hasMore} threshold={0} /> 
+        </div>
         </div>
     )
 }

@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { TabBar } from 'antd-mobile'
 import { useNavigate, useLocation } from 'react-router-dom'
 import {
-    AppOutline,
+     MovieOutline,
     MessageOutline,
     UnorderedListOutline,
     UserOutline,
@@ -16,7 +16,7 @@ export default function MyTabBar() {
         {
           key: '/films/NowPlaying',
           title: '电影',
-          icon: <AppOutline />,
+          icon: <MovieOutline />,
         },
         {
           key: '/cinema',
@@ -38,9 +38,14 @@ export default function MyTabBar() {
       navigate(key)
       setActiveKey(key)
     }
+    useEffect(() => {
+      if(pathname === '/films/ComingSoon') {
+        setActiveKey('/films/NowPlaying')
+      }
+    }, [])
     return (
         <>
-            <TabBar activeKey={activeKey} onChange={ handlerTabChange }>
+            <TabBar style={{ background: 'white' }} activeKey={activeKey} onChange={ handlerTabChange }>
                 {tabs.map(item => (
                     <TabBar.Item key={item.key} icon={item.icon} title={item.title} />
                 ))}

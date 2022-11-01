@@ -49,3 +49,71 @@
         color: #ff5f16;
     }
 }
+.line_container {
+    display: flex;
+    flex-direction: column;
+    .line_item {
+        display: flex;
+        flex-direction: row;
+        align-items: baseline;
+        padding: 18px 15px;
+        padding-left: 80px;
+        border-bottom: 1px solid rgba(210,214,220,.5);
+        position: relative;
+        .choose_icon {
+            width: 20px;
+            height: 20px;
+            object-fit: cover;
+            margin-right: 20px;
+            position: absolute;
+            left: 40px;
+            top: 25px;
+        }
+        .item_text {
+            color: #797d82;
+        }
+        .active_text {
+            color: #ff5f16;
+        }
+    }
+    
+}
+.cinema_List_container {
+    height: calc(100% - 270px);
+    overflow-y: scroll;
+}
+.cinema_message {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #797d82;
+    margin-top:10px;
+    .adress {
+        width: 480px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }   
+}
+.cinema_name_info_line {
+    // width: 80%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 30px;
+    .name {
+        max-width: 300px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .price {
+        color: #ff5f16;
+        span {
+            font-size: 12px;
+        }
+    }
+}

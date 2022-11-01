@@ -17,8 +17,8 @@ const { actions, reducer: TabBarReducer } = createSlice({
     name: SHOW_TAB_KEY,
     initialState: initialState,
     reducers: {
-        switchTabBar: (state: IShowTabState) => {
-            state.status = !state.status;
+        switchTabBar: (state: IShowTabState, { payload }: any) => {
+            state.status = payload.status;
         }
     }
 })

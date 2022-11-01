@@ -6,11 +6,12 @@ import SHOW_TAB_KEY from './store/tabbar.slice'
 
 export default function App() {
   const showTabBar = useAppSelector((state) => state.SHOW_TAB_KEY.status);
-  console.log(showTabBar)
   return (
     <HashRouter>
       <MRouter></MRouter>
-      <MyTabBar/>
+      {
+        showTabBar && <MyTabBar/>
+      }
     </HashRouter>
   )
 }

@@ -46,7 +46,7 @@ export default function MyTabBar() {
     }, [])
     return (
         <>
-            <TabBar style={{ background: 'white' }} activeKey={activeKey} onChange={ handlerTabChange }>
+            <TabBar style={{ background: 'white',borderTop: 'solid 1px var(--adm-color-border)',flex: 0 }} activeKey={activeKey} onChange={ handlerTabChange }>
                 {tabs.map(item => (
                     <TabBar.Item key={item.key} icon={item.icon} title={item.title} />
                 ))}

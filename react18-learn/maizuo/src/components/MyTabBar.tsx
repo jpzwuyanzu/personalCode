@@ -42,6 +42,7 @@ export default function MyTabBar() {
       if(pathname === '/films/ComingSoon') {
         setActiveKey('/films/NowPlaying')
       }
+      // eslint-disable-next-line
     }, [])
     return (
         <>

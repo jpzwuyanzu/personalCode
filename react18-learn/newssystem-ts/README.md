@@ -698,7 +698,7 @@ const { actions, reducer: CollapseReducer } = createSlice({
         // 修改状态的任务
         switchCollapsed: (state: CollapseState) =>  {
             // 此处可以直接对状态进行操作
-            // 因为内部集成了不可变的数据结构，所以此处并不会改变原油状态，
+            // 因为内部集成了不可变的数据结构，所以此处并不会改变原有状态，
             // 而是返回了新的状态，只不过内部帮我们自动赋值了新的状态
             state.status = !state.status;
         }
@@ -764,9 +764,9 @@ const store = configureStore({
         [COLLAPSE_FEATURE_KEY]: persistCollapseReducer
     },
     // 配置中间件
-    middleware(getDefaultMiddleware) {
-        return getDefaultMiddleware().concat(logger)
-    }
+    middleware: (getDefaultMiddleware) => [
+        ...getDefaultMiddleware({ serializableCheck: false })
+    ]
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
@@ -781,54 +781,38 @@ export default store;
 #### 12.4 使用react-redux中的Provider组件连接视图组件和状态组件
 src/index.tsx
 ```tsx
-// configureStore: 用于创建，配置store对象的方法
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
-// 导入CollapseReducer， 用于配置store对象
-import CollapseReducer from './slices/collapse.slice'
-// 引入日志中间件
-// 定义状态名称常量
-import { COLLAPSE_FEATURE_KEY } from './slices/collapse.slice'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import { Provider } from 'react-redux'
+import store from './store/index'
+import { persistor } from './store/index'
+import { PersistGate } from 'redux-persist/integration/react'
+import App from './App';
+import reportWebVitals from './reportWebVitals';
 
-// redux数据持久化
-import storage from 'redux-persist/lib/storage'
-import { persistStore,
-    persistReducer,
-    FLUSH,
-    REHYDRATE,
-    PAUSE,
-    PERSIST,
-    PURGE,
-    REGISTER } from 'redux-persist'
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
+// root.render(
+//   <React.StrictMode>
+//     <Provider store={ store }>
+//       <App />
+//      </Provider>
+//   </React.StrictMode>
+// );
+root.render(
+  <Provider store={ store }>
+    <PersistGate loading={ null } persistor={ persistor }>
+    <App />
+    </PersistGate>
+  </Provider>
+);
 
-const persistConfig = {
-    key: 'root',
-    storage,
-    blcklist: ['page404']
-}
-const persistCollapseReducer = persistReducer(persistConfig, CollapseReducer)
-
-// 创建，配置，导出store对象
-const store = configureStore({
-    // reducer选项用于替换原有的combineReducer方法
-    // 用于合并应用中的多个reducer函数，组成最终的store对象
-    reducer: {
-        [COLLAPSE_FEATURE_KEY]: persistCollapseReducer
-    },
-    // 配置中间件
-    middleware: getDefaultMiddleware({
-        serializableCheck: {
-          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
-        }
-      })
-});
-
-// Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<typeof store.getState>
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
-export type AppDispatch = typeof store.dispatch
-// redux数据持久化
-export const persistor = persistStore(store)
-export default store;
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
 ```
 
 

@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { Outlet, useNavigate, useLocation } from 'react-router-dom'
 import SwiperCom from '../../components/SwiperCom';
 import { Tabs } from 'antd-mobile';

@@ -204,3 +204,146 @@ import 'lib-flexible'
 ```
 
 ### 6,使用nprogress 组件
+
+#### 6.1 安装 npm i @types/nprogress nprogress
+
+#### 6.2 封装Loading.tsx 
+```tsx
+import React, { useEffect } from 'react'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
+
+export default function Loading() {
+    useEffect(() => {
+        NProgress.configure({ showSpinner: false }); //隐藏左侧圆圈loading
+        NProgress.start()
+        return () => {
+            NProgress.done()
+        }
+    } ,[])
+    return (
+        <div>
+            
+        </div>
+    )
+}
+```
+```css
+#nprogress, .bar {
+  background: #ff5f16 !important;
+}
+```
+
+
+
+
+### 7 配置状态管理
+
+1，安装依赖
+npm install @reduxjs/toolkit react-redux  redux-persist
+
+2，创建slice文件
+```ts
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+
+//定义接口
+interface IShowTabState {
+    status: boolean
+}
+
+// 定义初始状态
+const initialState: IShowTabState = {
+    status: true
+}
+
+const { actions, reducer: TabBarReducer } = createSlice({
+    name: 'showtab',
+    initialState: initialState,
+    reducers: {
+        switchTabBar: (state: IShowTabState) => {
+            state.status = !state.status;
+        }
+    }
+})
+
+export const { switchTabBar } = actions;
+
+export default TabBarReducer;
+```
+3，创建store/index.ts
+```ts
+import { configureStore } from '@reduxjs/toolkit'
+import TabBarReducer from './tabbar.slice';
+
+//配置redux数据持久化
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
+const persistConfig = {
+    key: 'root',
+    storage,
+    blcklist: ['NotFound']
+}
+const persistTabBarReducer = persistReducer(persistConfig, TabBarReducer);
+
+//配置store
+const store = configureStore({
+    reducer: {
+        'showTabBar': persistTabBarReducer
+    },
+    // 配置中间件
+    middleware: (getDefaultMiddleware) => [
+        ...getDefaultMiddleware({ serializableCheck: false })
+    ]
+})
+
+
+// Infer the `RootState` and `AppDispatch` types from the store itself
+export type RootState = ReturnType<typeof store.getState>
+// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
+export type AppDispatch = typeof store.dispatch
+
+export const persistor = persistStore(store)
+export default store;
+```
+4，封装dispatch和selector
+hook/hooks.ts
+```ts
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
+import type { RootState, AppDispatch } from './../store/index'
+
+// Use throughout your app instead of plain `useDispatch` and `useSelector`
+export const useAppDispatch: () => AppDispatch = useDispatch
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
+```
+5，注入状态管理到ui组件中 src/index.ts
+```ts
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import 'lib-flexible'
+import './index.css';
+import App from './App';
+import store from './store/index'
+import { Provider } from 'react-redux'
+import { persistor } from './store/index';
+import { PersistGate } from 'redux-persist/integration/react'
+import reportWebVitals from './reportWebVitals';
+
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
+root.render(
+  // <React.StrictMode>
+    <Provider store={ store }>
+      <PersistGate loading={ null } persistor={ persistor }>
+         <App />
+      </PersistGate>
+    </Provider>
+//  {/* </React.StrictMode> */}
+);
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
+
+```

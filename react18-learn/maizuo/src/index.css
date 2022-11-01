@@ -22,3 +22,11 @@ html,body {
   --adm-color-primary: #ff5f16;
   
 }
+
+#nprogress, .bar {
+  background: #ff5f16 !important;
+}
+
+.adm-nav-bar-title {
+  font-size: 30px !important;
+}

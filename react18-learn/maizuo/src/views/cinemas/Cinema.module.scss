@@ -1,0 +1,51 @@
+.leftPart {
+    font-size: 15px;
+}
+.topFilterPart {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    border-top: 1px solid rgba(210,214,220,.5);
+    border-bottom: 1px solid rgba(210,214,220,.5);
+}
+.filterItem {
+    flex: 1;
+    text-align: center;
+}
+.cityPart {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    .partItem {
+        width: 21.5%;
+        text-align: center;
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 10px 15px;
+        box-sizing: border-box;
+        border: 1px solid rgba(210,214,220,.5);
+        margin-bottom: 24px;
+        border-radius: 7px;
+        color: #797d82;
+        font-size: 9px;
+    }
+    .activeCityPart {
+        width: 21.5%;
+        text-align: center;
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 10px 15px;
+        box-sizing: border-box;
+        border: 1px solid #ff5f16;
+        margin-bottom: 24px;
+        border-radius: 7px;
+        color: #ff5f16;
+    }
+}

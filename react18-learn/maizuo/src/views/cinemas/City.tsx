@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useNavigate } from 'react-router-dom'
 import { useAppDispatch } from "../../hooks/redux-hook";
 import { switchTabBar } from "../../store/tabbar.slice";
 import { NavBar,IndexBar, List } from 'antd-mobile'
@@ -6,6 +7,7 @@ import { CloseOutline } from 'antd-mobile-icons'
 
 export default function City() {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const cityJson = [
     {
       title: "A",
@@ -2089,7 +2091,7 @@ export default function City() {
   }, []);
   return (
       <div style={{ height: window.innerHeight }}>
-        <NavBar  backArrow={<CloseOutline style={{ fontSize: '19px' }} />} onBack={() => {}}>
+        <NavBar  backArrow={<CloseOutline style={{ fontSize: '19px' }} />} onBack={() => navigate('/cinema')}>
           当前城市 -
         </NavBar>
         <IndexBar>

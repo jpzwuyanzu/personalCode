@@ -1,12 +1,4 @@
-import React, { useEffect } from "react";
-import { useAppDispatch } from "../../hooks/redux-hook";
-import { switchTabBar } from "../../store/tabbar.slice";
-import { NavBar,IndexBar, List } from 'antd-mobile'
-import { CloseOutline } from 'antd-mobile-icons'
-
-export default function City() {
-  const dispatch = useAppDispatch();
-  const cityJson = [
+[
     {
       title: "A",
       items: [
@@ -2079,37 +2071,4 @@ export default function City() {
         },
       ],
     },
-  ];
-
-  useEffect(() => {
-    dispatch(switchTabBar({ status: false }));
-    return () => {
-      dispatch(switchTabBar({ status: true }));
-    };
-  }, []);
-  return (
-      <div style={{ height: window.innerHeight }}>
-        <NavBar  backArrow={<CloseOutline style={{ fontSize: '19px' }} />} onBack={() => {}}>
-          当前城市 -
-        </NavBar>
-        <IndexBar>
-        {cityJson.map(group => {
-          const { title, items } = group
-          return (
-            <IndexBar.Panel
-              index={title}
-              title={`${title}`}
-              key={`${title}`}
-            >
-              <List>
-                {items.map((item, index) => (
-                  <List.Item key={index}>{item.name}</List.Item>
-                ))}
-              </List>
-            </IndexBar.Panel>
-          )
-        })}
-      </IndexBar>
-      </div>
-  );
-}
+  ]

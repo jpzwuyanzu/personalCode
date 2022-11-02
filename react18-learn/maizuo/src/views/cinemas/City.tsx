@@ -2,8 +2,9 @@ import React, { useEffect } from "react";
 import { useNavigate } from 'react-router-dom'
 import { useAppDispatch } from "../../hooks/redux-hook";
 import { switchTabBar } from "../../store/tabbar.slice";
-import { NavBar,IndexBar, List } from 'antd-mobile'
+import { NavBar,IndexBar, List, SearchBar } from 'antd-mobile'
 import { CloseOutline } from 'antd-mobile-icons'
+import styles from './City.module.scss'
 
 export default function City() {
   const dispatch = useAppDispatch();
@@ -2090,28 +2091,40 @@ export default function City() {
     };
   }, []);
   return (
-      <div style={{ height: window.innerHeight }}>
-        <NavBar  backArrow={<CloseOutline style={{ fontSize: '19px' }} />} onBack={() => navigate('/cinema')}>
-          当前城市 -
-        </NavBar>
-        <IndexBar>
-        {cityJson.map(group => {
-          const { title, items } = group
-          return (
-            <IndexBar.Panel
-              index={title}
-              title={`${title}`}
-              key={`${title}`}
-            >
-              <List>
-                {items.map((item, index) => (
-                  <List.Item key={index}>{item.name}</List.Item>
-                ))}
-              </List>
-            </IndexBar.Panel>
-          )
-        })}
-      </IndexBar>
-      </div>
+        <div className={ styles.city_page_container }>
+            <NavBar  backArrow={<CloseOutline style={{ fontSize: '19px' }} />} onBack={() => navigate('/cinema')}>
+                当前城市 -
+            </NavBar>
+            <div className={ styles.city_index_container }>
+                <div className={ styles.city_top_part }>
+                    <div className={ styles.search_container }>
+                        {/* <SearchBar placeholder='请输入内容' showCancelButton /> */}
+                        <SearchBar
+                        placeholder='请输入内容'
+                        style={{ '--background': '#ffffff'}}
+                        showCancelButton
+                        />
+                    </div>
+                </div>
+                <IndexBar>
+                    {cityJson.map(group => {
+                    const { title, items } = group
+                    return (
+                        <IndexBar.Panel
+                        index={title}
+                        title={`${title}`}
+                        key={`${title}`}
+                        >
+                        <List>
+                            {items.map((item, index) => (
+                            <List.Item key={index} className={ styles.list_cityName }>{item.name}</List.Item>
+                            ))}
+                        </List>
+                        </IndexBar.Panel>
+                    )
+                    })}
+                </IndexBar>
+            </div>
+        </div>
   );
 }

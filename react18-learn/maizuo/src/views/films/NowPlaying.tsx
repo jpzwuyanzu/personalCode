@@ -3,8 +3,10 @@ import { InfiniteScroll, List, Image, Button } from "antd-mobile";
 import axios from "axios";
 import PageLoading from "../../components/PageLoading";
 import styles from "./NowPlaying.module.scss";
+import { useNavigate } from 'react-router-dom'
 
 export default function NowPlaying() {
+  const navigate = useNavigate();
   const [data, setData] = useState<string[]>([]);
   const [hasMore, setHasMore] = useState(false);
   const [pageNum, setPageNum] = useState(1);
@@ -38,6 +40,7 @@ export default function NowPlaying() {
               {data.map((item: any, index) => (
                 <List.Item
                   key={index}
+                  arrow={ false }
                   prefix={
                     <Image
                       src={item.poster}
@@ -69,6 +72,9 @@ export default function NowPlaying() {
                       </Button>
                     </div>
                   }
+                  onClick={ () => {
+                    navigate(`/film/detail/${item.filmId}`)
+                  } }
                 >
                   <div className={styles.film_title}>
                     <span className={styles.film_name}>{item.name}</span>

@@ -338,7 +338,7 @@ root.render(
          <App />
       </PersistGate>
     </Provider>
-  </React.StrictMode>
+ </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
@@ -347,3 +347,7 @@ root.render(
 reportWebVitals();
 
 ```
+
+### 8,登录模块开发
+#### 8,1 
+

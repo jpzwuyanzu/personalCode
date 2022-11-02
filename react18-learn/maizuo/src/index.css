@@ -4,6 +4,9 @@ html,body {
   padding: 0;
   height: 100%;
 }
+p {
+  margin: 0;
+}
 #root {
   height: 100%;
   overflow: hidden;

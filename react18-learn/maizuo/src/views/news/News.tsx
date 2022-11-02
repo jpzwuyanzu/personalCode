@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import styles from './News.module.scss'
 
 
 export default function News() {
@@ -19,7 +20,7 @@ export default function News() {
         loadFilmNews()
     }, [])
     return (
-        <div dangerouslySetInnerHTML={{ __html: newsHtml }}>
+        <div className={ styles.news_container } dangerouslySetInnerHTML={{ __html: newsHtml }}>
             {/* dangerouslySetInnerHTML={{ __html: newsHtml }} */}
             {/* news */}
         </div>

@@ -1,22 +1,27 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import TabBarReducer from './tabbar.slice';
-import SHOW_TAB_KEY from './tabbar.slice'
+import {SHOW_TAB_KEY} from './tabbar.slice'
+import SelectCityReducer from './selectcity.slice';
+import {SELECT_CITY_KEY} from './selectcity.slice'
 
 //配置redux数据持久化
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
+
+const reducers = combineReducers({
+    [SHOW_TAB_KEY] : TabBarReducer,
+    [SELECT_CITY_KEY] : SelectCityReducer
+})
 const persistConfig = {
     key: 'root',
     storage,
     blcklist: ['NotFound']
 }
-const persistTabBarReducer = persistReducer(persistConfig, TabBarReducer);
+const persistedReducer = persistReducer(persistConfig, reducers);
 
 //配置store
 const store = configureStore({
-    reducer: {
-        SHOW_TAB_KEY : persistTabBarReducer
-    },
+    reducer: persistedReducer,
     // 配置中间件
     middleware: (getDefaultMiddleware) => [
         ...getDefaultMiddleware({ serializableCheck: false })

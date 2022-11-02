@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from 'react-router-dom'
 import { useAppDispatch } from "../../hooks/redux-hook";
 import { switchTabBar } from "../../store/tabbar.slice";
+import { selectCity } from '../../store/selectcity.slice'
 import { NavBar,IndexBar, List, SearchBar } from 'antd-mobile'
 import { CloseOutline } from 'antd-mobile-icons'
 import styles from './City.module.scss'
@@ -2083,6 +2084,10 @@ export default function City() {
       ],
     },
   ];
+  const handlerChoosed = (item: any, index: any) => {
+      dispatch(selectCity({ ...item }))
+      navigate('/cinema')
+  }
 
   useEffect(() => {
     dispatch(switchTabBar({ status: false }));
@@ -2117,7 +2122,7 @@ export default function City() {
                         >
                         <List>
                             {items.map((item, index) => (
-                            <List.Item key={index} className={ styles.list_cityName }>{item.name}</List.Item>
+                            <List.Item key={index} arrow={ false } className={ styles.list_cityName }  onClick={ () => handlerChoosed(item, index) }>{item.name}</List.Item>
                             ))}
                         </List>
                         </IndexBar.Panel>

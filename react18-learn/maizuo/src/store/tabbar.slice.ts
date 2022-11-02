@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
 //定义接口
 interface IShowTabState {
@@ -11,7 +11,7 @@ const initialState: IShowTabState = {
 }
 
 //定义常量名称
-export const SHOW_TAB_KEY: any = 'showtab'
+export const SHOW_TAB_KEY: string = 'showtab';
 
 const { actions, reducer: TabBarReducer } = createSlice({
     name: SHOW_TAB_KEY,

@@ -6,9 +6,13 @@ import styles from './Cinema.module.scss'
 import choosedImg from './../../assets/imgs/choosed.png'
 import axios from 'axios'
 import PageLoading from '../../components/PageLoading'
+import { useAppSelector } from './../../hooks/redux-hook'
+import { SELECT_CITY_KEY } from './../../store/selectcity.slice'
 
 export default function Cinema() {
     const navigate = useNavigate();
+    const cityId = useAppSelector((state) => state[SELECT_CITY_KEY]['cityId']);
+    const cityName = useAppSelector((state) => state[SELECT_CITY_KEY]['name']);
     const [activePart, setActivePart] = useState(0);
     const [activeType, setActiveType] = useState(0);
     const [activeRecent, setActiveRecent] = useState(0);
@@ -20,16 +24,16 @@ export default function Cinema() {
     const rightPart = (<SearchOutline style={{ fontSize: 18 }} onClick={ () => navigate('/cinema/search') }/>)
     const leftPart = (
         <div className={ styles.leftPart } onClick={ () => navigate('/city') }>
-            深圳
+            { cityName }
             <DownOutline style={{ marginLeft: '2px' }} />
         </div>
     )
     const loadCinemaList = async () => {
         const res = await axios({
-            url: `https://m.maizuo.com/gateway?cityId=440300&ticketFlag=${tickedType[activeType].id}&k=7249404`,
+            url: `https://m.maizuo.com/gateway?cityId=${cityId}&ticketFlag=${tickedType[activeType].id}&k=7249404`,
             headers: {
               "X-Client-Info":
-                '{"a":"3000","ch":"1002","v":"5.2.1","e":"16558863921792667809742849","bc": "440300"}',
+                `{"a":"3000","ch":"1002","v":"5.2.1","e":"16558863921792667809742849","bc": "${cityId}"}`,
               "X-Host": "mall.film-ticket.cinema.list",
             },
           });

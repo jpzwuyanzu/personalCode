@@ -6,7 +6,6 @@ import { useParams } from 'react-router-dom'
 export default function Detail() {
     const dispatch = useAppDispatch();
     const params = useParams();
-    console.log(params)
 
     useEffect(() => {
         dispatch(switchTabBar({ status: false }))

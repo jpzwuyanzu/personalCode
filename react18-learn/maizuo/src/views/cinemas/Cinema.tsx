@@ -41,6 +41,7 @@ export default function Cinema() {
     }
     useEffect(() => {
         loadCinemaList()
+        // eslint-disable-next-line
     }, [])
 
     return (

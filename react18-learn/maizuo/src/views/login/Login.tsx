@@ -10,12 +10,7 @@ export default function Login() {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const [canVerify, setCanVerify] = useState(false);
-    const [btnValue, setBtnValue] = useState('获取验证码');
     
-
-    const getVerifyCode = () => {
-        setCanVerify(false);
-    }
     const onFinish = (values: any) => {
     console.log(values)
     if(values.phone && values.verifyCode) {
@@ -29,6 +24,7 @@ export default function Login() {
         return () => {
           dispatch(switchTabBar({ status: true }))
         }
+        // eslint-disable-next-line
     }, [])
     return (
         <div className={ styles.login_container }>
@@ -46,7 +42,7 @@ export default function Login() {
                 }
             >
                 <Form.Item  
-                extra={<span className={ canVerify ? styles.activeVerifyCode_btn :  styles.getVerifyCode_btn }>{ btnValue }</span>}
+                extra={<span className={ canVerify ? styles.activeVerifyCode_btn :  styles.getVerifyCode_btn }>获取验证码</span>}
                 name="phone"
                 >
                     <Input placeholder='手机号' type="sting"  maxLength={11} clearable className={ styles.my_input } onChange={ (value: string) => {

@@ -10,6 +10,7 @@ export default function Search() {
         return () => {
           dispatch(switchTabBar({ status: true }))
         }
+        // eslint-disable-next-line
     }, [])
     return (
         <div>

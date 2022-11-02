@@ -2094,6 +2094,7 @@ export default function City() {
     return () => {
       dispatch(switchTabBar({ status: true }));
     };
+    // eslint-disable-next-line
   }, []);
   return (
         <div className={ styles.city_page_container }>

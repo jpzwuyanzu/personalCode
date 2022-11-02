@@ -12,6 +12,7 @@ export default function Detail() {
         return () => {
           dispatch(switchTabBar({ status: true }))
         }
+        // eslint-disable-next-line
     }, [])
 
     return (

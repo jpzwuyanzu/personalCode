@@ -1,21 +1,17 @@
 import React, { useEffect } from 'react'
 import { useAppDispatch } from '../../hooks/redux-hook'
 import { switchTabBar } from '../../store/tabbar.slice'
-import { useParams } from 'react-router-dom'
-import { NavBar,Button, Image, Swiper  } from 'antd-mobile'
+import { useParams, useNavigate } from 'react-router-dom'
+import { NavBar,Button, Image  } from 'antd-mobile'
 import styles from './Detail.module.scss'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import 'swiper/css'
 
 export default function Detail() {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const params = useParams();
     const colors = ['#ace0ff', '#bcffbd', '#e4fabd', '#ffcfac']
-    const items = colors.map((color, index) => (
-        <Swiper.Item key={index} style={{ marginLeft: '20px',marginRight: '20px' }}>
-          <div className={styles.content} style={{ background: color }}>
-            {index + 1}
-          </div>
-        </Swiper.Item>
-      ))
 
     useEffect(() => {
         dispatch(switchTabBar({ status: false }))
@@ -28,7 +24,7 @@ export default function Detail() {
     return (
         <div className={ styles.film_detail_container }>
              <div className={ styles.top_navBar }>
-                <NavBar onBack={() => {}}></NavBar>
+                <NavBar onBack={() => navigate('/')}></NavBar>
              </div>
              <div className={ styles.center_content }>
                  <div className={ styles.top_poster_cntainer }>
@@ -51,16 +47,19 @@ export default function Detail() {
                          赤手空拳的外交官，穿越战火和荒漠，面对反叛军的枪口，如何带领同胞走出一条回家之路……
                     </div>
                  </div>
-                 <div className="actor_list">
+                 <div className="actor_list" style={{ paddingLeft: '20px' }}>
                  <Swiper
-                    trackOffset={-40}
-                    slideSize={60}
-                    style={{
-                        '--border-radius': '8px',
-                    }}
-                    defaultIndex={0}
+                    spaceBetween={8}
+                    slidesPerView={3}
+                    onSlideChange={() => console.log('slide change')}
+                    onSwiper={(swiper) => console.log(swiper)}
                     >
-                    {items}
+                    <SwiperSlide>
+                        <div style={{ width: '100px', height: '100px',background:'red' }}>12</div>
+                    </SwiperSlide>
+                    <SwiperSlide><div style={{ width: '100px', height: '100px',background: 'green' }}>333</div></SwiperSlide>
+                    <SwiperSlide><div style={{ width: '100px', height: '100px',background: 'yellow' }}>444</div></SwiperSlide>
+                    <SwiperSlide><div style={{ width: '100px', height: '100px',background: 'orange' }}>555</div></SwiperSlide>
                     </Swiper>
                  </div>
              </div>

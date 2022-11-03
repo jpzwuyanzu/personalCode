@@ -451,3 +451,7 @@ export default function Login() {
 ### 9,电影详情组件
 
 #### 9,1 films/Detail.tsx
+
+<!-- 安装swiper -->
+npm i swiper
+

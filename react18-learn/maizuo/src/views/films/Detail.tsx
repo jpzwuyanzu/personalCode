@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAppDispatch } from '../../hooks/redux-hook'
 import { switchTabBar } from '../../store/tabbar.slice'
 import { useParams, useNavigate } from 'react-router-dom'
@@ -6,14 +6,35 @@ import { NavBar,Button, Image  } from 'antd-mobile'
 import styles from './Detail.module.scss'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
+import axios from 'axios'
+import { key } from '../../../../../learn-code/vue3-Learn/vue3-vant-ts/src/store/index';
+
+interface IFilmDetail {
+    [propName: string]: any
+}
 
 export default function Detail() {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const [filmDetail, setFilmDetail] = useState({} as IFilmDetail)
     const params = useParams();
     const colors = ['#ace0ff', '#bcffbd', '#e4fabd', '#ffcfac']
 
+    const loadFilmDetailInfo = async () => {
+        const res = await axios({
+            url: `https://m.maizuo.com/gateway?filmId=${params.filmId}&k=5275804`,
+            headers: {
+              "X-Client-Info":
+                '{"a":"3000","ch":"1002","v":"5.2.1","e":"16674635654662427517976577"}',
+              "X-Host": "mall.film-ticket.film.info",
+            },
+          });
+          console.log(res.data.data.film)
+          setFilmDetail({ ...res.data.data.film })
+    }
+
     useEffect(() => {
+        loadFilmDetailInfo()
         dispatch(switchTabBar({ status: false }))
         return () => {
           dispatch(switchTabBar({ status: true }))
@@ -28,38 +49,34 @@ export default function Detail() {
              </div>
              <div className={ styles.center_content }>
                  <div className={ styles.top_poster_cntainer }>
-                    <Image lazy width="100%" height="100%" fit='fill' src="https://pic.maizuo.com/usr/movie/47ea256514ce764ff4b1d75fa9186424.jpg" />
+                    <Image lazy width="100%" height="100%" fit='fill' src={ filmDetail.poster } />
                  </div>
                  <div className={ styles.film_desc_detail }>
                      <div className={ styles.title_line }>
-                         <div className={ styles.title_label }>万里归途<span>2D</span></div>
-                         <div className={ styles.film_score }>7.3分</div>
+                         <div className={ styles.title_label }>{ filmDetail.name }<span>{ filmDetail.item?.name }</span></div>
+                         <div className={ styles.film_score }>{ filmDetail.grade }分</div>
                      </div>
-                     <div className={ styles.detail_item }>剧情｜战争</div>
-                     <div className={ styles.detail_item }>2022-09-30上映</div>
-                     <div className={ styles.detail_item }>中国大陆｜137分钟</div>
-                     <div className={ styles.detail_item }>剧情｜战争</div>
-                     <div className={ styles.detail_item }>
-                         电影根据真实事件改编。 努米亚共和国爆发战乱，
-                         前驻地外交官宗大伟（张译 饰）与外交部新人成朗（王俊凯 饰）受命前往协助撤侨。
-                         任务顺利结束，却得知还有一批被困同胞，正在白婳（殷桃 饰）的带领下，
-                         前往边境撤离点。情急之下，两人放弃了回家机会，逆行进入战区。
-                         赤手空拳的外交官，穿越战火和荒漠，面对反叛军的枪口，如何带领同胞走出一条回家之路……
-                    </div>
+                     <div className={ styles.detail_item }>{ filmDetail.category }</div>
+                     <div className={ styles.detail_item }>{ filmDetail.premiereAt }上映</div>
+                     <div className={ styles.detail_item }>{ filmDetail.nation }｜{ filmDetail.runtime }分钟</div>
+                     <div className={ styles.detail_item }>{ filmDetail.category }</div>
+                     <div className={ styles.detail_item }>{ filmDetail.synopsis }</div>
                  </div>
-                 <div className="actor_list" style={{ paddingLeft: '20px' }}>
+                 <div className={ styles.actor_list }>
                  <Swiper
-                    spaceBetween={8}
-                    slidesPerView={3}
-                    onSlideChange={() => console.log('slide change')}
+                    spaceBetween={10} slidesPerView={3.4} onSlideChange={() => console.log('slide change')}
                     onSwiper={(swiper) => console.log(swiper)}
                     >
-                    <SwiperSlide>
-                        <div style={{ width: '100px', height: '100px',background:'red' }}>12</div>
-                    </SwiperSlide>
-                    <SwiperSlide><div style={{ width: '100px', height: '100px',background: 'green' }}>333</div></SwiperSlide>
-                    <SwiperSlide><div style={{ width: '100px', height: '100px',background: 'yellow' }}>444</div></SwiperSlide>
-                    <SwiperSlide><div style={{ width: '100px', height: '100px',background: 'orange' }}>555</div></SwiperSlide>
+                        {
+                            filmDetail.actors?.map((item: any, index: any) => {
+                                return  <SwiperSlide key={ index }>
+                                <Image lazy width="100%" height="400" fit='fill' src={ item.avatarAddress  } />
+                                <p>{ item.name }</p>
+                                <p>{ item.role }</p>
+                                </SwiperSlide>
+                            })
+                            
+                        }
                     </Swiper>
                  </div>
              </div>

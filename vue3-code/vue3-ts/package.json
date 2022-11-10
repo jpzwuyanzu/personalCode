@@ -11,6 +11,7 @@
   "dependencies": {
     "autoprefixer": "^10.4.13",
     "lib-flexible": "0.3",
+    "postcss-px-to-viewport": "^1.1.1",
     "postcss-pxtorem": "5",
     "sass": "^1.56.1",
     "vant": "^3.6.5",

@@ -73,13 +73,13 @@ import App from './App.vue'
 createApp(App).mount('#app')
 
 ```
-#### 2,受用vw 和vh方案
+#### 2,使用vw 和vh方案
 
 参考地址：https://www.jianshu.com/p/4d86701caa0e
 
 npm install postcss-px-to-viewport --save
 
-创建sass函数,设计稿宽度为750*1250
+创建sass函数,设计稿宽度为750*1250，根据实际设计稿尺寸设置
 
 calcSize.scss
 

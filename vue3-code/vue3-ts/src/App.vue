@@ -4,7 +4,6 @@ const count = ref(1)
 const addHandler = () => {
   count.value ++;
 }
-console.log(count.value)
 </script>
 
 <template>

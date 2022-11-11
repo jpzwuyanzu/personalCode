@@ -75,7 +75,7 @@ npm i --save sass
 
 npm i vant
 
-配置按需加载
+配置按需加载 vite.config.ts
 ```ts
 import vue from '@vitejs/plugin-vue';
 import Components from 'unplugin-vue-components/vite';

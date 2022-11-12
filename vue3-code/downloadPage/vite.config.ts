@@ -40,17 +40,17 @@ export default defineConfig({
     }
   },
   // // 本地运行配置，及反向代理配置
-  server: {
-    open: true,//启动项目自动弹出浏览器
-    port: 3001,//启动端口
-    host: '172.22.2.234',
-    proxy: {
-      '/qf': {
-        target: 'http://172.22.2.249:8083', //实际请求地址
-        // target: 'http://34.92.25.18:8083',
-        changeOrigin: true,
-        // rewrite: (path) => path.replace(/^\/api/, '')
-      }
-    }
-  }
+  // server: {
+  //   open: true,//启动项目自动弹出浏览器
+  //   port: 3001,//启动端口
+  //   host: '172.22.2.234',
+  //   proxy: {
+  //     '/qf': {
+  //       target: 'http://172.22.2.249:8083', //实际请求地址
+  //       // target: 'http://34.92.25.18:8083',
+  //       changeOrigin: true,
+  //       // rewrite: (path) => path.replace(/^\/api/, '')
+  //     }
+  //   }
+  // }
 })

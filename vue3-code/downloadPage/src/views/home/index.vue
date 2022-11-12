@@ -32,7 +32,9 @@
   import { Swiper, SwiperSlide } from 'swiper/vue';
   import 'swiper/css';
   import 'swiper/scss/navigation';
+  import { IOS_DOWNLOAD_URL } from './../../utils/envi'
   const modules: any = [Autoplay];
+  console.log(IOS_DOWNLOAD_URL)
 </script>
 <style lang="scss" scoped>
 .home_container {

@@ -57,7 +57,10 @@
   const onSwiper = (swiper: any) => {
     // console.log(swiper);
   };
-  const onSlideChange = ({ activeIndex }) => {
+  interface ISwiper {
+      [key: string]: any
+  }
+  const onSlideChange = ({ activeIndex }: ISwiper) => {
     appStore.dispatch("changeSwiperIndexAction", { swiperIndex: activeIndex })
   };
 </script>

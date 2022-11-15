@@ -157,7 +157,7 @@ https://zhuanlan.zhihu.com/p/528295053
 ```json
 "scripts": {
     "start": "craco start",
-    "build": "craco build"
+    "build": "craco build",
     "test": "craco test"
 }
 ```

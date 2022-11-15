@@ -10,7 +10,7 @@ module.exports = {
                     plugins: [
                         autoprefixer(),
                         pxtorem({
-                            rootValue: 75, //375设计图设置为37.5 ， 750设计图设置为75
+                            rootValue: 37.5, //375设计图设置为37.5 ， 750设计图设置为75
                             unitPrecision: 5, // （数字）允许 REM 单位增长到的十进制数字
                             propList: ["*"],
                             //unitPrecision: 5, // （数字）允许 REM 单位增长到的十进制数字

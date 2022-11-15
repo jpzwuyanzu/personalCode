@@ -1,14 +1,137 @@
 .homeContainer {
     width: 100%;
-    height: 100%;
+    height: auto;
+    background: url('./../../assets/img/bg.png') no-repeat center;
+    background-size: cover;
+    .topHeader {
+        width: 100%;
+        height: 520px;
+        position: relative;
+        .topImg {
+            width: 100%;
+            height: 100%;
+        }
+        .topTypeLine {
+            width: 100%;
+            padding: 0 43px;
+            height: 32px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-around;
+            position: absolute;
+            top: 20px;
+            .typeItem {
+                font-size: 16px;
+                color: #fff;
+            }
+        }
+    }
     .centerSwiper {
-        width: 80%;
-        height: 300px;
+        width: 100%;
+        height: 200px;
         margin: 0 auto;
         .swiperImg {
             width: 100%;
             height: 100%;
-            object-fit: contain;
+        }
+    }
+    .giftImg {
+        width: 343px;
+        height: 526px;
+        margin: 0 auto;
+        .giftDetail {
+            width: 100%;
+            height: 100%;
+        }
+    }
+    .concatPart {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 34px;
+        .concatLabel {
+            width: 327px;
+            height: 20px;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+        .concatDetail {
+            width: 343px;
+            height: 170px;
+            padding: 15px 10px;
+            border-radius: 12px;
+            border: solid 1px #fff;
+            box-sizing: border-box;
+            .topConcatPart {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                .lineItem {
+                    width: 100%;
+                    padding-left:9px;
+                    padding-right: 9px;
+                    box-sizing: border-box;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: space-between;
+                    .leftIcon {
+                        width: 20px;
+                        height: 24px;
+                        object-fit: contain;
+                        margin-right: 13px;
+                    }
+                    .centerInfo {
+                        flex: 1;
+                        text-align: left;
+                        font-size: 16px;
+                        color: #fff;
+                        font-weight: 400;
+                        .concatNum {
+                            font-size: 22px;
+                            font-weight: 500; 
+                            color: #fff;
+                            letter-spacing: 2.75px;
+                            margin-left: 4px;
+                        }
+                    }
+                    .rightBtn {
+                        width: 16px;
+                        height: 16px;
+                        .addbtn {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: contain;
+                        }
+                    }
+                }
+                .seperateLine {
+                    width: 323px;
+                    height: 1px;
+                    margin: 15px 0 14px;
+                    opacity: 0.8;
+                    border-radius: 2.5px;
+                    background-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #fff 54%, rgba(255, 255, 255, 0) 100%);
+                }
+                .downloadLink {
+                    height: 20px;
+                    margin: 14px 10px 0 0;
+                    opacity: 0.8;
+                    font-family: PingFang-SC;
+                    font-size: 16px;
+                    font-stretch: normal;
+                    font-style: normal;
+                    line-height: 1.25;
+                    letter-spacing: normal;
+                    color: #fff;
+                    .rightUrl {
+                        color: #fff;
+                    }
+                }
+            }
         }
     }
 }

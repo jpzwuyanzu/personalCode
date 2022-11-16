@@ -1,0 +1,29 @@
+.huodong_page_container {
+    width: 100%;
+    height: 100%;
+    background: url('../../assets/pcImg/bg03.png') no-repeat center;
+    background-size: 100% 100%;
+    text-align: center;
+    overflow-y: scroll;
+    .top_title_line {
+        width: 1528px;
+        height: 65px;
+        background: url('../../assets/pcImg/title_bg.png') no-repeat center;
+        background-size: cover;
+        font-size: 42px;
+        font-weight: bold;
+        color: #BD7761;
+        line-height: 65px;
+        margin:  0 auto;
+        margin-top: 140px;
+        margin-bottom: 103px;
+    }
+    .activity_detail {
+        width: 1351px;
+        height: 2405px;
+        background: url('../../assets/pcImg/activityImg.png') no-repeat center;
+        background-size: 100% 100%;
+        margin: 0 auto;
+        // z-index: 1;
+    }
+}

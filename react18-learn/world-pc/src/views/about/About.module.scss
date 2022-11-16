@@ -1,0 +1,14 @@
+.about_page_container {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    font-size: 0;
+    // background: url('../../assets/pcImg/bg05.png') no-repeat center;
+    // background-size: 100% 100%;
+    .aboutImg_detail {
+        width: 100%;
+        height: 1412px;
+        // display: block;
+        object-fit: cover;
+    }
+}

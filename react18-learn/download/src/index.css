@@ -46,11 +46,18 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-html, body, #root {
+html, body {
   width: 100%;
   height: 100%;
 }
-body {
-	background: url('./assets/img/bg.png') no-repeat center;
-    background-size: cover;
+#root {
+	overflow-y: auto;
+	height: 100%;
+}
+
+.swiper-button-next:after{
+    display: none;
+}
+.swiper-button-prev:after{
+  display: none;
 }

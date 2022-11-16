@@ -1,4 +1,10 @@
 .layout_congtainer {
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
+  /* overflow-y: scroll; */
+  min-height: 100%;
+  /* max-height: 100%; */
+  background: url('./assets/world/layout_bg.png') no-repeat top center #150d2b;
+    background-size: 100%;
+    /* background-color: #150d2b; */
 }

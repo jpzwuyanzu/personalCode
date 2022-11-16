@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
@@ -14,7 +14,7 @@ import Img5 from './../assets/world/zanzu/img05.png'
 
 
 // import required modules
-import { Navigation, Pagination } from "swiper";
+import { Navigation } from "swiper";
 export default function ZanzuSwiper({ getSwiperIndex }: any ) {
     const swiperList = [Img1, Img2,Img3,Img4,Img5];
     const [activeindex, setActiveIndex] = useState(0);

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import styles from "./Home.module.scss";
 import ZanzuSwiper from "../../components/ZanzuSwiper";

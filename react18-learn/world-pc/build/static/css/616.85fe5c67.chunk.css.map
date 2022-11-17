@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/616.85fe5c67.chunk.css","mappings":"AAAA,gCAGI,yEACA,2BAFA,YADA,UAGA","sources":["views/home/Home.module.scss"],"sourcesContent":[".homePage_container {\n    width: 100%;\n    height: 100%;\n    background: url('../../assets/pcImg/bg01.png') no-repeat center;\n    background-size: 100% 100%;\n}"],"names":[],"sourceRoot":""}

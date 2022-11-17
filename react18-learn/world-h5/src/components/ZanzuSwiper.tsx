@@ -1,7 +1,5 @@
 import { useState } from "react";
-// Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -25,7 +23,7 @@ export default function ZanzuSwiper({ getSwiperIndex }: any ) {
           setActiveIndex(swiperInst.activeIndex)
           getSwiperIndex(swiperInst.activeIndex)
         }}
-      onSwiper={(swiper) => console.log(swiper)}>
+      onSwiper={(swiper) => {}}>
           {
               swiperList.length && swiperList.map((item, index) => {
                   return (<SwiperSlide key={ index }>

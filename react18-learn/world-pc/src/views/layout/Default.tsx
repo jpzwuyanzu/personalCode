@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from "react";
-// import MRouter from './../router/index'
 import { useLocation, useNavigate, Outlet } from "react-router-dom";
 import styles from "./Default.module.scss";
 import LogoImg from "./../../assets/pcImg/logo.png";
 import CustomImg from "./../../assets/pcImg/customer.png";
 import RightNow from './../../assets/pcImg/rightNow.png'
-import LeftQrCodeBg from "./../../assets/pcImg/qrcode/leftqrBg.png";
 import leftCode from "./../../assets/pcImg/qrcode/leftCode.png";
-import RightQrCodeBg from "./../../assets/pcImg/qrcode/rightqrBg.png";
-import rightCode from "./../../assets/pcImg/qrcode/rightCode.png";
 
 export default function DefaultLayout() {
   const navigate = useNavigate();
@@ -17,6 +13,8 @@ export default function DefaultLayout() {
   const [isShowLeftCode, setIsShowLeftCode] = useState(false);
   const [isShowRightCode, setIsShowRightCode] = useState(false);
   const changeLinkTab = (tab: string, url: string) => {
+    setIsShowLeftCode(false);
+    setIsShowRightCode(false);
     setActiveTab(tab);
     navigate(url, { replace: true });
   };
@@ -27,10 +25,13 @@ export default function DefaultLayout() {
   }
   useEffect(() => {
     setActiveTab(pathname);
-  }, []);
+  }, [pathname]);
   return (
     <div className={styles.layoutConatiner}>
-      <div className={styles.layout_header}>
+      <div className={styles.layout_header} onClick={ () => {
+        setIsShowLeftCode(false);
+        setIsShowRightCode(false);
+      } }>
         <div className={styles.header_left}>
           <img className={styles.leftLogo} src={LogoImg} alt="" />
           <div className={styles.header_tab_part}>
@@ -81,7 +82,7 @@ export default function DefaultLayout() {
             <img className={styles.rightIcon} src={CustomImg} alt="" />
             <a
               className={styles.rightLink}
-              href="http://www.baidu.com"
+              href="http://g6.halan6.live"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -102,10 +103,16 @@ export default function DefaultLayout() {
           </div>
         </div>
       </div>
-      <div className={styles.layout_content}>
+      <div className={styles.layout_content} onClick={ () => {
+        setIsShowLeftCode(false);
+        setIsShowRightCode(false);
+      } }>
         <Outlet />
       </div>
-      <div className={styles.layout_footer}>
+      <div className={styles.layout_footer} onClick={ () => {
+        setIsShowLeftCode(false);
+        setIsShowRightCode(false);
+      } }>
         <div
           className={styles.bobLeft_btn}
           onMouseOver={() => {

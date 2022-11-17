@@ -1,6 +1,5 @@
 import React from 'react'
 import styles from './HuoDong.module.scss'
-import activityImg from './../../assets/pcImg/activityImg.png'
 
 export default function HouDong() {
     return (

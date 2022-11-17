@@ -1,0 +1,15 @@
+.tips_container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 300px;
+    background: rgba(0,0,0,0.4);
+    margin: 0 auto;
+    width: 100px;
+    height: 40px;
+    z-index: 10000;
+    border-radius: 15px;
+    text-align: center;
+    line-height: 40px;
+    color: #fff;
+}

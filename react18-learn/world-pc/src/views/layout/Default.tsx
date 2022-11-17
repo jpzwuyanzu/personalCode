@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate, Outlet } from "react-router-dom";
 import styles from "./Default.module.scss";
+import { CopyToClipboard } from 'react-copy-to-clipboard'
+import Tips from './../../components/Tips'
 import LogoImg from "./../../assets/pcImg/logo.png";
 import CustomImg from "./../../assets/pcImg/customer.png";
 import RightNow from './../../assets/pcImg/rightNow.png'
@@ -10,8 +12,9 @@ export default function DefaultLayout() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [activeTab, setActiveTab] = useState<string>("/home");
-  const [isShowLeftCode, setIsShowLeftCode] = useState(false);
-  const [isShowRightCode, setIsShowRightCode] = useState(false);
+  const [isShowLeftCode, setIsShowLeftCode] = useState<boolean>(false);
+  const [isShowRightCode, setIsShowRightCode] = useState<boolean>(false);
+  const [isShowTips ,setIsShowTips] = useState<boolean>(false);
   const changeLinkTab = (tab: string, url: string) => {
     setIsShowLeftCode(false);
     setIsShowRightCode(false);
@@ -22,6 +25,12 @@ export default function DefaultLayout() {
       setIsShowLeftCode(false)
       setIsShowRightCode(false)
       window.open(link, '_blank');
+  }
+  const showTips = () => {
+    setIsShowTips(true)
+    setTimeout(() => {
+      setIsShowTips(false)
+    },800)
   }
   useEffect(() => {
     setActiveTab(pathname);
@@ -135,7 +144,10 @@ export default function DefaultLayout() {
                   <div className={styles.qr_Link}>
                     https://www.boyu424.com:32800/login
                   </div>
-                  <div className={styles.copy_btnLeft}>一键复制</div>
+                  <CopyToClipboard text='https://www.baidu.com23231'
+                    onCopy={() => showTips()}>
+                    <div className={styles.copy_btnLeft}>一键复制</div>
+                  </CopyToClipboard>
                 </div>
               </div>
             </>
@@ -163,13 +175,17 @@ export default function DefaultLayout() {
                   <div className={styles.qr_Link}>
                     https://www.boyu424.com:32800/login
                   </div>
-                  <div className={styles.copy_btnRight}>一键复制</div>
+                  <CopyToClipboard text='https://www.baidu.com6666'
+                    onCopy={() => showTips()}>
+                   <div className={styles.copy_btnRight}>一键复制</div>
+                  </CopyToClipboard>
                 </div>
               </div>
             </>
           )}
         </div>
       </div>
+        { isShowTips && <Tips content="复制成功" />  }
     </div>
   );
 }

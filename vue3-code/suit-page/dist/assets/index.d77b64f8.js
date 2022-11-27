@@ -1,1 +1,0 @@
-import{d as t,o as s,a as n,y as a,i as c,z as i}from"./index.42f7cf7d.js";const m=t({__name:"index",setup(r){const e=i();console.log(e);const o=()=>{e.push("/meishi/100")};return(u,l)=>(s(),n("div",null,[a(" meishi "),c("button",{onClick:o},"\u8BE6\u60C5")]))}});export{m as default};

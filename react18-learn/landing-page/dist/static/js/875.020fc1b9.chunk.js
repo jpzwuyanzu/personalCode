@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkworld_h5=self.webpackChunkworld_h5||[]).push([[875],{9875:function(_,t,e){e.r(t),t.default={huodong_page_container:"HuoDong_huodong_page_container__swru6",top_title_line:"HuoDong_top_title_line__aPIEe",activity_detail:"HuoDong_activity_detail__H2Ybc"}}}]);
+//# sourceMappingURL=875.020fc1b9.chunk.js.map

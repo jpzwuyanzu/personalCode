@@ -1,0 +1,7 @@
+@function vw($px) {
+    @return ($px / 750) * 100vw;
+  }
+  //有特殊要求也可以高度自适应，一般宽度自适应就可以了
+  @function vh($px) {
+    @return ($px / 1250) * 100vh;
+  }

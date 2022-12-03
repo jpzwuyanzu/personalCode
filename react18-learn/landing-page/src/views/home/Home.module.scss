@@ -1,0 +1,9 @@
+@import "@/styles/calcSize.scss";
+.homePage_container {
+    width: 100%;
+    height: 100%;
+    .test {
+        width: vw(200);
+        height: vh(200);
+    }
+}

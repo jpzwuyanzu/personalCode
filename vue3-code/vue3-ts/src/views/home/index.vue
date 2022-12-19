@@ -1,5 +1,6 @@
 <template >
     <div class="home_container">
+        <Child @changePageNum="changePageNum" :pageNum="pageNum"/>
         <swiper
             direction="vertical"
             @swiper="onSwiper"
@@ -50,16 +51,24 @@
     </div>
 </template>
 <script setup lang="ts">
+  import { ref } from 'vue'
   import { Swiper, SwiperSlide } from 'swiper/vue';
   import 'swiper/css';
+  import Child from '../../components/myChild.vue'
   import { useStore } from 'vuex'
+    interface ISwiper {
+      [key: string]: any
+  }
+  const pageNum = ref<number>(1);
+  const changePageNum = (val: number) => {
+      console.log(val)
+      pageNum.value = val;
+  }
+
   const appStore = useStore();
   const onSwiper = (swiper: any) => {
     // console.log(swiper);
   };
-  interface ISwiper {
-      [key: string]: any
-  }
   const onSlideChange = ({ activeIndex }: ISwiper) => {
     appStore.dispatch("changeSwiperIndexAction", { swiperIndex: activeIndex })
   };

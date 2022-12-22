@@ -70,7 +70,7 @@ export default function Detail() {
                         {
                             filmDetail.actors?.map((item: any, index: any) => {
                                 return  <SwiperSlide key={ index }>
-                                <Image lazy width="100%" height="400" fit='fill' src={ item.avatarAddress  } />
+                                <Image lazy width="100%" height="135px" fit='fill' src={ item.avatarAddress  } />
                                 <p>{ item.name }</p>
                                 <p>{ item.role }</p>
                                 </SwiperSlide>

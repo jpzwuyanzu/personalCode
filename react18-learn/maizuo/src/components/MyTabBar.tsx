@@ -39,7 +39,7 @@ export default function MyTabBar() {
       setActiveKey(key)
     }
     useEffect(() => {
-      if(pathname === '/films/ComingSoon') {
+      if(pathname === '/films/ComingSoon' || pathname === '/films/NowPlaying' || pathname === '/') {
         setActiveKey('/films/NowPlaying')
       }
       // eslint-disable-next-line

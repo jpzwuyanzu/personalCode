@@ -40,3 +40,7 @@ p {
 .adm-search-bar-suffix {
   font-size: 16px !important;
 }
+
+:root:root {
+  /* --adm-color-primary: #a062d4; */
+}

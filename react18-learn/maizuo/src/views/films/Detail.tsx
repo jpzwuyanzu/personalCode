@@ -7,7 +7,6 @@ import styles from './Detail.module.scss'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import axios from 'axios'
-import { key } from '../../../../../learn-code/vue3-Learn/vue3-vant-ts/src/store/index';
 
 interface IFilmDetail {
     [propName: string]: any

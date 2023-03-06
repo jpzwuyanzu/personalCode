@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { Button, Descriptions, PageHeader } from 'antd'
+import { Button, Descriptions } from 'antd'
 
 export default function NewsPreview() {
     const { id } = useParams()
@@ -9,7 +9,7 @@ export default function NewsPreview() {
     }, [id])
     return (
         <>
-        <PageHeader
+        {/* <PageHeader
             ghost={false}
             onBack={() => window.history.back()}
             title="Title"
@@ -21,7 +21,7 @@ export default function NewsPreview() {
                 Primary
                 </Button>,
             ]}
-            >
+            > */}
             <Descriptions size="small" column={3}>
                 <Descriptions.Item label="Created">Lili Qu</Descriptions.Item>
                 <Descriptions.Item label="Association">
@@ -32,7 +32,7 @@ export default function NewsPreview() {
                 Gonghu Road, Xihu District, Hangzhou, Zhejiang, China--newsId-{ id }
                 </Descriptions.Item>
             </Descriptions>
-        </PageHeader>
+        {/* </PageHeader> */}
         </>
     )
 }

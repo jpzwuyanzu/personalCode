@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { PageHeader, Steps, Button, Space, Form, Input, Select, message } from 'antd'
+import {  Steps, Button, Space, Form, Input, Select, message } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { Editor } from "react-draft-wysiwyg";
 import { convertToRaw } from 'draft-js'
@@ -60,8 +60,8 @@ export default function Add() {
 
     return (
         <>
-            <PageHeader className="site-page-header" title="撰写新闻"/>
-            <div style={{ marginTop: '20px' }}>
+            {/* <PageHeader className="site-page-header" title="撰写新闻"/> */}
+            {/* <div style={{ marginTop: '20px' }}>
                 <Steps current={ current }>
                     <Step title="新闻标题" description="标题分类" />
                     <Step title="新闻内容" description="新闻内容" />
@@ -119,7 +119,7 @@ export default function Add() {
                     }
                     </Space>
                 </div>
-            </div>
+            </div> */}
         </>
     )
 }

@@ -1,0 +1,22 @@
+.city_page_container {
+    height: 100%;
+    .city_index_container {
+        height: calc(100% - 45px);
+        .city_top_part {
+            background: white;
+            .search_container {
+                background: #f4f4f4;
+                padding: 18px 20px 18px 20px;
+                font-size: 18px;
+            }
+        }
+    }
+}
+.list_cityName {
+    font-size: 26px;
+}
+
+.adm-input-element {
+    font-size: 16px !important;
+    color: #2c3e50;
+  }

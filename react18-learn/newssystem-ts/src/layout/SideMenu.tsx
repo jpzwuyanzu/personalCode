@@ -62,7 +62,7 @@ export default function SideMenu() {
   return (
     <Sider trigger={null} collapsible collapsed={collapsed}>
       <div style={{display: 'flex', height: '100%', flexDirection: 'column'}}>
-        <div className="logo">{ !collapsed ? '新闻发布系统' : '新闻' }</div>
+        <div className="logo">{ !collapsed ? '聚合支付管理系统' : '聚合' }</div>
         <div style={{ flex: 1, overflow: 'hidden'}}>
             <Menu
                 theme="dark"

@@ -29,7 +29,7 @@ const Login = () =>  {
     return (
         <div className="loginForm-Container">
             <div className="login-part">
-                <h1 className="loginForm-title">新闻发布系统</h1>
+                <h1 className="loginForm-title">聚合支付管理系统</h1>
             <Form
                 name="basic"
                 onFinish={onFinish}

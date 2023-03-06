@@ -5,7 +5,7 @@ import { message } from 'antd'
 
 //创建axios实例
 const service = axios.create({
-    // baseURL: '',
+    baseURL: 'http://172.28.113.248:8083/',
     timeout: 5000
 })
 

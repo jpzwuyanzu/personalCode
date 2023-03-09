@@ -37,8 +37,12 @@ axios fetch等封装 websocked使用
 数据可视化echarts  D3js（https://d3js.org/）  antv
 大屏数据展示开发
 webrtc技术
-
-
+```
+google
+35.220.158.246
+peterliloveyou
+]Tco~0vomBJtucW
+```
 
 
 

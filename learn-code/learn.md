@@ -33,16 +33,13 @@ vite打包工具，webpack工具
 vue+electron桌面应用程序
 es6常见用法
 数据模拟： json-server  mockjs  
+35.220.158.246
 axios fetch等封装 websocked使用
+peterliloveyou
 数据可视化echarts  D3js（https://d3js.org/）  antv
 大屏数据展示开发
-webrtc技术
-```
-google
-35.220.158.246
-peterliloveyou
 ]Tco~0vomBJtucW
-```
+webrtc技术
 
 
 

@@ -5,6 +5,8 @@ import ToolingIcon from './icons/IconTooling.vue'
 import EcosystemIcon from './icons/IconEcosystem.vue'
 import CommunityIcon from './icons/IconCommunity.vue'
 import SupportIcon from './icons/IconSupport.vue'
+
+import { reactive, ref } from 'vue'
 </script>
 
 <template>
@@ -17,6 +19,7 @@ import SupportIcon from './icons/IconSupport.vue'
     Vue’s
     <a href="https://vuejs.org/" target="_blank" rel="noopener">official documentation</a>
     provides you with all information you need to get started.
+    <p class="testClass">23</p>
   </WelcomeItem>
 
   <WelcomeItem>
@@ -82,5 +85,13 @@ import SupportIcon from './icons/IconSupport.vue'
     As an independent project, Vue relies on community backing for its sustainability. You can help
     us by
     <a href="https://vuejs.org/sponsor/" target="_blank" rel="noopener">becoming a sponsor</a>.
+    <p>test 测试</p>
+
   </WelcomeItem>
 </template>
+
+<style  scoped>
+.testClass {
+  color: var(--vt-c-text-test-1);
+}
+</style>

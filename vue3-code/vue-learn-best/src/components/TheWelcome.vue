@@ -1,93 +1,70 @@
 <script setup lang="ts">
+import { ref, reactive, computed, watch, watchEffect, onMounted } from 'vue';
 import WelcomeItem from './WelcomeItem.vue'
 import DocumentationIcon from './icons/IconDocumentation.vue'
 import ToolingIcon from './icons/IconTooling.vue'
 import EcosystemIcon from './icons/IconEcosystem.vue'
 import CommunityIcon from './icons/IconCommunity.vue'
 import SupportIcon from './icons/IconSupport.vue'
+import ButtonCounter from './ButtonCounter.vue'
 
-import { reactive, ref } from 'vue'
+const author = reactive({
+  name: 'tony',
+  books: [
+    'Vue 2 - Advanced Guide',
+    'Vue 3 - Basic Guide',
+    'Vue 4 - The Mystery'
+  ]
+})
+const message = ref('');
+const todoId = ref('0')
+const count = reactive({ num: 0 });
+const tempRef = ref(null)
+//计算属性:自动追踪响应式依赖
+const publishedBooks = computed(() => {
+  return author.books.length > 0 ?  'YES': 'No'
+})
+
+// watch 监听器
+// watch可以监听一个ref对象
+// watch可以监听一个getter函数
+// watch可以监听一个多个数据源的数组
+//可以加一个deep
+// immediate: true 会立即执行一次
+watch(count, (newVal) => {
+  console.log(newVal)
+})
+watch(() => count.num, (newVal) => {
+  console.log(newVal)
+})
+
+//watcheffect 在最开始会执行一次, 不需要写入监听数据源头todoId， 当todoId变化，监听就会执行
+watchEffect(async() => {
+  const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${todoId.value}`)
+  const tempData = await response.json()
+})
+
+onMounted(() => {
+  if(tempRef.value) {
+    console.log(tempRef.value)
+  }
+})
+
+
 </script>
 
 <template>
-  <WelcomeItem>
-    <template #icon>
-      <DocumentationIcon />
-    </template>
-    <template #heading>Documentation</template>
-
-    Vue’s
-    <a href="https://vuejs.org/" target="_blank" rel="noopener">official documentation</a>
-    provides you with all information you need to get started.
-    <p class="testClass">23</p>
-  </WelcomeItem>
-
-  <WelcomeItem>
-    <template #icon>
-      <ToolingIcon />
-    </template>
-    <template #heading>Tooling</template>
-
-    This project is served and bundled with
-    <a href="https://vitejs.dev/guide/features.html" target="_blank" rel="noopener">Vite</a>. The
-    recommended IDE setup is
-    <a href="https://code.visualstudio.com/" target="_blank" rel="noopener">VSCode</a> +
-    <a href="https://github.com/johnsoncodehk/volar" target="_blank" rel="noopener">Volar</a>. If
-    you need to test your components and web pages, check out
-    <a href="https://www.cypress.io/" target="_blank" rel="noopener">Cypress</a> and
-    <a href="https://on.cypress.io/component" target="_blank">Cypress Component Testing</a>.
-
-    <br />
-
-    More instructions are available in <code>README.md</code>.
-  </WelcomeItem>
-
-  <WelcomeItem>
-    <template #icon>
-      <EcosystemIcon />
-    </template>
-    <template #heading>Ecosystem</template>
-
-    Get official tools and libraries for your project:
-    <a href="https://pinia.vuejs.org/" target="_blank" rel="noopener">Pinia</a>,
-    <a href="https://router.vuejs.org/" target="_blank" rel="noopener">Vue Router</a>,
-    <a href="https://test-utils.vuejs.org/" target="_blank" rel="noopener">Vue Test Utils</a>, and
-    <a href="https://github.com/vuejs/devtools" target="_blank" rel="noopener">Vue Dev Tools</a>. If
-    you need more resources, we suggest paying
-    <a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">Awesome Vue</a>
-    a visit.
-  </WelcomeItem>
-
-  <WelcomeItem>
-    <template #icon>
-      <CommunityIcon />
-    </template>
-    <template #heading>Community</template>
-
-    Got stuck? Ask your question on
-    <a href="https://chat.vuejs.org" target="_blank" rel="noopener">Vue Land</a>, our official
-    Discord server, or
-    <a href="https://stackoverflow.com/questions/tagged/vue.js" target="_blank" rel="noopener"
-      >StackOverflow</a
-    >. You should also subscribe to
-    <a href="https://news.vuejs.org" target="_blank" rel="noopener">our mailing list</a> and follow
-    the official
-    <a href="https://twitter.com/vuejs" target="_blank" rel="noopener">@vuejs</a>
-    twitter account for latest news in the Vue world.
-  </WelcomeItem>
-
-  <WelcomeItem>
-    <template #icon>
-      <SupportIcon />
-    </template>
-    <template #heading>Support Vue</template>
-
-    As an independent project, Vue relies on community backing for its sustainability. You can help
-    us by
-    <a href="https://vuejs.org/sponsor/" target="_blank" rel="noopener">becoming a sponsor</a>.
-    <p>test 测试</p>
-
-  </WelcomeItem>
+  <div>
+    <p>Has published books:</p>
+    <span>{{ publishedBooks }}</span>
+    <div class="formInput">
+      <p ref="tempRef">message is {{ message }}</p>
+      <input v-model="message" type="text">
+    </div>
+    <ButtonCounter/>
+    <ButtonCounter/>
+    <ButtonCounter/>
+  </div>
 </template>
 
 <style  scoped>

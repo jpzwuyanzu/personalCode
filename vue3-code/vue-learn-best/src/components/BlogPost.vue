@@ -1,9 +1,11 @@
 
 <script setup lang="ts">
-import { ref } from 'vue'
-const count = ref(0)
+defineProps<{ test?: string, title? :string }>() // 类型标注来使用props
+ //等价于 defineProps({ title: string }) defineProps(['title'])
+defineEmits(['enlarge-text'])
 
 </script>
 <template>
-    <button @click="count ++">{{ count }}</button>
+    <h4>{{ title }}</h4>
+    <button @click="$emit('enlarge-text')">放大</button>
 </template>

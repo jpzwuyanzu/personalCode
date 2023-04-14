@@ -11,18 +11,24 @@
           minHeight: '280px',
         }"
       >
-        <router-view></router-view>
+      <!-- 路由缓存需要缓存的组件 -->
+      <router-view v-slot="{ Component }" :key="$route.fullPath">
+        <transition>
+          <keep-alive>
+            <component :is="Component" :key="$route.name" v-if="$route.meta.keepalive"  />
+          </keep-alive>
+        </transition>
+        <component :is="Component" :key="$route.name" v-if="!$route.meta.keepalive" />
+      </router-view>
       </a-layout-content>
     </a-layout>
   </a-layout>
 </template>
 <script setup lang="ts">
-import {UserOutlined,VideoCameraOutlined,UploadOutlined,MenuUnfoldOutlined,MenuFoldOutlined,} from "@ant-design/icons-vue";
 import { ref } from "vue";
+import { useRoute } from 'vue-router'
 import SideBar from "./sideBar.vue";
 import TopHeader from './topHeader.vue'
-const selectedKeys = ref<string[]>(["1"]);
-const collapsed = ref<boolean>(false);
 </script>
 <style lang="scss" scoped>
 #components-layout-demo-custom-trigger .trigger {

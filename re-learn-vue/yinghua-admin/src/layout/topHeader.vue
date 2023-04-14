@@ -1,27 +1,28 @@
 <template>
    <a-layout-header style="background: #fff; padding: 0">
-        <menu-unfold-outlined
-          v-if="collapsed"
-          class="trigger"
-          @click="() => (collapsed = !collapsed)"
-        />
-        <menu-fold-outlined
-          v-else
-          class="trigger"
-          @click="() => (collapsed = !collapsed)"
-        />
+        <div class="switchBtnGroup">
+            <Icon icon="MenuUnfoldOutlined" v-if="appStore.state.sidebar.flodState"
+            class="trigger"
+            @click="changeCollapsed"/>
+            <Icon icon="MenuFoldOutlined" v-else
+            class="trigger"
+            @click="changeCollapsed"/>
+        </div>
       </a-layout-header>
 </template>
 <script setup lang="ts">
-import {
-    UserOutlined,
-    VideoCameraOutlined,
-    UploadOutlined,
-    MenuUnfoldOutlined,
-    MenuFoldOutlined,
-  } from '@ant-design/icons-vue';
-  import { defineComponent, ref } from 'vue';
-
-  const selectedKeys = ref<string[]>(['1']);
-  const collapsed = ref<boolean>(false);
+import { Icon } from './ICON'
+import { useStore } from 'vuex'
+const appStore = useStore()
+// 切换左侧菜单显示隐藏
+const changeCollapsed = () => {
+    appStore.commit(`sidebar/switchflod`)
+}
 </script>
+<style lang="scss">
+    .switchBtnGroup {
+        float: left;
+        padding-left: 16px;
+        font-size: 20px;
+    }
+</style>

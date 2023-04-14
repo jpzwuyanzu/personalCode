@@ -1,16 +1,17 @@
 import { createStore } from 'vuex'
 import user from './modules/user'
+import sidebar from './modules/sidebar'
 import createPersistedstate from 'vuex-persistedstate'
 
-console.log('9090909')
 export default createStore({
     modules: {
-        user
+        user,
+        sidebar
     },
     plugins: [
         createPersistedstate({
             key: 'yinhua-admin-soore',
-            paths: ['user'] // 需要持久化的模块
+            paths: ['user','sidebar'] // 需要持久化的模块
         })
     ]
 })

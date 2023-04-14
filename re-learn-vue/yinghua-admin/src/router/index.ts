@@ -149,8 +149,6 @@ router.beforeEach((to, from, next) => {
     // } else {
     //     next(from.path)
     // }
-
-    
   }
 })
 

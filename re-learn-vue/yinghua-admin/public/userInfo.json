@@ -1,0 +1,17 @@
+{
+    "result": {
+        "admin": {
+            "username": "admin",
+            "role": "admin",
+            "loginState": true,
+            "token": "admin-token-test"
+        },
+        "visitor": {
+            "username": "visitor",
+            "role": "visitor",
+            "loginState": true,
+            "token": "visitor-token-test"
+        }
+    },
+    "code": 200
+}

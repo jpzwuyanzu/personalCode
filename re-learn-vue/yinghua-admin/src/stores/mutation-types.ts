@@ -3,3 +3,4 @@
  */
 export const INCREASE = 'INCREASE'; // 
 export const SWITCHFLOD='switchflod'
+export const SAVEUSERINFO="SAVEUSERINFO"

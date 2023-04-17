@@ -1,4 +1,10 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import { getStorage } from '@/utils/common'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress'
+
+NProgress.configure({ showSpinner: false })
+
 /**
  * 路由懒加载
  */
@@ -132,24 +138,29 @@ const router = createRouter({
  * 全局路由拦截
  */
 router.beforeEach((to, from, next) => {
-  next()
-  if(to.matched.some( m => m.meta && m.meta.auth )) {
+  // next()
+  NProgress.start()
+  if(to.matched.some( m => m.meta && m.meta.isAuth )) {
     if(to.name === 'login') {
-      // next()
+      next()
     } else {
-      // if(getStorage('session','token')) {
-      //   next()
-      // } else {
-      //     next('/login')
-      // }
+      if(getStorage('local','yinhua-admin-soore')) {
+        next()
+      } else {
+          next('/login')
+      }
     }
   } else {
-    // if(!getStorage('session','token')) {
-    //   next()
-    // } else {
-    //     next(from.path)
-    // }
+    if(!getStorage('local','yinhua-admin-soore')) {
+      next()
+    } else {
+        next(from.path)
+    }
   }
+})
+
+router.afterEach(() => {
+  NProgress.done()
 })
 
 export default router

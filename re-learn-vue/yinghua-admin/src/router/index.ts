@@ -34,7 +34,15 @@ const routes: any = [
         meta: {
           isAuth: true,
           title: '首页',
-          keepalive: false
+          keepalive: false,
+          breadCrum: true,
+          breadList: [
+            {
+              title: 'DashBoard',
+              redirectPath: '/home',
+              comName: 'home'
+            }
+          ]
         }
       },
       {
@@ -44,57 +52,135 @@ const routes: any = [
         meta: {
           isAuth: true,
           title: '订单列表',
-          keepalive: true
+          keepalive: true,
+          breadCrum: true,
+          breadList: [
+            {
+              title: '订单管理',
+              redirectPath: '/order-mannage/orderList',
+              comName: 'orderList'
+            },
+            {
+              title: '订单列表',
+              redirectPath: '/order-mannage/orderList',
+              comName: 'orderList'
+            }
+          ]
         }
       },
       {
         path: 'order-mannage/orderStastic',
-        name: 'OrderStastic',
+        name: 'orderStastic',
         component: OrderStastic,
         meta: {
           isAuth: true,
           title: '订单统计',
-          keepalive: true
+          keepalive: true,
+          breadCrum: true,
+          breadList: [
+            {
+              title: '订单管理',
+              redirectPath: '/order-mannage/orderList',
+              comName: 'orderList'
+            },
+            {
+              title: '订单统计',
+              redirectPath: '/order-mannage/orderStastic',
+              comName: 'orderStastic'
+            }
+          ]
         }
       },
       {
         path: 'role-mannage/roleList',
-        name: 'RoleList',
+        name: 'roleList',
         component: RoleList,
         meta: {
           isAuth: true,
           title: '角色列表',
-          keepalive: false
+          keepalive: false,
+          breadCrum: true,
+          breadList: [
+            {
+              title: '角色管理',
+              redirectPath: '/role-mannage/roleList',
+              comName: 'roleList'
+            },
+            {
+              title: '角色列表',
+              redirectPath: '/role-mannage/roleList',
+              comName: 'roleList'
+            }
+          ]
         }
       },
       {
         path: 'role-mannage/permissList',
-        name: 'PermissList',
+        name: 'permissList',
         component: PermissList,
         meta: {
           isAuth: true,
           title: '权限列表',
-          keepalive: false
+          keepalive: false,
+          breadCrum: true,
+          breadList: [
+            {
+              title: '角色管理',
+              redirectPath: '/role-mannage/roleList',
+              comName: 'roleList'
+            },
+            {
+              title: '权限列表',
+              redirectPath: '/role-mannage/permissList',
+              comName: 'permissList'
+            }
+          ]
         }
       },
       {
         path: 'user-mannage/userList',
-        name: 'UserList',
+        name: 'userList',
         component: UserList,
         meta: {
           isAuth: true,
           title: '用户列表',
-          keepalive: true
+          keepalive: true,
+          breadCrum: true,
+          breadList: [
+            {
+              title: '用户管理',
+              redirectPath: '/user-mannage/userList',
+              comName: 'userList'
+            },
+            {
+              title: '用户列表',
+              redirectPath: '/user-mannage/userList',
+              comName: 'userList'
+            }
+          ]
         }
       },
       {
         path: 'user-mannage/userStastic',
-        name: 'UserStastic',
+        name: 'userStastic',
         component: UserStastic,
         meta: {
           isAuth: true,
           title: '用户统计',
-          keepalive: true
+          keepalive: true,
+          breadCrum: true,
+          breadList: [
+            {
+              title: '用户管理',
+              redirectPath: '/user-mannage/userList',
+              comName: 'userList'
+            },
+            {
+              title: '用户统计',
+              redirectPath: '/user-mannage/userStastic',
+              comName: 'userStastic'
+            }
+          ]
         }
       }
     ]
@@ -106,7 +192,8 @@ const routes: any = [
     meta: {
       isAuth: false,
       title: '登录',
-      keepalive: false
+      keepalive: false,
+      breadCrum: false
     }
   },
   {
@@ -116,7 +203,8 @@ const routes: any = [
     meta: {
       isAuth: false,
       title: 'notFound',
-      keepalive: false
+      keepalive: false,
+      breadCrum: false
     }
   },
   {
@@ -125,7 +213,8 @@ const routes: any = [
     meta: {
       isAuth: false,
       title: 'notFound',
-      keepalive: false
+      keepalive: false,
+      breadCrum: false
     }
   }
 ]

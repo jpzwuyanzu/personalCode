@@ -7,8 +7,14 @@ interface IUserInfo {
     loginState: Boolean
     token: String
 }
+interface IBreadCom {
+    title: String
+    redirectPath: String
+    comName: String
+}
 
 export type {
     ILogin,
-    IUserInfo
+    IUserInfo,
+    IBreadCom
 }

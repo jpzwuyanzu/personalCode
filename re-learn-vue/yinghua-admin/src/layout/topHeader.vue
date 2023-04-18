@@ -8,9 +8,13 @@
             class="trigger"
             @click="changeCollapsed"/>
         </div>
+        <div class="breadContainer">
+            <BreadCom/>
+        </div>
       </a-layout-header>
 </template>
 <script setup lang="ts">
+import BreadCom from '@/layout/breadCom.vue'
 import { Icon } from './ICON'
 import { useStore } from 'vuex'
 const appStore = useStore()
@@ -24,5 +28,14 @@ const changeCollapsed = () => {
         float: left;
         padding-left: 16px;
         font-size: 20px;
+        margin-right: 20px;
+    }
+    .breadContainer {
+        float: left;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
     }
 </style>

@@ -64,7 +64,7 @@ const routes: any = [
         meta: {
           isAuth: true,
           title: '角色列表',
-          keepalive: true
+          keepalive: false
         }
       },
       {
@@ -74,7 +74,7 @@ const routes: any = [
         meta: {
           isAuth: true,
           title: '权限列表',
-          keepalive: true
+          keepalive: false
         }
       },
       {

@@ -2,10 +2,8 @@
   <div class="rightInfo_container">
     <a-dropdown>
       <div class="ant-dropdown-link" @click.prevent>
-        <a-space>
-          <span style="font-size: 18px">admin</span>
-          <IconEcosystem />
-        </a-space>
+        <span style="font-size: 18px">{{ appStore.state.user.username }}</span>
+        <IconEcosystem class="userIcon_tu" />
       </div>
       <template #overlay>
         <a-menu>
@@ -20,14 +18,16 @@
 <script setup lang="ts">
 import { Space } from "ant-design-vue";
 import IconEcosystem from "@/components/icons/IconEcosystem.vue";
-import { useRouter } from 'vue-router'
-
-const appRouter = useRouter()
+import { useRouter } from "vue-router";
+import { computed } from "vue";
+import { useStore } from "vuex";
+const appRouter = useRouter();
+const appStore = useStore();
 //退出登录
 const loginOut = () => {
-    localStorage.clear();
-    appRouter.push('/login')
-}
+  localStorage.clear();
+  appRouter.push("/login");
+};
 </script>
 <style lang="scss">
 .rightInfo_container {
@@ -38,5 +38,8 @@ const loginOut = () => {
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  .userIcon_tu {
+    margin-left: 10px;
+  }
 }
 </style>

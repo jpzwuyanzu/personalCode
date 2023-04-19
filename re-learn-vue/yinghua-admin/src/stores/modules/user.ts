@@ -17,6 +17,9 @@ const userModule = {
         // 四个参数如下
         getInfo(state: { userCounter: any; }, getters: any, rootState: any, rootGetters: any) {
             return `userCounter:${state.userCounter}`;
+        },
+        getUserName(state: { username: string }, getters: any, rootState: any, rootGetters: any) {
+            return state.username
         }
     },
     mutations: {

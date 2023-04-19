@@ -13,12 +13,14 @@
       >
       <!-- 路由缓存需要缓存的组件 -->
       <router-view v-slot="{ Component }" :key="$route.fullPath">
-        <transition>
+        <Transition name="slide-fade" mode="out-in" appear>
           <keep-alive>
             <component :is="Component" :key="$route.name" v-if="$route.meta.keepalive"  />
           </keep-alive>
-        </transition>
-        <component :is="Component" :key="$route.name" v-if="!$route.meta.keepalive" />
+        </Transition>
+        <Transition name="slide-fade" mode="out-in" appear>
+          <component :is="Component" :key="$route.name" v-if="!$route.meta.keepalive" />
+        </Transition>
       </router-view>
       </a-layout-content>
     </a-layout>
@@ -70,4 +72,24 @@ import TopHeader from './topHeader.vue'
   min-width: calc(100% - 200px);
   // width: calc(100% - 80px);
 }
+
+/*
+  进入和离开动画可以使用不同
+  持续时间和速度曲线。
+*/
+.slide-fade-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
+}
+
+
 </style>

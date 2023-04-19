@@ -19,7 +19,10 @@
         </a-row>
       </div>
     </div>
-    <a-table :dataSource="resourceData" :columns="columns"  bordered :pagination="false"/>
+    <div class="table_part_container">
+      <a-table :dataSource="resourceData" :columns="columns"  bordered :pagination="false" :scroll="{ x: 1500, y: 590 }"/>
+    </div>
+    <CusPagination @loadData="loadRoleList" :total="totalCount" :pageSizeOptions="pageSizeOptions"/>
     <a-drawer
       title="创建角色"
       :width="385"
@@ -68,16 +71,21 @@
 </template>
 <script setup lang="ts">
 import { PlusOutlined } from "@ant-design/icons-vue";
-import { reactive, ref } from "vue";
+import { reactive, ref, toRaw } from "vue";
 import { Form } from'ant-design-vue';
 import type { TreeProps } from 'ant-design-vue';
 import { message } from 'ant-design-vue';
+import CusPagination from '@/components/CusPagination.vue'
 
 const useForm = Form.useForm;
 //是否显示抽屉
 const visible = ref<boolean>(false); 
 // 搜索框数据
 const searchParams = ref<String>('');
+// 分页数据总条数
+const totalCount = ref<number>(500);
+// 分页器页码选项
+const pageSizeOptions = ref<number[]>([10,20,50,100]);
 //form数据模型
 const formModel = reactive({roleName: "", permiseList: []}); 
 //form数据规则
@@ -97,17 +105,35 @@ const columns = [
   {
     title: "角色名称",
     dataIndex: "roleName",
-    align: 'center'
+    align: 'center',
+    width: 200,
+    fixed: 'left'
   },
   {
     title: "角色ID",
     dataIndex: "roleId",
-    align: 'center'
+    align: 'center',
+    width: 200,
+    fixed: 'left'
+  },
+  {
+    title: "IP",
+    dataIndex: "ip",
+    align: 'center',
+    width: 800,
+  },
+  {
+    title: "address",
+    dataIndex: "address",
+    align: 'center',
+    width: 800,
   },
   {
     title: "创建时间",
     dataIndex: "createTime",
-    align: 'center'
+    align: 'center',
+    width: 200,
+    fixed: 'right'
   },
 ];
 // table数据
@@ -116,18 +142,96 @@ const resourceData = reactive<any>([
     key: "1",
     roleName: "测试角色001",
     roleId: "001",
+    ip: '10.0.0.1',
+    address: 'qwqwqw',
     createTime: "2023-04-19"
   },
   {
     key: "2",
     roleName: "测试角色002",
     roleId: "002",
+    ip: '10.0.0.1',
+    address: 'qwqwqw',
     createTime: "2023-04-19"
   },
   {
     key: "3",
     roleName: "测试角色003",
     roleId: "003",
+    ip: '10.0.0.1',
+    address: 'qwqwqw',
+    createTime: "2023-04-19"
+  },
+  {
+    key: "4",
+    roleName: "测试角色004",
+    roleId: "004",
+    ip: '10.0.0.1',
+    address: 'qwqwqw',
+    createTime: "2023-04-19"
+  },
+  {
+    key: "5",
+    roleName: "测试角色005",
+    roleId: "005",
+    ip: '10.0.0.1',
+    address: 'qwqwqw',
+    createTime: "2023-04-19"
+  },
+  {
+    key: "6",
+    roleName: "测试角色006",
+    roleId: "006",
+    ip: '10.0.0.1',
+    address: 'qwqwqw',
+    createTime: "2023-04-19"
+  },
+  {
+    key: "7",
+    roleName: "测试角色007",
+    roleId: "007",
+    ip: '10.0.0.1',
+    address: 'qwqwqw',
+    createTime: "2023-04-19"
+  },
+  {
+    key: "8",
+    roleName: "测试角色008",
+    roleId: "008",
+    ip: '10.0.0.1',
+    address: 'qwqwqw',
+    createTime: "2023-04-19"
+  },
+  {
+    key: "9",
+    roleName: "测试角色009",
+    roleId: "009",
+    ip: '10.0.0.1',
+    address: 'qwqwqw',
+    createTime: "2023-04-19"
+  },
+  {
+    key: "10",
+    roleName: "测试角色010",
+    roleId: "010",
+    ip: '10.0.0.1',
+    address: 'qwqwqw',
+    createTime: "2023-04-19"
+  },
+  {
+    key: "11",
+    roleName: "测试角色012",
+    roleId: "012",
+    ip: '10.0.0.1',
+    address: 'qwqwqw',
+    createTime: "2023-04-19"
+  },
+  {
+    key: "13",
+    roleName: "测试角色013",
+    roleId: "013",
+    ip: '10.0.0.1',
+    address: 'qwqwqw',
     createTime: "2023-04-19"
   },
 ]);
@@ -166,6 +270,10 @@ const treeData: TreeProps['treeData'] = [
     ],
   },
 ]
+// 加载角色列表的ajax请求
+const loadRoleList = async(params: any) => {
+  console.log('角色列表数据加载', 'current:',params.current.value, 'pageSize:',params.pageSize.value)
+}
 // 监听tree的check事件
 const checkPermiss = (keys: any, e: any) => {
   // console.log('keys:', keys)
@@ -209,6 +317,11 @@ const submitNewRole = async() => {
   .form_top_part {
     padding-top: 20px;
     padding-bottom: 30px;
+  }
+  .table_part_container {
+    height: 84%;
+    overflow-y: scroll;
+    margin-bottom: 10px;
   }
 }
 </style>

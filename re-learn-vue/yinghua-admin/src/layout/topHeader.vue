@@ -11,10 +11,14 @@
         <div class="breadContainer">
             <BreadCom/>
         </div>
+        <div class="right_info_part">
+            <RightInfo/>
+        </div>
       </a-layout-header>
 </template>
 <script setup lang="ts">
 import BreadCom from '@/layout/breadCom.vue'
+import RightInfo from '@/layout/rightInfo.vue'
 import { Icon } from './ICON'
 import { useStore } from 'vuex'
 const appStore = useStore()
@@ -37,5 +41,9 @@ const changeCollapsed = () => {
         flex-direction: row;
         align-items: center;
         justify-content: center;
+    }
+    .right_info_part {
+        float: right;
+        padding-right: 24px;
     }
 </style>

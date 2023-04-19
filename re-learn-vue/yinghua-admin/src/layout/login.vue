@@ -29,7 +29,7 @@
 </template>
 <script setup lang="ts">
 import { reactive, toRaw } from 'vue'
-import { Form } from 'ant-design-vue'
+import { Form, message } from 'ant-design-vue';
 import type {ILogin} from "@/types/interface";
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
@@ -75,13 +75,13 @@ const loginNow = async () => {
   try {
     const values = await validate()
     const resp = await appStore.dispatch('user/saveUserInfoAction', toRaw(modelRef));
-    console.log(resp)
     if(resp.code === 200) {
       //登录成功，跳转到首页
       appRouter.push('/')
     }
   } catch (error) {
     console.log(error)
+    message.error('用户名或密码错误')
   }
 }
 

@@ -54,7 +54,7 @@ const userModule = {
             return new Promise(async(resolve) => {
                 const resp = await fetch('userInfo.json').then(res => res.json());
                 console.log(resp)
-                if(resp.code === 200) {
+                if(resp.code === 200 && (payload.username === 'admin' || payload.username === 'visitor')) {
                     //在这里存储用户信息
                     commit('SAVEUSERINFO', {
                         username: resp.result?.[String(payload.username)].username,
@@ -63,7 +63,7 @@ const userModule = {
                     })
                     message.success('登录成功')
                 } else {
-                    message.success('用户名或帐号错误')
+                    message.error('用户名或帐号错误')
                 }
                 resolve(resp)
             })

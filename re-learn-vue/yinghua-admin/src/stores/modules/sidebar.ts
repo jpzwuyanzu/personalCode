@@ -3,7 +3,7 @@ const sideModule = {
     namespaced: true,
     state() {
         return {
-            flodState: true // 是否折叠左侧菜单
+            flodState: false // 是否折叠左侧菜单
         }
     },
     getters: {

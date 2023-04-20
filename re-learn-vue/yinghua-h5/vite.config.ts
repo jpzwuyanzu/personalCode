@@ -22,7 +22,7 @@ export default defineConfig({
       plugins: [
         autoPreFixer(),
         pxtorem({
-          rootValue: 75, //如果设计稿的尺寸不是 375，而是 750 或其他大小，可以将 rootValue 配置调整:
+          rootValue: 37.5, //如果设计稿的尺寸不是 375，而是 750 或其他大小，可以将 rootValue 配置调整:
           unitPrecision: 5, // （数字）允许 REM 单位增长到的十进制数字
           propList: ["*"],
           //unitPrecision: 5, // （数字）允许 REM 单位增长到的十进制数字

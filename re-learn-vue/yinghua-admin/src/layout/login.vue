@@ -100,8 +100,8 @@ const loginNow = async () => {
   background: url('../assets/images/loginBg.jpeg') no-repeat center;
     background-size: 110% 100%;
   .login_form_container {
-    width: 350px;
-    height: 330px;
+    width: 330px;
+    height: 280px;
     display: flex;
     flex-direction: row;
     align-items: center;

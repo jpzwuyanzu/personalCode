@@ -20,7 +20,16 @@
         </div>
       </div>
       <div class="table_part_container">
-        <a-table :dataSource="resourceData" :columns="columns"  bordered :pagination="false" :scroll="{ x: 1500, y: 590 }"/>
+        <a-table :dataSource="resourceData" :columns="columns"  bordered :pagination="false" :scroll="{ x: 1500, y: 590 }">
+          <template #bodyCell="{ column, text }">
+            <template v-if="column.dataIndex === 'operation'">
+             <a-space>
+                <a-button type="primary">编辑</a-button>
+                <a-button type="primary" danger>删除</a-button>
+             </a-space>
+            </template>
+          </template>
+        </a-table>
       </div>
       <CusPagination @loadData="loadRoleList" :total="totalCount" :pageSizeOptions="pageSizeOptions"/>
       <a-drawer
@@ -135,6 +144,13 @@
       width: 200,
       fixed: 'right'
     },
+    {
+      title: '操作',
+      dataIndex: 'operation',
+      align: 'center',
+      width: 200,
+      fixed: 'right'
+    }
   ];
   // table数据
   const resourceData = reactive<any>([
@@ -300,7 +316,9 @@
         key: String(resourceData.length),
         roleName: values.roleName,
         roleId: '00'+String(resourceData.length),
-        createTime: "2023-04-19"
+        createTime: "2023-04-19",
+        ip: '10.0.0.1',
+        address: 'ceshishishi'
       })
       message.success('创建角色成功')
       // 以后可以再这里对接接口

@@ -21,8 +21,8 @@ import PageFooter from "@/layout/PageFooter.vue";
   overflow-y: scroll;
   background-color: #d0d6e0;
   .content-part {
-    margin-top: 24px;
-    height: calc(100% - 114px);
+    // margin-top: 24px;
+    height: calc(100% - 90px);
     overflow-y: scroll;
     box-sizing: border-box;
   }

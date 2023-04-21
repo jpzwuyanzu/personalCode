@@ -18,7 +18,8 @@
   --van-orange-light: #fffbe8;
   --van-green: #07c160;
   /* 自定义颜色 */
-  --van-pink: #EC2D7A;
+  --van-pink: #EC2D7A; 
+  --van-select-bg: rgb(244, 41, 111);
 
   /* // Gradient Colors */
   --van-gradient-red: linear-gradient(to right, #ff6034, #ee0a24);

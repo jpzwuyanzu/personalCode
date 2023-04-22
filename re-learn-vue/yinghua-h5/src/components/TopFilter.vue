@@ -28,9 +28,9 @@
       </div>
     </div>
     <div class="sort_group">
-        <div class="sort_item active_sort_item">按时间顺序</div>
-        <div class="sort_item">按人气顺序</div>
-        <div class="sort_item">按评分顺序</div>
+        <div :class="{'sort_item': true, 'active_sort_item': sortType === 0 ? true : false}" @click="sortType = 0">按时间顺序</div>
+        <div :class="{'sort_item': true, 'active_sort_item': sortType === 1 ? true : false}" @click="sortType = 1">按人气顺序</div>
+        <div :class="{'sort_item': true, 'active_sort_item': sortType === 2 ? true : false}" @click="sortType = 2">按评分顺序</div>
     </div>
   </div>
 </template>
@@ -39,6 +39,7 @@ import { ref } from "vue";
 const active1 = ref(1);
 const active2 = ref(1);
 const active3 = ref(1);
+const sortType = ref<number>(0)
 </script>
 <style scoped lang="scss">
 .topFilter_container {

@@ -37,7 +37,7 @@
 <style lang="scss">
     .page_footer_container {
         padding: 4px 16px;
-        background-color: rgb(239, 239, 239);
+        background-color: #f2f2f2;
         margin-top: 24px;
        .tops_tips {
             display: flex;

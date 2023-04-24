@@ -19,7 +19,7 @@ import PageFooter from "@/layout/PageFooter.vue";
   width: 100%;
   height: 100%;
   overflow-y: scroll;
-  background-color: #d0d6e0;
+  background-color: rgb(234, 236, 238);
   .content-part {
     // margin-top: 24px;
     height: calc(100% - 90px);

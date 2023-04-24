@@ -5,42 +5,53 @@
       <div class="filter_item">
         <div class="filter_label">地区：</div>
         <div class="filter_type">
-          <van-tabs v-model:active="activePlace" line-height="0" shrink title-inactive-color="#334115" title-active-color="#fff">
+          <van-tabs v-model:active="filterParams.region" line-height="0" shrink title-inactive-color="#334115" title-active-color="#fff" @change="switchRegion">
             <van-tab v-for="(item, index) in filterOptions.place" :title="item"></van-tab>
           </van-tabs>
         </div>
       </div>
       <div class="filter_item">
-        <div class="filter_label">地区：</div>
+        <div class="filter_label">类型：</div>
         <div class="filter_type">
-          <van-tabs v-model:active="activeType" line-height="0" shrink title-inactive-color="#334115" title-active-color="#fff">
+          <van-tabs v-model:active="filterParams.type" line-height="0" shrink title-inactive-color="#334115" title-active-color="#fff" @change="switchType">
             <van-tab v-for="(item, index) in filterOptions.type" :title="item"></van-tab>
           </van-tabs>
         </div>
       </div>
       <div class="filter_item">
-        <div class="filter_label">地区：</div>
+        <div class="filter_label">年份：</div>
         <div class="filter_type">
-          <van-tabs v-model:active="activeYear" line-height="0" shrink title-inactive-color="#334115" title-active-color="#fff">
+          <van-tabs v-model:active="filterParams.year" line-height="0" shrink title-inactive-color="#334115" title-active-color="#fff" @change="switchYear">
             <van-tab v-for="(item, index) in filterOptions.year" :title="item"></van-tab>
           </van-tabs>
         </div>
       </div>
     </div>
     <div class="sort_group">
-        <div :class="{'sort_item': true, 'active_sort_item': sortType === 0 ? true : false}" @click="sortType = 0">按时间顺序</div>
-        <div :class="{'sort_item': true, 'active_sort_item': sortType === 1 ? true : false}" @click="sortType = 1">按人气顺序</div>
-        <div :class="{'sort_item': true, 'active_sort_item': sortType === 2 ? true : false}" @click="sortType = 2">按评分顺序</div>
+        <div :class="{'sort_item': true, 'active_sort_item': filterParams.sort === 0 ? true : false}" @click="sortType = 0">按时间顺序</div>
+        <div :class="{'sort_item': true, 'active_sort_item': filterParams.sort === 1 ? true : false}" @click="sortType = 1">按人气顺序</div>
+        <div :class="{'sort_item': true, 'active_sort_item': filterParams.sort === 2 ? true : false}" @click="sortType = 2">按评分顺序</div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import { ref, reactive } from "vue";
+defineProps(['filterParams'])
+const $emits = defineEmits(['collectChange'])
 const filterOptions = reactive<any>({
     place: ['全部','中国大陆','美国','香港','台湾','日本','韩国','英国','法国','德国','意大利','西班牙','印度'],
     type: ['全部','剧情','喜剧','动作','爱情','科幻','悬疑','惊悚','恐怖','犯罪','同性','音乐','歌舞'],
     year: ['全部','2023','2022','2021','2020','2019','2018','2017','2016','2015','2014','2013','2012']
 })
+const switchRegion = (id: number) => {
+    $emits('collectChange', 'filter',{region: id})
+}
+const switchType = (id:number) => {
+    $emits('collectChange', 'filter',{type: id})
+}
+const switchYear = (id: number) => {
+    $emits('collectChange', 'filter',{year: id})
+}
 const activePlace = ref(0);
 const activeType = ref(1);
 const activeYear = ref(1);
@@ -98,7 +109,9 @@ const sortType = ref<number>(0)
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    padding: 10px 0;
+    padding: 13px 0;
+    padding-bottom: 0;
+    border-bottom: 1px solid #e5e7eb;
     .sort_item {
         font-size: 14px;
         padding: 3px 5px;

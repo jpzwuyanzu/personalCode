@@ -5,24 +5,24 @@
       <div class="filter_item">
         <div class="filter_label">地区：</div>
         <div class="filter_type">
-          <van-tabs v-model:active="active1" line-height="0" shrink title-inactive-color="#334115" title-active-color="#fff">
-            <van-tab v-for="index in 8" :title="'标签 ' + index"></van-tab>
+          <van-tabs v-model:active="activePlace" line-height="0" shrink title-inactive-color="#334115" title-active-color="#fff">
+            <van-tab v-for="(item, index) in filterOptions.place" :title="item"></van-tab>
           </van-tabs>
         </div>
       </div>
       <div class="filter_item">
         <div class="filter_label">地区：</div>
         <div class="filter_type">
-          <van-tabs v-model:active="active2" line-height="0" shrink title-inactive-color="#334115" title-active-color="#fff">
-            <van-tab v-for="index in 8" :title="'标签 ' + index"></van-tab>
+          <van-tabs v-model:active="activeType" line-height="0" shrink title-inactive-color="#334115" title-active-color="#fff">
+            <van-tab v-for="(item, index) in filterOptions.type" :title="item"></van-tab>
           </van-tabs>
         </div>
       </div>
       <div class="filter_item">
         <div class="filter_label">地区：</div>
         <div class="filter_type">
-          <van-tabs v-model:active="active3" line-height="0" shrink title-inactive-color="#334115" title-active-color="#fff">
-            <van-tab v-for="index in 8" :title="'标签 ' + index"></van-tab>
+          <van-tabs v-model:active="activeYear" line-height="0" shrink title-inactive-color="#334115" title-active-color="#fff">
+            <van-tab v-for="(item, index) in filterOptions.year" :title="item"></van-tab>
           </van-tabs>
         </div>
       </div>
@@ -35,10 +35,15 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref } from "vue";
-const active1 = ref(1);
-const active2 = ref(1);
-const active3 = ref(1);
+import { ref, reactive } from "vue";
+const filterOptions = reactive<any>({
+    place: ['全部','中国大陆','美国','香港','台湾','日本','韩国','英国','法国','德国','意大利','西班牙','印度'],
+    type: ['全部','剧情','喜剧','动作','爱情','科幻','悬疑','惊悚','恐怖','犯罪','同性','音乐','歌舞'],
+    year: ['全部','2023','2022','2021','2020','2019','2018','2017','2016','2015','2014','2013','2012']
+})
+const activePlace = ref(0);
+const activeType = ref(1);
+const activeYear = ref(1);
 const sortType = ref<number>(0)
 </script>
 <style scoped lang="scss">
@@ -79,8 +84,13 @@ const sortType = ref<number>(0)
         display: flex;
         flex-direction: row;
         align-items: center;
-        overflow: hidden;
+        // overflow: hidden;
+        // padding-right: 20px;
+        overflow-y: auto;
+        scrollbar-width:none;
+        -ms-overflow-style:none;
       }
+      .filter_type::-webkit-scrollbar{display:none}
     }
   }
   .sort_group {

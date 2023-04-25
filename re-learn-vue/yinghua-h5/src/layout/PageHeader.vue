@@ -1,18 +1,20 @@
 <template>
     <div class="page_header_container">
         <div class="logo-line">
-            <img class="site_logo" src="../assets/images/nunuyingyuan.png" alt="">
+            <img class="site_logo" src="../assets/images/nunuyingyuan.png" alt="" @click="appRouter.push('/home')">
             <div class="searchBtn-icon" @click="showSearchInput">
                 <van-icon v-if="focusState" name="cross" />
                 <van-icon v-else name="search" />
             </div>
         </div>
-        <div v-if="focusState" class="top_search_part">
+        <transition name="slide-fade">
+            <div v-if="focusState" class="top_search_part">
             <van-search class="cusSearch" v-model="searchParams" placeholder="搜索电影、电视剧、综艺、动漫" />
-            <div class="search-button">
+            <div class="search-button" @click="searchNow">
                 <van-icon name="search" />
             </div>
-        </div>
+            </div>
+        </transition>
         <div class="top_tab_part">
             <van-tabs v-model:active="activeName" title-active-color="#EC2D7A" title-inactive-color="#555555" line-height="2px">
                 <van-tab title="首页" name="home" to="/home"></van-tab>
@@ -32,12 +34,21 @@ defineProps(['focusState'])
 const $emit = defineEmits(['switchState'])
 const searchParams = ref<string>('')
 const activeName = ref<any>('home');
-const appRoute = useRoute();
+const appRoute: any = useRoute();
 const appRouter = useRouter();
 const currentRoute: any = computed(() => appRoute.name)
 const showSearchInput = () => {
     $emit('switchState')
 }
+const searchNow = () => {
+    if(searchParams.value.length) {
+        appRouter.push(`/search?query=${searchParams.value}`)
+    }
+}
+watch(appRoute, (newVal: any) => {
+    console.log(newVal.name)
+        activeName.value = newVal.name
+})
 onMounted(() => {
     activeName.value = currentRoute.value
 })
@@ -61,6 +72,7 @@ onMounted(() => {
             position: absolute;
             right: 10px;
             font-size: 22px;
+            color: #555;
         }
     }
     .top_search_part {
@@ -104,4 +116,22 @@ onMounted(() => {
 :deep(.van-field__control::placeholder) {
     color: #A6A6A6;
 }
+/*
+  进入和离开动画可以使用不同
+  持续时间和速度曲线。
+*/
+.slide-fade-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
+}
+
 </style>

@@ -1,18 +1,22 @@
 <template>
   <div class="layout_container">
     <van-config-provider theme="light">
-      <PageHeader />
-      <div class="content-part">
+      <PageHeader :focusState="focusState" @switchState="switchState"/>
+      <div :class="{'content-part': true,'searchContent-part': focusState}">
         <router-view></router-view>
         <PageFooter />
       </div>
-      
     </van-config-provider>
   </div>
 </template>
 <script setup lang="ts">
+import { ref } from 'vue'
 import PageHeader from "@/layout/PageHeader.vue";
 import PageFooter from "@/layout/PageFooter.vue";
+const focusState = ref(false)
+const switchState = () => {
+  focusState.value = !focusState.value
+}
 </script>
 <style scoped lang="scss">
 .layout_container {
@@ -25,6 +29,9 @@ import PageFooter from "@/layout/PageFooter.vue";
     height: calc(100% - 90px);
     overflow-y: scroll;
     box-sizing: border-box;
+  }
+  .searchContent-part {
+    height: calc(100% - 124px);
   }
 }
 :deep(.van-config-provider) {

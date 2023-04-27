@@ -2,7 +2,7 @@
     <div class="movie_card_container">
         <MovieLabel :labelList="labelList" :activeMovieLabel="activeMovieLabel" :movieLabelTitle="movieLabelTitle" @chooseLabel="chooseLabel"/>
         <div class="movie_info_list">
-            <div class="movie_info_item" v-for="(item, index) in 8">
+            <div class="movie_info_item" v-for="(item, index) in 8" @click="$router.push(`/detail/${item}`)">
                 <div class="top_info">
                     <van-image
                     width="100%"

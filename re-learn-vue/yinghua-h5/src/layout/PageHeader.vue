@@ -15,7 +15,7 @@
             </div>
             </div>
         </transition>
-        <div v-if="$route.name === 'search'" class="top_tab_part_copy">
+        <div v-if="$route.name === 'search' || $route.name === 'detail'" class="top_tab_part_copy">
             <div class="part_item">首页</div>
             <div class="part_item">电影</div>
             <div class="part_item">电视剧</div>
@@ -46,6 +46,7 @@ const appRoute: any = useRoute();
 const appRouter = useRouter();
 const currentRoute: any = computed(() => appRoute.name)
 const showSearchInput = () => {
+    searchParams.value = ''
     $emit('switchState')
 }
 const searchNow = () => {

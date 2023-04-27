@@ -73,7 +73,7 @@ const routes: any = [
         }
       },
       {
-        path: 'detail',
+        path: 'detail/:movieId',
         name: 'detail',
         component: Detail,
         meta: {

@@ -1,5 +1,7 @@
 <template>
     <div class="three_card_container">
+        <!-- 搜索页面的搜索结果条数 -->
+        <div v-if="$route.name === 'search'" class="search_result_count">搜索“{{ $route.query.query }}”相关搜索结果如下:</div>
        <div class="movie_list">
         <div class="movie_item" v-for="item in 9">
             <div class="top_info">
@@ -46,6 +48,16 @@ const switchPage = (page: number) => {
         background-color: #fff;
         padding-top: 24px;
         padding-bottom: 30px;
+        .search_result_count {
+            margin-left: 16px;
+            margin-right: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 10px;
+            font-weight: 700;
+            font-size: 17px;
+            color: #EC2D7A;
+        }
         .movie_list {
             display: flex;
             flex-direction: row;

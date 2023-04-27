@@ -15,7 +15,15 @@
             </div>
             </div>
         </transition>
-        <div class="top_tab_part">
+        <div v-if="$route.name === 'search'" class="top_tab_part_copy">
+            <div class="part_item">首页</div>
+            <div class="part_item">电影</div>
+            <div class="part_item">电视剧</div>
+            <div class="part_item">综艺</div>
+            <div class="part_item">动漫</div>
+            <div class="part_item">伦理</div>
+        </div>
+        <div v-else class="top_tab_part">
             <van-tabs v-model:active="activeName" title-active-color="#EC2D7A" title-inactive-color="#555555" line-height="2px">
                 <van-tab title="首页" name="home" to="/home"></van-tab>
                 <van-tab title="电影" name="dianying" to="/dianying"></van-tab>
@@ -105,6 +113,27 @@ onMounted(() => {
     .top_tab_part {
         padding: 2px 10px;
         overflow: hidden;
+    }
+    .top_tab_part_copy {
+        padding: 2px 10px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        height: 48px;
+        box-sizing: border-box;
+        overflow: hidden;
+        .part_item {
+            height: 48px;
+            white-space: nowrap;
+            text-align: center;
+            line-height: 48px;
+            font-size:15px;
+            padding-left: 8px;
+            padding-right: 8px;
+            font-weight: 500;
+            color: #555555;
+        }
     }
 }
 :deep(.van-search) {

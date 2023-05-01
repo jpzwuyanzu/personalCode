@@ -10,8 +10,10 @@
     "type-check": "vue-tsc --noEmit"
   },
   "dependencies": {
+    "@types/dplayer": "^1.25.2",
     "@types/nprogress": "^0.2.0",
     "autoprefixer": "^10.4.14",
+    "dplayer": "^1.27.1",
     "lib-flexible": "0.3",
     "nprogress": "^0.2.0",
     "postcss-pxtorem": "5",

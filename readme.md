@@ -16,3 +16,5 @@ ts+ react
 ts+vue3
 
 test
+
+vite使用rem和viewport适配 https://juejin.cn/post/7147897102398390308

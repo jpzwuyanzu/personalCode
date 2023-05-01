@@ -7,35 +7,37 @@
           height="133"
           radius="3px"
           lazy-load
-          src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
+          :src="movieInfoData.movieImage"
         />
       </div>
       <div class="media_right">
         <div class="movie_title">
-          蚁人与黄蜂女：量子狂潮 &nbsp;<span>(2023)</span>
+          {{movieInfoData.movieDetail.name}} &nbsp;<span>({{ movieInfoData.movieDetail.date }})</span>
         </div>
-        <div class="director_label">导演：<span>拉里佩奇</span></div>
+        <div class="director_label">导演：<span>{{ movieInfoData.movieDetail.director }}</span></div>
         <div class="main_role">
           <span class="role_info">
             <span class="role_lable">主演：</span
-            >塞缪尔·杰克逊,迈克尔·道格拉斯,伊万杰琳·莉莉,保罗·路德,乔纳森·梅杰斯,米歇尔·菲佛,比尔·默瑞,凯瑟琳·...
+            >{{ movieInfoData.movieDetail.mainRole }}
           </span>
         </div>
       </div>
     </div>
     <div class="info_part">
       <div>
-        <span>制片国家/地区：</span> <span class="label_t">美国</span> <span>&nbsp;&nbsp;<span>类型：</span><span class="label_t">喜剧</span></span>
+        <span>制片国家/地区：</span> <span class="label_t">{{ movieInfoData.movieDetail.place }}</span> <span>&nbsp;&nbsp;<span>类型：</span><span class="label_t">{{ movieInfoData.movieDetail.type }}</span></span>
       </div>
       <div>
         <span>剧情介绍：</span
         >
-        <span class="detail">《蚁人3》将会深入探索量子领域这个神秘的空间，有关量子领域在以前已经做出了很好的铺垫，比如说《蚁人》中出现的量子城市、一些奇怪的生物，以及《复联4》的时空隧道等等，引入反派征服者·康，这是一位来自于未...</span>
+        <span class="detail">{{ movieInfoData.movieDetail.desc }}</span>
       </div>
     </div>
   </div>
 </template>
-<script setup lang="ts"></script>
+<script setup lang="ts">
+defineProps(['movieInfoData'])
+</script>
 <style lang="scss" scoped>
 .move_info_con {
   display: flex;
@@ -96,6 +98,7 @@
     font-size: 13px;
         color: #555555;
         div {
+            margin-top: 10px;
             .label_t {
                 color: #ec2d7a;
             }

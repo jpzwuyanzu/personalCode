@@ -15,6 +15,8 @@ declare module '@vue/runtime-core' {
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
     IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']
     IconEcosystem: typeof import('./src/components/icons/IconEcosystem.vue')['default']
+    IconPause: typeof import('./src/components/icons/IconPause.vue')['default']
+    IconPlay: typeof import('./src/components/icons/IconPlay.vue')['default']
     IconSupport: typeof import('./src/components/icons/IconSupport.vue')['default']
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
     MovieCard: typeof import('./src/components/MovieCard.vue')['default']

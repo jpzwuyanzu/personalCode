@@ -42,6 +42,8 @@ defineProps(['movieInfoData'])
 .move_info_con {
   display: flex;
   flex-direction: column;
+  padding-left: 16px;
+  padding-right: 16px;
   .media_part {
     display: flex;
     flex-direction: row;

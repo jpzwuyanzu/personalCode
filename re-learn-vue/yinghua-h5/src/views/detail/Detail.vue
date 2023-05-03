@@ -25,7 +25,7 @@ const movieInfoData = reactive<any>({
 </script>
 <style lang="scss">
 .movie_detail_container {
-    padding: 16px;
+    // padding: 16px;
     margin-top: 8px;
     background-color: #fff;
 }

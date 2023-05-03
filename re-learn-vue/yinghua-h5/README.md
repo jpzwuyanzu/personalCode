@@ -172,3 +172,20 @@ export default defineConfig({
 ```
 
 
+### 安装第三方库的时候，在Ts项目中如果安装第三方包，缺少申明文件
+
+有两种处理方式
+1，第一种直接安装@types/包名
+
+2，第二种如果没有对应的@types，自己定义申明文件
+2.1 在项目根目录下创建types文件夹
+2.2 在tsconfig.json里的include添加上types
+2.3 在types文件夹中新建申明文件，格式为XXX.d.ts 
+2.4 申明模块类型
+```ts
+declare module 'xgplaer' {
+    const content: any
+    // 这里可以根据自己的需要，添加需要的类型，可以让ts有更好的提示
+    export = content
+}
+```

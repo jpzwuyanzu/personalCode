@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkmaizuo=self.webpackChunkmaizuo||[]).push([[616],{616:function(_,e,a){a.r(e),e.default={home_page_container:"Home_home_page_container__2cWQv",top_ad_part:"Home_top_ad_part__Rx2WS",top_tab_part:"Home_top_tab_part__tvBxb",middle_swiper_part:"Home_middle_swiper_part__iT9Tk",swiper_label_item:"Home_swiper_label_item__PeHyL"}}}]);
+//# sourceMappingURL=616.bdac557f.chunk.js.map

@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkmaizuo=self.webpackChunkmaizuo||[]).push([[710],{7710:function(u,n,e){e.r(n),e.d(n,{default:function(){return i}});e(2791);var t=e(184);function i(){return(0,t.jsx)("div",{children:"NotFound"})}}}]);
+//# sourceMappingURL=710.c788c533.chunk.js.map

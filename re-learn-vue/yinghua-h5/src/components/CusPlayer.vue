@@ -4,39 +4,54 @@
       <div id="cusDplayer"></div>
     </div>
     <div class="bottom_resource">
-      <div class="resource_item active_resource_item">量子资源</div>
-      <div class="resource_item">iKun资源</div>
-      <div class="resource_item">无尽资源</div>
-      <div class="resource_item">闪电资源</div>
-      <div class="resource_item">闪电资源</div>
-      <div class="resource_item">闪电资源</div>
+      <div :class="{'resource_item': true, 'active_resource_item': activeResource === index}" v-for="(item, index) in playerInfo['resourceList']" @click="chooseDiffResource(index, 0)">{{ (item as any)['name']  }}</div>
     </div>
     <div class="resource_line_container">
-      <div class="line_item active_line_item">1</div>
-      <div class="line_item">1</div>
-      <div class="line_item">1</div>
-      <div class="line_item">1</div>
-      <div class="line_item">1</div>
+      <div :class="{'line_item': true, 'active_line_item': activeCollection === index}" v-for="(item, index) in playerInfo['resourceList'][activeResource]['collection']" @click="chooseDiffResource(activeResource, index)">{{ (item as any)['name'] }}</div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import "xgplayer/dist/index.min.css";
-import { onMounted } from "vue";
+import { onMounted, ref, watch } from 'vue';
 import Player from "xgplayer";
-onMounted(() => {
-  const player = new Player({
+const props = defineProps(['playerInfo'])
+//默认选中第0个resource
+const activeResource = ref(0); 
+//默认选中第0个collection
+const activeCollection = ref(0);
+const player = ref<any>(null);
+//创建播放器实例
+const createPlayer = (resIndex: any, collIndex: any) => {
+  player.value = new Player({
     id: "cusDplayer",
     autoplay: true,
     volume: 0.3,
-    url: "//sf1-cdn-tos.huoshanstatic.com/obj/media-fe/xgplayer_doc_video/mp4/xgplayer-demo-360p.mp4",
-    poster:
-      "//lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/byted-player-videos/1.0.0/poster.jpg",
+    url: props.playerInfo['resourceList'][resIndex]['collection'][collIndex]['videoUrl'],
+    poster:props.playerInfo['resourceList'][resIndex]['collection'][collIndex]['posterUrl'],
     playsinline: true,
     width: document.getElementById("cus_player_container")?.style.width,
     height: document.getElementById("cus_player_container")?.style.height,
   });
   // player.emit('resourceReady', [{ name: '超清', url: '//sf1-cdn-tos.huoshanstatic.com/obj/media-fe/xgplayer_doc_video/mp4/xgplayer-demo-720p.mp4' }, { name: '高清', url: '//sf1-cdn-tos.huoshanstatic.com/obj/media-fe/xgplayer_doc_video/mp4/xgplayer-demo-480p.mp4' }, { name: '标清', url: '//sf1-cdn-tos.huoshanstatic.com/obj/media-fe/xgplayer_doc_video/mp4/xgplayer-demo-360p.mp4' }]);
+}
+//销毁播放器实例
+const destroyPlayer = () => {
+  player.value && player.value.destroy()
+}
+//切换资源以及切换具体集数
+const chooseDiffResource = (reIndex: any, collIndex: any) => {
+  activeResource.value = reIndex;
+  activeCollection.value = collIndex;
+}
+watch([activeResource, activeCollection], ([newActiveResource, newActiveCollection]) => {
+  destroyPlayer()
+  createPlayer(newActiveResource, newActiveCollection)
+})
+
+onMounted(() => {
+  destroyPlayer()
+  createPlayer(activeResource.value, activeCollection.value)
 });
 </script>
 <style lang="scss" scoped>

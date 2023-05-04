@@ -3,7 +3,7 @@
        <div class="part_title_line">
         猜你喜欢
        </div>
-        <ThreeCard :cusPageData="cusPageData" @collectChange="collectChange"/>
+        <ThreeCard :cusPageData="cusPageData" @collectChange="collectChange" :cradList="loadMovieData()"/>
     </div>
 </template>
 <script setup lang="ts">

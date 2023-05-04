@@ -29,6 +29,7 @@ export function useFiltermovie() {
     }
     const loadMovieData = () => {
         console.log('获取电影数据',filterMeter.value)
+        return [1,2,3,4,5,6,7,8,9]
     }
     return { collectChange,  loadMovieData, filterParams, cusPageData}
 }

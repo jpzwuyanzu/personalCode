@@ -16,12 +16,12 @@
             </div>
         </transition>
         <div v-if="$route.name === 'search' || $route.name === 'detail'" class="top_tab_part_copy">
-            <div class="part_item">首页</div>
-            <div class="part_item">电影</div>
-            <div class="part_item">电视剧</div>
-            <div class="part_item">综艺</div>
-            <div class="part_item">动漫</div>
-            <div class="part_item">伦理</div>
+            <div class="part_item" @click="linkPage('/')">首页</div>
+            <div class="part_item" @click="linkPage('/dianying')">电影</div>
+            <div class="part_item" @click="linkPage('/dianshiju')">电视剧</div>
+            <div class="part_item" @click="linkPage('/zongyi')">综艺</div>
+            <div class="part_item" @click="linkPage('/dongman')">动漫</div>
+            <div class="part_item" @click="linkPage('/lunli')">伦理</div>
         </div>
         <div v-else class="top_tab_part">
             <van-tabs v-model:active="activeName" title-active-color="#EC2D7A" title-inactive-color="#555555" line-height="2px">
@@ -53,6 +53,9 @@ const searchNow = () => {
     if(searchParams.value.length) {
         appRouter.push(`/search?query=${searchParams.value}`)
     }
+}
+const linkPage = (url: any) => {
+    appRouter.push(url)
 }
 watch(appRoute, (newVal: any) => {
     console.log(newVal.name)

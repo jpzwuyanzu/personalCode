@@ -3,7 +3,7 @@
         <!-- 搜索页面的搜索结果条数 -->
         <div v-if="$route.name === 'search'" class="search_result_count">搜索“{{ $route.query.query }}”相关搜索结果如下:</div>
        <div class="movie_list">
-        <div class="movie_item" v-for="item in 9" @click="$router.push(`/detail/${item}`)">
+        <div class="movie_item" v-for="item in cradList" @click="$router.push(`/detail/${item}`)">
             <div class="top_info">
                 <van-image
                     width="100%"
@@ -35,7 +35,7 @@
 </template>
 <script setup lang="ts">
 import { ref } from 'vue'
-defineProps(['cusPageData'])
+defineProps(['cusPageData', 'cradList'])
 const $emit = defineEmits(['collectChange'])
 const switchPage = (page: number) => {
     console.log(page)

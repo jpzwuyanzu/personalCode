@@ -1,7 +1,7 @@
 <template>
     <div class="page_container">
         <TopFilter :filterParams="filterParams" @collectChange="collectChange"/>
-        <ThreeCard :cusPageData="cusPageData" @collectChange="collectChange"/>
+        <ThreeCard :cusPageData="cusPageData" @collectChange="collectChange" :cradList="loadMovieData()"/>
     </div>
 </template>
 <script setup lang="ts">

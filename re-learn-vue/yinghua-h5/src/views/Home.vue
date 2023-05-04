@@ -1,7 +1,7 @@
 <template>
     <div>
         <template v-for="(item, index) in cardList" :key="index">
-            <MovieCard :labelList="item.labelList" :movieLabelTitle="item.movieLabelTitle" @loadData="loadData" />
+            <MovieCard :labelList="(item as any).labelList" :movieLabelTitle="(item as any).movieLabelTitle" @loadData="loadData" />
         </template>
     </div>
 </template>

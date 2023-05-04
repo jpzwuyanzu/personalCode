@@ -29,9 +29,9 @@
           <template #title>{{ item.title }}</template>
           <a-menu-item
             v-for="(item1, index1) in item.children"
-            :key="item1.path"
-            :keypath="item1.path"
-            >{{ item1.title }}</a-menu-item
+            :key="(item1 as any).path"
+            :keypath="(item1 as any).path"
+            >{{ (item1 as any).title }}</a-menu-item
           >
         </a-sub-menu>
         <template v-else>
@@ -50,7 +50,6 @@ import { useStore } from "vuex";
 import { Icon } from './ICON'
 import { useRouter, useRoute } from "vue-router";
 import { loadSideMenu } from "./model/sideMenu";
-import { key } from "../../../../learn-code/week13/vue3-ts-app/src/store/index";
 const appStore = useStore();
 const appRouter = useRouter();
 const appRoute = useRoute();

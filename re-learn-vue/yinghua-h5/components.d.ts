@@ -13,6 +13,7 @@ declare module '@vue/runtime-core' {
     CusPlayer: typeof import('./src/components/CusPlayer.vue')['default']
     'CusPlayer copy': typeof import('./src/components/CusPlayer copy.vue')['default']
     GussLike: typeof import('./src/components/GussLike.vue')['default']
+    'GussLike copy': typeof import('./src/components/GussLike copy.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
     IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']

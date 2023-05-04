@@ -2,7 +2,7 @@
   <div class="login_form_page_container">
     <div class="login_form_container">
       <a-form  class="cusTomerForm">
-        <h1 style="margin-bottom: 30px">影视管理系统</h1>
+        <h1 style="margin-bottom: 30px">努努视频管理系统</h1>
         <a-form-item v-bind="validateInfos.username">
           <a-input
             v-model:value="modelRef.username"

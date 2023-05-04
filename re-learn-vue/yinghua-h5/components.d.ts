@@ -9,7 +9,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    copy: typeof import('./src/components/CusPlayer copy.vue')['default']
+    copy: typeof import('./src/components/GussLike copy.vue')['default']
     CusPlayer: typeof import('./src/components/CusPlayer.vue')['default']
     'CusPlayer copy': typeof import('./src/components/CusPlayer copy.vue')['default']
     GussLike: typeof import('./src/components/GussLike.vue')['default']
@@ -31,15 +31,12 @@ declare module '@vue/runtime-core' {
     TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']
     ThreeCard: typeof import('./src/components/ThreeCard.vue')['default']
     TopFilter: typeof import('./src/components/TopFilter.vue')['default']
-    VanButton: typeof import('vant/es')['Button']
     VanConfigProvider: typeof import('vant/es')['ConfigProvider']
     VanIcon: typeof import('vant/es')['Icon']
     VanImage: typeof import('vant/es')['Image']
     VanPagination: typeof import('vant/es')['Pagination']
     VanSearch: typeof import('vant/es')['Search']
     VanTab: typeof import('vant/es')['Tab']
-    VanTabbar: typeof import('vant/es')['Tabbar']
-    VanTabbarItem: typeof import('vant/es')['TabbarItem']
     VanTabs: typeof import('vant/es')['Tabs']
     WelcomeItem: typeof import('./src/components/WelcomeItem.vue')['default']
   }

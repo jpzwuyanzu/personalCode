@@ -26,7 +26,7 @@ export default defineConfig({
     //   changeOrigin: true,
     // },
     '/api': {
-      target: `http://172.28.113.248:8030`,
+      target: `http://172.28.113.248:8081`,
       changeOrigin: true,
     },
     '/api/back-websocket': {

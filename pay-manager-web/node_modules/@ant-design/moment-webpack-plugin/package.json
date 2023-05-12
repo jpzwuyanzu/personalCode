@@ -1,0 +1,19 @@
+{
+  "name": "@ant-design/moment-webpack-plugin",
+  "version": "0.0.3",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ant-design/antd-moment-webpack-plugin.git"
+  },
+  "author": "iamkun",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ant-design/antd-moment-webpack-plugin/issues"
+  },
+  "homepage": "https://github.com/ant-design/antd-moment-webpack-plugin#readme"
+}

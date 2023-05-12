@@ -1,0 +1,79 @@
+{
+  "name": "use-clipboard-copy",
+  "version": "0.2.0",
+  "description": "Lightweight copy to clipboard hook for React",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": "wsmd/use-clipboard-copy",
+  "homepage": "https://use-clipboard-copy.vercel.app/",
+  "bugs": {
+    "url": "https://github.com/wsmd/use-clipboard-copy/issues"
+  },
+  "author": "Waseem Dahman <dwaseem@icloud.com>",
+  "license": "MIT",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "tslint --project .",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "test:all": "yarn typecheck && yarn lint && yarn test:coverage && yarn size",
+    "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "build": "tsc",
+    "prebuild": "rm -rf dist",
+    "prepack": "yarn test:all && yarn build",
+    "size": "yarn build --skipLibCheck && size-limit"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "react",
+    "react-hooks",
+    "copy-to-clipboard",
+    "clipboard-js",
+    "copy",
+    "cut",
+    "hook"
+  ],
+  "prettier": {
+    "trailingComma": "all",
+    "singleQuote": true
+  },
+  "jest": {
+    "watchPathIgnorePatterns": [
+      "dist"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "src/**.ts"
+    ]
+  },
+  "size-limit": [
+    {
+      "path": "dist/*.js",
+      "limit": "800 B"
+    }
+  ],
+  "peerDependencies": {
+    "react": ">=16.8.0"
+  },
+  "dependencies": {
+    "clipboard-copy": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.11",
+    "@types/react": "^17.0.3",
+    "coveralls": "^3.0.3",
+    "jest": "^24.7.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-hooks-testing-library": "^0.4.0",
+    "react-testing-library": "^6.1.2",
+    "size-limit": "^1.0.1",
+    "ts-jest": "^24.0.2",
+    "tslint": "^5.15.0",
+    "typescript": "^4.2.4"
+  }
+}

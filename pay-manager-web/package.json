@@ -1,0 +1,50 @@
+{
+  "private": true,
+  "author": "xxx",
+  "scripts": {
+    "build:merchant": "cross-env APP=merchant MODE=test max build",
+    "build:merchant:prod": "cross-env APP=merchant MODE=prod max build",
+    "build:payment": "cross-env APP=payment MODE=test max build",
+    "build:payment:prod": "cross-env APP=payment MODE=prod max build",
+    "dev:merchant": "cross-env APP=merchant MODE=test max dev",
+    "dev:merchant:prod": "cross-env APP=merchant MODE=prod max dev",
+    "dev:payment": "cross-env APP=payment MODE=test max dev",
+    "dev:payment:prod": "cross-env APP=payment MODE=prod max dev",
+    "format": "prettier --cache --write .",
+    "postinstall": "max setup",
+    "prepare": "husky install",
+    "setup": "max setup",
+    "start": "npm run dev"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^4.7.0",
+    "@ant-design/pro-components": "^2.3.49",
+    "@antv/g2plot": "^2.4.23",
+    "@stomp/stompjs": "^7.0.0",
+    "@types/uuid": "^9.0.1",
+    "@umijs/max": "^4.0.41",
+    "ahooks": "^3.7.4",
+    "antd": "^5.1.2",
+    "dayjs": "^1.11.7",
+    "lodash": "^4.17.21",
+    "qs": "^6.11.0",
+    "react-stomp": "^5.1.0",
+    "use-clipboard-copy": "^0.2.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.191",
+    "@types/mockjs": "^1.0.7",
+    "@types/qs": "^6.9.7",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "cross-env": "^7.0.3",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "mockjs": "^1.1.0",
+    "prettier": "^2.7.1",
+    "prettier-plugin-organize-imports": "^2",
+    "prettier-plugin-packagejson": "^2",
+    "typescript": "^4.1.2"
+  }
+}

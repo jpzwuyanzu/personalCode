@@ -4,17 +4,23 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
+    "dev:payment": "cross-env VITE_APP_ROUTE=payment vite",
+    "dev:merchant": "cross-env VITE_APP_ROUTE=merchant vite",
+    "build:payment": "cross-env VITE_APP_ROUTE=payment tsc && vite build",
+    "build:merchant": "cross-env VITE_APP_ROUTE=merchant tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@douyinfe/semi-ui": "^2.34.2",
+    "@types/nprogress": "^0.2.0",
+    "antd": "^5.5.0",
+    "cross-env": "^7.0.3",
+    "nprogress": "^0.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.1",
-    "reset-css": "^5.0.1"
+    "reset-css": "^5.0.1",
+    "sass": "^1.62.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",

@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react'
 import Redirect from './../components/Redirect'
 import Loading from './../components/Loading'
+import { useAppSelector } from './../hooks/hooks'
 
 const Login: any = React.lazy(() => import('../views/login/Login'));
 const PageSandBox = React.lazy(() => import('../layout/page-sand-box/PageSandBox'));
@@ -11,9 +12,8 @@ const NotFound = React.lazy(() => import('../views/404/NotFound'))
 
 //路由鉴权
 const AuthComponent = ({ children }: any) => {
-    // const isLogin = localStorage.getItem('token');
-    // return isLogin ? children : <Redirect/>
-    return children
+    const userToken = useAppSelector((state) => state.user.token)
+    return userToken ? children : <Redirect to="/login"/>
 }
 export const  payment = [
     {
@@ -34,7 +34,7 @@ export const  payment = [
             },
             {
                 path: 'rolelist'  ,
-                element: <Suspense fallback={ <Loading/> }><AuthComponent><RoleList/></AuthComponent></Suspense>  
+                element: <Suspense fallback={ <Loading/> }><AuthComponent><RoleList/></AuthComponent></Suspense>
             },
             {
                 path: 'userlist',

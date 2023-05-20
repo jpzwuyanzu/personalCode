@@ -9,11 +9,11 @@ const RoleList = React.lazy(() => import('../views/merchant/role-mannage/RoleLis
 const UserList = React.lazy(() => import('../views/merchant/user-mannage/UserList'));
 const NotFound = React.lazy(() => import('../views/404/NotFound'))
 
+
 //路由鉴权
 const AuthComponent = ({ children }: any) => {
-    // const isLogin = localStorage.getItem('token');
-    // return isLogin ? children : <Redirect/>
-    return children
+    const isLogin = sessionStorage.getItem('token') ? JSON.parse(sessionStorage.getItem('token') as any) : '';
+    return isLogin ? children : <Redirect to="/login"/>
 }
 export const  merchant = [
     {

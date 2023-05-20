@@ -1,62 +1,22 @@
-import React, { useState } from 'react';
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from '@ant-design/icons';
-import { Layout, Menu, Button, theme } from 'antd';
-import { Outlet } from 'react-router-dom'
+import React  from 'react';
+import { Layout, theme } from 'antd';
+import RouterView from './../../components/RouterView'
+import SideMenu from './../SideMenu'
+import TopHeader from './../TopHeader'
+import styles from './PageSandBox.module.scss'
 
-const { Header, Sider, Content } = Layout;
-
+const { Content } = Layout;
 const PageSandBox: React.FC = () => {
-  const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
 
   return (
-    <Layout>
-      <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div className="demo-logo-vertical" />
-        <Menu
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={['1']}
-          items={[
-            {
-              key: '1',
-              icon: <UserOutlined />,
-              label: 'nav 1',
-            },
-            {
-              key: '2',
-              icon: <VideoCameraOutlined />,
-              label: 'nav 2',
-            },
-            {
-              key: '3',
-              icon: <UploadOutlined />,
-              label: 'nav 3',
-            },
-          ]}
-        />
-      </Sider>
+    <div className={styles.page_sand_box}>
       <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer }}>
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{
-              fontSize: '16px',
-              width: 64,
-              height: 64,
-            }}
-          />
-        </Header>
+      <SideMenu/>
+      <Layout>
+        <TopHeader/>
         <Content
           style={{
             margin: '24px 16px',
@@ -65,10 +25,11 @@ const PageSandBox: React.FC = () => {
             background: colorBgContainer,
           }}
         >
-          <Outlet/>
+          <RouterView/>
         </Content>
       </Layout>
     </Layout>
+    </div>
   );
 };
 

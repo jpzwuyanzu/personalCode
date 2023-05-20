@@ -659,7 +659,7 @@ export default function Add() {
 ```
 
 #### 12.2创建slice文件
-/src/store/collapse.slice.ts
+/src/store/slices/collapse.slice.ts
 ```ts
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios';
@@ -752,7 +752,7 @@ import { persistStore ,persistReducer } from 'redux-persist'
 const persistConfig = {
     key: 'root',
     storage,
-    blcklist: ['page404']
+    blacklist: ['page404']
 }
 const persistCollapseReducer = persistReducer(persistConfig, CollapseReducer)
 

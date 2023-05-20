@@ -1,0 +1,23 @@
+.user_head_container {
+    float: right;
+    // padding-right: 50px;
+    margin-right: 40px;
+    .user_head {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        .user_Img {
+            width: 24px;
+            height: 24px;
+            object-fit: cover;
+            margin-right: 8px;
+        }
+        .user_Name {
+            color: #666666;
+        }
+    }
+}
+.dropDown_Items {
+    width: 90px;
+}

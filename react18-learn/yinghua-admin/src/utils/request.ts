@@ -1,6 +1,7 @@
 import axios from 'axios'
 import Nprogress from 'nprogress'
 import 'nprogress/nprogress'
+import { notification } from 'antd'
 
 
 //创建axios实例
@@ -14,7 +15,7 @@ const service = axios.create({
 service.interceptors.request.use(
     (config: any) => {
         //模拟请求令牌
-        config.headers['X-Token'] = 'test token'
+        config.headers['satoken'] = sessionStorage.getItem('token') ? sessionStorage.getItem('token') : ''
         Nprogress.start()
         return config;
     },
@@ -30,7 +31,17 @@ service.interceptors.response.use(
      (response: any) => {
         const res = response.data
         if(res.code !== 200) {
-           
+            if(res.code === 11012) {
+                sessionStorage.clear();
+                localStorage.clear();
+                window.location.href = window.location.host+'/#/login'
+            }
+            notification.open({
+                message: '错误提示',
+                type: 'error',
+                description: res.msg
+              })
+              Nprogress.done()
         } else {
             Nprogress.done()
             return res

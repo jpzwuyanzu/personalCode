@@ -58,6 +58,7 @@ const { reducer: UserReducer } = createSlice({
                 state.password = action.payload.data.password;
                 state.oldpassword = action.payload.data.oldpassword;
                 state.id = action.payload.data.id;
+                sessionStorage.setItem('token', action.payload.data.tokenInfo.tokenValue)
             })
             .addCase(loginSys.rejected, (state, action) => {
                 console.log(state, action.error)

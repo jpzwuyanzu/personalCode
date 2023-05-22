@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Space, Table, Button,Form, Input, Col, Row, message, Switch, Popconfirm, Divider,Select } from "antd";
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import type { ColumnsType } from "antd/es/table";
-import PagiNation from "./../../../components/PagiNation";
-import { loadRoleList, editRole, delRole } from './../../../api/index'
+import PagiNation from "@/components/PagiNation";
+import { loadRoleList, editRole, delRole } from '@/api/index'
+import JudgePemission from "@/components/JudgePemission";
 import dayjs from "dayjs";
+import RoleListModule from "./modules/RoleListModule";
 import styles from "./RoleList.module.scss";
 
 interface DataType {
@@ -20,6 +22,9 @@ const RoleList: React.FC = () => {
   const [page, setpage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
   const [tableList, setTableList] = useState<any[]>([]);
+  const [open, setOpen] = useState(false);
+  const [moduleWidth, setModuleWidth] = useState('');
+  const [roleInfo, setRoleInfo] = useState({});
 
   const onFinish = (values: any) => {
     console.log("Success:", values);
@@ -30,13 +35,11 @@ const RoleList: React.FC = () => {
   };
 
   const loadData = async(page: number, pageSize: number) => {
-    console.log('加载分页数据', page, pageSize)
     setpage(page)
     setPageSize(pageSize)
   }
   const fetchData = async () => {
     const data: any = await loadRoleList({ page, pageSize })
-    console.log(data)
     if(data.code && data.code === 200) {
       setTableList(data.page.list ? data.page.list : []);
       setTotal(data.page.totalCount ? data.page.totalCount : 0);
@@ -49,9 +52,7 @@ const RoleList: React.FC = () => {
   }
 
   const switchRoleStatus = async (checked: boolean, roleId: any) => {
-    console.log(checked, roleId)
     const resp: any = await editRole({ id:roleId,  status: Number(Boolean(checked)) })
-    console.log(resp)
     if(resp.code && resp.code === 200) {
       message.open({
         type: 'success',
@@ -104,6 +105,7 @@ const RoleList: React.FC = () => {
             unCheckedChildren={<CloseOutlined />}
             checked={ Boolean(Number(text)) }
             onClick={ (checked: boolean) => switchRoleStatus(checked, record.id) }
+            disabled
           />
         </>
       )
@@ -128,15 +130,17 @@ const RoleList: React.FC = () => {
       align: 'center',
       render: (_, record: any) => (
         <Space size="middle">
-          <Button type="primary">编辑角色</Button>
+          <JudgePemission pageUrl={'/payment/rolelist_123'}>
+          <Button type="primary" onClick={() => openDrawer('378px', record)}>编辑角色</Button>
           <Divider type="vertical"/>
+          </JudgePemission>
           <Popconfirm
             title="删除"
-            description="你确认要删除该条数据吗?"
+            description="你确认要删除该角色, 以及属于该角色的所有用户吗?"
             onConfirm={ () => confirmDelRole(record.id) }
             onCancel={() => {}}
-            okText="Yes"
-            cancelText="No"
+            okText="是"
+            cancelText="否"
           >
             <Button type="primary" danger>删除</Button>
           </Popconfirm>
@@ -145,11 +149,22 @@ const RoleList: React.FC = () => {
     },
   ];
 
- 
-
   useEffect( () => {
     fetchData()
   }, [])
+
+  //新增/编辑角色
+  const openDrawer = (moduleWidth: string, roleInfo: any) => {
+    setModuleWidth(moduleWidth)
+    setRoleInfo(roleInfo)
+    setOpen(true)
+  }
+  //关闭抽屉
+  const closeDrawer = () => {
+    setOpen(false)
+    fetchData()
+  }
+
   return (
     <div className={styles.TableCom_Container}>
       <div className={styles.Table_ContentArea}>
@@ -203,13 +218,15 @@ const RoleList: React.FC = () => {
                 </Button>
               </Form.Item>
             </Col>
+            <JudgePemission pageUrl={'/payment/rolelist_122'}>
             <Col span={1}>
               <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
-                <Button type="primary" style={{ marginLeft: '13px' }}>
+                <Button type="primary" style={{ marginLeft: '13px' }} onClick={() => openDrawer('新增角色','378px', {})}>
                   新增角色
                 </Button>
               </Form.Item>
             </Col>
+            </JudgePemission>
           </Row>
         </Form>
         <Table columns={columns} dataSource={tableList} pagination={false} rowKey={(record) => record.id} />
@@ -217,6 +234,7 @@ const RoleList: React.FC = () => {
       <div className={styles.bottom_Pag_area}>
         <PagiNation current={page} pageSize={pageSize} total={total} loadData={loadData}/>
       </div>
+      <RoleListModule  moduleWidth={moduleWidth} roleInfo={roleInfo} open={open} closeDrawer={closeDrawer}/>
     </div>
   )
 };

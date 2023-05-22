@@ -10,10 +10,7 @@ interface IProps {
 const showTotal: PaginationProps["showTotal"] = (total) =>
   `共有 ${total} 条`;
 const PagiNation = ({ current, total, loadData }: IProps) => {
-    console.log(current, total)
     const handlerOnChange = (page: number, pageSize: number) => {
-        console.log(page)
-        console.log(pageSize)
         loadData(page, pageSize)
     }
     return (

@@ -27,6 +27,7 @@ export default function TopHeader() {
     console.log(resp);
     if (resp.code && resp.code === 200) {
       localStorage.clear();
+      sessionStorage.clear()
       navigate("/login");
       message.open({
         type: "success",

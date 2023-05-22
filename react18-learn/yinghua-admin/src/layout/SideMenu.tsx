@@ -31,7 +31,9 @@ const FMenu: any = {};
 const rootSubmenuKeys: any = []; 
 // 格式化处理后端的菜单数据
 const formMenuData = (menuData: any) => {
+  console.log(menuData)
   let sideMenuArr: any = []; //前端左侧菜单
+  let buttonPermiss: any = []; //前端按钮权限控制
   if (menuData.length) {
     menuData.forEach((item: any) => {
       let arr1: any = [];
@@ -39,6 +41,11 @@ const formMenuData = (menuData: any) => {
         item.list.forEach((itm: any) => {
           arr1.push(getItem(itm.name,  itm.path));
           FMenu[String(itm.path).split('/')[2]] = String(item.path + '_' + item.id)
+          if(itm.list && itm.list.length) {
+            itm.list.forEach((btn_itm: any) => {
+              buttonPermiss.push(itm.path + '_' + btn_itm.id)
+            })
+          }
         });
         sideMenuArr.push(getItem(item.name,  item.path + '_' + item.id,  <AppstoreOutlined />, arr1));
         rootSubmenuKeys.indexOf(item.path + '_' + item.id) === -1 && rootSubmenuKeys.push(item.path + '_' + item.id) 
@@ -51,6 +58,7 @@ const formMenuData = (menuData: any) => {
       }
     });
   }
+  sessionStorage.setItem('btnPermiss',JSON.stringify(buttonPermiss))
   return sideMenuArr;
 };
 

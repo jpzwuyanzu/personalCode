@@ -42,15 +42,15 @@ export function roleDetail (params? :any) {
 export function treeMenuList (params? :any) {
     return request.post('/api/sys/usernode/list', params)
 }
-// 支付后台用户列表
+//支付后台用户列表
 export function userList (params? :any) {
     return request.post('/api/sys/user/list', params)
 }
-//新增编辑用户
+//新增编辑后台用户
 export function createUser (params? :any) {
     return request.post('/api/sys/user/user/save', params)
 }
-//删除用户
+//删除支付后台用户
 export function delUser (params? :any) {
     return request.post('/api/sys/user/user/delete', params)
 }
@@ -58,6 +58,33 @@ export function delUser (params? :any) {
 export function resetUser (params? :any) {
     return request.post('/api/sys/user/user/resetpwd', params)
 }
+//上游支付渠道列表
+export function upStreamChannelList (params? :any) {
+    return request.post('/api/channel/pay/listPage', params)
+}
+//修改上游支付渠道信息
+export function upDateUpStreamChannel (params? :any) {
+    return request.post('/api/channel/pay/updateChannel', params)
+}
+//上游商户支付信息列表
+export function upStreamMerchant (params? :any) {
+    return request.post('/api/channel/top/topMerchantList', params)
+}
+//修改上游商户支付信息
+export function upDateUpStreamMerchant (params? :any) {
+    return request.post('/api/channel/top/updateTopMerchant', params)
+}
+//支付方式列表
+export function payTypeList (params? :any) {
+    return request.post('/api/channel/pay/payTypeList', params)
+}
+//修改支付方式列表
+export function upDatePayTypeList (params? :any) {
+    return request.post('/api/channel/pay/updatePayType', params)
+}
+
+
+
 
 
 

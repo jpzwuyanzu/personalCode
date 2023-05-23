@@ -2,6 +2,7 @@ import axios from 'axios'
 import Nprogress from 'nprogress'
 import 'nprogress/nprogress'
 import { message } from 'antd'
+import { respMessage } from '@/utils/message'
 
 
 //创建axios实例
@@ -31,17 +32,18 @@ service.interceptors.response.use(
      (response: any) => {
         const res = response.data
         if(res.code !== 200) {
-            if(res.code === 11012) {
+            if(res.code === 11012 || res.code === 11015) {
                 sessionStorage.clear();
                 localStorage.clear();
-                window.location.href = window.location.host+'/#/login'
+                window.location.href = window.location.origin+'/#/login'
             }
             message.open({
                 type: 'error',
-                content: res.msg,
+                content: `错误提示：${respMessage[String(res.code)]}!`,
                 className: 'custom-class',
                 style: {
                     marginTop: '20vh',
+                    fontSize: '20px'
                 }
               })
               Nprogress.done()

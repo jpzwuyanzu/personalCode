@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom'
 import { LockOutlined, UserOutlined, EyeTwoTone, EyeInvisibleOutlined } from '@ant-design/icons';
 import { Button, Form, Input, message } from 'antd';
+import { respMessage } from '@/utils/message'
 import { useAppDispatch } from './../../hooks/hooks'
 import { loginSys } from './../../store/slices/user.slice'
 import MD5 from 'md5'
@@ -20,18 +21,21 @@ const Login: React.FC = () => {
   const onFinish = async (values: any) => {
     if(values) {
       const resp: any = await dispatch(loginSys({username: values.username, password: MD5(values.password)}))
-      if(resp.payload.code && resp.payload.code === 200) {
-        // 登录成功
-        message.open({
-          type: 'success',
-          content: resp.payload.msg
-        });
-        navigate('/')
-      } else {
-        message.open({
-          type: 'error',
-          content: resp.payload.msg
-        });
+      if(resp && resp.payload && resp.payload.code) {
+        if(resp.payload.code === 200) {
+          // 登录成功
+          message.open({
+            type: 'success',
+            content: resp.payload.msg
+          });
+          navigate('/')
+        } else {
+          message.open({
+            type: 'error',
+            content: respMessage[String(resp.payload.code)]
+          });
+        }
+        
       }
     }
   };

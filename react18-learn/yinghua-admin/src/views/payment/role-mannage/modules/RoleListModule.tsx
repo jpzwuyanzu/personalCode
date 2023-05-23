@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Col,  Drawer, Form, Input, Row,  Space, Tree, message } from 'antd'
+import { respMessage } from '@/utils/message'
 import { roleDetail, editRole, addRole } from '@/api/index'
 
 interface IProps {
@@ -22,7 +23,7 @@ export default function RoleListModule({ moduleWidth,roleInfo, open, closeDrawer
   const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([]);
   const [autoExpandParent, setAutoExpandParent] = useState<boolean>(true);
   const [treeData, setTreeData] = useState<any>([]);
-  const [form] = Form.useForm();
+  const [roleForm] = Form.useForm();
   const onExpand = (expandedKeysValue: React.Key[]) => {
     setExpandedKeys(expandedKeysValue);
     setAutoExpandParent(false);
@@ -85,7 +86,7 @@ export default function RoleListModule({ moduleWidth,roleInfo, open, closeDrawer
             level_F.push(level_one)
         })
     }
-    // console.log(level_F)
+    console.log(level_F)
     // console.log(permissChecked)
     setExpandedKeys(allExpend)
     setCheckedKeys(permissChecked)
@@ -100,14 +101,14 @@ export default function RoleListModule({ moduleWidth,roleInfo, open, closeDrawer
     } else {
       message.open({
         type: 'error',
-        content: data.msg
+        content: respMessage[String(data.code)]
       })
     }
-    if(form) {
+    if(roleForm) {
       if(Object.keys(roleInfo).length) {
-        form?.setFieldsValue({'name': (roleInfo as any).name})
+        roleForm?.setFieldsValue({'name': (roleInfo as any).name})
       } else {
-          form?.setFieldsValue({ 'name': ''})
+        roleForm?.setFieldsValue({ 'name': ''})
         setCheckedKeys([])
       }
     }
@@ -116,7 +117,7 @@ export default function RoleListModule({ moduleWidth,roleInfo, open, closeDrawer
   }
 
   const confirmEditRole = async() => {
-    form.validateFields().then(async(values) => {
+    roleForm.validateFields().then(async(values) => {
         if(Object.keys(roleInfo).length) {
            const res: any = await editRole({ id: roleInfo.id ,name: values.name, resourceIdList: checkedKeys.concat(halfCheckedKeys),  status: Number(roleInfo.status) })
            if(res.code === 200) {
@@ -124,7 +125,7 @@ export default function RoleListModule({ moduleWidth,roleInfo, open, closeDrawer
         } else {
             message.open({
                 type: 'error',
-                content: res.msg
+                content: respMessage[String(res.code)]
               })
         }
         } else {
@@ -134,7 +135,7 @@ export default function RoleListModule({ moduleWidth,roleInfo, open, closeDrawer
             } else {
                 message.open({
                     type: 'error',
-                    content: res.msg
+                    content: respMessage[String(res.code)]
                   })
             }
         }
@@ -164,13 +165,13 @@ export default function RoleListModule({ moduleWidth,roleInfo, open, closeDrawer
     footer={
         <div style={{ 'textAlign': 'right', 'paddingBottom': '20px' ,'paddingTop': '20px','paddingRight': '20px' }}>
             <Space>
-        <Button type='primary' danger>取消</Button>
+        <Button type='primary' danger onClick={closeDrawer}>取消</Button>
         <Button type="primary" onClick={confirmEditRole}>确认</Button>
     </Space>
         </div>
     }
     >
-    <Form layout="horizontal" form={ form }>
+    <Form layout="horizontal" form={ roleForm }>
           <Row>
             <Col span={24}>
               <Form.Item

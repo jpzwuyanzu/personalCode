@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { ConfigProvider } from "antd";
+import { ConfigProvider, theme } from "antd";
 import { Provider } from "react-redux";
 import store, { persistor } from "./store/index.ts";
 import { PersistGate } from "redux-persist/integration/react";
@@ -23,7 +23,8 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
           locale={zhCN}
           theme={{
             token: {
-              colorPrimary: "#00b96b",
+              colorPrimary: "#00b96b"
+              // algorithm: [theme.compactAlgorithm, theme.darkAlgorithm]
             },
           }}
         >

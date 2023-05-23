@@ -10,6 +10,10 @@ interface IProps {
 const showTotal: PaginationProps["showTotal"] = (total) =>
   `共有 ${total} 条`;
 const PagiNation = ({ current, total, loadData }: IProps) => {
+
+  console.log(current)
+  console.log(total)
+
     const handlerOnChange = (page: number, pageSize: number) => {
         loadData(page, pageSize)
     }
@@ -24,6 +28,7 @@ const PagiNation = ({ current, total, loadData }: IProps) => {
             showQuickJumper
             style={{ textAlign: "right", paddingTop: "20px" }}
             onChange={(page, pageSize) => handlerOnChange(page, pageSize)}
+            onShowSizeChange={ (current, size) => handlerOnChange(current, size) }
           />
         </>
       )

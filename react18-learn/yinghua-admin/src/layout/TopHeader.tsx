@@ -1,7 +1,10 @@
+import { useState } from 'react'
 import { Layout, Button, theme, message, Dropdown, Space } from "antd";
+import { respMessage } from '@/utils/message'
 import { useNavigate } from "react-router-dom";
 import { switchCollapsed } from "./../store/slices/collapse.slice";
 import { useAppDispatch, useAppSelector } from "./../hooks/hooks";
+import ResetPassModal from '@/components/ResetPassModal'
 import styles from "./TopHeader.module.scss";
 import {
   LoginOutlined,
@@ -17,11 +20,12 @@ const { Header } = Layout;
 
 export default function TopHeader() {
   const collapsed = useAppSelector((state) => state.collapse.status);
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
+  const userInfo = useAppSelector((state) => state.user.userInfo)
+  const {token: { colorBgContainer }} = theme.useToken();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [modalStatus, setModalStatus] = useState(false);
+
   const loginOutNow = async () => {
     const resp: any = await loginOut();
     if (resp.code && resp.code === 200) {
@@ -35,10 +39,15 @@ export default function TopHeader() {
     } else {
       message.open({
         type: "error",
-        content: resp.payload.msg,
+        content: respMessage[String(resp.payload.code)],
       });
     }
   };
+
+  const closeModal = () => {
+    setModalStatus(false)
+  }
+
   const items: MenuProps["items"] = [
     {
       key: "1",
@@ -47,7 +56,7 @@ export default function TopHeader() {
     },
     {
       key: "2",
-      label: <div className={styles.dropDown_Items}>个人设置</div>,
+      label: <div className={styles.dropDown_Items} onClick={() => setModalStatus(true)}>修改密码</div>,
       icon: <SettingOutlined />,
     },
     {
@@ -63,6 +72,7 @@ export default function TopHeader() {
       icon: <LoginOutlined />,
     },
   ];
+
   return (
     <>
       <Header style={{ padding: 0, background: colorBgContainer }}>
@@ -92,6 +102,7 @@ export default function TopHeader() {
             </a>
           </Dropdown>
         </div>
+        <ResetPassModal open={modalStatus} userInfo={userInfo} closeModal={closeModal} isTop={true}/>
       </Header>
     </>
   );

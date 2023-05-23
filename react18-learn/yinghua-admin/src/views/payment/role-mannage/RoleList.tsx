@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { Space, Table, Button,Form, Input, Col, Row, message, Switch, Popconfirm, Divider,Select } from "antd";
+import React, { useState, useEffect, useCallback } from "react";
+import { Space, Table, Button,Form, Input, Col, Row, message, Switch, Popconfirm, Select } from "antd";
+import { respMessage } from '@/utils/message'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import type { ColumnsType } from "antd/es/table";
 import PagiNation from "@/components/PagiNation";
@@ -25,6 +26,7 @@ const RoleList: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [moduleWidth, setModuleWidth] = useState('');
   const [roleInfo, setRoleInfo] = useState({});
+  const [loading, setLoading] = useState<boolean>(false);
 
   const onFinish = (values: any) => {
     console.log("Success:", values);
@@ -34,19 +36,22 @@ const RoleList: React.FC = () => {
     console.log("Failed:", errorInfo);
   };
 
-  const loadData = async(page: number, pageSize: number) => {
+  const loadData = useCallback((page: number, pageSize: number) => {
     setpage(page)
     setPageSize(pageSize)
-  }
-  const fetchData = async () => {
-    const data: any = await loadRoleList({ page, pageSize })
+    fetchData({page, pageSize})
+  }, [page, pageSize])
+  const fetchData = async (params:any) => {
+    setLoading(true)
+    const data: any = await loadRoleList({ page, pageSize, ...params})
+    setLoading(false)
     if(data.code && data.code === 200) {
       setTableList(data.page.list ? data.page.list : []);
       setTotal(data.page.totalCount ? data.page.totalCount : 0);
     } else {
       message.open({
         type: 'error',
-        content: data.msg
+        content: respMessage[String(data.code)]
       })
     }
   }
@@ -58,11 +63,11 @@ const RoleList: React.FC = () => {
         type: 'success',
         content: '修改成功'
       })
-      fetchData()
+      fetchData({})
     } else {
       message.open({
         type: 'error',
-        content: resp.msg
+        content: respMessage[String(resp.code)]
       })
     }
   }
@@ -70,11 +75,11 @@ const RoleList: React.FC = () => {
   const confirmDelRole = async (roleId: any) => {
     const resp: any = await delRole({ id: roleId })
     if(resp.code && resp.code === 200) {
-      fetchData()
+      fetchData({})
     } else {
       message.open({
         type: 'error',
-        content: resp.msg
+        content: respMessage[String(resp.code)]
       })
     }
   }
@@ -132,8 +137,8 @@ const RoleList: React.FC = () => {
         <Space size="middle">
           <JudgePemission pageUrl={'/payment/rolelist_123'}>
           <Button type="primary" onClick={() => openDrawer('378px', record)}>编辑角色</Button>
-          <Divider type="vertical"/>
           </JudgePemission>
+          <JudgePemission pageUrl={'/payment/rolelist_124'}>
           <Popconfirm
             title="删除"
             description="你确认要删除该角色, 以及属于该角色的所有用户吗?"
@@ -142,28 +147,29 @@ const RoleList: React.FC = () => {
             okText="是"
             cancelText="否"
           >
-            <Button type="primary" danger>删除</Button>
+            <Button type="primary" danger>删除角色</Button>
           </Popconfirm>
+          </JudgePemission>
         </Space>
       ),
     },
   ];
 
   useEffect( () => {
-    fetchData()
+    fetchData({})
   }, [])
 
   //新增/编辑角色
-  const openDrawer = (moduleWidth: string, roleInfo: any) => {
+  const openDrawer = useCallback((moduleWidth: string, roleInfo: any) => {
     setModuleWidth(moduleWidth)
     setRoleInfo(roleInfo)
     setOpen(true)
-  }
+  }, [open])
   //关闭抽屉
-  const closeDrawer = () => {
+  const closeDrawer = useCallback(() => {
     setOpen(false)
-    fetchData()
-  }
+    fetchData({})
+  }, [open])
 
   return (
     <div className={styles.TableCom_Container}>
@@ -221,7 +227,7 @@ const RoleList: React.FC = () => {
             <JudgePemission pageUrl={'/payment/rolelist_122'}>
             <Col span={1}>
               <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
-                <Button type="primary" style={{ marginLeft: '13px' }} onClick={() => openDrawer('新增角色','378px', {})}>
+                <Button type="primary" style={{ marginLeft: '13px' }} onClick={() => openDrawer('378px', {})}>
                   新增角色
                 </Button>
               </Form.Item>
@@ -229,11 +235,13 @@ const RoleList: React.FC = () => {
             </JudgePemission>
           </Row>
         </Form>
-        <Table columns={columns} dataSource={tableList} pagination={false} rowKey={(record) => record.id} />
+        <Table columns={columns} dataSource={tableList} loading={loading} pagination={false} rowKey={(record) => record.id} />
       </div>
-      <div className={styles.bottom_Pag_area}>
-        <PagiNation current={page} pageSize={pageSize} total={total} loadData={loadData}/>
-      </div>
+      {
+        tableList && tableList.length ? ( <div className={styles.bottom_Pag_area}>
+          <PagiNation current={page} pageSize={pageSize} total={total} loadData={loadData}/>
+        </div>) : null
+      }
       <RoleListModule  moduleWidth={moduleWidth} roleInfo={roleInfo} open={open} closeDrawer={closeDrawer}/>
     </div>
   )

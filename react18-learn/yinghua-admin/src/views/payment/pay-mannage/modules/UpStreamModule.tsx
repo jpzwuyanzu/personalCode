@@ -27,7 +27,7 @@ interface IProps {
   open?: boolean;
   userInfo?: any;
 }
-export default function UserListModule({
+export default function UpStreamModule({
   moduleWidth,
   userInfo,
   open,

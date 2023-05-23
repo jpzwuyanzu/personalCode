@@ -25,11 +25,11 @@ interface IProps {
   };
   closeDrawer?: () => void;
   open?: boolean;
-  userInfo?: any;
+  channelInfo?: any;
 }
-export default function UserListModule({
+export default function UpStreamModule({
   moduleWidth,
-  userInfo,
+  channelInfo,
   open,
   closeDrawer,
 }: IProps) {
@@ -54,12 +54,12 @@ export default function UserListModule({
         });
       }
       if (userForm) {
-        if (Object.keys(userInfo).length) {
+        if (Object.keys(channelInfo).length) {
           userForm.setFieldsValue({
-            name: (userInfo as any).name,
-            username: (userInfo as any).username,
-            roleid: (userInfo as any).rolesList,
-            status: (userInfo as any).status,
+            name: (channelInfo as any).name,
+            username: (channelInfo as any).username,
+            roleid: (channelInfo as any).rolesList,
+            status: (channelInfo as any).status,
           });
         } else {
           userForm.setFieldsValue({
@@ -78,13 +78,13 @@ export default function UserListModule({
     userForm
       ?.validateFields()
       .then(async (values) => {
-        if (Object.keys(userInfo).length) {
+        if (Object.keys(channelInfo).length) {
           const res: any = await createUser({
             rolesList: values.roleid,
             username: values.username,
             status: Boolean(values.status) ? 1 : 2,
             name: values.name,
-            id: userInfo.id,
+            id: channelInfo.id,
           });
           if (res && res.code && res.code === 200) {
             (closeDrawer as any)();
@@ -141,7 +141,7 @@ export default function UserListModule({
   return (
     <Drawer
       getContainer={false}
-      title={Object.keys(userInfo).length === 0 ? "新增用户" : "编辑用户"}
+      title={Object.keys(channelInfo).length === 0 ? "新增渠道" : "编辑渠道"}
       size={moduleWidth}
       placement="right"
       onClose={closeDrawer}
@@ -178,13 +178,13 @@ export default function UserListModule({
             <Col span={24}>
               <Form.Item
                 name="roleid"
-                label="用户角色"
-                rules={[{ required: true, message: "请输入用户密码" }]}
+                label="支付类型"
+                rules={[{ required: true, message: "请选择支付类型" }]}
               >
                 <Select
                   style={{ width: "100%" }}
                   onChange={() => {}}
-                  placeholder="请选择用户角色"
+                  placeholder="请选择支付类型"
                   options={[...roleList]}
                 />
               </Form.Item>
@@ -194,10 +194,10 @@ export default function UserListModule({
             <Col span={24}>
               <Form.Item
                 name="name"
-                label="用户名称"
-                rules={[{ required: true, message: "请输入用户名称" }]}
+                label="渠道名称"
+                rules={[{ required: true, message: "请输入渠道名称" }]}
               >
-                <Input placeholder="请输入用户名称" />
+                <Input placeholder="请输入渠道名称" />
               </Form.Item>
             </Col>
           </Row>
@@ -219,7 +219,7 @@ export default function UserListModule({
             </Col>
           </Row>
           {
-            Object.keys(userInfo).length === 0 ? (<><Row>
+            Object.keys(channelInfo).length === 0 ? (<><Row>
               <Col span={24}>
                 <Form.Item
                   name="password"

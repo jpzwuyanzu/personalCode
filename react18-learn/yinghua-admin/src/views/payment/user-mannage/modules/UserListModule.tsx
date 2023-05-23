@@ -65,7 +65,7 @@ export default function UserListModule({
           form.setFieldsValue({
             name: "",
             username: "",
-            roleid: "",
+            roleid: undefined,
             password: "",
             status: true,
           });

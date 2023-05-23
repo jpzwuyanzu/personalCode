@@ -1,7 +1,7 @@
 import axios from 'axios'
 import Nprogress from 'nprogress'
 import 'nprogress/nprogress'
-import { notification } from 'antd'
+import { message } from 'antd'
 
 
 //创建axios实例
@@ -36,10 +36,13 @@ service.interceptors.response.use(
                 localStorage.clear();
                 window.location.href = window.location.host+'/#/login'
             }
-            notification.open({
-                message: '错误提示',
+            message.open({
                 type: 'error',
-                description: res.msg
+                content: res.msg,
+                className: 'custom-class',
+                style: {
+                    marginTop: '20vh',
+                }
               })
               Nprogress.done()
         } else {

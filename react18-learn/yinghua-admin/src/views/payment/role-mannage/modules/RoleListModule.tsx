@@ -38,7 +38,7 @@ export default function RoleListModule({ moduleWidth,roleInfo, open, closeDrawer
   };
 
   const formPermissionData = (permissList: any) =>  {
-    console.log(permissList)
+    // console.log(permissList)
     let level_F: any = []; //所有权限项
     let permissChecked: any = []; //被选中的选项ID
     let allExpend: any = []; //所有被展开的一级菜单ID
@@ -63,7 +63,7 @@ export default function RoleListModule({ moduleWidth,roleInfo, open, closeDrawer
                     if(Number(itm.checkStatus) === 1) {
                         permissChecked.push(itm.id)
                     }
-                    console.log(itm)
+                    // console.log(itm)
                     if(itm.list && itm.list.length) {
                         itm.list.forEach((button_item: any) => {
                             let level_three: any = {
@@ -85,8 +85,8 @@ export default function RoleListModule({ moduleWidth,roleInfo, open, closeDrawer
             level_F.push(level_one)
         })
     }
-    console.log(level_F)
-    console.log(permissChecked)
+    // console.log(level_F)
+    // console.log(permissChecked)
     setExpandedKeys(allExpend)
     setCheckedKeys(permissChecked)
     setTreeData(level_F)

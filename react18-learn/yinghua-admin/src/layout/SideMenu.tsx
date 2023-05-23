@@ -31,7 +31,6 @@ const FMenu: any = {};
 const rootSubmenuKeys: any = []; 
 // 格式化处理后端的菜单数据
 const formMenuData = (menuData: any) => {
-  console.log(menuData)
   let sideMenuArr: any = []; //前端左侧菜单
   let buttonPermiss: any = []; //前端按钮权限控制
   if (menuData.length) {

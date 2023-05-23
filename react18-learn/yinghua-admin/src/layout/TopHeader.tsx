@@ -24,7 +24,6 @@ export default function TopHeader() {
   const navigate = useNavigate();
   const loginOutNow = async () => {
     const resp: any = await loginOut();
-    console.log(resp);
     if (resp.code && resp.code === 200) {
       localStorage.clear();
       sessionStorage.clear()

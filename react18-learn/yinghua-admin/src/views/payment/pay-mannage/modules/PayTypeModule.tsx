@@ -126,6 +126,7 @@ const rightTableColumns: ColumnsType<DataType> = [
     title: "占比数(%)",
     align: 'center',
     render: () => (<InputNumber
+      size="small"
       defaultValue={0}
       min={0}
       max={100}
@@ -267,8 +268,8 @@ export default function PayTypeModule({ moduleWidth, payTypeInfo, open, closeDra
         <div
           style={{
             textAlign: "right",
-            paddingBottom: "20px",
-            paddingTop: "20px",
+            paddingBottom: "10px",
+            paddingTop: "10px",
             paddingRight: "20px",
           }}
         >

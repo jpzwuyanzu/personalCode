@@ -123,7 +123,7 @@ export default function UpStreamModule({
       placement="right"
       onClose={closeDrawer}
       open={open}
-      footer={
+      extra={
         <div
           style={{
             textAlign: "right",

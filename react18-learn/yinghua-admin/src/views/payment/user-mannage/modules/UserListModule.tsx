@@ -146,7 +146,7 @@ export default function UserListModule({
       placement="right"
       onClose={closeDrawer}
       open={open}
-      footer={
+      extra={
         <div
           style={{
             textAlign: "right",

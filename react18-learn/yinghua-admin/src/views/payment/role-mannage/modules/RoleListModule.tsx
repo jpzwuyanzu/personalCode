@@ -170,7 +170,7 @@ export default function RoleListModule({ moduleWidth,roleInfo, open, closeDrawer
     placement="right" 
     onClose={closeDrawer} 
     open={open}
-    footer={
+    extra={
         <div style={{ 'textAlign': 'right', 'paddingBottom': '20px' ,'paddingTop': '20px','paddingRight': '20px' }}>
             <Space>
         <Button type='primary' danger onClick={closeDrawer}>取消</Button>

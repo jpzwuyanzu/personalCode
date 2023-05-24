@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import {
   Button,
   Col,
@@ -13,8 +13,8 @@ import {
 } from "antd";
 import { respMessage } from '@/utils/message'
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
-import MD5 from "md5";
-import { createUser, loadRoleList } from "@/api/index";
+import { upDateUpStreamChannel, upStreamMerchant } from "@/api/index";
+import styles from './UpStreamModule.module.scss'
 
 interface IProps {
   moduleWidth?: any;
@@ -25,72 +25,60 @@ interface IProps {
   };
   closeDrawer?: () => void;
   open?: boolean;
-  userInfo?: any;
+  merchantInfo?: any;
 }
+
+const creditTypeArr: any = [{value: 0,label: '信用模式'},{value: 1,label: '非信用模式'}] //商户模式
+
 export default function UpStreamModule({
   moduleWidth,
-  userInfo,
+  merchantInfo,
   open,
   closeDrawer,
 }: IProps) {
-  const [userForm] = Form.useForm();
-  const [roleList, SetRoleList] = useState<any[]>([]);
+  const [merchantForm] = Form.useForm();
+
+
+
 
   const fetchData = async () => {
     if (open) {
-      const data: any = await loadRoleList({});
-      if (data && data.code && data.code === 200) {
-        let filterRoleList: any[] = [];
-        if (data.page.list && data.page.list.length) {
-          data.page.list.forEach((itm: any) => {
-            filterRoleList.push({ value: itm.id, label: itm.name });
-          });
-        }
-        SetRoleList(filterRoleList);
-      } else {
-        message.open({
-          type: "error",
-          content: respMessage[String(data.code)]
-        });
-      }
-      if (userForm) {
-        if (Object.keys(userInfo).length) {
-          userForm.setFieldsValue({
-            name: (userInfo as any).name,
-            username: (userInfo as any).username,
-            roleid: (userInfo as any).rolesList,
-            status: (userInfo as any).status,
+      if (merchantForm) {
+        //编辑
+        if (Object.keys(merchantInfo).length) {
+          merchantForm.setFieldsValue({
+            channelName: (merchantInfo as any).channelName,
+            creditType: (merchantInfo as any).creditType,
+            status: Number((merchantInfo as any).status) === 1 ? true : false,
+            
+            
           });
         } else {
-          userForm.setFieldsValue({
-            name: "",
-            username: "",
-            roleid: undefined,
-            password: "",
-            status: true,
+          //新增
+          merchantForm.setFieldsValue({
+            channelName: "",
+            creditType: undefined,
+            status: true
           });
         }
       }
     }
   };
 
-  const confirmEditUser = async () => {
-    userForm
+  const confirmEditChannel = async () => {
+    merchantForm
       ?.validateFields()
       .then(async (values) => {
-        if (Object.keys(userInfo).length) {
-          const res: any = await createUser({
-            rolesList: values.roleid,
-            username: values.username,
+        if (Object.keys(merchantInfo).length) {
+          const res: any = await upDateUpStreamChannel({
+            ...values,
             status: Boolean(values.status) ? 1 : 2,
-            name: values.name,
-            id: userInfo.id,
           });
           if (res && res.code && res.code === 200) {
             (closeDrawer as any)();
             message.open({
               type: "success",
-              content: "创建成功",
+              content: "编辑成功",
             });
           } else {
             message.open({
@@ -99,19 +87,9 @@ export default function UpStreamModule({
             });
           }
         } else {
-          if(String(values.password) !== String(values.confirmPassword)) {
-            userForm.setFieldsValue({ 'confirmPassword': '' })
-            message.open({
-              type: "error",
-              content: '两次输入的密码不一致!',
-            });
-          } else {
-            const res: any = await createUser({
-              rolesList: values.roleid,
-              username: values.username,
+            const res: any = await upDateUpStreamChannel({
+              ...values,
               status: Boolean(values.status) ? 1 : 2,
-              password: MD5(values.password),
-              name: values.name,
             });
             if (res && res.code && res.code === 200) {
               (closeDrawer as any)();
@@ -125,7 +103,6 @@ export default function UpStreamModule({
                 content: respMessage[String(res.code)]
               });
             }
-          }
           
         }
       })
@@ -141,7 +118,7 @@ export default function UpStreamModule({
   return (
     <Drawer
       getContainer={false}
-      title={Object.keys(userInfo).length === 0 ? "新增用户" : "编辑用户"}
+      title={Object.keys(merchantInfo).length === 0 ? "新增商户" : "编辑商户"}
       size={moduleWidth}
       placement="right"
       onClose={closeDrawer}
@@ -159,7 +136,7 @@ export default function UpStreamModule({
             <Button type="primary" danger onClick={closeDrawer}>
               取消
             </Button>
-            <Button type="primary" onClick={confirmEditUser}>
+            <Button type="primary" onClick={confirmEditChannel}>
               确认
             </Button>
           </Space>
@@ -167,95 +144,47 @@ export default function UpStreamModule({
       }
     >
       {open ? (
-        <Form
+        <div style={{ overflowY: 'scroll' }}>
+          <Form
           layout="horizontal"
-          form={userForm}
+          form={merchantForm}
+          labelCol={{ span: 7 }}
+          wrapperCol={{ span: 17 }}
           initialValues={{
             status: true,
+            rate: 0
           }}
         >
+           <Row>
+            <Col span={24}>
+              <Form.Item
+                name="channelName"
+                label="商户名称"
+                rules={[{ required: true, message: "请输入商户名称" }]}
+              >
+                <Input placeholder="请输入商户名称" />
+              </Form.Item>
+            </Col>
+          </Row>
           <Row>
             <Col span={24}>
               <Form.Item
-                name="roleid"
-                label="用户角色"
-                rules={[{ required: true, message: "请输入用户密码" }]}
+                name="creditType"
+                label="商户模式"
+                rules={[{ required: true, message: "请选择商户模式" }]}
               >
                 <Select
                   style={{ width: "100%" }}
                   onChange={() => {}}
-                  placeholder="请选择用户角色"
-                  options={[...roleList]}
+                  placeholder="请选择商户模式"
+                  options={[...creditTypeArr]}
                 />
               </Form.Item>
             </Col>
           </Row>
           <Row>
             <Col span={24}>
-              <Form.Item
-                name="name"
-                label="用户名称"
-                rules={[{ required: true, message: "请输入用户名称" }]}
-              >
-                <Input placeholder="请输入用户名称" />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={24}>
-              <Form.Item
-                name="username"
-                label="用户账号"
-                rules={[
-                  {
-                    required: true,
-                    pattern: /^[a-zA-Z0-9]{5,}$/,
-                    message: "账号最少5位,字母和数字",
-                  },
-                ]}
-              >
-                <Input placeholder="请输入用户账号" />
-              </Form.Item>
-            </Col>
-          </Row>
-          {
-            Object.keys(userInfo).length === 0 ? (<><Row>
-              <Col span={24}>
-                <Form.Item
-                  name="password"
-                  label="用户密码"
-                  rules={[
-                    {
-                      required: true,
-                      pattern: /^[a-zA-Z0-9]{5,}$/,
-                      message: "密码最少5位,字母和数字",
-                    },
-                  ]}
-                >
-                  <Input.Password placeholder="请输入用户密码" />
-                </Form.Item>
-              </Col>
-            </Row><Row>
-                <Col span={24}>
-                  <Form.Item
-                    name="confirmPassword"
-                    label="确认密码"
-                    rules={[
-                      {
-                        required: true,
-                        pattern: /^[a-zA-Z0-9]{5,}$/,
-                        message: "密码最少5位,字母和数字",
-                      },
-                    ]}
-                  >
-                    <Input.Password placeholder="请输入用户密码" />
-                  </Form.Item>
-                </Col>
-              </Row></>) : null
-          }
-          <Row>
-            <Col span={24}>
-              <Form.Item name="status" label="用户状态" valuePropName="checked">
+              <Form.Item name="status" label="商户状态" valuePropName="checked">
                 <Switch
                   checkedChildren={<CheckOutlined />}
                   unCheckedChildren={<CloseOutlined />}
@@ -264,6 +193,7 @@ export default function UpStreamModule({
             </Col>
           </Row>
         </Form>
+        </div>
       ) : null}
     </Drawer>
   );

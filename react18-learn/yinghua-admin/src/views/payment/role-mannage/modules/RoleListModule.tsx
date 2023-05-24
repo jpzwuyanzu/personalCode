@@ -122,6 +122,10 @@ export default function RoleListModule({ moduleWidth,roleInfo, open, closeDrawer
            const res: any = await editRole({ id: roleInfo.id ,name: values.name, resourceIdList: checkedKeys.concat(halfCheckedKeys),  status: Number(roleInfo.status) })
            if(res.code === 200) {
             (closeDrawer as any)()
+            message.open({
+              type: "success",
+              content: "编辑成功",
+            });
         } else {
             message.open({
                 type: 'error',
@@ -132,6 +136,10 @@ export default function RoleListModule({ moduleWidth,roleInfo, open, closeDrawer
             const res: any = await addRole({ name: values.name, resourceIdList: checkedKeys.concat(halfCheckedKeys), status: 1 })
             if(res.code === 200) {
                 (closeDrawer as any)()
+                message.open({
+                  type: "success",
+                  content: "创建成功",
+                });
             } else {
                 message.open({
                     type: 'error',
@@ -171,7 +179,8 @@ export default function RoleListModule({ moduleWidth,roleInfo, open, closeDrawer
         </div>
     }
     >
-    <Form layout="horizontal" form={ roleForm }>
+    <Form layout="horizontal" form={ roleForm } labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}>
           <Row>
             <Col span={24}>
               <Form.Item

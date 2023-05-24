@@ -57,7 +57,9 @@ const RoleList: React.FC = () => {
   }
 
   const switchRoleStatus = async (checked: boolean, roleId: any) => {
+    setLoading(true)
     const resp: any = await editRole({ id:roleId,  status: Number(Boolean(checked)) })
+    setLoading(false)
     if(resp.code && resp.code === 200) {
       message.open({
         type: 'success',

@@ -90,7 +90,7 @@ export default function UserListModule({
             (closeDrawer as any)();
             message.open({
               type: "success",
-              content: "创建成功",
+              content: "编辑成功",
             });
           } else {
             message.open({
@@ -169,6 +169,8 @@ export default function UserListModule({
       {open ? (
         <Form
           layout="horizontal"
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
           form={userForm}
           initialValues={{
             status: true,

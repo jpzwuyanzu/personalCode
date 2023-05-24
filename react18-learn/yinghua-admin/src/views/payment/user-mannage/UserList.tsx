@@ -69,7 +69,9 @@ const UserList: React.FC = () => {
   }
 
   const switchUserStatus = async (checked: boolean, userId: any) => {
+    setLoading(true)
     const resp: any = await createUser({ id:userId,  status: Number(Boolean(checked) ? 1 : 2) })
+    setLoading(false)
     if(resp && resp.code && resp.code === 200) {
       message.open({
         type: 'success',

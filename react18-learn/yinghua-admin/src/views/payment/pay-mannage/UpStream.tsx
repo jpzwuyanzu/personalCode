@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { Space, Table, Button,Form, Input, Col, Row, message, Switch, Popconfirm,Select } from "antd";
+import React, { useState, useEffect, useCallback } from "react";
+import { Space, Table, Button,Form, Input, Col, Row, message, Switch, Select, Tag, Statistic } from "antd";
 import { respMessage } from '@/utils/message'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import type { ColumnsType } from "antd/es/table";
 import PagiNation from "@/components/PagiNation";
-import { upStreamChannelList, createUser, delUser } from '@/api/index'
-import dayjs from "dayjs";
+import { upStreamMerchant, upDateUpStreamMerchant } from '@/api/index'
+// import dayjs from "dayjs";
 import UpStreamModule from "./modules/UpStreamModule";
 import JudgePemission from "@/components/JudgePemission";
 import styles from "./UpStream.module.scss";
@@ -26,11 +26,9 @@ const UpStream: React.FC = () => {
   const [tableList, setTableList] = useState<any[]>([]);
   const [open, setOpen] = useState(false);
   const [moduleWidth, setModuleWidth] = useState('');
-  const [userInfo, setUserInfo] = useState({});
+  const [merchantInfo, setMerchantInfo] = useState({});
   const [loading, setLoading] = useState<boolean>(false);
-  const [modalStatus, setModalStatus] = useState(false);
-  const [searchUserForm] = Form.useForm();
-
+  const [searchMerchantForm] = Form.useForm();
 
   const onFinish = (values: any) => {
     console.log("Success:", values);
@@ -42,7 +40,7 @@ const UpStream: React.FC = () => {
   };
 
   const resetParams = () => {
-    searchUserForm?.setFieldsValue({ 'username': '', status: 0 })
+    searchMerchantForm?.setFieldsValue({ 'channelName': '', status: 0, creditType: '' })
     fetchData({})
   }
 
@@ -53,7 +51,7 @@ const UpStream: React.FC = () => {
   }
   const fetchData = async (params?: any) => {
     setLoading(true)
-    const data: any = await upStreamChannelList({ page, pageSize, ...params })
+    const data: any = await upStreamMerchant({ page, pageSize, ...params })
     setLoading(false)
     console.log(data)
     if(data && data.code && data.code === 200) {
@@ -67,8 +65,10 @@ const UpStream: React.FC = () => {
     }
   }
 
-  const switchUserStatus = async (checked: boolean, userId: any) => {
-    const resp: any = await createUser({ id:userId,  status: Number(Boolean(checked) ? 1 : 2) })
+  const switchMerchantStatus = async (checked: boolean, channelId: any) => {
+    setLoading(true)
+    const resp: any = await upDateUpStreamMerchant({ id: channelId,  status: Number(Boolean(checked) ? 1 : 2) })
+    setLoading(false)
     if(resp && resp.code && resp.code === 200) {
       message.open({
         type: 'success',
@@ -83,230 +83,254 @@ const UpStream: React.FC = () => {
     }
   }
 
-  const confirmDelRole = async (userId: any) => {
-    const resp: any = await delUser({ id: userId })
-    if(resp && resp.code && resp.code === 200) {
-      fetchData({})
-    } else {
-      message.open({
-        type: 'error',
-        content: respMessage[String(resp.code)]
-      })
-    }
-  }
+  // const confirmDelChannel = async (userId: any) => {
+  //   const resp: any = await delUser({ id: userId })
+  //   if(resp && resp.code && resp.code === 200) {
+  //     fetchData({})
+  //   } else {
+  //     message.open({
+  //       type: 'error',
+  //       content: respMessage[String(resp.code)]
+  //     })
+  //   }
+  // }
 
   const columns: ColumnsType<DataType> = [
     {
-      title: "渠道名称",
+      title: "商户名称",
       dataIndex: "channelName",
       key: "channelName",
       align: 'center',
       render: (text) => <span style={{ 'whiteSpace': 'nowrap' }}>{text}</span>,
-      width: 180,
+      width: 150,
       fixed: 'left'
     },
     {
-      title: "渠道CODE",
-      dataIndex: "payCode",
+      title: "商户模式",
+      dataIndex: "creditType",
       align: 'center',
-      key: "payCode",
-      width: 150,
+      key: "creditType",
+      width: 100,
+      render: (text: any) => <Tag  color={ Number(text) === 0 ? 'cyan' : 'volcano' }>{ Number(text) === 0 ? '信用模式' : '非信用模式'  }</Tag>
     },
     {
-      title: "支付类型",
-      dataIndex: "payType",
-      align: 'center',
-      key: "payType",
-      width: 150
-    },
-    {
-      title: "支持金额",
-      dataIndex: "amountList",
-      align: 'center',
-      key: "amountList",
-      width: 150
-    },
-    {
-      title: "费率",
-      dataIndex: "rate",
-      align: 'center',
-      key: "rate",
-      width: 150
-    },
-    {
-      title: "状态",
+      title: "商户状态",
       dataIndex: "status",
       align: 'center',
       key: "status",
-      width: 150
+      width: 100,
+      render: (text, record: any) => (
+        <>
+          <Switch
+            checkedChildren={<CheckOutlined />}
+            unCheckedChildren={<CloseOutlined />}
+            checked={ Number(text) === 1 ? true : false }
+            onClick={ (checked: boolean) => switchMerchantStatus(checked, record.id) }
+          />
+        </>
+      )
     },
     {
-      title: "最小金额",
-      dataIndex: "minAmount",
+      title: "预付金额(CNY)",
+      dataIndex: "prepaidAmount",
       align: 'center',
-      key: "minAmount",
-      width: 150
+      key: "prepaidAmount",
+      width: 150,
+      render: (text) => <Statistic title="" valueStyle={{ fontSize: '15px' }} value={text} />
     },
     {
-      title: "最大金额",
-      dataIndex: "maxAmount",
+      title: "每日跑款金额",
+      dataIndex: "todayRunAmount",
       align: 'center',
-      key: "maxAmount",
-      width: 150
+      key: "todayRunAmount",
+      width: 150,
+      render: (text) => <Statistic title="" valueStyle={{ fontSize: '15px' }} value={text} />
     },
     {
-      title: "三方账户",
-      dataIndex: "merchantNo",
+      title: "总付款金额",
+      dataIndex: "totalSuccessAmount",
       align: 'center',
-      key: "merchantNo",
-      width: 300
-    },
-    // {
-    //   title: "三方网关",
-    //   dataIndex: "gatewayUrl",
-    //   align: 'center',
-    //   key: "gatewayUrl",
-    //   width: 150
-    // },
-    // {
-    //   title: "商户KEY",
-    //   dataIndex: "merchantCert",
-    //   align: 'center',
-    //   key: "merchantCert",
-    //   width: 300
-    // },
-    {
-      title: "回调IP",
-      dataIndex: "callbackIp",
-      align: 'center',
-      key: "callbackIp",
-      width: 300
+      key: "totalSuccessAmount",
+      width: 150,
+      render: (text) => <Statistic title="" valueStyle={{ fontSize: '15px' }} value={text} />
     },
     {
-      title: "支持平台",
-      dataIndex: "platformType",
+      title: "总费用",
+      dataIndex: "totalFee",
       align: 'center',
-      key: "platformType",
-      width: 150
+      key: "totalFee",
+      width: 150,
+      render: (text) => <Statistic title="" valueStyle={{ fontSize: '15px' }} value={text} />
     },
     {
-      title: "支持产品",
-      dataIndex: "channelMode",
+      title: "总成功单数",
+      dataIndex: "totalSuccessOrder",
       align: 'center',
-      key: "channelMode",
-      width: 150
+      key: "totalSuccessOrder",
+      width: 150,
+      render: (text) => <Statistic title="" valueStyle={{ fontSize: '15px' }} value={text} />
     },
     {
-      title: "是否拉新",
-      dataIndex: "isNew",
+      title: "总订单数",
+      dataIndex: "totalOrder",
       align: 'center',
-      key: "isNew",
-      width: 150
+      key: "totalOrder",
+      width: 150,
+      render: (text) => <Statistic title="" valueStyle={{ fontSize: '15px' }} value={text} />
     },
     {
-      title: "是否内层展示",
-      dataIndex: "inside",
+      title: "总金额",
+      dataIndex: "totalAmount",
       align: 'center',
-      key: "inside",
-      width: 150
-    },
-    {
-      title: "上游商户ID",
-      dataIndex: "merchantId",
-      align: 'center',
-      key: "merchantId",
-      width: 150
-    },
-    // {
-    //   title: "用户状态",
-    //   dataIndex: "status",
-    //   align: 'center',
-    //   key: "status",
-    //   render: (text, record: any) => (
-    //     <>
-    //       <Switch
-    //         checkedChildren={<CheckOutlined />}
-    //         unCheckedChildren={<CloseOutlined />}
-    //         checked={ Number(text) === 1 ? true : false }
-    //         onClick={ (checked: boolean) => switchUserStatus(checked, record.id) }
-    //       />
-    //     </>
-    //   )
-    // },
-    {
-      title: "创建时间",
-      dataIndex: "createTime",
-      align: 'center',
-      key: "createTime",
-      width: 180,
-      render: (text) => <>{dayjs(text).format('YYYY-MM-DD hh:mm:ss')}</>
-    },
-    {
-      title: "更新时间",
-      key: "updateTime",
-      align: 'center',
-      dataIndex: "updateTime",
-      width: 180,
-      render: (text) => <>{dayjs(text).format('YYYY-MM-DD hh:mm:ss')}</>
+      key: "totalAmount",
+      width: 150,
+      render: (text) => <Statistic title="" valueStyle={{ fontSize: '15px' }} value={text} />
     },
     {
       title: "操作",
       key: "action",
       align: 'center',
       fixed: 'right',
-      width: 300,
+      width: 150,
       render: (_, record: any) => (
         <Space size="middle">
-          <JudgePemission pageUrl={'/payment/userlist_133'}>
-          <Button type="primary" onClick={() => openDrawer('378px', record)}>编辑用户</Button>
+          <JudgePemission pageUrl={'/payment/channellist_361'}>
+          <Button type="primary" onClick={() => openDrawer('375px', record)}>编辑商户</Button>
           </JudgePemission>
-          <Button type="dashed" danger onClick={() => openModal(record)}>重置密码</Button>
-          <JudgePemission pageUrl={'/payment/userlist_134'}>
+          {/* <JudgePemission pageUrl={'/payment/userlist_134'}>
           <Popconfirm
             title="删除"
             description="你确认删除该用户吗?"
-            onConfirm={ () => confirmDelRole(record.id) }
+            onConfirm={ () => confirmDelChannel(record.id) }
             onCancel={() => {}}
             okText="是"
             cancelText="否"
           >
-            <Button type="primary" danger>删除用户</Button>
+            <Button type="primary" danger>删除渠道</Button>
           </Popconfirm>
-          </JudgePemission>
+          </JudgePemission> */}
         </Space>
       ),
     },
   ];
 
   //新增/编辑用户
-  const openDrawer = (moduleWidth: string, userInfo: any) => {
+  const openDrawer = (moduleWidth: string, merchantInfo: any) => {
     setModuleWidth(moduleWidth)
-    setUserInfo(userInfo)
+    setMerchantInfo(merchantInfo)
     setOpen(true)
   }
   //关闭抽屉
-  const closeDrawer = () => {
+  const closeDrawer = useCallback(() => {
     setOpen(false)
     fetchData({})
-  }
-  //打开重置密码
-  const openModal = (userInfo: any) => {
-    console.log('0-0-0-')
-    setUserInfo(userInfo)
-    setModalStatus(true)
-  }
-  //关闭重置密码
-  const closeModal = () => {
-    setModalStatus(false)
-    fetchData({})
-  }
+  }, [open])
 
   useEffect( () => {
     fetchData({})
   }, [])
 
   return (
-    <div>上游商户</div>
+    <div className={styles.TableCom_Container}>
+      <div className={styles.Table_ContentArea}>
+        <Form
+          form={searchMerchantForm}
+          name="basic"
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 16 }}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          autoComplete="off"
+          initialValues={{
+            status: 0,
+            creditType: ''
+            }}
+        >
+          <Row justify="start">
+            <Col span={4}>
+              <Form.Item
+                label="商户名称"
+                name="channelName"
+                rules={[
+                  { required: false, message: "请输入商户名称!" },
+                ]}
+              >
+                <Input placeholder="请输入商户名称" allowClear={true}/>
+              </Form.Item>
+            </Col>
+            <Col span={4}>
+              
+              <Form.Item
+                label="商户状态"
+                name="status"
+                rules={[
+                  { required: false, message: "请选择商户状态!" },
+                ]}
+              >
+                <Select
+                style={{ width: '100%' }}
+                onChange={() => {}}
+                options={[
+                  { value: 0, label: '全部' },
+                  { value: 1, label: '启用' },
+                  { value: 2, label: '禁用' },
+                ]}
+              />
+              </Form.Item>
+            </Col>
+            <Col span={4}>
+            <Form.Item
+                label="商户模式"
+                name="creditType"
+                rules={[
+                  { required: false, message: "请选择支付类型!" },
+                ]}
+              >
+                <Select
+                style={{ width: '100%' }}
+                onChange={() => {}}
+                options={[
+                  { value: '', label: '全部' },
+                  { value: 0, label: '信用模式' },
+                  { value: 1, label: '非信用模式' },
+                ]}
+              />
+              </Form.Item>
+            </Col>
+            {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
+            <Col span={1}>
+              <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
+                <Button type="primary" htmlType="submit">
+                  搜索
+                </Button>
+              </Form.Item>
+            </Col>
+            {/* </JudgePemission> */}
+            <Col span={1}>
+              <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
+                <Button type="primary" style={{ marginLeft: '13px', }} onClick={() => resetParams()}>
+                  重置
+                </Button>
+              </Form.Item>
+            </Col>
+            {/* <JudgePemission pageUrl={'/payment/userlist_132'}>
+            <Col span={1}>
+              <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
+                <Button type="primary" style={{ marginLeft: '19px' }} onClick={() => openDrawer('375px', {})}>
+                  新增商户
+                </Button>
+              </Form.Item>
+            </Col>
+            </JudgePemission> */}
+          </Row>
+        </Form>
+        <Table columns={columns} dataSource={tableList} loading={ loading }  pagination={false} rowKey={(record) => record.id} scroll={{ y:'34vw'}}/>
+      </div>
+      <div className={styles.bottom_Pag_area}>
+        <PagiNation current={page} pageSize={pageSize} total={total} loadData={loadData}/>
+      </div>
+      <UpStreamModule moduleWidth={moduleWidth} merchantInfo={merchantInfo} open={open} closeDrawer={closeDrawer}/>
+    </div>
   )
 };
 

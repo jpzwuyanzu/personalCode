@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Space, Table, Button,Form, Input, Col, Row, message, Switch, Popconfirm,Select, Tag } from "antd";
+import { Space, Table, Button,Form, Input, Col, Row, message, Switch, Select, Tag } from "antd";
 import { respMessage } from '@/utils/message'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import type { ColumnsType } from "antd/es/table";
 import PagiNation from "@/components/PagiNation";
-import { upStreamChannelList, createUser, delUser } from '@/api/index'
-import dayjs from "dayjs";
+import { upStreamChannelList, upDateUpStreamChannel } from '@/api/index'
+// import dayjs from "dayjs";
 import ChannelModule from "./modules/ChannelModule";
 import JudgePemission from "@/components/JudgePemission";
 import styles from "./UpStream.module.scss";
@@ -28,8 +28,7 @@ const ChannelList: React.FC = () => {
   const [moduleWidth, setModuleWidth] = useState('');
   const [channelInfo, setChannelInfo] = useState({});
   const [loading, setLoading] = useState<boolean>(false);
-  const [modalStatus, setModalStatus] = useState(false);
-  const [searchUserForm] = Form.useForm();
+  const [searchChannelForm] = Form.useForm();
 
   const onFinish = (values: any) => {
     console.log("Success:", values);
@@ -41,7 +40,7 @@ const ChannelList: React.FC = () => {
   };
 
   const resetParams = () => {
-    searchUserForm?.setFieldsValue({ 'username': '', status: 0 })
+    searchChannelForm?.setFieldsValue({ 'channelName': '', status: 0, payType: '' })
     fetchData({})
   }
 
@@ -66,8 +65,10 @@ const ChannelList: React.FC = () => {
     }
   }
 
-  const switchUserStatus = async (checked: boolean, userId: any) => {
-    const resp: any = await createUser({ id:userId,  status: Number(Boolean(checked) ? 1 : 2) })
+  const switchChannelStatus = async (checked: boolean, channelId: any) => {
+    setLoading(true)
+    const resp: any = await upDateUpStreamChannel({ id: channelId,  status: Number(Boolean(checked) ? 1 : 2) })
+    setLoading(false)
     if(resp && resp.code && resp.code === 200) {
       message.open({
         type: 'success',
@@ -82,17 +83,17 @@ const ChannelList: React.FC = () => {
     }
   }
 
-  const confirmDelRole = async (userId: any) => {
-    const resp: any = await delUser({ id: userId })
-    if(resp && resp.code && resp.code === 200) {
-      fetchData({})
-    } else {
-      message.open({
-        type: 'error',
-        content: respMessage[String(resp.code)]
-      })
-    }
-  }
+  // const confirmDelChannel = async (userId: any) => {
+  //   const resp: any = await delUser({ id: userId })
+  //   if(resp && resp.code && resp.code === 200) {
+  //     fetchData({})
+  //   } else {
+  //     message.open({
+  //       type: 'error',
+  //       content: respMessage[String(resp.code)]
+  //     })
+  //   }
+  // }
 
   const columns: ColumnsType<DataType> = [
     {
@@ -105,19 +106,36 @@ const ChannelList: React.FC = () => {
       fixed: 'left'
     },
     {
-      title: "渠道CODE",
-      dataIndex: "payCode",
+      title: "渠道状态",
+      dataIndex: "status",
       align: 'center',
-      key: "payCode",
+      key: "status",
       width: 150,
+      render: (text, record: any) => (
+        <>
+          <Switch
+            checkedChildren={<CheckOutlined />}
+            unCheckedChildren={<CloseOutlined />}
+            checked={ Number(text) === 1 ? true : false }
+            onClick={ (checked: boolean) => switchChannelStatus(checked, record.id) }
+          />
+        </>
+      )
     },
-    {
-      title: "上游商户ID",
-      dataIndex: "merchantId",
-      align: 'center',
-      key: "merchantId",
-      width: 150
-    },
+    // {
+    //   title: "渠道CODE",
+    //   dataIndex: "payCode",
+    //   align: 'center',
+    //   key: "payCode",
+    //   width: 150,
+    // },
+    // {
+    //   title: "上游商户ID",
+    //   dataIndex: "merchantId",
+    //   align: 'center',
+    //   key: "merchantId",
+    //   width: 150
+    // },
     {
       title: "支付类型",
       dataIndex: "payType",
@@ -138,8 +156,8 @@ const ChannelList: React.FC = () => {
       dataIndex: "amountList",
       align: 'center',
       key: "amountList",
-      width: 150,
-      render: (text: any) => text  ? text.map((item: any, index: any) => <Tag key={index} color="green">{item}</Tag>) : <Tag  color="#f50">暂无数据</Tag>
+      width: 200,
+      render: (text: any) => text  ? text.map((item: any, index: any) => <Tag key={index} color="green">¥{item}</Tag>) : <Tag  color="#f50">暂无数据</Tag>
     },
     {
       title: "支持平台",
@@ -170,85 +188,69 @@ const ChannelList: React.FC = () => {
       align: 'center',
       key: "isNew",
       width: 150,
-      render: (text: any) => <Tag color={ text === 0 ? 'purple' : '#f50' }>{text === 0 ? '是' : '否'}</Tag>
+      render: (text: any) => <Tag color={ text === 0 ? 'purple' : '#348FFF' }>{text === 0 ? '拉新通道' : '正常'}</Tag>
     },
+    // {
+    //   title: "是否内层保护",
+    //   dataIndex: "inside",
+    //   align: 'center',
+    //   key: "inside",
+    //   width: 100,
+    //   render: (text: any) => <Tag color={ text === 0 ? 'purple' : '#f50' }>{text === 0 ? '是' : '否'}</Tag>
+    // },
     {
-      title: "是否内层保护",
-      dataIndex: "inside",
-      align: 'center',
-      key: "inside",
-      width: 150,
-      render: (text: any) => <Tag color={ text === 0 ? 'purple' : '#f50' }>{text === 0 ? '是' : '否'}</Tag>
-    },
-    {
-      title: "费率",
+      title: "手续费率 %",
       dataIndex: "rate",
       align: 'center',
       key: "rate",
-      width: 150
+      width: 100,
+      render: (text: any) => <span>{(((Number(text) as any)*100).toFixed(2))} %</span>
     },
-    {
-      title: "渠道状态",
-      dataIndex: "status",
-      align: 'center',
-      key: "status",
-      width: 150,
-      render: (text, record: any) => (
-        <>
-          <Switch
-            checkedChildren={<CheckOutlined />}
-            unCheckedChildren={<CloseOutlined />}
-            checked={ Number(text) === 1 ? true : false }
-            onClick={ (checked: boolean) => switchUserStatus(checked, record.id) }
-          />
-        </>
-      )
-    },
-    {
-      title: "最小金额",
-      dataIndex: "minAmount",
-      align: 'center',
-      key: "minAmount",
-      width: 150
-    },
-    {
-      title: "最大金额",
-      dataIndex: "maxAmount",
-      align: 'center',
-      key: "maxAmount",
-      width: 150
-    },
-    {
-      title: "三方账户",
-      dataIndex: "merchantNo",
-      align: 'center',
-      key: "merchantNo",
-      width: 300
-    },
-    {
-      title: "回调IP",
-      dataIndex: "callbackIp",
-      align: 'center',
-      key: "callbackIp",
-      width: 300
-    },
+    // {
+    //   title: "最小金额",
+    //   dataIndex: "minAmount",
+    //   align: 'center',
+    //   key: "minAmount",
+    //   width: 150
+    // },
+    // {
+    //   title: "最大金额",
+    //   dataIndex: "maxAmount",
+    //   align: 'center',
+    //   key: "maxAmount",
+    //   width: 150
+    // },
+    // {
+    //   title: "三方账户",
+    //   dataIndex: "merchantNo",
+    //   align: 'center',
+    //   key: "merchantNo",
+    //   width: 300
+    // },
+    // {
+    //   title: "回调IP",
+    //   dataIndex: "callbackIp",
+    //   align: 'center',
+    //   key: "callbackIp",
+    //   width: 300
+    // },
     
-    {
-      title: "创建时间",
-      dataIndex: "createTime",
-      align: 'center',
-      key: "createTime",
-      width: 180,
-      render: (text) => <>{dayjs(text).format('YYYY-MM-DD hh:mm:ss')}</>
-    },
-    {
-      title: "更新时间",
-      key: "updateTime",
-      align: 'center',
-      dataIndex: "updateTime",
-      width: 180,
-      render: (text) => <>{dayjs(text).format('YYYY-MM-DD hh:mm:ss')}</>
-    },
+    // {
+    //   title: "创建时间",
+    //   dataIndex: "createTime",
+    //   align: 'center',
+    //   key: "createTime",
+    //   width: 180,
+    //   render: (text) => <>{dayjs(text).format('YYYY-MM-DD hh:mm:ss')}</>
+    // },
+    // {
+    //   title: "更新时间",
+    //   key: "updateTime",
+    //   align: 'center',
+    //   dataIndex: "updateTime",
+    //   width: 180,
+    //   render: (text) => <>{dayjs(text).format('YYYY-MM-DD hh:mm:ss')}</>
+    // },
     {
       title: "操作",
       key: "action",
@@ -257,14 +259,14 @@ const ChannelList: React.FC = () => {
       width: 150,
       render: (_, record: any) => (
         <Space size="middle">
-          <JudgePemission pageUrl={'/payment/userlist_133'}>
-          <Button type="primary" onClick={() => openDrawer('378px', record)}>编辑渠道</Button>
+          <JudgePemission pageUrl={'/payment/channellist_361'}>
+          <Button type="primary" onClick={() => openDrawer('large', record)}>编辑渠道</Button>
           </JudgePemission>
           {/* <JudgePemission pageUrl={'/payment/userlist_134'}>
           <Popconfirm
             title="删除"
             description="你确认删除该用户吗?"
-            onConfirm={ () => confirmDelRole(record.id) }
+            onConfirm={ () => confirmDelChannel(record.id) }
             onCancel={() => {}}
             okText="是"
             cancelText="否"
@@ -297,7 +299,7 @@ const ChannelList: React.FC = () => {
     <div className={styles.TableCom_Container}>
       <div className={styles.Table_ContentArea}>
         <Form
-          form={searchUserForm}
+          form={searchChannelForm}
           name="basic"
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 16 }}
@@ -306,7 +308,7 @@ const ChannelList: React.FC = () => {
           autoComplete="off"
           initialValues={{
             status: 0,
-            payType: 0
+            payType: ''
             }}
         >
           <Row justify="start">
@@ -353,7 +355,7 @@ const ChannelList: React.FC = () => {
                 style={{ width: '100%' }}
                 onChange={() => {}}
                 options={[
-                  { value: 0, label: '全部' },
+                  { value: '', label: '全部' },
                   { value: 'WX_PAY', label: '微信支付' },
                   { value: 'ALI_PAY', label: '支付宝' },
                   { value: 'UNION_PAY', label: '银联支付' },
@@ -361,7 +363,7 @@ const ChannelList: React.FC = () => {
               />
               </Form.Item>
             </Col>
-            <JudgePemission pageUrl={'/payment/userlist_131'}>
+            {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
             <Col span={1}>
               <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
                 <Button type="primary" htmlType="submit">
@@ -369,7 +371,7 @@ const ChannelList: React.FC = () => {
                 </Button>
               </Form.Item>
             </Col>
-            </JudgePemission>
+            {/* </JudgePemission> */}
             <Col span={1}>
               <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
                 <Button type="primary" style={{ marginLeft: '13px', }} onClick={() => resetParams()}>
@@ -380,15 +382,15 @@ const ChannelList: React.FC = () => {
             {/* <JudgePemission pageUrl={'/payment/userlist_132'}>
             <Col span={1}>
               <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
-                <Button type="primary" style={{ marginLeft: '19px' }} onClick={() => openDrawer('378px', {})}>
-                  新增用户
+                <Button type="primary" style={{ marginLeft: '19px' }} onClick={() => openDrawer('large', {})}>
+                  新增渠道
                 </Button>
               </Form.Item>
             </Col>
             </JudgePemission> */}
           </Row>
         </Form>
-        <Table columns={columns} dataSource={tableList} loading={ loading }  pagination={false} rowKey={(record) => record.id} scroll={{x: 3800, y:'34vw'}}/>
+        <Table columns={columns} dataSource={tableList} loading={ loading }  pagination={false} rowKey={(record) => record.id} scroll={{ y:'34vw'}}/>
       </div>
       <div className={styles.bottom_Pag_area}>
         <PagiNation current={page} pageSize={pageSize} total={total} loadData={loadData}/>

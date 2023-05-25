@@ -18,7 +18,7 @@ import { respMessage } from "@/utils/message";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
 import PagiNation from "@/components/PagiNation";
-import { upStreamMerchant, upDateUpStreamMerchant, payTypeList } from "@/api/index";
+import { upStreamMerchant, upDatePayTypeList, payTypeList } from "@/api/index";
 // import dayjs from "dayjs";
 import PayTypeModule from "./modules/PayTypeModule";
 import JudgePemission from "@/components/JudgePemission";
@@ -132,9 +132,9 @@ const PayType: React.FC = () => {
     }
   };
 
-  const switchMerchantStatus = async (checked: boolean, channelId: any) => {
+  const switchChannelStatus = async (checked: boolean, channelId: any) => {
     setLoading(true);
-    const resp: any = await upDateUpStreamMerchant({
+    const resp: any = await upDatePayTypeList({
       id: channelId,
       status: Number(Boolean(checked) ? 1 : 2),
     });
@@ -202,7 +202,7 @@ const PayType: React.FC = () => {
             unCheckedChildren={<CloseOutlined />}
             checked={Number(text) === 1 ? true : false}
             onClick={(checked: boolean) =>
-              switchMerchantStatus(checked, record.id)
+              switchChannelStatus(checked, record.id)
             }
           />
         </>
@@ -252,7 +252,6 @@ const PayType: React.FC = () => {
 
   useEffect(() => {
     fetchData({})
-    // loadTestData();
   }, []);
 
   return (

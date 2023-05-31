@@ -54,3 +54,10 @@ npm login
 ## 删除已经发布的包
 
 运行npm unpublish 包名 --force ,即可以从npm删除已经发布的包，只能删除72小时以内发布的包
+
+
+
+## express 框架学习
+
+1. 安装express  在项目所处的目录中运行 npm i express@4.17.1 就可以安装express到项目中使用
+

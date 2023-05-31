@@ -61,3 +61,7 @@ npm login
 
 1. 安装express  在项目所处的目录中运行 npm i express@4.17.1 就可以安装express到项目中使用
 
+
+## 使用nodemon ,修改代码不用频繁启动了,可以监听变化，重启服务
+
+npm i -g nodemon

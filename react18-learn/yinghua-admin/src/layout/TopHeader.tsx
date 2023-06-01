@@ -1,10 +1,12 @@
 import { useState } from 'react'
-import { Layout, Button, theme, message, Dropdown, Space } from "antd";
+import { Layout, Button, theme, message, Dropdown, Space, Badge } from "antd";
+import { BellOutlined } from '@ant-design/icons'
 import { respMessage } from '@/utils/message'
 import { useNavigate } from "react-router-dom";
 import { switchCollapsed } from "./../store/slices/collapse.slice";
 import { useAppDispatch, useAppSelector } from "./../hooks/hooks";
 import ResetPassModal from '@/components/ResetPassModal'
+import ChatRoomIndex from '@/components/ChatRoom/ChatRoomIndex'
 import styles from "./TopHeader.module.scss";
 import {
   LoginOutlined,
@@ -24,8 +26,11 @@ export default function TopHeader() {
   const {token: { colorBgContainer }} = theme.useToken();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [modalStatus, setModalStatus] = useState(false);
-
+  //重置密码
+  const [modalStatus, setModalStatus] = useState(false); 
+  //聊天室
+  const [chatRoomStatus, setChatRoomStatus] = useState(false);
+  // 退出登录
   const loginOutNow = async () => {
     const resp: any = await loginOut();
     if (resp.code && resp.code === 200) {
@@ -43,11 +48,14 @@ export default function TopHeader() {
       });
     }
   };
-
+  //关闭修改密码
   const closeModal = () => {
     setModalStatus(false)
   }
-
+  //关闭聊天室
+  const closeChatRoom =async () => {
+    setChatRoomStatus(false)
+  }
   const items: MenuProps["items"] = [
     {
       key: "1",
@@ -87,6 +95,13 @@ export default function TopHeader() {
           }}
         />
         <div className={styles.user_head_container}>
+          <Space>
+           <div className={ styles.ring_container } onClick={() => setChatRoomStatus(true)}>
+           <Badge count={5}>
+               <BellOutlined  className={ styles.messageTips } />
+            </Badge>
+           </div>
+          </Space>
           <Dropdown menu={{ items }} placement="bottom">
             <a onClick={(e) => e.preventDefault()}>
               <Space>
@@ -103,6 +118,7 @@ export default function TopHeader() {
           </Dropdown>
         </div>
         <ResetPassModal open={modalStatus} userInfo={userInfo} closeModal={closeModal} isTop={true}/>
+        <ChatRoomIndex open={chatRoomStatus} closeChatRoom={closeChatRoom}  />
       </Header>
     </>
   );

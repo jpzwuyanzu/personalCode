@@ -15,6 +15,15 @@ router.get('/get', (req, res) => {
     })
 })
 
+//定义post接口
+router.post('/post', (req, res) => {
+    //通过req.body 获取请求体中包含的url-encoded 格式的数据
+    const body = req.body
+    
+    //调用res.send() 向客户端返回数据
+    
+})
+
 
 
 module.exports = router

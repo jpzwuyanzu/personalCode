@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://cdn.staticfile.org/jquery/3.7.0/jquery.min.js"></script>
+    </head>
+    <body>
+        <button id="btnGet">GET</button>
+        <button id="btnPost">POST</button>
+        <button id="btnDelete">DELETE</button>
+        <button id="btnJSONP">JSONP</button>
+        <script>
+            /**
+             * 解决跨域的方案主要有两种
+             * 1: CORS 主流方案，推荐使用
+             * 2: JSONP： 有缺陷， 只支持GET请求
+             * */
+            $(function() {
+                //测试get
+                $('#btnGet').on('click', () => {
+                    $.ajax({
+                        type: 'GET',
+                        url: 'http://127.0.0.1/api/get',
+                        data: { name: 'zg', age: 20 },
+                        success: function(res) {
+                            console.log(res)
+                        }
+                    })
+                })
+                //测试post
+                $('#btnPost').on('click', () => {
+                    $.ajax({
+                        type: 'POST',
+                        url: 'http://127.0.0.1/api/post',
+                        data: { bookname: '三国', author: 20 },
+                        success: function(res) {
+                            console.log(res)
+                        }
+                    })
+                })
+                //测试delet 预检请求
+                $('#btnDelete').on('click', () => {
+                    $.ajax({
+                        type: 'DELETE',
+                        url: 'http://127.0.0.1/api/delete',
+                        success: function(res) {
+                            console.log(res)
+                        }
+                    })
+                })
+                //定义jsonp请求
+                $('#btnJSONP').on('click', () => {
+                    $.ajax({
+                        type: 'GET',
+                        url: 'http://127.0.0.1/api/jsonp',
+                        dataType: 'jsonp',
+                        success: function(res){
+                            console.log(res)
+                        } 
+                    })
+                })
+            })
+        </script>
+    </body>
+</html>

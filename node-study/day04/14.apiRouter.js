@@ -21,7 +21,20 @@ router.post('/post', (req, res) => {
     const body = req.body
     
     //调用res.send() 向客户端返回数据
+    res.send({
+        status: 0, //0 表示处理成功 1 表示处理失败
+        msg: 'POST处理成功', //状态描述
+        data: body //需要响应给客户端的数据
+    })
     
+})
+
+//定义delete接口
+router.delete('/delete', (req, res) => {
+    res.send({
+        status: 0,
+        msg: 'delete请求成功'
+    })
 })
 
 

@@ -1,0 +1,16 @@
+{
+  "name": "day05",
+  "version": "1.0.0",
+  "description": "1. 能够知道如何配置MySQL数据库环境",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mysql": "^2.18.1",
+    "mysql2": "^3.3.3"
+  }
+}

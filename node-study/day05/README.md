@@ -109,3 +109,130 @@ UPDATE 表名称 SET 列名称 = 新值, 列名称 = 新值 WHERE 列名称 = �
 4-2. -- 从指定的表中，根据WHERE条件，删除对应的行
 
 DELETE FROM 表名称 WHERE 列名称 = 值
+
+7-5. SQL中的WHERE 子句
+
+where 子句用于限定选择的标准，在select ， update， delete语句中，都可以使用where子句来限定选择的标准
+
+```
+select 列名称 FROM 表名称 WHERE 列名称 运算符 值
+
+UPDATE 表名称 SET 列名称 = 新值 WHERE 列名称 运算符 值
+
+DELETE FROM 表名称 WHERE 列名称 运算符 值
+
+```
+
+where 子句的运算符：
+= : 等于
+<> : 不等于 这个在某些sql版本中也可以使用 != 都表示不等于
+> : 大于
+< : 小于
+>= : 大于等于
+<= : 小于等于
+BETWEEN: 在某个范围内
+LIKE: 搜索某种模式
+
+7-6. SQL中的AND 和 OR运算符
+
+and 和 or 在where子语句中把两个或多个条件结合起来：
+
+and 表示必须同时满足多个条件
+
+or 表示只要满足任意一个条件即可
+
+
+7-7. SQL 里边的order by 子句，用于根据指定的列对结果集进行排序
+
+默认情况下，order by 语句时按照升序对记录进行排序
+
+如果希望使用降序对记录进行排序，可以使用 desc 关键字
+
+
+7-8. SQL中通过order by 子句进行多重排序
+
+-- 对users表中的数据先按照status 进行降序排序， 再按照username 字母进行升序排序
+select * from my_db_01.users order by status desc, username asc;
+
+7-9. SQL中的count(*) 函数
+
+语法： count(*) 函数用于返回查询结果的总数据条数
+
+-- 使用count(*) 来统计users表中， 状态status为0的用户总数量
+select count(*) from my_db_01.users  where status = 0;
+
+可以使用 as 关键字给查询出来的列设置一个别名
+
+-- 使用as关键字给列起别名
+
+select count(*) as total from my_db_01.users  where status = 0;
+select username as un, password as up from my_db_01.users;
+
+
+下边是sql的基础学习：
+
+```sql
+-- 查询数据
+-- 通过* 把users中所有数据查询回来
+--  SELECT * FROM my_db_01.users;
+-- 从user中把username 和password查询回来
+-- SELECT username, password from my_db_01.users;
+
+-- 插入数据
+-- 向users表中，插入新数据，username的值为tony stark， password的值为789123
+-- insert into my_db_01.users (username,password) values('tony stark', '789123');
+-- SELECT * FROM my_db_01.users;
+
+-- 更新数据
+-- 将id为6的用户密码更新为123456
+-- update my_db_01.users set password = '123456' where id = 6;
+-- SELECT * FROM my_db_01.users;
+
+-- 将id为4的密码更新为123456 状态status更新为1, 同时更新多个属性，set后边的属性用英文的逗号分隔
+-- update my_db_01.users set password = '123456', status = 1 where id = 4;
+-- SELECT * FROM my_db_01.users;
+
+-- 删除数据
+-- 删除user表中id为6的用户
+-- delete from my_db_01.users where id = 4;
+-- select * from my_db_01.users;
+
+-- 演示where子句的使用
+-- select * from my_db_01.users where status = 1;
+-- select * from my_db_01.users where id > 6;
+-- select * from my_db_01.users where username <> 'admin';
+-- select * from my_db_01.users where username != 'admin';
+
+-- 使用and来显示所有状态为0 id 小于7的用户, 必须同时满足多个条件
+-- select * from my_db_01.users where status = 0 and id < 7;
+
+-- 使用or运算符显示status为1， 或者是用户名为tony stark 的用户
+-- select * from my_db_01.users where status  = 1 or username = 'tony stark';
+
+-- 对users表中的数据，按照status 字段进行升序排序， asc关键字页代表升序排序，由于不加asc默认值就是升序，所以效果是一样的
+-- select * from my_db_01.users order by status;
+
+-- order by 如果使用desc关键字代表降序排序, 按照id将结果集进行降序排序
+-- select * from my_db_01.users order by id desc; 
+
+-- 对users表中的数据先按照status 进行降序排序， 再按照username 字母进行升序排序
+-- select * from my_db_01.users order by status desc, username asc;
+
+-- 使用count(*) 来统计users表中， 状态status为0的用户总数量
+-- select count(*) from my_db_01.users  where status = 0;
+-- 使用as关键字给列起别名 
+select count(*) as total from my_db_01.users  where status = 0;
+select username as un, password as up from my_db_01.users;
+```
+
+
+### 2. 在项目中操作mysql的步骤
+
+1. 安装一个操作mysql数据库的三方模块(mysql)
+ npm i mysql 
+
+2. 通过mysql模块连接到mysql数据库
+
+
+3. 通过mysql模块执行sql语句
+

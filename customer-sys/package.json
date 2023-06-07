@@ -12,6 +12,7 @@
     "@types/js-cookie": "^3.0.3",
     "@types/nprogress": "^0.2.0",
     "ant-design-vue": "^4.0.0-rc.5",
+    "better-scroll": "^2.5.1",
     "js-cookie": "^3.0.5",
     "nprogress": "^0.2.0",
     "pinia": "^2.1.3",

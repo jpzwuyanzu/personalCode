@@ -1,6 +1,10 @@
 <template>
   <a-layout>
-      <a-layout-sider :style="siderStyle">左侧联系人列表</a-layout-sider>
+    <a-layout-header :style="topHeaderStyle">头部信息</a-layout-header>
+    <a-layout>
+      <a-layout-sider :style="siderStyle">
+      <LeftSide/>
+      </a-layout-sider>
       <a-layout>
         <a-layout-header :style="headerStyle">头部信息</a-layout-header>
         <a-layout-content :style="contentStyle">
@@ -16,16 +20,27 @@
             </Transition>
           </router-view>
         </a-layout-content>
-        <a-layout-footer :style="footerStyle">底部信息</a-layout-footer>
+        <a-layout-footer :style="footerStyle">底部输入框</a-layout-footer>
       </a-layout>
+      <a-layout-sider :style="siderStyle">右侧联系人信息</a-layout-sider>
     </a-layout>
+  </a-layout>
 </template>
 <script setup lang="ts">
 // import { ref } from "vue";
 // import { useRoute } from 'vue-router'
 // import SideBar from "./sideBar.vue";
+import LeftSide from './LeftSide.vue'
 import type { CSSProperties } from 'vue';
-const headerStyle: CSSProperties = {
+const topHeaderStyle: any = {
+  textAlign: 'center',
+  color: '#fff',
+  height: 64,
+  paddingInline: 50,
+  lineHeight: '64px',
+  backgroundColor: '#108ee9',
+};
+const headerStyle: any = {
   textAlign: 'center',
   color: '#fff',
   height: 64,
@@ -34,7 +49,7 @@ const headerStyle: CSSProperties = {
   backgroundColor: '#7dbcea',
 };
 
-const contentStyle: CSSProperties = {
+const contentStyle: any = {
   textAlign: 'center',
   minHeight: 120,
   lineHeight: '120px',
@@ -42,14 +57,14 @@ const contentStyle: CSSProperties = {
   backgroundColor: '#108ee9',
 };
 
-const siderStyle: CSSProperties = {
+const siderStyle: any = {
   textAlign: 'center',
   lineHeight: '120px',
   color: '#fff',
   backgroundColor: '#3ba0e9',
 };
 
-const footerStyle: CSSProperties = {
+const footerStyle: any = {
   textAlign: 'center',
   color: '#fff',
   backgroundColor: '#7dbcea',

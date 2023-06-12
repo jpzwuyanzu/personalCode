@@ -133,25 +133,33 @@ const db = mysql.createPool({
 
 
 
-//演示直接删除数据哭数据操作
+//演示直接删除数据库数据操作
 
-const sqlstr = 'delete from users where id=?';
+// const sqlstr = 'delete from users where id=?';
 
-db.query(sqlstr, 11, (err, results) => {
-    if(err) return console.log(err)
+// db.query(sqlstr, 11, (err, results) => {
+//     if(err) return console.log(err)
 
-    //执行删除的sql成功
-    // 注意执行delete语句之后也会返回一个对象，也会包含一个affectedRows属性
-    if(results.affectedRows === 1) {
-        console.log('删除数据成功')
-    }
-})
+//     //执行删除的sql成功
+//     // 注意执行delete语句之后也会返回一个对象，也会包含一个affectedRows属性
+//     if(results.affectedRows === 1) {
+//         console.log('删除数据成功')
+//     }
+// })
 
 
 //演示标记删除， 标记删除就是在表中设置类似于status这样的状态字段，来标记当前这条谁是否被删除
 
 //当用户执行了删除的动作时，我们并没有执行DELETE语句把数据删除，而是执行了update语句，将这条数据对应的status字段标记为删除即可
 
+const sqlStr = 'update users set status=? where id=?'
+
+db.query(sqlStr, [1, 5], (err, results) => {
+    if(err) return console.log(err.message)
+    if(results.affectedRows ===1) {
+        console.log('标记删除成功')
+    }
+})
 
 
 

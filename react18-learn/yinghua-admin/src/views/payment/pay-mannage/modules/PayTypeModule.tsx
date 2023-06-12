@@ -64,8 +64,8 @@ const TableTransfer = ({ leftColumns, rightColumns, ...restProps }: any) => (
           onItemSelectAll(diffKeys as string[], selected);
         },
         onSelect({ key }, selected) {
-          console.log(key);
-          console.log(selected);
+          // console.log(key);
+          // console.log(selected);
           onItemSelect(key as string, selected);
         },
         selectedRowKeys: listSelectedKeys,
@@ -106,23 +106,23 @@ export default function PayTypeModule({
   const [targetKeys, setTargetKeys] = useState<any[]>([]); //右边已经选择的渠道数据key值数组
   const [leftTransferData, setLeftTransferData] = useState<any>([]); //左边可选渠道数据
 
-  console.log(payTypeInfo);
+  // console.log(payTypeInfo);
 
   const onChange = (nextTargetKeys: string[]) => {
-    console.log(nextTargetKeys);
+    // console.log(nextTargetKeys);
     setTargetKeys(nextTargetKeys);
   };
   const changeChannelRadio = (e: any, item: any) => {
-    console.log(e);
+    // console.log(e);
     let originData: any = [...leftTransferData];
-    console.log(e);
-    console.log(item);
+    // console.log(e);
+    // console.log(item);
     originData.forEach((itm: any) => {
       if (itm.id === item.id) {
         itm["ratio"] = Number(e.target.value.split("%")[0]);
       }
     });
-    console.log(originData);
+    // console.log(originData);
     setLeftTransferData([...originData]);
   };
 
@@ -230,7 +230,7 @@ export default function PayTypeModule({
             itm["ratio"] = 0;
           });
         }
-        console.log(allChannelList);
+        // console.log(allChannelList);
         combineChannelData(allChannelList, payTypeInfo.channelList);
       } else {
         message.open({
@@ -308,7 +308,7 @@ export default function PayTypeModule({
         }
       }
     }
-    console.log(channelList);
+    // console.log(channelList);
   };
 
   useEffect(() => {

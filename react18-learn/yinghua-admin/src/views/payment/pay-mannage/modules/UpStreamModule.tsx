@@ -13,7 +13,7 @@ import {
 } from "antd";
 import { respMessage } from '@/utils/message'
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
-import { upDateUpStreamChannel, upStreamMerchant } from "@/api/index";
+import { upDateUpStreamMerchant } from "@/api/index";
 import styles from './UpStreamModule.module.scss'
 
 interface IProps {
@@ -70,9 +70,10 @@ export default function UpStreamModule({
       ?.validateFields()
       .then(async (values) => {
         if (Object.keys(merchantInfo).length) {
-          const res: any = await upDateUpStreamChannel({
+          const res: any = await upDateUpStreamMerchant({
             ...values,
             status: Boolean(values.status) ? 1 : 2,
+            id: merchantInfo.id
           });
           if (res && res.code && res.code === 200) {
             (closeDrawer as any)();
@@ -87,7 +88,7 @@ export default function UpStreamModule({
             });
           }
         } else {
-            const res: any = await upDateUpStreamChannel({
+            const res: any = await upDateUpStreamMerchant({
               ...values,
               status: Boolean(values.status) ? 1 : 2,
             });

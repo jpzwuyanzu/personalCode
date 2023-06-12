@@ -89,8 +89,6 @@ export default function UpStreamModule({
             isNew: (channelInfo as any).isNew,
             inside: (channelInfo as any).inside,
             status: (channelInfo as any).status,
-            
-            
           });
           setSupportAmount((channelInfo as any).amountList ? (channelInfo as any).amountList : [])
         } else {
@@ -150,7 +148,8 @@ export default function UpStreamModule({
             ...values,
             status: Boolean(values.status) ? 1 : 2,
             platformType: values.platformType ? values.platformType.join(','): '',
-            rate: values.rate ? values.rate/100 : 0
+            rate: values.rate ? values.rate/100 : 0,
+            id: (channelInfo as any).id
           });
           if (res && res.code && res.code === 200) {
             (closeDrawer as any)();

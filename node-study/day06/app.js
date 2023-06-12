@@ -28,7 +28,7 @@ app.post('/api/login', (req, res) => {
     //TODO_02：将登录成功之后的用户信息，保存到session中
     //注意只有成功配置了express-session中间件才可以使用req.session这个属性
     req.session.user = req.body; //用户信息
-    req.session.isLogin = true; //用户登录状态
+    req.session.islogin = true; //用户登录状态
 
     res.send({ status: 0, msg: '登录成功！'})
 })

@@ -12,18 +12,17 @@ import {
   Select,
   Tag,
   Statistic,
-  Watermark
+  Watermark,
+  Tabs
 } from "antd";
 import { respMessage } from "@/utils/message";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
-import PagiNation from "@/components/PagiNation";
-import { upStreamMerchant, upDatePayTypeList, payTypeList } from "@/api/index";
+import { upDatePayTypeList, payTypeList } from "@/api/index";
 // import dayjs from "dayjs";
 import PayTypeModule from "./modules/PayTypeModule";
 import JudgePemission from "@/components/JudgePemission";
 import styles from "./PayType.module.scss";
-import { TestList } from "@/utils/test";
 
 interface DataType {
   key: string;
@@ -33,61 +32,33 @@ interface DataType {
   status: number;
 }
 
+const tabDataList: any = [
+  {
+    key: '1',
+    label: '色站'
+  },
+  {
+    key: '2',
+    label: '游戏'
+  }
+];
+
 const PayType: React.FC = () => {
-  const [total, setTotal] = useState<number>(0);
-  const [page, setpage] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(10);
   //[1]:"IOS" [2]:"ANDROID" [3]:"WINPHONE" [4]: "website" [5]: "Applets" [6]:"OFFCIAL WEBSITE"
   const [tableList, setTableList] = useState<any[]>([]);
   const [open, setOpen] = useState(false);
   const [moduleWidth, setModuleWidth] = useState("");
   const [payTypeInfo, setPayTypeInfo] = useState({});
+  const [selectTab, setSelectTab] = useState('1');
   const [loading, setLoading] = useState<boolean>(false);
-  const [searchMerchantForm] = Form.useForm();
   /**
    * 根据moduleType区分 1:"IOS" 2:"ANDROID" 3:"WINPHONE" 4: "website" 5: "Applets" 6:"OFFCIAL WEBSITE"
    *
    */
-  const loadTestData = () => {
-    if (TestList && TestList.length) {
-      let typeList: any = [
-        { type: 1, title: "IOS支付方式管理", data: [] },
-        { type: 2, title: "ANDROID支付方式管理", data: [] },
-        { type: 3, title: "WINPHONE支付方式管理", data: [] },
-        { type: 4, title: "WEBSITE支付方式管理", data: [] },
-        { type: 5, title: "Applets支付方式管理", data: [] },
-        { type: 6, title: "OFFCIAL WEBSITE支付方式管理", data: [] },
-      ];
-      TestList.forEach((element) => {
-        switch (element.moduleType) {
-          case 1:
-            typeList[0].data.push(element);
-            break;
-          case 2:
-            typeList[1].data.push(element);
-            break;
-          case 3:
-            typeList[2].data.push(element);
-            break;
-          case 4:
-            typeList[3].data.push(element);
-            break;
-          case 5:
-            typeList[4].data.push(element);
-            break;
-          case 6:
-            typeList[5].data.push(element);
-            break;
-        }
-      });
-      setTableList(typeList ? typeList : [])
-    }
-  };
   const fetchData = async (params?: any) => {
     setLoading(true);
     const data: any = await payTypeList(params);
     setLoading(false);
-    console.log(data);
     if (data && data.code && data.code === 200) {
       if(data.data) {
         let typeList: any = [
@@ -144,7 +115,7 @@ const PayType: React.FC = () => {
         type: "success",
         content: "修改成功",
       });
-      fetchData({});
+      fetchData({payMode: selectTab});
     } else {
       message.open({
         type: "error",
@@ -152,18 +123,6 @@ const PayType: React.FC = () => {
       });
     }
   };
-
-  // const confirmDelChannel = async (userId: any) => {
-  //   const resp: any = await delUser({ id: userId })
-  //   if(resp && resp.code && resp.code === 200) {
-  //     fetchData({})
-  //   } else {
-  //     message.open({
-  //       type: 'error',
-  //       content: respMessage[String(resp.code)]
-  //     })
-  //   }
-  // }
 
   const columns: ColumnsType<DataType> = [
     {
@@ -247,15 +206,16 @@ const PayType: React.FC = () => {
   //关闭抽屉
   const closeDrawer = useCallback(() => {
     setOpen(false);
-    fetchData({});
+    fetchData({payMode: selectTab});
   }, [open]);
 
   useEffect(() => {
-    fetchData({})
-  }, []);
+    fetchData({payMode: selectTab})
+  }, [selectTab]);
 
   return (
     <div className={styles.TableCom_Container}>
+      <Tabs defaultActiveKey={selectTab} items={tabDataList} size="large" onChange={(e) => {setSelectTab(e)}} />
       <div className={styles.Table_ContentArea}>
         {
           tableList && tableList.map((itm: any, inx: any) => (

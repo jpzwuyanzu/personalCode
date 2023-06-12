@@ -195,7 +195,7 @@ const UpStream: React.FC = () => {
       render: (_, record: any) => (
         <Space size="middle">
           <JudgePemission pageUrl={'/payment/upstream_362'}>
-          <Button type="primary" onClick={() => openDrawer('375px', record)}>编辑商户</Button>
+          <Button type="primary"  onClick={() => openDrawer('375px', record)}>编辑商户</Button>
           </JudgePemission>
           {/* <JudgePemission pageUrl={'/payment/userlist_134'}>
           <Popconfirm

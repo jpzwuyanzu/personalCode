@@ -8,7 +8,7 @@ import { upStreamChannelList, upDateUpStreamChannel } from '@/api/index'
 // import dayjs from "dayjs";
 import ChannelModule from "./modules/ChannelModule";
 import JudgePemission from "@/components/JudgePemission";
-import styles from "./UpStream.module.scss";
+import styles from "./ChannelList.module.scss";
 
 interface DataType {
   key: string;
@@ -390,7 +390,7 @@ const ChannelList: React.FC = () => {
             </JudgePemission> */}
           </Row>
         </Form>
-        <Table columns={columns} dataSource={tableList} loading={ loading }  pagination={false} rowKey={(record) => record.id} scroll={{ y:'34vw'}}/>
+        <Table columns={columns} dataSource={tableList} loading={ loading }  pagination={false}  rowKey={(record) => record.id} scroll={{ y:'34vw'}} />
       </div>
       <div className={styles.bottom_Pag_area}>
         <PagiNation current={page} pageSize={pageSize} total={total} loadData={loadData}/>

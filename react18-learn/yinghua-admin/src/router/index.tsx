@@ -13,12 +13,24 @@ const Home = React.lazy(() => import('@/views/home-mannage/Home'));
 
 //后管路由
 const RoleList = React.lazy(() => import('@/views/payment/role-mannage/RoleList'));
-const UserList = React.lazy(() => import('@/views/payment/user-mannage/UserList'));
+const PayMentUserList = React.lazy(() => import('@/views/payment/sysuser-mannage/UserList'));
 const LogList = React.lazy(() => import('@/views/payment/log-mannage/LogList'));
 const NotFound = React.lazy(() => import('@/views/404/NotFound'))
-const ChannelList = React.lazy(() => import('@/views/payment/pay-mannage/ChannelList'))
+const PayChannelList = React.lazy(() => import('@/views/payment/pay-mannage/ChannelList'))
 const PayType = React.lazy(() => import('@/views/payment/pay-mannage/PayType'));
 const UpStream = React.lazy(() => import('@/views/payment/pay-mannage/UpStream'))
+
+/**
+ * 推广渠道，游戏列表，游戏充值套餐，短信管理，前端用户列表，版本列表
+ */
+const ChannelList = React.lazy(() => import('../views/payment/channel-mannage/ChannelList'));
+const GameList = React.lazy(() => import('../views/payment/game-mannage/GameList'));
+const GamePackage = React.lazy(() => import('../views/payment/game-mannage/GamePackage'));
+const SmsLIst = React.lazy(() => import('../views/payment/sys-mannage/SmsList'));
+const PreUserList = React.lazy(() => import('../views/payment/user-mannage/PreUserList'));
+const VersionList = React.lazy(() => import('../views/payment/version-mannage/VersionList'));
+
+
 
 //商户路由
 const MerchantRoleList = React.lazy(() => import('@/views/merchant/role-mannage/RoleList'));
@@ -52,11 +64,11 @@ const MRouter = () => {
                     },
                     {
                         path: 'userlist',
-                        element: <Suspense fallback={ <Loading/> }><AuthComponent><UserList/></AuthComponent></Suspense>
+                        element: <Suspense fallback={ <Loading/> }><AuthComponent><PayMentUserList/></AuthComponent></Suspense>
                     },
                     {
                         path: 'channellist',
-                        element: <Suspense fallback={ <Loading/> }><AuthComponent><ChannelList/></AuthComponent></Suspense>
+                        element: <Suspense fallback={ <Loading/> }><AuthComponent><PayChannelList/></AuthComponent></Suspense>
                     },
                     {
                         path: 'paytype',
@@ -69,6 +81,30 @@ const MRouter = () => {
                     {
                         path: 'loglist',
                         element: <Suspense fallback={ <Loading/> }><AuthComponent><LogList/></AuthComponent></Suspense>
+                    },
+                    {
+                        path: 'channellist',
+                        element: <Suspense fallback={ <Loading/> }><AuthComponent><ChannelList/></AuthComponent></Suspense>
+                    },
+                    {
+                        path: 'gamelist',
+                        element: <Suspense fallback={ <Loading/> }><AuthComponent><GameList/></AuthComponent></Suspense>
+                    },
+                    {
+                        path: 'gamepackage',
+                        element: <Suspense fallback={ <Loading/> }><AuthComponent><GamePackage/></AuthComponent></Suspense>
+                    },
+                    {
+                        path: 'smslist',
+                        element: <Suspense fallback={ <Loading/> }><AuthComponent><SmsLIst/></AuthComponent></Suspense>
+                    },
+                    {
+                        path: 'preuserlist',
+                        element: <Suspense fallback={ <Loading/> }><AuthComponent><PreUserList/></AuthComponent></Suspense>
+                    },
+                    {
+                        path: 'versionlist',
+                        element: <Suspense fallback={ <Loading/> }><AuthComponent><VersionList/></AuthComponent></Suspense>
                     },
                 ]
             },

@@ -1,0 +1,22 @@
+.TableCom_Container {
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    .Table_ContentArea {
+        height: 94%;
+        overflow-y: scroll;
+    }
+    .bottom_Pag_area {
+        height: 6%;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: flex-end;
+        background: #fff;
+        z-index: 100;
+    }
+}

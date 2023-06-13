@@ -1,0 +1,12 @@
+.amountContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    .amountTag {
+        margin-bottom: 4px;
+    }
+    .addTag {
+        margin-bottom: 0px;
+    }
+}

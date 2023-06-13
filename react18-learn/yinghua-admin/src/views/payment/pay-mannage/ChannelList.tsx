@@ -156,7 +156,7 @@ const ChannelList: React.FC = () => {
       dataIndex: "amountList",
       align: 'center',
       key: "amountList",
-      width: 200,
+      width: 400,
       render: (text: any) => text  ? text.map((item: any, index: any) => <Tag key={index} color="green">¥{item}</Tag>) : <Tag  color="#f50">暂无数据</Tag>
     },
     {

@@ -87,7 +87,7 @@ export function uploadFastImg (params? :any) {
     return request.post('/api/sys/upload/uploadFile', {'requestTimeStamp': (new Date()).getTime() , ...params})
 }
 //查询游戏列表
-export function gameList (params? :any) {
+export function gameList (params? :any) { 
     return request.post('/api/gameInfo/listPage', {'requestTimeStamp': (new Date()).getTime() , ...params})
 }
 //新增游戏信息

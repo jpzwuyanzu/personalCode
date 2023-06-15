@@ -236,6 +236,7 @@ const GameList: React.FC = () => {
     fetchData({})
   }, [])
 
+  
   return (
     <div className={styles.TableCom_Container}>
       <div className={styles.Table_ContentArea}>

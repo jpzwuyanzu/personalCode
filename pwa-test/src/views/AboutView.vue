@@ -6,10 +6,10 @@
 <script setup>
 import axios from 'vue-axios'
 //请修改成可用的测试API，对应vite.config.js
-fetch('https://jsonplaceholder.typicode.com/posts/1')
-  .then(response => response.json())
-  .then(json => console.log(json))
-  .catch(err => console.log('Request Failed', err)); 
+// fetch('https://jsonplaceholder.typicode.com/posts/1')
+//   .then(response => response.json())
+//   .then(json => console.log(json))
+//   .catch(err => console.log('Request Failed', err)); 
 </script>
 
 <style>

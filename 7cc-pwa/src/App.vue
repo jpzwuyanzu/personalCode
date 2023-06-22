@@ -1,30 +1,35 @@
+<template>
+  <van-config-provider
+    :theme="theme"
+    :theme-vars="themeVars"
+    style="height: 100%"
+    :theme-vars-dark="themeVarsDark"
+    :theme-vars-light="themeVarsLight"
+  >
+    <div class="layout_container">
+      <div class="layout_content">
+        <RouterView />
+      </div>
+      <FooterTab />
+    </div>
+  </van-config-provider>
+</template>
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import { ref, reactive, computed } from "vue";
+import FooterTab from "@/layout/FooterTab.vue";
+import useStore from "@/store/index";
+const { custheme } = useStore();
+const theme: any = computed(() => custheme.theme);
+const themeVars = reactive({ buttonPrimaryBackground: "red" });
+const themeVarsDark = reactive({ buttonPrimaryBackground: "blue" });
+const themeVarsLight = reactive({ buttonPrimaryBackground: "green" });
 </script>
 
-<template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
-</template>
-
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+<style lang="scss" scoped>
+.layout_container {
+  height: 100%;
+  .layout_content {
+    height: calc(100% - 50px);
+  }
 }
 </style>

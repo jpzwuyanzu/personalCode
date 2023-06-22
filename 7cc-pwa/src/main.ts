@@ -4,7 +4,7 @@ import { ConfigProvider } from 'vant'
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import router from '@/router/index'
-import './style.css'
+import './style.scss'
 import App from './App.vue'
 
 const pinia = createPinia()

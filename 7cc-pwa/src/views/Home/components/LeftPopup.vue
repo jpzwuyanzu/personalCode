@@ -65,7 +65,7 @@
 import { ref, computed, watchEffect } from "vue";
 import light_close from "@/assets/img/home/light_close.png";
 import dark_close from "@/assets/img/home/dark_close.png";
-import { useTheme } from '@/hooks/useTheme'
+import { usePiniaState } from '@/hooks/usePiniaState'
 
 const props = defineProps({
   leftPopupShow: {
@@ -74,7 +74,7 @@ const props = defineProps({
   }
 });
 const $emit = defineEmits(["switchLeftPopup"]);
-const { theme, custheme } = useTheme();
+const { theme, custheme } = usePiniaState();
 const isShowPopup = ref(false);
 const themeCheck = ref(false);
 //关闭左侧设置浮框

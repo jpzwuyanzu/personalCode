@@ -53,7 +53,7 @@
 <script setup lang="ts">
 import { ref, reactive } from "vue";
 import LeftPopup from "@/views/Home/components/LeftPopup.vue";
-import { useTheme } from '@/hooks/useTheme'
+import { usePiniaState } from '@/hooks/usePiniaState'
 import { useAppRoute } from '@/hooks/useAppRoute'
 
 //顶部tab选项
@@ -61,7 +61,7 @@ const activeHomeTab = ref("fb");
 //路由方法hooks
 const {appRouter} = useAppRoute();
 //主题
-const { theme, custheme } = useTheme();
+const { theme, custheme } = usePiniaState();
 //顶部tab列表
 const homeTabList = reactive([
   {

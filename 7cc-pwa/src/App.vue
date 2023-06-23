@@ -1,21 +1,24 @@
 <template>
-  <van-config-provider
-    :theme="theme"
-    style="height: 100%"
-  >
+  <van-config-provider :theme="theme" style="height: 100%">
     <div class="layout_container">
       <div class="layout_content">
         <RouterView />
       </div>
+      <!-- 底部tab组件 -->
       <FooterTab />
+      <!-- 底部tab组件 -->
+      <!-- 登录组件 -->
+      <LoginCom/>
+      <!-- 登录组件 -->
     </div>
   </van-config-provider>
 </template>
 <script setup lang="ts">
 import FooterTab from "@/layout/FooterTab.vue";
-import { useTheme } from '@/hooks/useTheme';
+import LoginCom from "@/components/LoginCom.vue"
+import { usePiniaState } from "@/hooks/usePiniaState";
 
-const { theme } = useTheme();
+const { theme } = usePiniaState();
 </script>
 
 <style lang="scss" scoped>

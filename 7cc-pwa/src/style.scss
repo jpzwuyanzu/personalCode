@@ -9,6 +9,10 @@ html, body {
   width: 100%;
   height: 100%;
 }
+p {
+  padding: 0;
+  margin: 0;
+}
 
 :root:root {
   --van-tabbar-item-active-background: #212a35;
@@ -18,6 +22,7 @@ html, body {
   --van-switch-width: 48px;
   --van-switch-height: 24px;
   --van-switch-node-size: 22px;
+  --van-action-sheet-max-height: 95%;
 }
 //黑暗模式
 .van-theme-dark {
@@ -36,6 +41,12 @@ html, body {
   }
   .van-switch__node {
     background: #2f3541 !important;
+  }
+  .left_popup_top {
+    border-bottom: 1px solid #2e3740 !important;
+  }
+  .left_popup_middle {
+    border-bottom: 1px solid #2e3740 !important;
   }
 }
 //浅色模式

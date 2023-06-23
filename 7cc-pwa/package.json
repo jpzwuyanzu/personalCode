@@ -9,8 +9,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/js-cookie": "^3.0.3",
+    "@types/nprogress": "^0.2.0",
     "autoprefixer": "^10.4.14",
+    "axios": "^1.4.0",
+    "js-cookie": "^3.0.5",
     "lib-flexible": "0.3",
+    "nprogress": "^0.2.0",
     "pinia": "^2.1.4",
     "pinia-plugin-persistedstate": "^3.1.0",
     "postcss-pxtorem": "5",

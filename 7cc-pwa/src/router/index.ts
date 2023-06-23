@@ -1,4 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import Nprogress from 'nprogress'
+import 'nprogress/nprogress.css'
+Nprogress.configure({ showSpinner: false })
 
 /**
  * 路由懒加载
@@ -30,54 +33,84 @@ const routes: any = [
             {
                 path: 'home/fb',
                 name: 'fb',
-                component: Fb
+                component: Fb,
+                meta: {
+                    needLogin: false
+                }
             },
             {
                 path: 'home/im',
                 name: 'im',
-                component: IM
+                component: IM,
+                meta: {
+                    needLogin: false
+                }
             },
             {
                 path: 'home/c-game',
                 name: 'c-game',
-                component: CGame
+                component: CGame,
+                meta: {
+                    needLogin: false
+                }
             },
             {
                 path: 'home/g-game',
                 name: 'g-game',
-                component: GGame
+                component: GGame,
+                meta: {
+                    needLogin: false
+                }
             },
             {
                 path: 'home/s-game',
                 name: 's-game',
-                component: SGame
+                component: SGame,
+                meta: {
+                    needLogin: false
+                }
             },
             {
                 path: 'home/group',
                 name: 'group',
-                component: Group
+                component: Group,
+                meta: {
+                    needLogin: false
+                }
             }
         ]
     },
     {
         path: '/sportslive',
         name: 'sportslive',
-        component: SportsLive
+        component: SportsLive,
+        meta: {
+            needLogin: true
+        }
     },
     {
         path: '/activity',
         name: 'activity',
-        component: Activity
+        component: Activity,
+        meta: {
+            needLogin: false
+        }
     },
     {
         path: '/sportsbetrecord',
         name: 'sportsbetrecord',
-        component: SportsBetrecord
+        component: SportsBetrecord,
+        meta: {
+            needLogin: true
+        }
     },
     {
         path: '/personal',
         name: 'personal',
-        component: Personal
+        component: Personal,
+        meta: {
+            needLogin: false
+        }
     },
     {
         path: '/notFound',
@@ -106,8 +139,10 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
+    Nprogress.start()
     next()
 })
 router.afterEach(() => {
+    Nprogress.done()
 })
 export default router

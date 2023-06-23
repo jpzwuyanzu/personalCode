@@ -2,14 +2,14 @@
   <div class="home_layout_container">
     <div class="home_top_part">
       <!-- 首页顶部推广下载模块 -->
-      <div class="downLoad_Tips">
+      <div v-if="isShowDownLoadTips" class="downLoad_Tips">
         <div class="left_part">
           <img src="@/assets/img/home/app.png" alt="" />
           <span class="download_msg">下载APP，体验更多精彩</span>
         </div>
         <div class="right_part">
           <div class="download_now">立即下载</div>
-          <img src="@/assets/img/home/close.png" alt="" />
+          <img src="@/assets/img/home/close.png" alt="" @click="isShowDownLoadTips = !isShowDownLoadTips"/>
         </div>
       </div>
       <!-- 首页顶部推广下载模块 -->
@@ -21,7 +21,8 @@
             alt=""
             @click="switchLeftPopup(true)"
           />
-          <img class="sys_logo" src="@/assets/img/home/logo.png" alt="" />
+          <img v-if="theme === 'light'" class="sys_logo" src="@/assets/img/home/logo_light.png" alt="" />
+          <img v-else class="sys_logo" src="@/assets/img/home/logo_dark.png" alt="" />
           <div class="notice_part">公告</div>
         </div>
         <div class="header_right">
@@ -32,13 +33,15 @@
           </div>
         </div>
       </div>
-      <van-tabs v-model:active="activeHomeTab" @change="linkPage()">
-        <van-tab
-          v-for="(item, index) in homeTabList"
-          :name="item.name"
-          :title="item.tabName"
-        ></van-tab>
-      </van-tabs>
+      <div class="game_nav">
+        <van-tabs  v-model:active="activeHomeTab" @change="linkPage()" :line-height="0">
+          <van-tab
+            v-for="(item, index) in homeTabList"
+            :name="item.name"
+            :title="item.tabName"
+          ></van-tab>
+        </van-tabs>
+      </div>
     </div>
     <router-view></router-view>
     <LeftPopup
@@ -48,11 +51,15 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, reactive } from "vue";
+import { ref, reactive, computed } from "vue";
 import LeftPopup from "@/views/Home/components/LeftPopup.vue";
-import { useRouter } from "vue-router";
+import { useRouter } from "vue-router"
+import useStore from "@/store/index";;
 const activeHomeTab = ref("fb");
 const appRouter = useRouter();
+const { custheme } = useStore();
+const theme: any = computed(() => custheme.theme);
+//顶部tab列表
 const homeTabList = reactive([
   {
     tabName: "FB体育",
@@ -91,11 +98,15 @@ const homeTabList = reactive([
     id: 6,
   },
 ]);
-const leftPopupShow = ref(false);
+const isShowDownLoadTips = ref(true);
+//是否显示左侧设置popup
+const leftPopupShow = ref(false); 
+//切换显示隐藏左侧设置浮框
 const switchLeftPopup = (bool: boolean) => {
   console.log("90909");
   leftPopupShow.value = bool;
 };
+//切换顶部tab
 const linkPage = () => {
   appRouter.push("/home/" + activeHomeTab.value);
 };
@@ -155,6 +166,7 @@ const linkPage = () => {
       padding: 7px 11px 7px 12px;
       height: 45px;
       box-sizing: border-box;
+      background-color: #1c2128;
       .header_left {
         display: flex;
         flex-direction: row;
@@ -201,6 +213,13 @@ const linkPage = () => {
             font-size: 13px;
           }
         }
+      }
+    }
+    .game_nav {
+      :deep(.van-tab--active){
+        background: url('@/assets/img/home/nav_bg.png') no-repeat 50% !important;
+        background-size: auto 100% !important;
+        background-position: 50% -0.5px !important;
       }
     }
   }

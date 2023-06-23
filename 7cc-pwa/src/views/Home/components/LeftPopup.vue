@@ -63,32 +63,34 @@
 </template>
 <script setup lang="ts">
 import { ref, computed, watchEffect } from "vue";
-import useStore from "@/store/index";
 import light_close from "@/assets/img/home/light_close.png";
 import dark_close from "@/assets/img/home/dark_close.png";
-const { custheme } = useStore();
-const theme: any = computed(() => custheme.theme);
+import { useTheme } from '@/hooks/useTheme'
+
 const props = defineProps({
   leftPopupShow: {
     type: Boolean,
     default: false,
-  },
+  }
 });
 const $emit = defineEmits(["switchLeftPopup"]);
-
+const { theme, custheme } = useTheme();
 const isShowPopup = ref(false);
 const themeCheck = ref(false);
-
+//关闭左侧设置浮框
 const hiddenPopup = () => {
   $emit("switchLeftPopup", false);
 };
+//切换黑暗和浅色模式
 const switchThemeType = (value: any) => {
   custheme.switchTheme(Boolean(value) ? "dark" : "light");
 };
-
+//同步变化
 watchEffect(() => {
   isShowPopup.value = props.leftPopupShow;
+  themeCheck.value = (theme.value === 'light' ? false : true)
 });
+
 </script>
 <style lang="scss" scoped>
 .popup_content {

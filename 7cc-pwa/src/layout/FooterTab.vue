@@ -1,5 +1,5 @@
 <template>
-  <van-tabbar v-model="active">
+  <van-tabbar v-model="activeTab">
     <van-tabbar-item icon="home-o" name="home" @click="linkPage('/home/fb')"
       >首页</van-tabbar-item
     >
@@ -31,14 +31,14 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useAppRoute } from '@/hooks/useAppRoute'
 import useStore from "@/store/index";
+//底部tab状态
 const { custab } = useStore();
-const active = ref<string>(custab.activeTab);
-
-const appRouter = useRouter();
+const {appRouter} = useAppRoute();
+const activeTab = ref<string>(custab.activeTab);
 const linkPage = (url: string) => {
-  custab.switchTab(active.value);
+  custab.switchTab(activeTab.value);
   appRouter.push(url);
 };
 </script>

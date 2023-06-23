@@ -5,8 +5,9 @@
     </div>
 </template>
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
-const appRouter = useRouter()
+import { useAppRoute } from '@/hooks/useAppRoute'
+
+const {appRouter} = useAppRoute()
 const linkpage = (url: string) => {
     appRouter.push(url)
 }

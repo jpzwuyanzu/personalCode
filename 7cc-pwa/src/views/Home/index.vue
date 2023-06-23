@@ -51,14 +51,17 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, reactive, computed } from "vue";
+import { ref, reactive } from "vue";
 import LeftPopup from "@/views/Home/components/LeftPopup.vue";
-import { useRouter } from "vue-router"
-import useStore from "@/store/index";;
+import { useTheme } from '@/hooks/useTheme'
+import { useAppRoute } from '@/hooks/useAppRoute'
+
+//顶部tab选项
 const activeHomeTab = ref("fb");
-const appRouter = useRouter();
-const { custheme } = useStore();
-const theme: any = computed(() => custheme.theme);
+//路由方法hooks
+const {appRouter} = useAppRoute();
+//主题
+const { theme, custheme } = useTheme();
 //顶部tab列表
 const homeTabList = reactive([
   {
@@ -98,18 +101,19 @@ const homeTabList = reactive([
     id: 6,
   },
 ]);
+//是否显示顶部app下载提示
 const isShowDownLoadTips = ref(true);
 //是否显示左侧设置popup
 const leftPopupShow = ref(false); 
 //切换显示隐藏左侧设置浮框
 const switchLeftPopup = (bool: boolean) => {
-  console.log("90909");
   leftPopupShow.value = bool;
 };
 //切换顶部tab
 const linkPage = () => {
   appRouter.push("/home/" + activeHomeTab.value);
 };
+
 </script>
 <style lang="scss" scoped>
 .home_layout_container {

@@ -12,11 +12,10 @@
   </van-config-provider>
 </template>
 <script setup lang="ts">
-import { ref, reactive, computed } from "vue";
 import FooterTab from "@/layout/FooterTab.vue";
-import useStore from "@/store/index";
-const { custheme } = useStore();
-const theme: any = computed(() => custheme.theme);
+import { useTheme } from '@/hooks/useTheme';
+
+const { theme } = useTheme();
 </script>
 
 <style lang="scss" scoped>

@@ -25,13 +25,18 @@
           <img v-else class="sys_logo" src="@/assets/img/home/logo_dark.png" alt="" />
           <div class="notice_part">公告</div>
         </div>
-        <div class="header_right">
+        <!-- 判断是否登录，登录状态显示用户信息，未登录显示登录注册按钮 -->
+        <div v-if="!loginState" class="register_login_btn">
+          <span>登录</span> / <span>注册</span><van-icon name="arrow" />
+        </div>
+        <div v-else class="header_right">
           <span class="user_name">ximeng</span>
           <div class="user_banlance">
             <span>¥0.00</span>
             <img src="@/assets/img/home/addMoney.png" alt="" />
           </div>
         </div>
+        <!-- 判断是否登录，登录状态显示用户信息，未登录显示登录注册按钮 -->
       </div>
       <div class="game_nav">
         <van-tabs  v-model:active="activeHomeTab" @change="linkPage()" :line-height="0">
@@ -61,7 +66,7 @@ const activeHomeTab = ref<string>("fb");
 //路由方法hooks
 const {appRouter, appRoute} = useAppRoute();
 //主题
-const { theme, custheme } = usePiniaState();
+const { theme, custheme, loginState } = usePiniaState();
 //顶部tab列表
 const homeTabList = reactive([
   {
@@ -196,6 +201,10 @@ onMounted(() => {
           text-align: center;
           line-height: 30px;
         }
+      }
+      .register_login_btn {
+        font-size: 14px;
+        color:#05D464;
       }
       .header_right {
         display: flex;

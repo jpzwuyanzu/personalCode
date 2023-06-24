@@ -1,8 +1,8 @@
 <template>
   <van-action-sheet
     overlay-class="loginSheet_Container"
-    v-model:show="show"
-    style="height:95%;"
+    v-model:show="isShowLoginCom"
+    :style="{height:'95%', background: theme === 'dark' ? '#242A32' : '' }"
     @click-overlay="common.convertLoginSheet(false)"
   >
     <div class="loginSheet_Content">
@@ -14,28 +14,52 @@
         <p class="hello">Hello!</p>
         <p class="welcome">欢迎来到7体育俱乐部</p>
       </div>
-      <div class="login_form">
-        <van-form @submit="onSubmit">
+      <div class="login_form login_form_dark">
+        <van-form>
             <van-cell-group inset>
                 <van-field
                 v-model="username"
                 name="用户名"
-                placeholder="用户名"
-                :rules="[{ required: true, message: '请填写用户名' }]"
+                placeholder="请输入账号"
+                clearable
+                clear-trigger="always"
                 />
+                <div class="space_line"></div>
                 <van-field
                 v-model="password"
                 type="password"
                 name="密码"
-                placeholder="密码"
-                :rules="[{ required: true, message: '请填写密码' }]"
+                placeholder="请输入密码"
+                clearable
+               clear-trigger="always"
                 />
+               <div class="cus_form_line">
+                <div class="line_left">
+                    <van-radio-group v-model="isRememberPass">
+                    <van-radio name="1">记住密码</van-radio>
+                  </van-radio-group>
+                </div>
+                <div class="line_right">忘记密码?</div>
+               </div>
+               <div class="form_submit_line">
+                <div class="left_part">手机号登录</div>
+                <div class="right_part" @click="onSubmit" disabled>
+                  <span>登录
+                      <div class="icon-animation">
+                      <img class="icon move move" src="@/assets/img/home/loginAni/icon_01.png" alt="">
+                      <img class="icon move delay-one move delay-one" src="@/assets/img/home/loginAni/icon_02.png" alt="">
+                      <img class="icon move delay-two move delay-two" src="@/assets/img/home/loginAni/icon_03.png" alt="">
+                    </div>
+                  </span>
+                 
+                </div>
+               </div>
             </van-cell-group>
-            <div style="margin: 16px;">
+            <!-- <div style="margin: 16px;">
                 <van-button round block type="success" native-type="submit">
                 提交
                 </van-button>
-            </div>
+            </div> -->
         </van-form>
       </div>
       <div class="login_bottom_bg">
@@ -47,16 +71,17 @@
 <script setup lang="ts">
 import { ref, watchEffect } from "vue";
 import { usePiniaState } from "@/hooks/usePiniaState";
-const { loginSheetState, common } = usePiniaState();
+const { loginSheetState, common, theme } = usePiniaState();
 
-const show = ref(false);
+const isShowLoginCom = ref(false);
+const isRememberPass = ref('1'); //1代表记住密码
 const username = ref('');
-    const password = ref('');
-    const onSubmit = (values: any) => {
-      console.log('submit', values);
-    };
+const password = ref('');
+const onSubmit = () => {
+  console.log('submit', 'isRememberPass:',isRememberPass.value, 'username:',username.value, 'password:',password.value);
+};
 watchEffect(() => {
-  show.value = loginSheetState.value;
+  isShowLoginCom.value = loginSheetState.value;
 });
 </script>
 <style lang="scss" scoped>
@@ -107,7 +132,86 @@ watchEffect(() => {
     }
   }
   .login_form {
-    min-height: 400px;
+    min-height: 400px; 
+    .space_line {
+      height: 15px;
+      background: #242A32;
+    }
+    .cus_form_line {
+      padding-top: 20px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      background: #242A32;
+      font-weight: 400;
+      color: #8696a2;
+      font-size: 13px;
+    }
+    .form_submit_line {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      background: #242A32;
+      padding-top: 20px;
+      .left_part {
+        color: #20b25b;
+        font-size: 13px;
+      }
+      .right_part {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        background: #20b25b;
+        border-radius: 5px;
+        span {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
+          font-size: 15px;
+          font-weight: 600;
+          width: 149px;
+          height: 44px;
+          .icon-animation {
+            display: flex;
+            align-items: center;
+            margin-left: 10px;
+            .move {
+              width: 8px;
+              height: 11px;
+              position: relative;
+              color: #fff;
+              animation: iconAnimation 1.5s infinite;
+            }
+            .delay-one {
+              animation-delay: .3s;
+            }
+            .delay-two {
+              animation-delay: .6s;
+            }
+          }
+        }
+      }
+    }
+    :deep(.van-cell-group--inset) {
+      border-radius: 0px;
+    }
+    :deep(.van-cell:after) {
+      border: none;
+    }
+  }
+  .login_form_light {
+    :deep(.van-cell) {
+      background: none;
+    }
+  }
+  .login_form_dark {
+    :deep(.van-cell) {
+      background: #1C2128;
+    }
   }
   .login_bottom_bg {
     position: absolute;
@@ -120,6 +224,18 @@ watchEffect(() => {
       height: 100%;
       object-fit: contain;
     }
+  }
+}
+
+@keyframes iconAnimation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: .3;
+  }
+  100% {
+    opacity: 1;
   }
 }
 </style>

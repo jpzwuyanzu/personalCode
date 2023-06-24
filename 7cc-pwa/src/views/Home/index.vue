@@ -51,15 +51,15 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, reactive } from "vue";
+import { ref, reactive, onMounted } from "vue";
 import LeftPopup from "@/views/Home/components/LeftPopup.vue";
 import { usePiniaState } from '@/hooks/usePiniaState'
 import { useAppRoute } from '@/hooks/useAppRoute'
 
 //顶部tab选项
-const activeHomeTab = ref("fb");
+const activeHomeTab = ref<string>("fb");
 //路由方法hooks
-const {appRouter} = useAppRoute();
+const {appRouter, appRoute} = useAppRoute();
 //主题
 const { theme, custheme } = usePiniaState();
 //顶部tab列表
@@ -113,6 +113,10 @@ const switchLeftPopup = (bool: boolean) => {
 const linkPage = () => {
   appRouter.push("/home/" + activeHomeTab.value);
 };
+
+onMounted(() => {
+  activeHomeTab.value = (appRoute.name as string)
+})
 
 </script>
 <style lang="scss" scoped>

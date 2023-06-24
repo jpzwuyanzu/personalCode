@@ -2,6 +2,7 @@
   <van-action-sheet
     overlay-class="loginSheet_Container"
     v-model:show="show"
+    style="height:95%;"
     @click-overlay="common.convertLoginSheet(false)"
   >
     <div class="loginSheet_Content">
@@ -13,7 +14,7 @@
         <p class="hello">Hello!</p>
         <p class="welcome">欢迎来到7体育俱乐部</p>
       </div>
-      <div>
+      <div class="login_form">
         <van-form @submit="onSubmit">
             <van-cell-group inset>
                 <van-field
@@ -60,7 +61,7 @@ watchEffect(() => {
 </script>
 <style lang="scss" scoped>
 .loginSheet_Content {
-  min-height: 750px;
+  min-height: 100%;
   padding-top: 12px;
   box-sizing: border-box;
   position: relative;
@@ -104,6 +105,9 @@ watchEffect(() => {
       height: 32px;
       line-height: 32px;
     }
+  }
+  .login_form {
+    min-height: 400px;
   }
   .login_bottom_bg {
     position: absolute;

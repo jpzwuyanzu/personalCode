@@ -42,6 +42,7 @@ const linkPage = (url: string, needLogin: boolean) => {
   //如果需要登录，但是未登录弹出登录sheet
   if(needLogin && !loginState.value) {
     common.convertLoginSheet(true)
+    activeTab.value = custab.activeTab;
   } else {
     custab.switchTab(activeTab.value);
     appRouter.push(url);

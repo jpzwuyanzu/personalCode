@@ -43,7 +43,7 @@
                </div>
                <div class="form_submit_line">
                 <div class="left_part">手机号登录</div>
-                <div class="right_part" @click="onSubmit" disabled>
+                <div :class="{'right_part': true ,'disLoginBtn': !isCanLogin}" @click="onSubmit" disabled>
                   <span>登录
                       <div class="icon-animation">
                       <img class="icon move move" src="@/assets/img/home/loginAni/icon_01.png" alt="">
@@ -70,23 +70,34 @@
 </template>
 <script setup lang="ts">
 import { ref, watchEffect } from "vue";
+import { showSuccessToast } from 'vant';
 import { usePiniaState } from "@/hooks/usePiniaState";
-const { loginSheetState, common, theme } = usePiniaState();
+const { loginSheetState, common, theme, user} = usePiniaState();
 
 const isShowLoginCom = ref(false);
 const isRememberPass = ref(false); 
 const username = ref('');
 const password = ref('');
+const isCanLogin = ref(false);
 
 const changeRemmberStatus = () => {
   isRememberPass.value = !isRememberPass.value
 }
 
 const onSubmit = () => {
+  //在这里调用登录接口，修改用户登录状态
   console.log('submit', 'isRememberPass:',isRememberPass.value, 'username:',username.value, 'password:',password.value);
+  user.changeLoginStatus(true)
+  common.convertLoginSheet(false)
+  showSuccessToast('登录成功');
 };
 watchEffect(() => {
   isShowLoginCom.value = loginSheetState.value;
+  if(username.value && password.value) {
+    isCanLogin.value = true
+  } else {
+    isCanLogin.value = false
+  }
 });
 </script>
 <style lang="scss" scoped>
@@ -188,7 +199,6 @@ watchEffect(() => {
         height: 100%;
         background: #20b25b;
         border-radius: 5px;
-        opacity: 0.5;
         span {
           display: flex;
           flex-direction: row;
@@ -217,6 +227,9 @@ watchEffect(() => {
             }
           }
         }
+      }
+      .disLoginBtn {
+        opacity: 0.5;
       }
     }
     :deep(.van-cell-group--inset) {

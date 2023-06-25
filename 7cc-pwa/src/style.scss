@@ -38,8 +38,8 @@ p {
   .van-tabbar {
     background: #212a35;
   }
-  .van-tabbar-item-active {
-    background-color: var(--van-tabbar-item-active-background) !important;
+  .van-tabbar-item--active {
+    background-color: #212a35 !important;
   }
   .van-switch__node {
     background: #2f3541 !important;
@@ -58,9 +58,9 @@ p {
     background-color: #f2f4f6;
   }
   .van-tabbar {
-    background: #212a35;
+    // background: #212a35;
   }
-  .van-tabbar-item-active {
-    background-color: var(--van-tabbar-item-active-background) !important;
+  .van-tabbar-item--active {
+    background-color: #fff !important;
   }
 }

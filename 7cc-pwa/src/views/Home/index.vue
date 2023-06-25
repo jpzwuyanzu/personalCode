@@ -13,7 +13,7 @@
         </div>
       </div>
       <!-- 首页顶部推广下载模块 -->
-      <div class="header_line_center">
+      <div :class="{'header_line_center': true, 'header_line_center_dark': theme === 'dark'}">
         <div class="header_left">
           <img
             class="sys_setting_control"
@@ -66,7 +66,7 @@ const activeHomeTab = ref<string>("fb");
 //路由方法hooks
 const {appRouter, appRoute} = useAppRoute();
 //主题
-const { theme, custheme, loginState } = usePiniaState();
+const { theme, custheme, loginState, common } = usePiniaState();
 //顶部tab列表
 const homeTabList = reactive([
   {
@@ -120,7 +120,9 @@ const linkPage = () => {
 };
 //登录/注册
 const showLoginPopup = (type: number) => {
-  console.log(type)
+  if(type === 1) {
+    common.convertLoginSheet(true)
+  }
 }
 
 onMounted(() => {
@@ -183,7 +185,6 @@ onMounted(() => {
       padding: 7px 11px 7px 12px;
       height: 45px;
       box-sizing: border-box;
-      background-color: #1c2128;
       .header_left {
         display: flex;
         flex-direction: row;
@@ -235,6 +236,9 @@ onMounted(() => {
           }
         }
       }
+    }
+    .header_line_center_dark {
+      background-color: #1c2128;
     }
     .game_nav {
       :deep(.van-tab--active){

@@ -7,14 +7,14 @@
   >
     <div class="loginSheet_Content">
       <div class="sheet_btn_line">
-        <div class="cancel_btn" @click="common.convertLoginSheet(false)">取消</div>
+        <div :class="`cancel_btn_${theme}`" @click="common.convertLoginSheet(false)">取消</div>
         <div class="register_btn">注册</div>
       </div>
       <div class="login_top_part">
         <p class="hello">Hello!</p>
         <p class="welcome">欢迎来到7体育俱乐部</p>
       </div>
-      <div class="login_form login_form_dark">
+      <div :class="{ 'login_form': true, 'login_form_dark': theme === 'dark' ? true: false, 'login_form_light': theme === 'light' ? true : false }">
         <van-form>
             <van-cell-group inset>
                 <van-field
@@ -34,12 +34,12 @@
                clear-trigger="always"
                 />
                <div class="cus_form_line">
-                <div class="line_left">
-                    <van-radio-group v-model="isRememberPass">
-                    <van-radio name="1">记住密码</van-radio>
-                  </van-radio-group>
+                <div class="line_left" @click="changeRemmberStatus">
+                  <img v-if="isRememberPass" src="@/assets/img/home/checked.png" alt="">
+                  <img v-else src="@/assets/img/home/unchecked.png" alt="">
+                  <span>记住密码</span>
                 </div>
-                <div class="line_right">忘记密码?</div>
+                <div class="line_right" @click="changeRemmberStatus">忘记密码?</div>
                </div>
                <div class="form_submit_line">
                 <div class="left_part">手机号登录</div>
@@ -74,9 +74,14 @@ import { usePiniaState } from "@/hooks/usePiniaState";
 const { loginSheetState, common, theme } = usePiniaState();
 
 const isShowLoginCom = ref(false);
-const isRememberPass = ref('1'); //1代表记住密码
+const isRememberPass = ref(false); 
 const username = ref('');
 const password = ref('');
+
+const changeRemmberStatus = () => {
+  isRememberPass.value = !isRememberPass.value
+}
+
 const onSubmit = () => {
   console.log('submit', 'isRememberPass:',isRememberPass.value, 'username:',username.value, 'password:',password.value);
 };
@@ -96,7 +101,11 @@ watchEffect(() => {
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
-    .cancel_btn {
+    .cancel_btn_light {
+      color: #565E6A;
+      font-size: 15px;
+    }
+    .cancel_btn_dark {
       color: #bccbd9;
       font-size: 15px;
     }
@@ -132,7 +141,8 @@ watchEffect(() => {
     }
   }
   .login_form {
-    min-height: 400px; 
+    min-height: 400px;
+    padding: 0 9px; 
     .space_line {
       height: 15px;
       background: #242A32;
@@ -147,6 +157,18 @@ watchEffect(() => {
       font-weight: 400;
       color: #8696a2;
       font-size: 13px;
+      .line_left {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        img {
+          width: 15px;
+          height: 16px;
+          object-fit: contain;
+          margin-right: 8px;
+        }
+      }
     }
     .form_submit_line {
       display: flex;
@@ -166,6 +188,7 @@ watchEffect(() => {
         height: 100%;
         background: #20b25b;
         border-radius: 5px;
+        opacity: 0.5;
         span {
           display: flex;
           flex-direction: row;
@@ -204,8 +227,22 @@ watchEffect(() => {
     }
   }
   .login_form_light {
-    :deep(.van-cell) {
+    .space_line {
       background: none;
+    }
+    .cus_form_line {
+      background: none;
+    }
+    .form_submit_line {
+      background: none;
+      .right_part {
+        span {
+          color: #FFFFFF;
+        }
+      }
+    }
+    :deep(.van-cell) {
+      background: #F5F7F9;
     }
   }
   .login_form_dark {

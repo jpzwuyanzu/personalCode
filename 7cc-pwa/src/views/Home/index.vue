@@ -27,7 +27,7 @@
         </div>
         <!-- 判断是否登录，登录状态显示用户信息，未登录显示登录注册按钮 -->
         <div v-if="!loginState" class="register_login_btn">
-          <span>登录</span> / <span>注册</span><van-icon name="arrow" />
+          <span @click="showLoginPopup(1)">登录</span> / <span @click="showLoginPopup(2)">注册</span><van-icon name="arrow" />
         </div>
         <div v-else class="header_right">
           <span class="user_name">ximeng</span>
@@ -118,6 +118,10 @@ const switchLeftPopup = (bool: boolean) => {
 const linkPage = () => {
   appRouter.push("/home/" + activeHomeTab.value);
 };
+//登录/注册
+const showLoginPopup = (type: number) => {
+  console.log(type)
+}
 
 onMounted(() => {
   activeHomeTab.value = (appRoute.name as string)

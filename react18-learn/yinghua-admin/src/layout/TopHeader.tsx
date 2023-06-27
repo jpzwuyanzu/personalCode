@@ -83,7 +83,8 @@ export default function TopHeader() {
 
   return (
     <>
-      <Header style={{ padding: 0, background: colorBgContainer }}>
+      {/* <Header style={{ padding: 0, background: colorBgContainer }}> */}
+      <Header style={{ padding: 0 }}>
         <Button
           type="text"
           icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -92,6 +93,7 @@ export default function TopHeader() {
             fontSize: "16px",
             width: 64,
             height: 64,
+            color: '#00B96B'
           }}
         />
         <div className={styles.user_head_container}>

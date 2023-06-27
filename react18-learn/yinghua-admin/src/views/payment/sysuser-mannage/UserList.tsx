@@ -146,6 +146,7 @@ const UserList: React.FC = () => {
       title: "操作",
       key: "action",
       align: 'center',
+      width:400,
       render: (_, record: any) => (
         <Space size="middle">
           <JudgePemission pageUrl={'/payment/userlist_133'}>
@@ -200,7 +201,8 @@ const UserList: React.FC = () => {
   return (
     <div className={styles.TableCom_Container}>
       <div className={styles.Table_ContentArea}>
-        <Form
+       <div className={styles.table_search}>
+       <Form
           form={searchUserForm}
           name="basic"
           labelCol={{ span: 6 }}
@@ -271,14 +273,14 @@ const UserList: React.FC = () => {
             </JudgePemission>
           </Row>
         </Form>
-        <Table columns={columns} dataSource={tableList} loading={ loading }  pagination={false} rowKey={(record) => record.id} />
+       </div>
+        <div className={styles.table_content}>
+        <Table columns={columns} dataSource={tableList} loading={ loading }  pagination={false} rowKey={(record) => record.id} scroll={{y:'60vh'}}/>
+        </div>
+        <div className={styles.bottom_Pag_area}>
+        <PagiNation current={page} pageSize={pageSize} total={total} loadData={loadData}/>
       </div>
-      {
-        tableList && tableList.length ? ( <div className={styles.bottom_Pag_area}>
-          <PagiNation current={page} pageSize={pageSize} total={total} loadData={loadData}/>
-        </div>) : null
-      }
-     
+      </div>
       <UserListModule moduleWidth={moduleWidth} userInfo={userInfo} open={open} closeDrawer={closeDrawer}/>
       <ResetPassModal  open={modalStatus} userInfo={userInfo} closeModal={closeModal} isTop={false}/>
     </div>

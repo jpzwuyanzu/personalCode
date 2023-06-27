@@ -1,22 +1,27 @@
 .TableCom_Container {
     height: 100%;
-    position: relative;
     overflow: hidden;
     .Table_ContentArea {
-        height: 94%;
-        overflow-y: scroll;
+        height: 100%;
+        .table_search {
+            height: 60px;
+        }
+        .table_content {
+            height: calc(100% - 105px);
+        }
+        .bottom_Pag_area {
+            height: 45px;
+            // width: 100%;
+            position: absolute;
+            bottom: 40px;
+            right: 55px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: flex-end;
+            background: #fff;
+            z-index: 100;
+        }
     }
-    .bottom_Pag_area {
-        height: 6%;
-        width: 100%;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        justify-content: flex-end;
-        background: #fff;
-        z-index: 100;
-    }
+    
 }

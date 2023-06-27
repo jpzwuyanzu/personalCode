@@ -233,7 +233,8 @@ const UpStream: React.FC = () => {
   return (
     <div className={styles.TableCom_Container}>
       <div className={styles.Table_ContentArea}>
-        <Form
+       <div className="table_search">
+       <Form
           form={searchMerchantForm}
           name="basic"
           labelCol={{ span: 6 }}
@@ -324,11 +325,15 @@ const UpStream: React.FC = () => {
             </JudgePemission> */}
           </Row>
         </Form>
-        <Table columns={columns} dataSource={tableList} loading={ loading }  pagination={false} rowKey={(record) => record.id} scroll={{ y:'34vw'}}/>
-      </div>
-      <div className={styles.bottom_Pag_area}>
+       </div>
+        <div className="table_content">
+        <Table columns={columns} dataSource={tableList} loading={ loading }  pagination={false} rowKey={(record) => record.id} scroll={{ y:'63vh'}}/>
+        </div>
+        <div className={styles.bottom_Pag_area}>
         <PagiNation current={page} pageSize={pageSize} total={total} loadData={loadData}/>
       </div>
+      </div>
+      
       <UpStreamModule moduleWidth={moduleWidth} merchantInfo={merchantInfo} open={open} closeDrawer={closeDrawer}/>
     </div>
   )

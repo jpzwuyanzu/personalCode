@@ -100,7 +100,7 @@ export function updateGameList (params? :any) {
 }
 //删除游戏信息
 export function delGameList (params? :any) {
-    return request.post('/api/gameInfo/update', {'requestTimeStamp': (new Date()).getTime() , ...params})
+    return request.post('/api/gameInfo/delById', {'requestTimeStamp': (new Date()).getTime() , ...params})
 }
 //查询游戏套餐
 export function gamePkgList (params? :any) {

@@ -176,7 +176,8 @@ const RoleList: React.FC = () => {
   return (
     <div className={styles.TableCom_Container}>
       <div className={styles.Table_ContentArea}>
-        <Form
+       <div className={styles.table_search}>
+       <Form
           name="basic"
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 16 }}
@@ -237,13 +238,16 @@ const RoleList: React.FC = () => {
             </JudgePemission>
           </Row>
         </Form>
-        <Table columns={columns} dataSource={tableList} loading={loading} pagination={false} rowKey={(record) => record.id} />
-      </div>
-      {
+       </div>
+       <div className={styles.table_content}>
+       <Table columns={columns} dataSource={tableList} loading={loading} pagination={false} rowKey={(record) => record.id} />
+       </div>
+       {
         tableList && tableList.length ? ( <div className={styles.bottom_Pag_area}>
           <PagiNation current={page} pageSize={pageSize} total={total} loadData={loadData}/>
         </div>) : null
       }
+      </div>
       <RoleListModule  moduleWidth={moduleWidth} roleInfo={roleInfo} open={open} closeDrawer={closeDrawer}/>
     </div>
   )

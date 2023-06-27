@@ -298,7 +298,8 @@ const ChannelList: React.FC = () => {
   return (
     <div className={styles.TableCom_Container}>
       <div className={styles.Table_ContentArea}>
-        <Form
+      <div className={styles.table_search}>
+      <Form
           form={searchChannelForm}
           name="basic"
           labelCol={{ span: 6 }}
@@ -390,10 +391,13 @@ const ChannelList: React.FC = () => {
             </JudgePemission> */}
           </Row>
         </Form>
-        <Table columns={columns} dataSource={tableList} loading={ loading }  pagination={false}  rowKey={(record) => record.id} scroll={{ y:'34vw'}} />
       </div>
-      <div className={styles.bottom_Pag_area}>
+        <div className={styles.table_content}>
+        <Table columns={columns} dataSource={tableList} loading={ loading }  pagination={false}  rowKey={(record) => record.id} scroll={{ y:'63vh'}} />
+        </div>
+        <div className={styles.bottom_Pag_area}>
         <PagiNation current={page} pageSize={pageSize} total={total} loadData={loadData}/>
+      </div>
       </div>
       <ChannelModule moduleWidth={moduleWidth} channelInfo={channelInfo} open={open} closeDrawer={closeDrawer}/>
     </div>

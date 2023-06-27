@@ -118,8 +118,8 @@ export default function GameListModule({
 
   return (
     <Drawer
+      title={Object.keys(gameInfo).length === 0 ? "新增游戏" : "编辑游戏"}
       getContainer={false}
-      title={Object.keys(gameInfo).length === 0 ? "新增商户" : "编辑商户"}
       size={moduleWidth}
       placement="right"
       onClose={closeDrawer}

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Col,
@@ -10,70 +10,91 @@ import {
   Select,
   message,
   Switch,
+  InputNumber
 } from "antd";
 import { respMessage } from '@/utils/message'
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
-import { upDateUpStreamMerchant } from "@/api/index";
+import { updateGameList } from "@/api/index";
+import CusUpload from '@/components/CusUpload'
 import styles from './GameListModule.module.scss'
 
 interface IProps {
   moduleWidth?: any;
   data?: {
-    name?: string;
+    gameName?: string;
     status?: number;
     id?: number;
+    sort?: number;
+    cover?: string;
   };
   closeDrawer?: () => void;
   open?: boolean;
   gameInfo?: any;
+  imagehost?:any;
 }
-
-const creditTypeArr: any = [{value: 0,label: '信用模式'},{value: 1,label: '非信用模式'}] //商户模式
+//游戏类型
+const gameTypeArr: any = [
+  {value: 1,label: '电子类'},
+  {value: 2,label: '棋牌对战类'},
+  {value: 3,label: '捕鱼类'},
+  {value: 4,label: '视讯类'},
+  {value: 5,label: '棋牌类'}
+]
 
 export default function GameListModule({
   moduleWidth,
   gameInfo,
+  imagehost,
   open,
   closeDrawer,
 }: IProps) {
-  const [merchantForm] = Form.useForm();
-
+  const [gameForm] = Form.useForm();
+  const [fastUrl, setFastUrl] = useState<string>('');
 
 
 
   const fetchData = async () => {
     if (open) {
-      if (merchantForm) {
+      if (gameForm) {
         //编辑
         if (Object.keys(gameInfo).length) {
-          merchantForm.setFieldsValue({
-            channelName: (gameInfo as any).channelName,
-            creditType: (gameInfo as any).creditType,
+          gameForm.setFieldsValue({
+            gameName: (gameInfo as any).gameName,
+            gameType: (gameInfo as any).gameType,
             status: Number((gameInfo as any).status) === 1 ? true : false,
-            
-            
+            sort: (gameInfo as any).sort,
+            cover: (gameInfo as any).cover,
           });
         } else {
           //新增
-          merchantForm.setFieldsValue({
-            channelName: "",
-            creditType: undefined,
-            status: true
+          gameForm.setFieldsValue({
+            gameName: "",
+            gameType: undefined,
+            status: true,
+            sort: 0,
+            cover: '',
           });
         }
       }
     }
   };
+  const saveUploadImgUrl = (url: string) => {
+    setFastUrl(url)
+  }
 
-  const confirmEditChannel = async () => {
-    merchantForm
+  const confirmEditGame = async () => {
+    gameForm
       ?.validateFields()
       .then(async (values) => {
+        console.log(values)
+        let params = {...values, status: Boolean(values.status) ? 1 : 2,}
         if (Object.keys(gameInfo).length) {
-          const res: any = await upDateUpStreamMerchant({
-            ...values,
-            status: Boolean(values.status) ? 1 : 2,
-            id: gameInfo.id
+          if(fastUrl) {
+            params.cover = fastUrl
+          }
+          const res: any = await updateGameList({
+            id: gameInfo.id,
+            ...params
           });
           if (res && res.code && res.code === 200) {
             (closeDrawer as any)();
@@ -88,9 +109,9 @@ export default function GameListModule({
             });
           }
         } else {
-            const res: any = await upDateUpStreamMerchant({
-              ...values,
-              status: Boolean(values.status) ? 1 : 2,
+            const res: any = await updateGameList({
+              ...params,
+              cover: fastUrl
             });
             if (res && res.code && res.code === 200) {
               (closeDrawer as any)();
@@ -137,7 +158,7 @@ export default function GameListModule({
             <Button type="primary" danger onClick={closeDrawer}>
               取消
             </Button>
-            <Button type="primary" onClick={confirmEditChannel}>
+            <Button type="primary" onClick={confirmEditGame}>
               确认
             </Button>
           </Space>
@@ -148,48 +169,62 @@ export default function GameListModule({
         <div style={{ overflowY: 'scroll' }}>
           <Form
           layout="horizontal"
-          form={merchantForm}
+          form={gameForm}
           labelCol={{ span: 7 }}
           wrapperCol={{ span: 17 }}
           initialValues={{
             status: true,
-            rate: 0
+            sort: 0
           }}
         >
            <Row>
             <Col span={24}>
               <Form.Item
-                name="channelName"
-                label="商户名称"
-                rules={[{ required: true, message: "请输入商户名称" }]}
+                name="gameName"
+                label="游戏名称"
+                rules={[{ required: true, message: "请输入游戏名称" }]}
               >
-                <Input placeholder="请输入商户名称" />
+                <Input placeholder="请输入游戏名称" />
               </Form.Item>
             </Col>
           </Row>
           <Row>
             <Col span={24}>
               <Form.Item
-                name="creditType"
-                label="商户模式"
-                rules={[{ required: true, message: "请选择商户模式" }]}
+                name="gameType"
+                label="游戏类型"
+                rules={[{ required: true, message: "请选择游戏类型" }]}
               >
                 <Select
                   style={{ width: "100%" }}
                   onChange={() => {}}
-                  placeholder="请选择商户模式"
-                  options={[...creditTypeArr]}
+                  placeholder="请选择游戏类型"
+                  options={[...gameTypeArr]}
                 />
               </Form.Item>
             </Col>
           </Row>
           <Row>
             <Col span={24}>
-              <Form.Item name="status" label="商户状态" valuePropName="checked">
+              <Form.Item name="status" label="游戏状态" valuePropName="checked">
                 <Switch
                   checkedChildren={<CheckOutlined />}
                   unCheckedChildren={<CloseOutlined />}
                 />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24}>
+              <Form.Item name="sort" label="游戏排序">
+              <InputNumber  min={0} max={100000} placeholder="游戏序号"/>
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24}>
+              <Form.Item name="cover" label="游戏封面">
+                <CusUpload saveUploadImgUrl={saveUploadImgUrl} gameInfo={{'host':imagehost, ...gameInfo}} isAddGame={ Object.keys(gameInfo).length === 0 ? true : false }/>
               </Form.Item>
             </Col>
           </Row>

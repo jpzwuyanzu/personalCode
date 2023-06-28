@@ -84,7 +84,7 @@ export function upDatePayTypeList (params? :any) {
 }
 // 上传fast接口
 export function uploadFastImg (params? :any) {
-    return request.post('/api/sys/upload/uploadFile', {'requestTimeStamp': (new Date()).getTime() , ...params})
+    return request.post('/api/sys/upload/uploadFile', params)
 }
 //查询游戏列表
 export function gameList (params? :any) { 

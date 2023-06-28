@@ -23,7 +23,6 @@ const PageSandBox: React.FC = () => {
             padding: 24,
             minHeight: 280,
             background: colorBgContainer,
-            boxSizing: 'border-box'
           }}
         >
           <RouterView/>

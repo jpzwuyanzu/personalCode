@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom'
 import { AppstoreOutlined } from '@ant-design/icons';
+import Icon from '@/components/Icon'
 import type { MenuProps } from 'antd';
 import { Menu, Layout } from 'antd';
 import { useAppSelector } from "@/hooks/hooks";
@@ -35,26 +36,31 @@ const formMenuData = (menuData: any) => {
   let buttonPermiss: any = []; //前端按钮权限控制
   if (menuData.length) {
     menuData.forEach((item: any) => {
-      let arr1: any = [];
-      if (item.list && item.list) {
-        item.list.forEach((itm: any) => {
-          arr1.push(getItem(itm.name,  itm.path));
-          FMenu[String(itm.path).split('/')[2]] = String(item.path + '_' + item.id)
-          if(itm.list && itm.list.length) {
-            itm.list.forEach((btn_itm: any) => {
-              buttonPermiss.push(itm.path + '_' + btn_itm.id)
-            })
-          }
-        });
-        sideMenuArr.push(getItem(item.name,  item.path + '_' + item.id,  <AppstoreOutlined />, arr1));
-        rootSubmenuKeys.indexOf(item.path + '_' + item.id) === -1 && rootSubmenuKeys.push(item.path + '_' + item.id) 
+      if(item.path.indexOf('/home') !== -1) {
+        sideMenuArr.push(getItem(item.name, item.path,  <Icon icon={ item.icon } />))
       } else {
-        if(item.path) {
-          FMenu[String(item.path).split('/')[2]] = String(item.path + '_' + item.id)
+        let arr1: any = [];
+        if (item.list && item.list) {
+          item.list.forEach((itm: any) => {
+            arr1.push(getItem(itm.name,  itm.path));
+            FMenu[String(itm.path).split('/')[2]] = String(item.path + '_' + item.id)
+            if(itm.list && itm.list.length) {
+              itm.list.forEach((btn_itm: any) => {
+                buttonPermiss.push(itm.path + '_' + btn_itm.id)
+              })
+            }
+          });
+          sideMenuArr.push(getItem(item.name,  item.path + '_' + item.id,  <Icon icon={ item.icon } />, arr1));
+          rootSubmenuKeys.indexOf(item.path + '_' + item.id) === -1 && rootSubmenuKeys.push(item.path + '_' + item.id) 
+        } else {
+          if(item.path) {
+            FMenu[String(item.path).split('/')[2]] = String(item.path + '_' + item.id)
+          }
+          sideMenuArr.push(getItem(item.name,  item.path + '_' + item.id, <Icon icon={ item.icon } />));
+          rootSubmenuKeys.indexOf(item.path + '_' + item.id) === -1 && rootSubmenuKeys.push(item.path + '_' + item.id) 
         }
-        sideMenuArr.push(getItem(item.name,  item.path + '_' + item.id, <AppstoreOutlined />));
-        rootSubmenuKeys.indexOf(item.path + '_' + item.id) === -1 && rootSubmenuKeys.push(item.path + '_' + item.id) 
       }
+      
     });
   }
   sessionStorage.setItem('btnPermiss',JSON.stringify(buttonPermiss))
@@ -71,6 +77,7 @@ const SideMenu = () => {
   const fmName = pathname.split('/')[2];
   const [selectedKeys, setSelectedKeys] = useState<any>([]);
   const items: any =formMenuData(MenuInfo)
+  console.log(items)
 
   const onOpenChange: any = (keys: any) => {
     const latestOpenKey: any = keys.find((key: any) => (openKeys as any).indexOf(key) === -1);

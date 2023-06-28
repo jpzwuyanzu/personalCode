@@ -18,6 +18,7 @@ import {
   Switch,
   Popconfirm,
   Image,
+  Select
 } from "antd";
 import type { FormInstance } from "antd/es/form";
 import { respMessage } from "@/utils/message";
@@ -118,6 +119,12 @@ interface DataType {
   address: string;
 }
 
+const gameGroupArr = [
+  { value: 0, label: '瓦力游戏' },
+  { value: 1, label: '开元游戏' },
+  { value: 2, label: '加藤游戏' }
+]
+
 const GameList: React.FC = () => {
   const [total, setTotal] = useState<number>(0);
   const [page, setpage] = useState<number>(1);
@@ -127,7 +134,7 @@ const GameList: React.FC = () => {
   const [moduleWidth, setModuleWidth] = useState("");
   const [gameInfo, setGameInfo] = useState({});
   const [loading, setLoading] = useState<boolean>(false);
-  const [imagehost, setImageHost] = useState<string>('');
+  const [imagehost, setImageHost] = useState<string>("");
   const [searchGameInfoForm] = Form.useForm();
 
   const onFinish = (values: any) => {
@@ -140,7 +147,7 @@ const GameList: React.FC = () => {
   };
 
   const resetParams = () => {
-    searchGameInfoForm?.setFieldsValue({ gameName: "" });
+    searchGameInfoForm?.setFieldsValue({ gameName: "", gameGroup: undefined });
     fetchData({});
   };
 
@@ -155,7 +162,7 @@ const GameList: React.FC = () => {
     setLoading(false);
     console.log(data);
     if (data && data.code && data.code === 200) {
-      setImageHost(data.fastUrl)
+      setImageHost(data.fastUrl);
       setTableList(data.page.list ? data.page.list : []);
       setTotal(data.page.totalCount ? data.page.totalCount : 0);
     } else {
@@ -170,7 +177,7 @@ const GameList: React.FC = () => {
     setLoading(true);
     const resp: any = await updateGameList({
       id: id,
-      status: Number(Boolean(checked) ? 1 : 2)
+      status: Number(Boolean(checked) ? 1 : 2),
     });
     setLoading(false);
     if (resp && resp.code && resp.code === 200) {
@@ -201,6 +208,29 @@ const GameList: React.FC = () => {
 
   const defaultColumns: any = [
     {
+      title: "游戏厂家",
+      dataIndex: "gameGroup",
+      align: "center",
+      key: "gameGroup",
+      width: 150,
+      fixed: "left",
+      render: (text: any) => {
+        let result = "";
+        switch (text) {
+          case 0:
+            result = '瓦力游戏'
+            break;
+            case 1:
+              result = '开元游戏'
+              break;
+              case 2:
+            result = '加藤游戏'
+            break;
+        }
+        return result;
+      }
+    },
+    {
       title: "游戏ID",
       dataIndex: "gameId",
       key: "gameId",
@@ -230,11 +260,11 @@ const GameList: React.FC = () => {
       width: 150,
       render: (_text: any, record: any) => (
         <Image
-        width={120}
-        style={{ width: '120px', height: '80px',overflow: 'hidden' }}
-        src={`${imagehost + record.cover}?${Date.now()}`}
-        fallback="data:image/png;base64,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"
-      />
+          width={120}
+          style={{ width: "120px", height: "80px", overflow: "hidden" }}
+          src={`${imagehost + record.cover}?${Date.now()}`}
+          fallback="data:image/png;base64,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"
+        />
       ),
     },
     {
@@ -270,16 +300,15 @@ const GameList: React.FC = () => {
       dataIndex: "sort",
       align: "center",
       key: "sort",
-      width: 150,
+      width: 130,
       editable: true,
-      // render: (text: any) => <Tag  color={ Number(text) === 0 ? 'cyan' : 'volcano' }>{ Number(text) === 0 ? '信用模式' : '非信用模式'  }</Tag>
     },
     {
       title: "游戏状态",
       dataIndex: "status",
       align: "center",
       key: "status",
-      width: 150,
+      width: 130,
       render: (text: any, record: any) => (
         <>
           <Switch
@@ -310,7 +339,7 @@ const GameList: React.FC = () => {
       key: "action",
       align: "center",
       fixed: "right",
-      width: 250,
+      width: 200,
       render: (_: any, record: any) => (
         <Space size="middle">
           <JudgePemission pageUrl={"/payment/upstream_362"}>
@@ -335,30 +364,6 @@ const GameList: React.FC = () => {
         </Space>
       ),
     },
-    // {
-    //   title: '游戏ID',
-    //   dataIndex: 'name',
-    //   width: '30%',
-    //   editable: true,
-    // },
-    // {
-    //   title: 'age',
-    //   dataIndex: 'age',
-    // },
-    // {
-    //   title: 'address',
-    //   dataIndex: 'address',
-    // },
-    // {
-    //   title: 'operation',
-    //   dataIndex: 'operation',
-    //   render: (_:any, record: any) =>
-    //   tableList.length >= 1 ? (
-    //       <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
-    //         <a>Delete</a>
-    //       </Popconfirm>
-    //     ) : null,
-    // },
   ];
 
   const handleSave = async (row: any) => {
@@ -371,13 +376,16 @@ const GameList: React.FC = () => {
     });
     setTableList(newData);
     console.log(row);
-    const res:any = await updateGameList({ id: row.id, sort: Number(row.sort) })
-    if(res && res.code && res.code === 200) {
+    const res: any = await updateGameList({
+      id: row.id,
+      sort: Number(row.sort),
+    });
+    if (res && res.code && res.code === 200) {
       message.open({
         type: "success",
-        content: '修改成功',
+        content: "修改成功",
       });
-      fetchData({})
+      fetchData({});
     } else {
       message.open({
         type: "error",
@@ -428,121 +436,85 @@ const GameList: React.FC = () => {
   return (
     <div className={styles.TableCom_Container}>
       <div className={styles.Table_ContentArea}>
-       <div className={styles.table_search}>
-       <Form
-          form={searchGameInfoForm}
-          name="basic"
-          labelCol={{ span: 6 }}
-          wrapperCol={{ span: 16 }}
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-          autoComplete="off"
-          initialValues={{
-            status: 0,
-            creditType: "",
-          }}
-        >
-          <Row justify="start">
-            <Col span={4}>
-              <Form.Item
-                label="游戏名称"
-                name="gameName"
-                rules={[{ required: false, message: "请输入游戏名称!" }]}
-              >
-                <Input placeholder="请输入游戏名称" allowClear={true} />
-              </Form.Item>
-            </Col>
-            {/* <Col span={4}>
-        
-        <Form.Item
-          label="商户状态"
-          name="status"
-          rules={[
-            { required: false, message: "请选择商户状态!" },
-          ]}
-        >
-          <Select
-          style={{ width: '100%' }}
-          onChange={() => {}}
-          options={[
-            { value: 0, label: '全部' },
-            { value: 1, label: '启用' },
-            { value: 2, label: '禁用' },
-          ]}
-        />
-        </Form.Item>
-      </Col>
-      <Col span={4}>
-      <Form.Item
-          label="商户模式"
-          name="creditType"
-          rules={[
-            { required: false, message: "请选择支付类型!" },
-          ]}
-        >
-          <Select
-          style={{ width: '100%' }}
-          onChange={() => {}}
-          options={[
-            { value: '', label: '全部' },
-            { value: 0, label: '信用模式' },
-            { value: 1, label: '非信用模式' },
-          ]}
-        />
-        </Form.Item>
-      </Col> */}
-            {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
-            <Col span={1}>
-              <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
-                <Button type="primary" htmlType="submit">
-                  搜索
-                </Button>
-              </Form.Item>
-            </Col>
-            {/* </JudgePemission> */}
-            <Col span={1}>
-              <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
-                <Button
-                  type="primary"
-                  style={{ marginLeft: "13px" }}
-                  onClick={() => resetParams()}
+        <div className={styles.table_search}>
+          <Form
+            form={searchGameInfoForm}
+            name="basic"
+            labelCol={{ span: 6 }}
+            wrapperCol={{ span: 16 }}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+            initialValues={{
+              status: 0,
+              creditType: "",
+            }}
+          >
+            <Row justify="start">
+              <Col span={4}>
+                <Form.Item
+                  label="游戏名称"
+                  name="gameName"
                 >
-                  重置
-                </Button>
-              </Form.Item>
-            </Col>
-            {/* <JudgePemission pageUrl={'/payment/userlist_132'}>
-      <Col span={1}>
-        <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
-          <Button type="primary" style={{ marginLeft: '19px' }} onClick={() => openDrawer('375px', {})}>
-            新增商户
-          </Button>
-        </Form.Item>
-      </Col>
-      </JudgePemission> */}
-          </Row>
-        </Form>
-       </div>
-        <div className={styles.table_content}>
-        <Table
-          components={components}
-          rowClassName={() => "editable-row"}
-          columns={columns}
-          dataSource={tableList}
-          loading={loading}
-          pagination={false}
-          rowKey={(record) => record.id}
-          scroll={{ x: true,y: "34vw" }}
-        />
+                  <Input placeholder="请输入游戏名称" allowClear={true} />
+                </Form.Item>
+              </Col>
+              <Col span={5}>
+                <Form.Item
+                  label="游戏厂家"
+                  name="gameGroup"
+                >
+                 <Select
+                  style={{ width: "100%" }}
+                  onChange={() => {}}
+                  placeholder="请选择游戏厂家"
+                  options={[...gameGroupArr]}
+                />
+                </Form.Item>
+              </Col>
+              {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
+              <Col span={1}>
+                <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
+                  <Button type="primary" htmlType="submit">
+                    搜索
+                  </Button>
+                </Form.Item>
+              </Col>
+              {/* </JudgePemission> */}
+              <Col span={1}>
+                <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
+                  <Button
+                    type="primary"
+                    style={{ marginLeft: "13px" }}
+                    onClick={() => resetParams()}
+                  >
+                    重置
+                  </Button>
+                </Form.Item>
+              </Col>
+            </Row>
+          </Form>
         </div>
-         <div className={styles.bottom_Pag_area}>
-        <PagiNation
-          current={page}
-          pageSize={pageSize}
-          total={total}
-          loadData={loadData}
-        />
-      </div>
+        <div className={styles.table_content}>
+          <Table
+            components={components}
+            rowClassName={() => "editable-row"}
+            columns={columns}
+            dataSource={tableList}
+            loading={loading}
+            pagination={false}
+            rowKey={(record) => record.id}
+            scroll={{ x: true, y: "34vw" }}
+          />
+        </div>
+        <div className={styles.bottom_Pag_area}>
+          <PagiNation
+            current={page}
+            pageSize={pageSize}
+            total={total}
+            loadData={loadData}
+          />
+        </div>
       </div>
       <GameListModule
         moduleWidth={moduleWidth}

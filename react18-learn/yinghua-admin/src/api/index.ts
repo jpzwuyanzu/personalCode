@@ -118,6 +118,42 @@ export function updateGamePkg (params? :any) {
 export function delGamePkg (params? :any) {
     return request.post('/api/gamepkg/delete', {'requestTimeStamp': (new Date()).getTime() , ...params})
 }
+//查询短信配置列表
+export function smsList (params? :any) {
+    return request.post('/api/sms/list', {'requestTimeStamp': (new Date()).getTime() , ...params})
+}
+//编辑短信配置列表
+export function updateSmsList (params? :any) {
+    return request.post('/api/sms/update', {'requestTimeStamp': (new Date()).getTime() , ...params})
+}
+//删除短信配置列表
+export function delSmsList (params? :any) {
+    return request.post('/api/sms/delete', {'requestTimeStamp': (new Date()).getTime() , ...params})
+}
+//修改短信配置状态
+export function switchSmsStatus (params? :any) {
+    return request.post('/api/sms/updateStatus', {'requestTimeStamp': (new Date()).getTime() , ...params})
+}
+//新增版本信息
+export function addVersion (params? :any) {
+    return request.post('/api/sys/version/save', {'requestTimeStamp': (new Date()).getTime() , ...params})
+}
+//修改版本信息
+export function updateVersion (params? :any) {
+    return request.post('/api/sys/version/update', {'requestTimeStamp': (new Date()).getTime() , ...params})
+}
+//查询app版本列表
+export function versionList (params? :any) {
+    return request.post('/api/sys/version/list', {'requestTimeStamp': (new Date()).getTime() , ...params})
+}
+//删除app版本信息
+export function delVersion (params? :any) {
+    return request.post('/api/sys/version/delete', {'requestTimeStamp': (new Date()).getTime() , ...params})
+}
+
+
+
+
 
 
 

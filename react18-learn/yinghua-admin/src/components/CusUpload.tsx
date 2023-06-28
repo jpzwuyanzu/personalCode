@@ -28,12 +28,17 @@ const CusUpload: any = ({ gameInfo, isAddGame, saveUploadImgUrl }:IProps) => {
 
   const onChange: UploadProps['onChange'] = async ({ fileList: newFileList }) => {
     setFileList(newFileList);
-    if(newFileList && (newFileList as any)[0] && (newFileList as any)[0]['originFileObj']) {
+  };
+
+  const customRequest = async (files: any) => {
+    console.log(files)
+    if(files.file) {
       const formData = new FormData()
-      formData.append('file', (newFileList as any)[0]['originFileObj'])
+      formData.append('file', files.file)
       console.log(formData.getAll('file'))
       const res: any = await uploadFastImg(formData)
       if(res && res.code && res.code === 200) {
+        setFileList([{...fileList[0],'status': 'done','thumbUrl': res.data.fastUrl+''+res.data.fastPath}])
         saveUploadImgUrl(res.data.fastPath)
       } else {
         message.open({
@@ -42,16 +47,17 @@ const CusUpload: any = ({ gameInfo, isAddGame, saveUploadImgUrl }:IProps) => {
         });
       }
     }
-  };
+  }
 
   const handleCancel = () => setPreviewOpen(false);
 
   const handlePreview = async (file: UploadFile) => {
-    if (!file.url && !file.preview) {
+    console.log(file)
+    if (!file.url && !file.preview && !file.thumbUrl) {
       file.preview = await getBase64(file.originFileObj as RcFile);
     }
-
-    setPreviewImage(file.url || (file.preview as string));
+    
+    setPreviewImage(file.url || file.thumbUrl || (file.preview as string));
     setPreviewOpen(true);
     setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
   };
@@ -68,7 +74,7 @@ const CusUpload: any = ({ gameInfo, isAddGame, saveUploadImgUrl }:IProps) => {
           onRemove={ () => saveUploadImgUrl('') }
           onPreview={handlePreview}
           maxCount={1}
-          beforeUpload={(_f,_fList) => false}
+          customRequest={customRequest}
         >
           {fileList.length < 1 && '+ Upload'}
         </Upload>

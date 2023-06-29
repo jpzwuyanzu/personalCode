@@ -24,8 +24,9 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
           theme={{
             token: {
               colorPrimary: "#00b96b"
-              // algorithm: [theme.compactAlgorithm, theme.darkAlgorithm]
+              
             },
+            // algorithm: [theme.darkAlgorithm]
           }}
         >
           <App />

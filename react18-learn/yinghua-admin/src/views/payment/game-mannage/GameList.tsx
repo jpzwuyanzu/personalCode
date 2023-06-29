@@ -120,6 +120,7 @@ interface DataType {
 }
 
 const gameGroupArr = [
+  { value: '', label: '全部' },
   { value: 0, label: '瓦力游戏' },
   { value: 1, label: '开元游戏' },
   { value: 2, label: '加藤游戏' }
@@ -147,7 +148,7 @@ const GameList: React.FC = () => {
   };
 
   const resetParams = () => {
-    searchGameInfoForm?.setFieldsValue({ gameName: "", gameGroup: undefined });
+    searchGameInfoForm?.setFieldsValue({ gameName: "", gameGroup: '' });
     fetchData({});
   };
 
@@ -448,6 +449,7 @@ const GameList: React.FC = () => {
             initialValues={{
               status: 0,
               creditType: "",
+              gameGroup: ''
             }}
           >
             <Row justify="start">

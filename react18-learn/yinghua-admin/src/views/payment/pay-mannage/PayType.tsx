@@ -222,7 +222,7 @@ const PayType: React.FC = () => {
             itm.data && itm.data.length ? (<Fragment key={inx}>
               <h2 style={{ padding: '20px', fontSize: '20px' }}>{itm.title}</h2>
             <div style={{ padding: '20px', background: 'rgba(231,232,237,1)', borderRadius: '5px'}}>
-            <Watermark content="猜猜我是谁">
+            <Watermark content="蚂蚁金服">
             <Table
               bordered
               columns={columns}

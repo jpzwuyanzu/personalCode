@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { AppstoreOutlined } from '@ant-design/icons';
 import Icon from '@/components/Icon'
 import type { MenuProps } from 'antd';
-import { Menu, Layout } from 'antd';
+import { Menu, Layout, theme } from 'antd';
 import { useAppSelector } from "@/hooks/hooks";
 import styles from './SideMenu.module.scss'
 import LogoImg from './../assets/logo.png'
@@ -69,6 +69,7 @@ const formMenuData = (menuData: any) => {
 
 
 const SideMenu = () => {
+  const {token: { colorBgContainer }} = theme.useToken();
   const MenuInfo = useAppSelector((state) => state.user.menuList);
   const collapsed = useAppSelector((state) => state.collapse.status);
   const [openKeys, setOpenKeys] = useState<any>([]);
@@ -99,6 +100,7 @@ const SideMenu = () => {
   }, [pathname])
 
   return (
+    // <Sider trigger={null} collapsible collapsed={collapsed} style={{ background: colorBgContainer }}>
     <Sider trigger={null} collapsible collapsed={collapsed}>
       <div className={ styles.logo }>
         <img className={ styles.logoImg } src={ LogoImg } alt="" />

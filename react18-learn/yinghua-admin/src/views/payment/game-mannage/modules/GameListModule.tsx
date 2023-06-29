@@ -16,7 +16,6 @@ import { respMessage } from '@/utils/message'
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { updateGameList } from "@/api/index";
 import CusUpload from '@/components/CusUpload'
-import styles from './GameListModule.module.scss'
 
 interface IProps {
   moduleWidth?: any;

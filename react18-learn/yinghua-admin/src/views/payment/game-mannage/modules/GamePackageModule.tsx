@@ -14,7 +14,6 @@ import {
 import { respMessage } from "@/utils/message";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { updateGamePkg } from "@/api/index";
-import styles from "./GamePackage.module.scss";
 
 interface IProps {
   moduleWidth?: any;
@@ -183,22 +182,6 @@ export default function GameListModule({
                 </Form.Item>
               </Col>
             </Row>
-            {/* <Row>
-            <Col span={24}>
-              <Form.Item
-                name="gameType"
-                label="套餐类型"
-                rules={[{ required: true, message: "请选择套餐类型" }]}
-              >
-                <Select
-                  style={{ width: "100%" }}
-                  onChange={() => {}}
-                  placeholder="请选择套餐类型"
-                  options={[...gameTypeArr]}
-                />
-              </Form.Item>
-            </Col>
-          </Row> */}
             <Row>
               <Col span={24}>
                 <Form.Item

@@ -23,12 +23,12 @@ interface IProps {
   };
   closeDrawer?: () => void;
   open?: boolean;
-  smsInfo?: any;
+  versionInfo?: any;
 }
 
 export default function VersionListModule({
   moduleWidth,
-  smsInfo,
+  versionInfo,
   open,
   closeDrawer,
 }: IProps) {
@@ -38,15 +38,15 @@ export default function VersionListModule({
     if (open) {
       if (gampkgForm) {
         //编辑
-        if (Object.keys(smsInfo).length) {
+        if (Object.keys(versionInfo).length) {
           gampkgForm.setFieldsValue({
-            userName: (smsInfo as any).userName,
-            pwd: (smsInfo as any).pwd,
-            userId: (smsInfo as any).userId,
-            getaway: (smsInfo as any).getaway,
-            params1: (smsInfo as any).params1,
-            params2: (smsInfo as any).params2,
-            params3: (smsInfo as any).params3,
+            userName: (versionInfo as any).userName,
+            pwd: (versionInfo as any).pwd,
+            userId: (versionInfo as any).userId,
+            getaway: (versionInfo as any).getaway,
+            params1: (versionInfo as any).params1,
+            params2: (versionInfo as any).params2,
+            params3: (versionInfo as any).params3,
           });
         } else {
           //新增
@@ -72,9 +72,9 @@ export default function VersionListModule({
         let params = {
           ...values
         };
-        if (Object.keys(smsInfo).length) {
+        if (Object.keys(versionInfo).length) {
           const res: any = await updateSmsList({
-            id: smsInfo.id,
+            id: versionInfo.id,
             ...params,
           });
           if (res && res.code && res.code === 200) {
@@ -118,7 +118,7 @@ export default function VersionListModule({
 
   return (
     <Drawer
-      title={Object.keys(smsInfo).length === 0 ? "新增" : "编辑"}
+      title={Object.keys(versionInfo).length === 0 ? "新增" : "编辑"}
       getContainer={false}
       size={moduleWidth}
       placement="right"

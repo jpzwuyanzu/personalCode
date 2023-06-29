@@ -4,17 +4,14 @@ import {
   Table,
   Button,
   Form,
-  Input,
   Col,
   Row,
   message,
-  Switch,
   Popconfirm,
   Tag,
   Select,
 } from "antd";
 import { respMessage } from "@/utils/message";
-import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import PagiNation from "@/components/PagiNation";
 import { versionList, updateVersion, delSmsList } from "@/api/index";
 import dayjs from "dayjs";
@@ -36,7 +33,7 @@ const SmsList: React.FC = () => {
   const [tableList, setTableList] = useState<any[]>([]);
   const [open, setOpen] = useState(false);
   const [moduleWidth, setModuleWidth] = useState("");
-  const [smsInfo, setSmsInfo] = useState({});
+  const [versionInfo, setSmsInfo] = useState({});
   const [loading, setLoading] = useState<boolean>(false);
   const [searchSmsInfoForm] = Form.useForm();
 
@@ -259,9 +256,9 @@ const SmsList: React.FC = () => {
   ];
 
   //新增/编辑用户
-  const openDrawer = (moduleWidth: string, smsInfo: any) => {
+  const openDrawer = (moduleWidth: string, versionInfo: any) => {
     setModuleWidth(moduleWidth);
-    setSmsInfo(smsInfo);
+    setSmsInfo(versionInfo);
     setOpen(true);
   };
   //关闭抽屉
@@ -387,7 +384,7 @@ const SmsList: React.FC = () => {
       </div>
       <VersionListModule
         moduleWidth={moduleWidth}
-        smsInfo={smsInfo}
+        versionInfo={versionInfo}
         open={open}
         closeDrawer={closeDrawer}
       />

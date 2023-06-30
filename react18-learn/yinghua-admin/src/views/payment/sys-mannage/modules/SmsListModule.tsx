@@ -68,7 +68,6 @@ export default function SmsListModule({
     gampkgForm
       ?.validateFields()
       .then(async (values) => {
-        console.log(values);
         let params = {
           ...values
         };

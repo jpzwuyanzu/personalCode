@@ -139,7 +139,6 @@ const GameList: React.FC = () => {
   const [searchGameInfoForm] = Form.useForm();
 
   const onFinish = (values: any) => {
-    console.log("Success:", values);
     fetchData(values);
   };
 
@@ -161,7 +160,6 @@ const GameList: React.FC = () => {
     setLoading(true);
     const data: any = await gameList({ page, pageSize, ...params });
     setLoading(false);
-    console.log(data);
     if (data && data.code && data.code === 200) {
       setImageHost(data.fastUrl);
       setTableList(data.page.list ? data.page.list : []);
@@ -343,12 +341,12 @@ const GameList: React.FC = () => {
       width: 200,
       render: (_: any, record: any) => (
         <Space size="middle">
-          <JudgePemission pageUrl={"/payment/upstream_362"}>
+          <JudgePemission pageUrl={"/payment/gamelist_374"}>
             <Button type="primary" onClick={() => openDrawer("375px", record)}>
               编辑游戏
             </Button>
           </JudgePemission>
-          <JudgePemission pageUrl={"/payment/userlist_134"}>
+          <JudgePemission pageUrl={"/payment/gamelist_375"}>
             <Popconfirm
               title="删除"
               description="你确认删除该游戏吗?"
@@ -376,7 +374,6 @@ const GameList: React.FC = () => {
       ...row,
     });
     setTableList(newData);
-    console.log(row);
     const res: any = await updateGameList({
       id: row.id,
       sort: Number(row.sort),
@@ -474,7 +471,7 @@ const GameList: React.FC = () => {
                 />
                 </Form.Item>
               </Col>
-              {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
+              {/* <JudgePemission pageUrl={'/payment/gamelist_385'}> */}
               <Col span={1}>
                 <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
                   <Button type="primary" htmlType="submit">
@@ -483,6 +480,7 @@ const GameList: React.FC = () => {
                 </Form.Item>
               </Col>
               {/* </JudgePemission> */}
+              {/* <JudgePemission pageUrl={'/payment/gamelist_385'}> */}
               <Col span={1}>
                 <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
                   <Button
@@ -494,6 +492,7 @@ const GameList: React.FC = () => {
                   </Button>
                 </Form.Item>
               </Col>
+              {/* </JudgePemission> */}
             </Row>
           </Form>
         </div>

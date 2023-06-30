@@ -37,7 +37,6 @@ const GamePackage: React.FC = () => {
   const [searchGameInfoForm] = Form.useForm();
 
   const onFinish = (values: any) => {
-    console.log("Success:", values);
     fetchData(values);
   };
 
@@ -59,7 +58,6 @@ const GamePackage: React.FC = () => {
     setLoading(true);
     const data: any = await gamePkgList({ page, pageSize, ...params });
     setLoading(false);
-    console.log(data);
     if (data && data.code && data.code === 200) {
       setTableList(data.page.list ? data.page.list : []);
       setTotal(data.page.totalCount ? data.page.totalCount : 0);
@@ -168,12 +166,14 @@ const GamePackage: React.FC = () => {
       width: 200,
       render: (text: any, record: any) => (
         <>
+         <JudgePemission pageUrl={"/payment/gamepackage_383"} notBtn={true}>
           <Switch
             checkedChildren={<CheckOutlined />}
             unCheckedChildren={<CloseOutlined />}
             checked={Number(text) === 1 ? true : false}
             onClick={(checked: boolean) => switchGameStatus(checked, record.id)}
           />
+          </JudgePemission>
         </>
       ),
     },
@@ -199,12 +199,12 @@ const GamePackage: React.FC = () => {
       width: 250,
       render: (_: any, record: any) => (
         <Space size="middle">
-          <JudgePemission pageUrl={"/payment/upstream_362"}>
+          <JudgePemission pageUrl={"/payment/gamepackage_383"}>
             <Button type="primary" onClick={() => openDrawer("375px", record)}>
               编辑套餐
             </Button>
           </JudgePemission>
-          <JudgePemission pageUrl={"/payment/userlist_134"}>
+          <JudgePemission pageUrl={"/payment/gamepackage_384"}>
             <Popconfirm
               title="删除"
               description="你确认删除该套餐吗?"
@@ -306,7 +306,7 @@ const GamePackage: React.FC = () => {
         />
         </Form.Item>
       </Col> */}
-            {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
+            {/* <JudgePemission pageUrl={'/payment/gamepackage_381'}> */}
             <Col span={1}>
               <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
                 <Button type="primary" htmlType="submit">
@@ -315,6 +315,7 @@ const GamePackage: React.FC = () => {
               </Form.Item>
             </Col>
             {/* </JudgePemission> */}
+            {/* <JudgePemission pageUrl={'/payment/gamepackage_381'}> */}
             <Col span={1}>
               <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
                 <Button
@@ -326,6 +327,7 @@ const GamePackage: React.FC = () => {
                 </Button>
               </Form.Item>
             </Col>
+            {/* </JudgePemission> */}
             {/* <JudgePemission pageUrl={'/payment/userlist_132'}>
       <Col span={1}>
         <Form.Item wrapperCol={{ offset: 0, span: 16 }}>

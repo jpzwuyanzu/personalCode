@@ -85,7 +85,6 @@ export default function GameListModule({
     gameForm
       ?.validateFields()
       .then(async (values) => {
-        console.log(values)
         let params = {...values, status: Boolean(values.status) ? 1 : 2,}
         if (Object.keys(gameInfo).length) {
           if(fastUrl) {

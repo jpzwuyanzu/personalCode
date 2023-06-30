@@ -23,7 +23,6 @@ const UserListModal: any = ({ open, userInfo, isTop, closeModal }: IProps) => {
         password: MD5(values.password),
         oldpassword: MD5(values.oldpassword),
       });
-      console.log(resp);
       handleCancel();
       if (resp.code === 200) {
         message.open({

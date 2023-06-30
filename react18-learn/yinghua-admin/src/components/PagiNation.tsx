@@ -11,9 +11,6 @@ const showTotal: PaginationProps["showTotal"] = (total) =>
   `共有 ${total} 条`;
 const PagiNation = ({ current, total, loadData }: IProps) => {
 
-  console.log(current)
-  console.log(total)
-
     const handlerOnChange = (page: number, pageSize: number) => {
         loadData(page, pageSize)
     }

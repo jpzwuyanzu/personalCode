@@ -31,7 +31,6 @@ const ChannelList: React.FC = () => {
   const [searchChannelForm] = Form.useForm();
 
   const onFinish = (values: any) => {
-    console.log("Success:", values);
     fetchData(values)
   };
   
@@ -53,7 +52,6 @@ const ChannelList: React.FC = () => {
     setLoading(true)
     const data: any = await upStreamChannelList({ page, pageSize, ...params })
     setLoading(false)
-    console.log(data)
     if(data && data.code && data.code === 200) {
       setTableList(data.page.list ? data.page.list : []);
       setTotal(data.page.totalCount ? data.page.totalCount : 0);
@@ -364,7 +362,7 @@ const ChannelList: React.FC = () => {
               />
               </Form.Item>
             </Col>
-            {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
+            {/* <JudgePemission pageUrl={'/payment/channellist_395'}> */}
             <Col span={1}>
               <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
                 <Button type="primary" htmlType="submit">
@@ -373,6 +371,7 @@ const ChannelList: React.FC = () => {
               </Form.Item>
             </Col>
             {/* </JudgePemission> */}
+            {/* <JudgePemission pageUrl={'/payment/channellist_395'}> */}
             <Col span={1}>
               <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
                 <Button type="primary" style={{ marginLeft: '13px', }} onClick={() => resetParams()}>
@@ -380,6 +379,7 @@ const ChannelList: React.FC = () => {
                 </Button>
               </Form.Item>
             </Col>
+            {/* </JudgePemission> */}
             {/* <JudgePemission pageUrl={'/payment/userlist_132'}>
             <Col span={1}>
               <Form.Item wrapperCol={{ offset: 0, span: 16 }}>

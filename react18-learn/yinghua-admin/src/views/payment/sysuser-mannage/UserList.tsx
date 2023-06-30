@@ -34,7 +34,6 @@ const UserList: React.FC = () => {
 
 
   const onFinish = (values: any) => {
-    console.log("Success:", values);
     fetchData(values)
   };
   
@@ -246,7 +245,7 @@ const UserList: React.FC = () => {
               />
               </Form.Item>
             </Col>
-            <JudgePemission pageUrl={'/payment/userlist_131'}>
+            {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
             <Col span={1}>
               <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
                 <Button type="primary" htmlType="submit">
@@ -254,7 +253,8 @@ const UserList: React.FC = () => {
                 </Button>
               </Form.Item>
             </Col>
-            </JudgePemission>
+            {/* </JudgePemission> */}
+            {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
             <Col span={1}>
               <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
                 <Button type="primary" style={{ marginLeft: '13px', }} onClick={() => resetParams()}>
@@ -262,6 +262,7 @@ const UserList: React.FC = () => {
                 </Button>
               </Form.Item>
             </Col>
+            {/* </JudgePemission> */}
             <JudgePemission pageUrl={'/payment/userlist_132'}>
             <Col span={1}>
               <Form.Item wrapperCol={{ offset: 0, span: 16 }}>

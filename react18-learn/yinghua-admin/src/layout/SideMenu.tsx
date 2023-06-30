@@ -78,7 +78,6 @@ const SideMenu = () => {
   const fmName = pathname.split('/')[2];
   const [selectedKeys, setSelectedKeys] = useState<any>([]);
   const items: any =formMenuData(MenuInfo)
-  console.log(items)
 
   const onOpenChange: any = (keys: any) => {
     const latestOpenKey: any = keys.find((key: any) => (openKeys as any).indexOf(key) === -1);

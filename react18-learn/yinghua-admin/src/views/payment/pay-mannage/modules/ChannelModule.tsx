@@ -65,7 +65,6 @@ export default function UpStreamModule({
   const [channelForm] = Form.useForm();
   const cusColor = useAppSelector((state) => state.cusColor.color)
   const [merchantList, SetMerchantList] = useState<any[]>([]); //下拉框商户列表
-  console.log(channelInfo);
 
   const [isShowAmountInput, setIsShowAmountinput] = useState(false); // 控制支持金额输入框
   const [supportAmount, setSupportAmount] = useState<any>([]); //支持金额列表

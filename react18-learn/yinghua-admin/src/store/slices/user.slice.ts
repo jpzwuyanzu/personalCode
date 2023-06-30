@@ -8,7 +8,6 @@ interface UserInfo {
     remark: any
     menuList: any
     userType: any
-    status: any
     permissions: any
     password: any
     oldpassword: any
@@ -22,7 +21,6 @@ const initialState: UserInfo = {
     remark: '',
     menuList: [],
     userType: '',
-    status: '',
     permissions: [],
     password: '',
     oldpassword: '',
@@ -53,7 +51,6 @@ const { reducer: UserReducer } = createSlice({
                 state.remark = action.payload.data.remark;
                 state.menuList = action.payload.data.menuList;
                 state.userType = action.payload.data.userType;
-                state.status = action.payload.data.status;
                 state.permissions = action.payload.data.permissions;
                 state.password = action.payload.data.password;
                 state.oldpassword = action.payload.data.oldpassword;

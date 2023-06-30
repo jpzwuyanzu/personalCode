@@ -37,7 +37,6 @@ const SmsList: React.FC = () => {
   const [searchSmsInfoForm] = Form.useForm();
 
   const onFinish = (values: any) => {
-    console.log("Success:", values);
     fetchData(values);
   };
 
@@ -59,7 +58,6 @@ const SmsList: React.FC = () => {
     setLoading(true);
     const data: any = await smsList({ page, pageSize, ...params });
     setLoading(false);
-    console.log(data);
     if (data && data.code && data.code === 200) {
       setTableList(data.page.list ? data.page.list : []);
       setTotal(data.page.totalCount ? data.page.totalCount : 0);
@@ -137,12 +135,14 @@ const SmsList: React.FC = () => {
       width: 130,
       render: (text: any, record: any) => (
         <>
+        <JudgePemission pageUrl={"/payment/smslist_378"} notBtn={true}>
           <Switch
             checkedChildren={<CheckOutlined />}
             unCheckedChildren={<CloseOutlined />}
             checked={Number(text) === 1 ? true : false}
             onClick={(checked: boolean) => switchGameStatus(checked, record.id)}
           />
+          </JudgePemission>
         </>
       ),
     },
@@ -168,12 +168,12 @@ const SmsList: React.FC = () => {
       width: 250,
       render: (_: any, record: any) => (
         <Space size="middle">
-          <JudgePemission pageUrl={"/payment/upstream_362"}>
+          <JudgePemission pageUrl={"/payment/smslist_379"}>
             <Button type="primary" onClick={() => openDrawer("375px", record)}>
               编辑
             </Button>
           </JudgePemission>
-          <JudgePemission pageUrl={"/payment/userlist_134"}>
+          <JudgePemission pageUrl={"/payment/smslist_380"}>
             <Popconfirm
               title="删除"
               description="你确认删除该配置吗?"
@@ -275,7 +275,7 @@ const SmsList: React.FC = () => {
         />
         </Form.Item>
       </Col> */}
-            {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
+            {/* <JudgePemission pageUrl={'/payment/smslist_386'}> */}
             <Col span={1}>
               <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
                 <Button type="primary" htmlType="submit">
@@ -284,6 +284,7 @@ const SmsList: React.FC = () => {
               </Form.Item>
             </Col>
             {/* </JudgePemission> */}
+            {/* <JudgePemission pageUrl={'/payment/smslist_386'}> */}
             <Col span={1}>
               <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
                 <Button
@@ -295,6 +296,7 @@ const SmsList: React.FC = () => {
                 </Button>
               </Form.Item>
             </Col>
+            {/* </JudgePemission> */}
             {/* <JudgePemission pageUrl={'/payment/userlist_132'}>
       <Col span={1}>
         <Form.Item wrapperCol={{ offset: 0, span: 16 }}>

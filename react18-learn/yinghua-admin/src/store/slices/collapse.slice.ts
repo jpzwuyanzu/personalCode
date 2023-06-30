@@ -22,7 +22,7 @@ const { actions, reducer: CollapseReducer } = createSlice({
         switchCollapsed: (state: CollapseState) => {
             //此处可以直接对状态进行修改操作，因为内部已经集成了不可变的数据结构，所以此处不会修改原有的状态
             //而是返回了最新的状态，内部帮助我们自动赋值了最新的状态
-            state.status = !state.status;
+            state.status = !Boolean(state.status);
         }
     }
 })

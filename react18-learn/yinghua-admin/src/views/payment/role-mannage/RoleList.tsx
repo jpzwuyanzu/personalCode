@@ -27,10 +27,6 @@ const RoleList: React.FC = () => {
   const [moduleWidth, setModuleWidth] = useState('');
   const [roleInfo, setRoleInfo] = useState({});
   const [loading, setLoading] = useState<boolean>(false);
-
-  const onFinish = (values: any) => {
-    console.log("Success:", values);
-  };
   
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
@@ -181,7 +177,6 @@ const RoleList: React.FC = () => {
           name="basic"
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 16 }}
-          onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
           initialValues={{
@@ -220,6 +215,7 @@ const RoleList: React.FC = () => {
               />
               </Form.Item>
             </Col>
+            {/* <JudgePemission pageUrl={'/payment/rolelist_121'}> */}
             <Col span={1}>
               <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
                 <Button type="primary" htmlType="submit">
@@ -227,7 +223,8 @@ const RoleList: React.FC = () => {
                 </Button>
               </Form.Item>
             </Col>
-            <JudgePemission pageUrl={'/payment/rolelist_122'}>
+            {/* </JudgePemission> */}
+            {/* <JudgePemission pageUrl={'/payment/rolelist_122'}> */}
             <Col span={1}>
               <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
                 <Button type="primary" style={{ marginLeft: '13px' }} onClick={() => openDrawer('378px', {})}>
@@ -235,7 +232,7 @@ const RoleList: React.FC = () => {
                 </Button>
               </Form.Item>
             </Col>
-            </JudgePemission>
+            {/* </JudgePemission> */}
           </Row>
         </Form>
        </div>

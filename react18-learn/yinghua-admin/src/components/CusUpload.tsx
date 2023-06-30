@@ -12,8 +12,6 @@ interface IProps {
 }
 
 const CusUpload: any = ({ gameInfo, isAddGame, saveUploadImgUrl }:IProps) => {
-  console.log(gameInfo, isAddGame)
-  console.log(gameInfo && gameInfo.cover ? true : false)
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
@@ -31,11 +29,9 @@ const CusUpload: any = ({ gameInfo, isAddGame, saveUploadImgUrl }:IProps) => {
   };
 
   const customRequest = async (files: any) => {
-    console.log(files)
     if(files.file) {
       const formData = new FormData()
       formData.append('file', files.file)
-      console.log(formData.getAll('file'))
       const res: any = await uploadFastImg(formData)
       if(res && res.code && res.code === 200) {
         setFileList([{...fileList[0],'status': 'done','thumbUrl': res.data.fastUrl+''+res.data.fastPath}])
@@ -52,7 +48,6 @@ const CusUpload: any = ({ gameInfo, isAddGame, saveUploadImgUrl }:IProps) => {
   const handleCancel = () => setPreviewOpen(false);
 
   const handlePreview = async (file: UploadFile) => {
-    console.log(file)
     if (!file.url && !file.preview && !file.thumbUrl) {
       file.preview = await getBase64(file.originFileObj as RcFile);
     }

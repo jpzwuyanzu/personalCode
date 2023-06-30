@@ -31,7 +31,6 @@ const UpStream: React.FC = () => {
   const [searchMerchantForm] = Form.useForm();
 
   const onFinish = (values: any) => {
-    console.log("Success:", values);
     fetchData(values)
   };
   
@@ -53,7 +52,6 @@ const UpStream: React.FC = () => {
     setLoading(true)
     const data: any = await upStreamMerchant({ page, pageSize, ...params })
     setLoading(false)
-    console.log(data)
     if(data && data.code && data.code === 200) {
       setTableList(data.page.list ? data.page.list : []);
       setTotal(data.page.totalCount ? data.page.totalCount : 0);
@@ -298,7 +296,7 @@ const UpStream: React.FC = () => {
               />
               </Form.Item>
             </Col>
-            {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
+            {/* <JudgePemission pageUrl={'/payment/upstream_394'}> */}
             <Col span={1}>
               <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
                 <Button type="primary" htmlType="submit">
@@ -307,6 +305,7 @@ const UpStream: React.FC = () => {
               </Form.Item>
             </Col>
             {/* </JudgePemission> */}
+            {/* <JudgePemission pageUrl={'/payment/upstream_394'}> */}
             <Col span={1}>
               <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
                 <Button type="primary" style={{ marginLeft: '13px', }} onClick={() => resetParams()}>
@@ -314,6 +313,7 @@ const UpStream: React.FC = () => {
                 </Button>
               </Form.Item>
             </Col>
+            {/* </JudgePemission> */}
             {/* <JudgePemission pageUrl={'/payment/userlist_132'}>
             <Col span={1}>
               <Form.Item wrapperCol={{ offset: 0, span: 16 }}>

@@ -26,6 +26,7 @@ const GameList = React.lazy(() => import('../views/payment/game-mannage/GameList
 const GamePackage = React.lazy(() => import('../views/payment/game-mannage/GamePackage'));
 const SmsLIst = React.lazy(() => import('../views/payment/sys-mannage/SmsList'));
 const PreUserList = React.lazy(() => import('../views/payment/user-mannage/PreUserList'));
+const ActUserList = React.lazy(() => import('../views/payment/user-mannage/ActiveUserList'));
 const VersionList = React.lazy(() => import('../views/payment/version-mannage/VersionList'));
 
 //后管路由
@@ -100,6 +101,10 @@ const MRouter = () => {
                     {
                         path: 'preuserlist',
                         element: <Suspense fallback={ <Loading/> }><AuthComponent><PreUserList/></AuthComponent></Suspense>
+                    },
+                    {
+                        path: 'actuserlist',
+                        element: <Suspense fallback={ <Loading/> }><AuthComponent><ActUserList/></AuthComponent></Suspense>
                     },
                     {
                         path: 'versionlist',

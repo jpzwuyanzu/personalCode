@@ -38,7 +38,6 @@ const SmsList: React.FC = () => {
   const [searchSmsInfoForm] = Form.useForm();
 
   const onFinish = (values: any) => {
-    console.log("Success:", values);
     fetchData(values);
   };
 
@@ -60,7 +59,6 @@ const SmsList: React.FC = () => {
     setLoading(true);
     const data: any = await versionList({ page, pageSize, ...params });
     setLoading(false);
-    console.log(data);
     if (data && data.code && data.code === 200) {
       setTableList(data.page.list ? data.page.list : []);
       setTotal(data.page.totalCount ? data.page.totalCount : 0);
@@ -72,26 +70,26 @@ const SmsList: React.FC = () => {
     }
   };
 
-  const switchGameStatus = async (checked: boolean, id: any) => {
-    setLoading(true);
-    const resp: any = await updateVersion({
-      id: id,
-      status: Number(Boolean(checked) ? 1 : 2),
-    });
-    setLoading(false);
-    if (resp && resp.code && resp.code === 200) {
-      message.open({
-        type: "success",
-        content: "修改成功",
-      });
-      fetchData({});
-    } else {
-      message.open({
-        type: "error",
-        content: respMessage[String(resp.code)],
-      });
-    }
-  };
+  // const switchGameStatus = async (checked: boolean, id: any) => {
+  //   setLoading(true);
+  //   const resp: any = await updateVersion({
+  //     id: id,
+  //     status: Number(Boolean(checked) ? 1 : 2),
+  //   });
+  //   setLoading(false);
+  //   if (resp && resp.code && resp.code === 200) {
+  //     message.open({
+  //       type: "success",
+  //       content: "修改成功",
+  //     });
+  //     fetchData({});
+  //   } else {
+  //     message.open({
+  //       type: "error",
+  //       content: respMessage[String(resp.code)],
+  //     });
+  //   }
+  // };
 
   const confirmDelGamepkg = async (id: any) => {
     const resp: any = await delSmsList({ id });
@@ -227,7 +225,7 @@ const SmsList: React.FC = () => {
       width: 100,
       render: (_: any, record: any) => (
         <Space size="middle">
-          <JudgePemission pageUrl={"/payment/upstream_362"}>
+          <JudgePemission pageUrl={"/payment/versionlist_377"}>
             <Button
               type="primary"
               size="small"
@@ -236,7 +234,7 @@ const SmsList: React.FC = () => {
               编辑
             </Button>
           </JudgePemission>
-          <JudgePemission pageUrl={"/payment/userlist_134"}>
+          <JudgePemission pageUrl={"/payment/versionlist_387"}>
             <Popconfirm
               title="删除"
               description="你确认删除该配置吗?"
@@ -326,7 +324,7 @@ const SmsList: React.FC = () => {
                   />
                 </Form.Item>
               </Col>
-              {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
+              {/* <JudgePemission pageUrl={"/payment/versionlist_388"}> */}
               <Col span={1}>
                 <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
                   <Button type="primary" htmlType="submit">
@@ -335,6 +333,7 @@ const SmsList: React.FC = () => {
                 </Form.Item>
               </Col>
               {/* </JudgePemission> */}
+              {/* <JudgePemission pageUrl={"/payment/versionlist_388"}> */}
               <Col span={1}>
                 <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
                   <Button
@@ -346,7 +345,8 @@ const SmsList: React.FC = () => {
                   </Button>
                 </Form.Item>
               </Col>
-              <JudgePemission pageUrl={"/payment/userlist_132"}>
+              {/* </JudgePemission> */}
+              <JudgePemission pageUrl={"/payment/versionlist_376"}>
                 <Col span={1}>
                   <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
                     <Button

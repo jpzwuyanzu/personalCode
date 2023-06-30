@@ -7,6 +7,7 @@ import { switchCollapsed } from "./../store/slices/collapse.slice";
 import { useAppDispatch, useAppSelector } from "./../hooks/hooks";
 import ResetPassModal from '@/components/ResetPassModal'
 import ChatRoomIndex from '@/components/ChatRoom/ChatRoomIndex'
+import CusColor from '@/components/CusColor';
 import styles from "./TopHeader.module.scss";
 import {
   LoginOutlined,
@@ -23,6 +24,7 @@ const { Header } = Layout;
 export default function TopHeader() {
   const collapsed = useAppSelector((state) => state.collapse.status);
   const userInfo = useAppSelector((state) => state.user.userInfo)
+  const cusColor = useAppSelector((state) => state.cusColor.color)
   const {token: { colorBgContainer }} = theme.useToken();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -93,14 +95,15 @@ export default function TopHeader() {
             fontSize: "16px",
             width: 64,
             height: 64,
-            color: '#00B96B'
+            color: `${cusColor}`
           }}
         />
         <div className={styles.user_head_container}>
           <Space>
-           <div className={ styles.ring_container } onClick={() => setChatRoomStatus(true)}>
+            <CusColor/>
+           <div className={ styles.ring_container }  onClick={() => setChatRoomStatus(true)}>
            <Badge count={5}>
-               <BellOutlined  className={ styles.messageTips } />
+               <BellOutlined  className={ styles.messageTips } style={{ color: 'white' }} />
             </Badge>
            </div>
           </Space>

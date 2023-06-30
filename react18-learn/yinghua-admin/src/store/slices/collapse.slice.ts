@@ -10,7 +10,7 @@ const initialState: CollapseState = {
     status: false
 }
 
-//定义状态的名称我哦字符串常量
+//定义状态的名称字符串常量
 export const COLLAPSE_FATURE_KEY: any = 'collapse'
 
 //actions: 对象类型，用于存储action creator函数

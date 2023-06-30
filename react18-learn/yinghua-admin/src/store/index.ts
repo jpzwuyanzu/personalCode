@@ -1,10 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import CollapseReducer, { COLLAPSE_FATURE_KEY,} from './slices/collapse.slice'
-
 //redux数据持久化
 import storage from 'redux-persist/lib/storage'
 import { persistStore, persistReducer } from 'redux-persist'
+
 import UserReducer, { USER_FEATURE_KEY } from './slices/user.slice';
+import CollapseReducer, { COLLAPSE_FATURE_KEY} from './slices/collapse.slice';
+import CusolorReducer, { CUSCOLOR_FETURE_KEY } from './slices/colors.slice';
 
 const persistConfig = {
     key: 'root',
@@ -14,13 +15,16 @@ const persistConfig = {
 
 const persistCollapseReducer = persistReducer(persistConfig, CollapseReducer)
 const persistUserReducer = persistReducer(persistConfig, UserReducer)
+const persistCusolorReducer = persistReducer(persistConfig, CusolorReducer)
+
 
 //创建，配置，导出store对象
 const store = configureStore({
     //reducer选项用于替换原有的combineReducer方法，用于合并应用中的多个reducer函数，组成最终的store
     reducer: {
         [COLLAPSE_FATURE_KEY]: persistCollapseReducer,
-        [USER_FEATURE_KEY]: persistUserReducer
+        [USER_FEATURE_KEY]: persistUserReducer,
+        [CUSCOLOR_FETURE_KEY]: persistCusolorReducer
     },
     // 配置中间件
     middleware: (getDefaultMiddleware) => [

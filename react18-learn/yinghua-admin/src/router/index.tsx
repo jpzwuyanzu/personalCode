@@ -1,6 +1,4 @@
 import { useRoutes } from 'react-router-dom'
-// import { payment }  from './payment'
-// import { merchant } from './merchant'
 import React, { Suspense } from 'react'
 import Redirect from './../components/Redirect'
 import Loading from './../components/Loading'
@@ -30,12 +28,13 @@ const SmsLIst = React.lazy(() => import('../views/payment/sys-mannage/SmsList'))
 const PreUserList = React.lazy(() => import('../views/payment/user-mannage/PreUserList'));
 const VersionList = React.lazy(() => import('../views/payment/version-mannage/VersionList'));
 
+//后管路由
 
 
 //商户路由
 const MerchantRoleList = React.lazy(() => import('@/views/merchant/role-mannage/RoleList'));
 const MerchantUserList = React.lazy(() => import('@/views/merchant/user-mannage/UserList'));
-
+//商户路由
 
 
 const MRouter = () => {

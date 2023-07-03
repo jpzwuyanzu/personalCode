@@ -150,8 +150,14 @@ export function versionList (params? :any) {
 export function delVersion (params? :any) {
     return request.post('/api/sys/version/delete', {'requestTimeStamp': (new Date()).getTime() , ...params})
 }
-
-
+//玩家列表查询
+export function laodPreUserList (params? :any) {
+    return request.post('/api/admin/player/list', {'requestTimeStamp': (new Date()).getTime() , ...params})
+}
+//活跃用户列表查询
+export function laodActiveUserList (params? :any) {
+    return request.post('/api/admin/player/actives', {'requestTimeStamp': (new Date()).getTime() , ...params})
+}
 
 
 

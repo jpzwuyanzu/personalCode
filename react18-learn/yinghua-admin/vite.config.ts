@@ -14,8 +14,8 @@ export default defineConfig({
     host: '172.28.113.244',
     proxy: {
       '/api': {
-        // target: 'http://172.28.113.248:8066',
-        target: 'http://172.28.113.232:8066',
+        target: 'http://172.28.113.248:8066',
+        // target: 'http://172.28.113.232:8066',
         changeOrigin: true,
         // rewrite: (path) => path.replace(/^\/api/, '')
       },

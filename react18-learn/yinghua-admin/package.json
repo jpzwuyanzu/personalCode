@@ -24,6 +24,7 @@
     "lodash": "^4.17.21",
     "md5": "^2.3.0",
     "nprogress": "^0.2.0",
+    "rc-virtual-list": "^3.5.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-draggable": "^4.4.5",

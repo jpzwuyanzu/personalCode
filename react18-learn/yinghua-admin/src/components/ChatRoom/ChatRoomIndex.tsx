@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { Button, Modal } from 'antd';
 import Draggable from 'react-draggable';
+import ChatRoom from './ChatRoom'
 
 
 interface IProps {
@@ -48,6 +49,7 @@ const ChatRoomIndex: any = ({ open, closeChatRoom }:IProps) => {
     <>
       {/* <Button onClick={showModal}>Open Draggable Modal</Button> */}
       <Modal
+      width="70%"
         title={
           <div
             style={{
@@ -68,9 +70,10 @@ const ChatRoomIndex: any = ({ open, closeChatRoom }:IProps) => {
             onBlur={() => {}}
             // end
           >
-            Draggable Modal
+            在线客服
           </div>
         }
+        footer={ null }
         maskClosable={ false }
         open={open}
         onOk={handleOk}
@@ -86,11 +89,7 @@ const ChatRoomIndex: any = ({ open, closeChatRoom }:IProps) => {
           </Draggable>
         )}
       >
-        <p>
-          Just don&apos;t learn physics at school and your life will be full of magic and miracles.
-        </p>
-        <br />
-        <p>Day before yesterday I saw a rabbit, and yesterday a deer, and today, you.</p>
+        <ChatRoom/>
       </Modal>
     </>
   );

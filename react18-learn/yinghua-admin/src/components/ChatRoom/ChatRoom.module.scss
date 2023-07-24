@@ -60,11 +60,19 @@
             background-color: #fff;
             padding: 0  10px;
             height: 64px;
+            box-sizing: border-box;
         }
-        .message_content {
+        .message_wrapper {
             height: calc(100% - 124px);
-            overflow-y: scroll;
+            // overflow-y: scroll;
+            overflow: hidden;
             padding: 0 10px;
+            box-sizing: border-box;
+            .message_content {
+                .messageList_item {
+                    height: 40px;
+                }
+            }
         }
         .send_message {
             height: 60px;

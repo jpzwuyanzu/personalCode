@@ -1,11 +1,8 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Input, Col, Divider, Row, Avatar, List, Dropdown, message} from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import VirtualList from 'rc-virtual-list'
-import BScroll from '@better-scroll/core'
-import MouseWheel from '@better-scroll/mouse-wheel'
-BScroll.use(MouseWheel)
 
 import styles from "./ChatRoom.module.scss";
 
@@ -43,9 +40,12 @@ interface UserItem {
   };
 }
 
+const fakeDataUrl =
+  'https://randomuser.me/api/?results=20&inc=name,gender,email,nat,picture&noinfo';
+const ContainerHeight = 400;
+
 
 const ChatRoom = () => {
-  const scrollWrapperRef = useRef(null);
   // 左侧联系人列表
   const [cusList, setCusList] = useState([
     {
@@ -150,138 +150,27 @@ const ChatRoom = () => {
   ]);
   // 左侧用户列表选中项
   const [chatUserIndex, setChatUserIndex] = useState(-1);
+
   const [data, setData] = useState<UserItem[]>([]);
-  //消息列表
-  const messageList = [
-    {
-      name: 'tom',
-      type: 0, 
-      date: '2023-07-24',
-      messageType: 0,
-      message: '这是消息001',
-      id: 1
-    },
-    {
-      name: 'tom',
-      type: 0, 
-      date: '2023-07-24',
-      messageType: 0,
-      message: '这是消息002',
-      id: 2
-    },
-    {
-      name: 'tom',
-      type: 0, 
-      date: '2023-07-24',
-      messageType: 0,
-      message: '这是消息003',
-      id: 3
-    },
-    {
-      name: 'tom',
-      type: 0, 
-      date: '2023-07-24',
-      messageType: 0,
-      message: '这是消息004',
-      id: 4
-    },
-    {
-      name: 'tom',
-      type: 0, 
-      date: '2023-07-24',
-      messageType: 0,
-      message: '这是消息005',
-      id: 5
-    },
-    {
-      name: 'tom',
-      type: 0, 
-      date: '2023-07-24',
-      messageType: 0,
-      message: '这是消息006',
-      id: 6
-    },
-    {
-      name: 'tom',
-      type: 0, 
-      date: '2023-07-24',
-      messageType: 0,
-      message: '这是消息007',
-      id: 7
-    },
-    {
-      name: 'tom',
-      type: 0, 
-      date: '2023-07-24',
-      messageType: 0,
-      message: '这是消息008',
-      id: 8
-    },
-    {
-      name: 'tom',
-      type: 0, 
-      date: '2023-07-24',
-      messageType: 0,
-      message: '这是消息009',
-      id: 9
-    },
-    {
-      name: 'tom',
-      type: 0, 
-      date: '2023-07-24',
-      messageType: 0,
-      message: '这是消息010',
-      id: 10
-    },
-    {
-      name: 'tom',
-      type: 0, 
-      date: '2023-07-24',
-      messageType: 0,
-      message: '这是消息011',
-      id: 11
-    },
-    {
-      name: 'tom',
-      type: 0, 
-      date: '2023-07-24',
-      messageType: 0,
-      message: '这是消息012',
-      id: 12
-    },
-    {
-      name: 'tom',
-      type: 0, 
-      date: '2023-07-24',
-      messageType: 0,
-      message: '这是消息013',
-      id: 13
-    },
-    {
-      name: 'tom',
-      type: 0, 
-      date: '2023-07-24',
-      messageType: 0,
-      message: '这是消息014',
-      id: 14
-    },
-    {
-      name: 'tom',
-      type: 0, 
-      date: '2023-07-24',
-      messageType: 0,
-      message: '这是消息015',
-      id: 15
-    }
-  ]
+
+  const appendData = () => {
+    fetch(fakeDataUrl)
+      .then((res) => res.json())
+      .then((body) => {
+        setData(data.concat(body.results));
+        // message.success(`${body.results.length} more items loaded!`);
+      });
+  };
 
   useEffect(() => {
-    let scroll = new BScroll((scrollWrapperRef.current as any), {
-      mouseWheel: true
-    })
-  }, [])
-  
+    appendData();
+  }, []);
 
+  const onScroll = (e: React.UIEvent<HTMLElement, UIEvent>) => {
+    if (e.currentTarget.scrollHeight - e.currentTarget.scrollTop === ContainerHeight) {
+      appendData();
+    }
+  };
 
   return (
     <div className={styles.chatRoom_container}>
@@ -336,14 +225,27 @@ const ChatRoom = () => {
             )}
           />
         </div>
-        <div ref={ scrollWrapperRef } className={styles.message_wrapper}>
-          <div className={styles.message_content}>
-            {
-              messageList && messageList.map((itm) => (
-                <div className={styles.messageList_item} key={itm.id}>{ itm.message }</div>
-              ))
-            }
-          </div>
+        <div className={styles.message_content}>
+        <List bordered={ false } itemLayout="horizontal">
+            <VirtualList
+              data={data}
+              height={ContainerHeight}
+              itemHeight={47}
+              itemKey="email"
+              onScroll={onScroll}
+            >
+              {(item: UserItem) => (
+                <List.Item key={item.email}>
+                  <List.Item.Meta
+                    avatar={<Avatar src={item.picture.large} />}
+                    title={<a href="https://ant.design">{item.name.last}</a>}
+                    description={item.email}
+                  />
+                  <div key={item.email}>Content</div>
+                </List.Item>
+              )}
+            </VirtualList>
+          </List>
         </div>
         <div className={styles.send_message}>
           <Dropdown menu={{ items }} placement="topLeft" arrow>

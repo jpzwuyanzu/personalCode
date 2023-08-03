@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
+import useWebSocket from '@/hooks/useWebSocket'
 import { Input, Col, Divider, Row, Avatar, List, Dropdown, message} from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import VirtualList from 'rc-virtual-list'
 import BScroll from '@better-scroll/core'
 import MouseWheel from '@better-scroll/mouse-wheel'
 BScroll.use(MouseWheel)
@@ -45,6 +45,7 @@ interface UserItem {
 
 
 const ChatRoom = () => {
+  const [ws, wsData] = useWebSocket('ws://172.28.113.232:10088/webSocket', {joinParams: ''})
   const scrollWrapperRef = useRef(null);
   // 左侧联系人列表
   const [cusList, setCusList] = useState([

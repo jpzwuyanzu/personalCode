@@ -45,7 +45,7 @@ interface UserItem {
 
 
 const ChatRoom = () => {
-  const [ws, wsData] = useWebSocket('ws://172.28.113.232:10088/webSocket', {joinParams: ''})
+  const [ws, wsData] = useWebSocket('ws://172.28.113.232:10088/webSocket',{})
   const scrollWrapperRef = useRef(null);
   // 左侧联系人列表
   const [cusList, setCusList] = useState([
@@ -281,6 +281,10 @@ const ChatRoom = () => {
       mouseWheel: true
     })
   }, [])
+
+  useEffect(() => {
+    console.log('webSocket message:', wsData)
+  }, [wsData])
   
 
 

@@ -114,7 +114,7 @@ $root.protocol = (function() {
          * @returns {protocol.CIMReqProtocol} CIMReqProtocol instance
          */
         CIMReqProtocol.create = function create(properties: any) {
-            return new CIMReqProtocol(properties);
+            return new (CIMReqProtocol as any)(properties);
         };
 
         /**
@@ -359,7 +359,7 @@ $root.protocol = (function() {
          * @constructor
          * @param {protocol.ICIMResProtocol=} [properties] Properties to set
          */
-        function CIMResProtocol(this: any, properties: { [x: string]: any; }) {
+        function CIMResProtocol(this: any, properties: { [x: string]: any; } ) {
             if (properties)
                 for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -407,7 +407,7 @@ $root.protocol = (function() {
          * @returns {protocol.CIMResProtocol} CIMResProtocol instance
          */
         CIMResProtocol.create = function create(properties: any) {
-            return new CIMResProtocol(properties);
+            return new (CIMResProtocol as any)(properties);
         };
 
         /**

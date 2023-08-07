@@ -1,4 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
+import 'google-protobuf'
+import proto from './../proto/proto_pb.js'
+console.log(proto)
 //避免重复连接
 let lockReconnect = false
 //心跳检测间隔时长
@@ -17,6 +20,7 @@ const useWebSocket = (url: string, info: any) => {
     // 创建socket连接
     const createWebSocket = () => {
         wsRef.current = new WebSocket(url)
+        wsRef.current.binaryType = 'arraybuffer'
         initWebSocket()
     }
 
@@ -68,11 +72,12 @@ const useWebSocket = (url: string, info: any) => {
             //msgType 1:文字，2：图片
             //wsRef.current.send(joinParams) // 发起c.jr进房操作
             wsRef.current.readyState === 1 && wsRef.current.send(
-                JSON.stringify({
-                    // 连接成功将token传给服务端
-                    "type": "2",
-                    "message": { "token": "a8b7cb40-785e-496d-99b9-6d08c9612759", "userType": "1" }
-                })
+                (proto as any).CIMReqProtocol('1')
+                // JSON.stringify({
+                //     // 连接成功将token传给服务端
+                //     "type": "2",
+                //     "message": { "token": "a8b7cb40-785e-496d-99b9-6d08c9612759", "userType": "1" }
+                // })
             )
             resetTimer()
             startTimer()
@@ -80,6 +85,7 @@ const useWebSocket = (url: string, info: any) => {
         //接收消息
         wsRef.current.onmessage = function (evt: any) {
             // let data = JSON.parse(evt.data) // 接收消息string=>json
+            handleRecive(evt)
             let test = '{"code":1, "type":"AUTH_RESPONSE", "content":"认证失败，未知用户"}'
             let data = JSON.parse(test)
             setWsData(data)
@@ -88,6 +94,13 @@ const useWebSocket = (url: string, info: any) => {
         }
     }
 
+    //处理得到的数据
+    const handleRecive = (data) => {
+         // 这里对接收到的二进制消息进行解码
+        //  var rep = (proto as any).ChatResponse.deserializeBinary(data)
+        //  // 可以获取data和code
+        //  console.log(rep)
+    }
     useEffect(() => {
         if (!url) return
         console.log('0-0-0-0-')

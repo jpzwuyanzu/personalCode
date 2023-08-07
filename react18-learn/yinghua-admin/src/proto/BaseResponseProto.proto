@@ -1,0 +1,14 @@
+syntax = "proto2";
+
+package protocol;
+
+option java_package = "com.jt.protocol";
+option java_outer_classname = "CIMResponseProto";
+
+message CIMResProtocol {
+  required string responseId = 2;
+  required string resMsg = 1;
+  required int32 type = 3;
+  optional int32 code = 4;
+
+}

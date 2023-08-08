@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 
 interface IProps {
   gameInfo?: any;
-  isAddGame: boolean;
+  isAddGame?: boolean;
   saveUploadImgUrl: (url: string) => void
 }
 
@@ -20,7 +20,7 @@ const CusUpload: any = ({ gameInfo, isAddGame, saveUploadImgUrl }:IProps) => {
       uid: gameInfo.id,
       name: gameInfo.gameName,
       status: 'done',
-      url: gameInfo.host+gameInfo.cover,
+      url: gameInfo.cover ? gameInfo.host+gameInfo.cover : gameInfo.host+gameInfo.headImage,
     },
   ]);
 

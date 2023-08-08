@@ -103,7 +103,7 @@ const SideMenu = () => {
     <Sider trigger={null} collapsible collapsed={collapsed}>
       <div className={ styles.logo }>
         <img className={ styles.logoImg } src={ LogoImg } alt="" />
-        { !collapsed ? '游戏管理系统' : '' }
+        { !collapsed ? '代理系统' : '' }
       </div>
          <Menu
       mode="inline"

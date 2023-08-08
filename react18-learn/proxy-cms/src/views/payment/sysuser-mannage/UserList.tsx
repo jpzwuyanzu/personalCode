@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Space, Table, Button,Form, Input, Col, Row, message, Switch, Popconfirm,Select } from "antd";
+import { Space, Table, Button,Form, Input, Col, Row, message, Switch, Popconfirm,Select, Tag } from "antd";
 import { respMessage } from '@/utils/message'
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { CheckOutlined, CloseOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import type { ColumnsType } from "antd/es/table";
 import PagiNation from "@/components/PagiNation";
 import { userList, createUser, delUser } from '@/api/index'
@@ -98,21 +98,48 @@ const UserList: React.FC = () => {
   }
 
   const columns: ColumnsType<DataType> = [
+    // {
+    //   title: "代理昵称",
+    //   dataIndex: "name",
+    //   key: "name",
+    //   align: 'center',
+    //   render: (text) => <a>{text}</a>,
+    // },
     {
-      title: "用户账号",
+      title: "代理账号",
       dataIndex: "username",
       key: "username",
       align: 'center',
       render: (text) => <a>{text}</a>,
     },
+    // {
+    //   title: "角色",
+    //   dataIndex: "roleName",
+    //   align: 'center',
+    //   key: "roleName",
+    // },
     {
-      title: "用户角色",
+      title: "店铺余额(¥)",
+      dataIndex: "amount",
+      align: 'center',
+      key: "amount",
+      render: (text) => <span>200</span>,
+    },
+    {
+      title: "营业状态",
       dataIndex: "roleName",
       align: 'center',
       key: "roleName",
+      render: (text) =>  <Tag icon={<CheckCircleOutlined />} color="success">success</Tag> 
     },
     {
-      title: "用户状态",
+      title: "排序",
+      dataIndex: "seq",
+      align: 'center',
+      key: "seq",
+    },
+    {
+      title: "账号状态",
       dataIndex: "status",
       align: 'center',
       key: "status",
@@ -132,6 +159,7 @@ const UserList: React.FC = () => {
       dataIndex: "createTime",
       align: 'center',
       key: "createTime",
+      width: 180,
       render: (text) => <>{dayjs(text).format('YYYY-MM-DD hh:mm:ss')}</>
     },
     {
@@ -139,17 +167,19 @@ const UserList: React.FC = () => {
       key: "updateTime",
       align: 'center',
       dataIndex: "updateTime",
+      width: 180,
       render: (text) => <>{dayjs(text).format('YYYY-MM-DD hh:mm:ss')}</>
     },
     {
       title: "操作",
       key: "action",
       align: 'center',
-      width:400,
+      width:350,
       render: (_, record: any) => (
         <Space size="middle">
+          <Button type="primary"   onClick={() => openModal(record)}>充值</Button>
           <JudgePemission pageUrl={'/payment/userlist_133'}>
-          <Button type="primary" onClick={() => openDrawer('378px', record)}>编辑用户</Button>
+          <Button type="primary" onClick={() => openDrawer('378px', record)}>编辑</Button>
           </JudgePemission>
           <Button type="dashed" danger onClick={() => openModal(record)}>重置密码</Button>
           <JudgePemission pageUrl={'/payment/userlist_134'}>
@@ -161,7 +191,7 @@ const UserList: React.FC = () => {
             okText="是"
             cancelText="否"
           >
-            <Button type="primary" danger>删除用户</Button>
+            <Button type="primary" danger>删除</Button>
           </Popconfirm>
           </JudgePemission>
         </Space>

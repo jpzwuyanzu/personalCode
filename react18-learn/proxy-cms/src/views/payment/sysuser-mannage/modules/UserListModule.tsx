@@ -10,10 +10,12 @@ import {
   Select,
   message,
   Switch,
+  InputNumber
 } from "antd";
 import { respMessage } from '@/utils/message'
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import MD5 from "md5";
+import CusUpload from '@/components/CusUpload'
 import { createUser, loadRoleList } from "@/api/index";
 
 interface IProps {
@@ -22,19 +24,36 @@ interface IProps {
     name?: string;
     status?: number;
     id?: number;
+    openStatus?: number;
   };
   closeDrawer?: () => void;
   open?: boolean;
   userInfo?: any;
+  imagehost?: any;
 }
+
+/**支持的平台列表 支持平台id 1：加藤 2：挖洞  多个平台英文逗号,拼接 manageId*/
+const proxyPlatList = [{ label: '加藤平台', value: 1 }, { label: '挖洞平台', value: 2 }]
+
+/**支持的商品类型 1:游戏 2:会员3:金币 多个逗号分隔 payType*/
+const proxyMetList = [{ label: '游戏', value: 1 }, { label: '会员', value: 2 },{ label: '金币', value: 3 }]
+
+
 export default function UserListModule({
   moduleWidth,
   userInfo,
+  imagehost,
   open,
   closeDrawer,
 }: IProps) {
+  console.log(userInfo)
   const [userForm] = Form.useForm();
   const [roleList, SetRoleList] = useState<any[]>([]);
+  const [fastUrl, setFastUrl] = useState<string>('');
+
+  const saveUploadImgUrl = (url: string) => {
+    setFastUrl(url)
+  }
 
   const fetchData = async () => {
     if (open) {
@@ -60,6 +79,9 @@ export default function UserListModule({
             username: (userInfo as any).username,
             roleid: (userInfo as any).rolesList,
             status: (userInfo as any).status,
+            openStatus: (userInfo as any).openStatus,
+            seq: (userInfo as any).seq,
+            fakeOrderCount: (userInfo as any).fakeOrderCount
           });
         } else {
           userForm.setFieldsValue({
@@ -68,6 +90,9 @@ export default function UserListModule({
             roleid: undefined,
             password: "",
             status: true,
+            openStatus: true,
+            seq: 0,
+            fakeOrderCount: 0
           });
         }
       }
@@ -85,6 +110,11 @@ export default function UserListModule({
             status: Boolean(values.status) ? 1 : 2,
             name: values.name,
             id: userInfo.id,
+            openStatus: Boolean(values.openStatus) ? 1 : 2,
+            seq: values.seq,
+            fakeOrderCount: values.fakeOrderCount,
+            manageId: values.manageId.join(','),
+            payType: values.payType.join(',')
           });
           if (res && res.code && res.code === 200) {
             (closeDrawer as any)();
@@ -110,8 +140,13 @@ export default function UserListModule({
               rolesList: values.roleid,
               username: values.username,
               status: Boolean(values.status) ? 1 : 2,
+              openStatus: Boolean(values.openStatus) ? 1 : 2,
               password: MD5(values.password),
               name: values.name,
+              seq: values.seq,
+              fakeOrderCount: values.fakeOrderCount,
+              manageId: values.manageId.join(','),
+              payType: values.payType.join(',')
             });
             if (res && res.code && res.code === 200) {
               (closeDrawer as any)();
@@ -134,6 +169,14 @@ export default function UserListModule({
       });
   };
 
+  const handleManageIdChange = (value: any) => {
+    console.log(value)
+  }
+
+  const handlePayTypeChange = (value: any) => {
+    console.log(value)
+  }
+
   useEffect(() => {
     fetchData();
   }, [open]);
@@ -141,7 +184,7 @@ export default function UserListModule({
   return (
     <Drawer
       getContainer={false}
-      title={Object.keys(userInfo).length === 0 ? "新增用户" : "编辑用户"}
+      title={Object.keys(userInfo).length === 0 ? "新增" : "编辑"}
       size={moduleWidth}
       placement="right"
       onClose={closeDrawer}
@@ -169,24 +212,32 @@ export default function UserListModule({
       {open ? (
         <Form
           layout="horizontal"
-          labelCol={{ span: 6 }}
-          wrapperCol={{ span: 18 }}
+          labelCol={{ span: 7 }}
+          wrapperCol={{ span: 17 }}
           form={userForm}
           initialValues={{
             status: true,
+            openStatus: true
           }}
         >
           <Row>
             <Col span={24}>
+            <Form.Item name="cover" label="用户头像" rules={[{ required: true, message: "请上传头像" }]}>
+              <CusUpload saveUploadImgUrl={saveUploadImgUrl} gameInfo={{'host':imagehost, ...userInfo}}/>
+            </Form.Item>
+            </Col>
+          </Row>
+          <Row>
+          <Col span={24}>
               <Form.Item
                 name="roleid"
-                label="用户角色"
-                rules={[{ required: true, message: "请输入用户密码" }]}
+                label="代理角色"
+                rules={[{ required: true, message: "请输入代理密码" }]}
               >
                 <Select
                   style={{ width: "100%" }}
                   onChange={() => {}}
-                  placeholder="请选择用户角色"
+                  placeholder="请选择代理角色"
                   options={[...roleList]}
                 />
               </Form.Item>
@@ -196,10 +247,10 @@ export default function UserListModule({
             <Col span={24}>
               <Form.Item
                 name="name"
-                label="用户名称"
-                rules={[{ required: true, message: "请输入用户名称" }]}
+                label="代理名称"
+                rules={[{ required: true, message: "请输入代理名称" }]}
               >
-                <Input placeholder="请输入用户名称" />
+                <Input placeholder="请输入代理名称" />
               </Form.Item>
             </Col>
           </Row>
@@ -207,7 +258,7 @@ export default function UserListModule({
             <Col span={24}>
               <Form.Item
                 name="username"
-                label="用户账号"
+                label="代理账号"
                 rules={[
                   {
                     required: true,
@@ -216,7 +267,7 @@ export default function UserListModule({
                   },
                 ]}
               >
-                <Input placeholder="请输入用户账号" />
+                <Input placeholder="请输入代理账号" />
               </Form.Item>
             </Col>
           </Row>
@@ -225,7 +276,7 @@ export default function UserListModule({
               <Col span={24}>
                 <Form.Item
                   name="password"
-                  label="用户密码"
+                  label="代理密码"
                   rules={[
                     {
                       required: true,
@@ -234,7 +285,7 @@ export default function UserListModule({
                     },
                   ]}
                 >
-                  <Input.Password placeholder="请输入用户密码" />
+                  <Input.Password placeholder="请输入代理密码" />
                 </Form.Item>
               </Col>
             </Row><Row>
@@ -250,14 +301,64 @@ export default function UserListModule({
                       },
                     ]}
                   >
-                    <Input.Password placeholder="请输入用户密码" />
+                    <Input.Password placeholder="请输入代理密码" />
                   </Form.Item>
                 </Col>
               </Row></>) : null
           }
+           <Row>
+            <Col span={24}>
+              <Form.Item name="manageId" label="支持平台" rules={[{ required: true, message: "请选择平台" }]}>
+              <Select
+                mode="multiple"
+                placeholder="请选择平台"
+                style={{ width: '100%' }}
+                options={[...proxyPlatList]}
+                onChange={handleManageIdChange}
+              />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24}>
+              <Form.Item name="payType" label="支持类型" rules={[{ required: true, message: "请选择类型" }]}>
+              <Select
+                mode="multiple"
+                placeholder="请选择类型"
+                style={{ width: '100%' }}
+                options={[...proxyMetList]}
+                onChange={handlePayTypeChange}
+              />
+              </Form.Item>
+            </Col>
+          </Row>
+           <Row>
+            <Col span={24}>
+              <Form.Item name="fakeOrderCount" label="虚拟订单量">
+              <InputNumber min={0}  defaultValue={0} />
+              </Form.Item>
+            </Col>
+          </Row>
+           <Row>
+            <Col span={24}>
+              <Form.Item name="seq" label="排序">
+              <InputNumber min={0}  defaultValue={0} />
+              </Form.Item>
+            </Col>
+          </Row>
           <Row>
             <Col span={24}>
               <Form.Item name="status" label="用户状态" valuePropName="checked">
+                <Switch
+                  checkedChildren={<CheckOutlined />}
+                  unCheckedChildren={<CloseOutlined />}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24}>
+              <Form.Item name="openStatus" label="营业状态" valuePropName="checked">
                 <Switch
                   checkedChildren={<CheckOutlined />}
                   unCheckedChildren={<CloseOutlined />}

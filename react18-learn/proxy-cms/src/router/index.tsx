@@ -29,6 +29,26 @@ const PreUserList = React.lazy(() => import('../views/payment/user-mannage/PreUs
 const ActUserList = React.lazy(() => import('../views/payment/user-mannage/ActiveUserList'));
 const VersionList = React.lazy(() => import('../views/payment/version-mannage/VersionList'));
 
+
+//--------------代理后台路由，代理支付的路由模块
+//代理充值菜单
+const ProxyOrder = React.lazy(() => import('../views/payment/proxy-mannage/ProxyOrder'));
+const OrderDetail = React.lazy(() => import('../views/payment/proxy-mannage/OrderDetail'));
+const OrderStatic = React.lazy(() => import('../views/payment/proxy-mannage/OrderStatic'));
+const ProxyReport = React.lazy(() => import('../views/payment/proxy-mannage/ProxyReport'));
+const ProxyAnnouncement = React.lazy(() => import('../views/payment/proxy-mannage/ProxyAnnouncement'));
+const ChatHistory = React.lazy(() => import('../views/payment/proxy-mannage/ChatHistory'));
+//客服会话
+const CusSetting = React.lazy(() => import('../views/payment/cus-mannage/CusSetting'));
+const CusRoom = React.lazy(() => import('../views/payment/cus-mannage/CusRoom'));
+//订单管理
+const ProOrderList = React.lazy(() => import('../views/payment/order-mannage/OrderList'));
+const ProOrderDetail = React.lazy(() => import('../views/payment/order-mannage/OrderDetail'));
+const ProOrderStatic = React.lazy(() => import('../views/payment/order-mannage/OrderStatic'));
+//系统设置
+const ProPaymentType = React.lazy(() => import('../views/payment/sys-mannage/PaymentType'));
+//--------------代理后台路由，代理支付的路由模块
+
 //后管路由
 
 
@@ -110,6 +130,56 @@ const MRouter = () => {
                         path: 'versionlist',
                         element: <Suspense fallback={ <Loading/> }><AuthComponent><VersionList/></AuthComponent></Suspense>
                     },
+                    //代理支付模块
+                    {
+                        path: 'proxyorder',
+                        element: <Suspense fallback={ <Loading/> }><AuthComponent><ProxyOrder/></AuthComponent></Suspense>
+                    },
+                    {
+                        path: 'orderdetail',
+                        element: <Suspense fallback={ <Loading/> }><AuthComponent><OrderDetail/></AuthComponent></Suspense>
+                    },
+                    {
+                        path: 'orderstatic',
+                        element: <Suspense fallback={ <Loading/> }><AuthComponent><OrderStatic/></AuthComponent></Suspense>
+                    },
+                    {
+                        path: 'proxyreport',
+                        element: <Suspense fallback={ <Loading/> }><AuthComponent><ProxyReport/></AuthComponent></Suspense>
+                    },
+                    {
+                        path: 'proxyannouncement',
+                        element: <Suspense fallback={ <Loading/> }><AuthComponent><ProxyAnnouncement/></AuthComponent></Suspense>
+                    },
+                    {
+                        path: 'chathistory',
+                        element: <Suspense fallback={ <Loading/> }><AuthComponent><ChatHistory/></AuthComponent></Suspense>
+                    },
+                    {
+                        path: 'cussetting',
+                        element: <Suspense fallback={ <Loading/> }><AuthComponent><CusSetting/></AuthComponent></Suspense>
+                    },
+                    {
+                        path: 'cusroom',
+                        element: <Suspense fallback={ <Loading/> }><AuthComponent><CusRoom/></AuthComponent></Suspense>
+                    },
+                    {
+                        path: 'proorderlist',
+                        element: <Suspense fallback={ <Loading/> }><AuthComponent><ProOrderList/></AuthComponent></Suspense>
+                    },
+                    {
+                        path: 'proorderdetail',
+                        element: <Suspense fallback={ <Loading/> }><AuthComponent><ProOrderDetail/></AuthComponent></Suspense>
+                    },
+                    {
+                        path: 'proorderstatic',
+                        element: <Suspense fallback={ <Loading/> }><AuthComponent><ProOrderStatic/></AuthComponent></Suspense>
+                    },
+                    {
+                        path: 'propaymenttype',
+                        element: <Suspense fallback={ <Loading/> }><AuthComponent><ProPaymentType/></AuthComponent></Suspense>
+                    },
+                    //代理支付模块
                 ]
             },
             {

@@ -29,20 +29,20 @@ interface IProps {
   closeDrawer?: () => void;
   open?: boolean;
   userInfo?: any;
-  imagehost?: any;
+  fastHeadHost?: any;
 }
 
 /**支持的平台列表 支持平台id 1：加藤 2：挖洞  多个平台英文逗号,拼接 manageId*/
-const proxyPlatList = [{ label: '加藤平台', value: 1 }, { label: '挖洞平台', value: 2 }]
+const proxyPlatList = [{ label: '加藤平台', value: '1' }, { label: '挖洞平台', value: '2' }]
 
 /**支持的商品类型 1:游戏 2:会员3:金币 多个逗号分隔 payType*/
-const proxyMetList = [{ label: '游戏', value: 1 }, { label: '会员', value: 2 },{ label: '金币', value: 3 }]
+const proxyMetList = [{ label: '游戏', value: '1' }, { label: '会员', value: '2' },{ label: '金币', value: '3' }]
 
 
 export default function UserListModule({
   moduleWidth,
   userInfo,
-  imagehost,
+  fastHeadHost,
   open,
   closeDrawer,
 }: IProps) {
@@ -50,6 +50,7 @@ export default function UserListModule({
   const [userForm] = Form.useForm();
   const [roleList, SetRoleList] = useState<any[]>([]);
   const [fastUrl, setFastUrl] = useState<string>('');
+  const [choosedRole, setChoosedRole] = useState<any>('');
 
   const saveUploadImgUrl = (url: string) => {
     setFastUrl(url)
@@ -73,6 +74,7 @@ export default function UserListModule({
         });
       }
       if (userForm) {
+        console.log(userInfo)
         if (Object.keys(userInfo).length) {
           userForm.setFieldsValue({
             name: (userInfo as any).name,
@@ -81,8 +83,12 @@ export default function UserListModule({
             status: (userInfo as any).status,
             openStatus: (userInfo as any).openStatus,
             seq: (userInfo as any).seq,
-            fakeOrderCount: (userInfo as any).fakeOrderCount
+            fakeOrderCount: (userInfo as any).fakeOrderCount,
+            manageId: (userInfo as any).manageId.length ? (userInfo as any).manageId.split(',') : '',
+            payType: (userInfo as any).payType.length ? (userInfo as any).payType.split(',') : '',
+            headImage: (userInfo as any).headImage ? fastHeadHost+''+(userInfo as any).headImage : ''
           });
+          setChoosedRole(userInfo.rolesList)
         } else {
           userForm.setFieldsValue({
             name: "",
@@ -92,7 +98,11 @@ export default function UserListModule({
             status: true,
             openStatus: true,
             seq: 0,
-            fakeOrderCount: 0
+            fakeOrderCount: 0,
+            manageId: [],
+            payType: [],
+            headImage: '',
+            confirmPassword: ''
           });
         }
       }
@@ -114,7 +124,8 @@ export default function UserListModule({
             seq: values.seq,
             fakeOrderCount: values.fakeOrderCount,
             manageId: values.manageId.join(','),
-            payType: values.payType.join(',')
+            payType: values.payType.join(','),
+            headImage: fastUrl ? fastUrl : ''
           });
           if (res && res.code && res.code === 200) {
             (closeDrawer as any)();
@@ -146,7 +157,8 @@ export default function UserListModule({
               seq: values.seq,
               fakeOrderCount: values.fakeOrderCount,
               manageId: values.manageId.join(','),
-              payType: values.payType.join(',')
+              payType: values.payType.join(','),
+              headImage: fastUrl ? fastUrl : ''
             });
             if (res && res.code && res.code === 200) {
               (closeDrawer as any)();
@@ -217,13 +229,15 @@ export default function UserListModule({
           form={userForm}
           initialValues={{
             status: true,
-            openStatus: true
+            openStatus: true,
+            fakeOrderCount: 0,
+            seq: 0
           }}
         >
           <Row>
             <Col span={24}>
-            <Form.Item name="cover" label="用户头像" rules={[{ required: true, message: "请上传头像" }]}>
-              <CusUpload saveUploadImgUrl={saveUploadImgUrl} gameInfo={{'host':imagehost, ...userInfo}}/>
+            <Form.Item name="headImage" label="用户头像">
+            <CusUpload saveUploadImgUrl={saveUploadImgUrl} uploadInfo={userInfo} fastHeadHost={fastHeadHost} isAdd={ Object.keys(userInfo).length === 0 ? true : false }/>
             </Form.Item>
             </Col>
           </Row>
@@ -236,7 +250,7 @@ export default function UserListModule({
               >
                 <Select
                   style={{ width: "100%" }}
-                  onChange={() => {}}
+                  onChange={() => {setChoosedRole(userForm.getFieldValue('roleid'))}}
                   placeholder="请选择代理角色"
                   options={[...roleList]}
                 />
@@ -306,43 +320,45 @@ export default function UserListModule({
                 </Col>
               </Row></>) : null
           }
-           <Row>
-            <Col span={24}>
-              <Form.Item name="manageId" label="支持平台" rules={[{ required: true, message: "请选择平台" }]}>
-              <Select
-                mode="multiple"
-                placeholder="请选择平台"
-                style={{ width: '100%' }}
-                options={[...proxyPlatList]}
-                onChange={handleManageIdChange}
-              />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={24}>
-              <Form.Item name="payType" label="支持类型" rules={[{ required: true, message: "请选择类型" }]}>
-              <Select
-                mode="multiple"
-                placeholder="请选择类型"
-                style={{ width: '100%' }}
-                options={[...proxyMetList]}
-                onChange={handlePayTypeChange}
-              />
-              </Form.Item>
-            </Col>
-          </Row>
+          {
+            choosedRole === 3 ?  (<><Row>
+              <Col span={24}>
+                <Form.Item name="manageId" label="支持平台" rules={[{ required: true, message: "请选择平台" }]}>
+                <Select
+                  mode="multiple"
+                  placeholder="请选择平台"
+                  style={{ width: '100%' }}
+                  options={[...proxyPlatList]}
+                  onChange={handleManageIdChange}
+                />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
+                <Form.Item name="payType" label="支持类型" rules={[{ required: true, message: "请选择类型" }]}>
+                <Select
+                  mode="multiple"
+                  placeholder="请选择类型"
+                  style={{ width: '100%' }}
+                  options={[...proxyMetList]}
+                  onChange={handlePayTypeChange}
+                />
+                </Form.Item>
+              </Col>
+            </Row></>) : null
+          }
            <Row>
             <Col span={24}>
               <Form.Item name="fakeOrderCount" label="虚拟订单量">
-              <InputNumber min={0}  defaultValue={0} />
+              <InputNumber min={0} />
               </Form.Item>
             </Col>
           </Row>
            <Row>
             <Col span={24}>
               <Form.Item name="seq" label="排序">
-              <InputNumber min={0}  defaultValue={0} />
+              <InputNumber min={0} />
               </Form.Item>
             </Col>
           </Row>

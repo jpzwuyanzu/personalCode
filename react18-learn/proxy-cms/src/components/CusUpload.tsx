@@ -6,23 +6,28 @@ import { respMessage } from '@/utils/message'
 import React, { useState } from 'react';
 
 interface IProps {
-  gameInfo?: any;
-  isAddGame?: boolean;
+  uploadInfo?: any;
+  isAdd?: boolean;
   saveUploadImgUrl: (url: string) => void
+  fastHeadHost: any;
 }
 
-const CusUpload: any = ({ gameInfo, isAddGame, saveUploadImgUrl }:IProps) => {
+const CusUpload: any = ({ uploadInfo, isAdd, saveUploadImgUrl, fastHeadHost }:IProps) => {
+  console.log(uploadInfo)
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
-  const [fileList, setFileList] = useState<UploadFile[]>((isAddGame || gameInfo && !gameInfo.cover) ? [] : [
+  const [fileList, setFileList] = useState<UploadFile[]>((isAdd || uploadInfo && !uploadInfo.headImage) ? [] : [
     {
-      uid: gameInfo.id,
-      name: gameInfo.gameName,
+      uid: uploadInfo.id,
+      name: uploadInfo.gameName,
       status: 'done',
-      url: gameInfo.cover ? gameInfo.host+gameInfo.cover : gameInfo.host+gameInfo.headImage,
+      url: fastHeadHost+uploadInfo.headImage
     },
   ]);
+
+  console.log(fileList)
+
 
   const onChange: UploadProps['onChange'] = async ({ fileList: newFileList }) => {
     setFileList(newFileList);

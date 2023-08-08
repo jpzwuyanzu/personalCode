@@ -6,58 +6,30 @@ import Loading from '../components/Loading';
 const MRouter = () => {
     const element = useRoutes([
         {
-          path: '/films',
-          element: LazyLoad('films/Film'),
+          path: '/chat',
+          element: LazyLoad('chatRoom/Proxy'),
           children: [
               {
                   path: '',
-                  element: <Redirect to={'/films/NowPlaying'} />
+                  element: <Redirect to={'/chat/chat'} />
               },
               {
-                  path: 'NowPlaying',
-                  element: LazyLoad('films/NowPlaying')
+                  path: 'chat',
+                  element: LazyLoad('chatRoom/Chat')
               },
               {
-                  path: 'comingSoon',
-                  element: LazyLoad('films/ComingSoon')
+                  path: 'order',
+                  element: LazyLoad('chatRoom/Order')
               }
           ]  
         },
         {
-            path: '/film/detail/:filmId',
-            element: LazyLoad('films/Detail')
-        },
-        {
-            path: '/cinema',
-            element: LazyLoad('cinemas/Cinema')
-        },
-        {
-            path: '/cinema/search',
-            element: LazyLoad('cinemas/Search')
-        },
-        {
-            path: '/city',
-            element: LazyLoad('cinemas/City')
-        },
-        {
-            path: '/cinema/detail/:filmId',
-            element: LazyLoad('cinemas/Detail')
-        },
-        {
-            path: '/news/mz-act',
-            element: LazyLoad('news/News')
-        },
-        {
-            path: '/center',
-            element: <AuthComponent>{ LazyLoad('center/Center') }</AuthComponent>
-        },
-        {
-            path: '/login',
-            element: LazyLoad('login/Login')
+            path: '/proxy/allproxy',
+            element: LazyLoad('proxy/index')
         },
         {
             path: '/',
-            element: <Redirect to="/films" />
+            element: <Redirect to="/proxy/allproxy" />
         },
         {
             path: '*',
@@ -66,12 +38,6 @@ const MRouter = () => {
 
     ])
     return element
-}
-
-//路由鉴权，判断是否登录
-const AuthComponent = ({ children }: any) => {
-    const isLogin = localStorage.getItem('token');
-    return isLogin ? children : <Redirect to="/login"/>
 }
 
 // 路由懒加载

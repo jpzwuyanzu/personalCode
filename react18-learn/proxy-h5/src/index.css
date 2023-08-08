@@ -44,3 +44,7 @@ p {
 :root:root {
   /* --adm-color-primary: #a062d4; */
 }
+
+.editable-cell-value-wrap {
+  padding-right: 0px !important;
+}

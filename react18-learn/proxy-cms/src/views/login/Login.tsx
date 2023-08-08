@@ -44,7 +44,7 @@ const Login: React.FC = () => {
     <div className={ styles.loginCom_container }>
       <div className={ styles.loginCom }>
       <img className={ styles.logo_img } src={ LogoImg } alt="" />
-      <div className={styles.Login_title}>代理系统</div>
+      <div className={styles.Login_title}>代理充值系统</div>
       <Form
       name="normal_login"
       className="login-form"

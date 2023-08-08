@@ -1,0 +1,17 @@
+syntax = "proto2";
+
+package protocol;
+
+option java_package = "com.jt.protocol";
+option java_outer_classname = "CIMRequestProto";
+
+message CIMReqProtocol {
+  required string requestId = 2;
+  required string reqMsg = 1;
+  required int32 type = 3;
+  optional string toUser = 4;
+  required int32 userType = 5;
+  required int32 msgType = 6;
+  required string token = 7;
+}
+

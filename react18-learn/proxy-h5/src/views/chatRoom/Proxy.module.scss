@@ -1,0 +1,32 @@
+.proxy_container {
+    height: 100%;
+    .navbar_container {
+        height: 90px;
+    }
+    .tabs_container {
+        height: 86px;
+        // overflow: hidden;
+    }
+    .order_status_line {
+        height: 80px;
+        background: #c4ebd7;
+        width: 70%;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        border-radius: 10px;
+        color: #0bc226;
+        .countDownNow {
+            font-size: 15px;
+            color: #0bc226;
+        }
+    }
+    .proxy_content {
+        height: calc(100% - 286px);
+        overflow-y: scroll;
+    }
+}

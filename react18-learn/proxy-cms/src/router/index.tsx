@@ -38,15 +38,10 @@ const OrderStatic = React.lazy(() => import('../views/payment/proxy-mannage/Orde
 const ProxyReport = React.lazy(() => import('../views/payment/proxy-mannage/ProxyReport'));
 const ProxyAnnouncement = React.lazy(() => import('../views/payment/proxy-mannage/ProxyAnnouncement'));
 const ChatHistory = React.lazy(() => import('../views/payment/proxy-mannage/ChatHistory'));
+const ProPaymentType = React.lazy(() => import('../views/payment/sys-mannage/PaymentType'));
 //客服会话
 const CusSetting = React.lazy(() => import('../views/payment/cus-mannage/CusSetting'));
 const CusRoom = React.lazy(() => import('../views/payment/cus-mannage/CusRoom'));
-//订单管理
-const ProOrderList = React.lazy(() => import('../views/payment/order-mannage/OrderList'));
-const ProOrderDetail = React.lazy(() => import('../views/payment/order-mannage/OrderDetail'));
-const ProOrderStatic = React.lazy(() => import('../views/payment/order-mannage/OrderStatic'));
-//系统设置
-const ProPaymentType = React.lazy(() => import('../views/payment/sys-mannage/PaymentType'));
 //--------------代理后台路由，代理支付的路由模块
 
 //后管路由
@@ -162,18 +157,6 @@ const MRouter = () => {
                     {
                         path: 'cusroom',
                         element: <Suspense fallback={ <Loading/> }><AuthComponent><CusRoom/></AuthComponent></Suspense>
-                    },
-                    {
-                        path: 'proorderlist',
-                        element: <Suspense fallback={ <Loading/> }><AuthComponent><ProOrderList/></AuthComponent></Suspense>
-                    },
-                    {
-                        path: 'proorderdetail',
-                        element: <Suspense fallback={ <Loading/> }><AuthComponent><ProOrderDetail/></AuthComponent></Suspense>
-                    },
-                    {
-                        path: 'proorderstatic',
-                        element: <Suspense fallback={ <Loading/> }><AuthComponent><ProOrderStatic/></AuthComponent></Suspense>
                     },
                     {
                         path: 'propaymenttype',

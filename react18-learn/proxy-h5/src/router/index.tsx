@@ -11,10 +11,10 @@ const MRouter = () => {
           children: [
               {
                   path: '',
-                  element: <Redirect to={'/chat/chat'} />
+                  element: <Redirect to={'/chat/chatroom'} />
               },
               {
-                  path: 'chat',
+                  path: 'chatroom',
                   element: LazyLoad('chatRoom/Chat')
               },
               {

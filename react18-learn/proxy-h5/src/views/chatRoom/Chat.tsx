@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from 'react-router-dom'
-import { Input, Image, ImageViewer } from "antd-mobile";
+import { Input, Image, ImageViewer,Dialog } from "antd-mobile";
 import { List, Card} from "react-vant";
 import { Arrow, Like } from '@react-vant/icons'
 import { PicturesOutline, AntOutline, RightOutline } from "antd-mobile-icons";
 import styles from "./Chat.module.scss";
+import { uploadFastImg } from './../../api/index'
 
 const Chat = () => {
   const [value, setValue] = useState("");
@@ -12,7 +13,9 @@ const Chat = () => {
   const [finished, setFinished] = useState<boolean>(false);
   const [imgPreVisiable, setImgPreVisiable] = useState(false);
   const listEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
+  const [fastImgUrl, setFastImgUrl] = useState('');
 
   /**
    *type : 1: 客服消息 2:用户消息 3:官方欢迎消息 4:充值方式消息 5:充值链接类型
@@ -133,6 +136,68 @@ const Chat = () => {
     navigate(`/recharge/recharge/${amount}`)
   }
 
+  //上传图片
+  const uploadMessageImg = () => {
+    let imgFormData = null;
+    if(inputRef && inputRef.current) {
+      inputRef.current.addEventListener('change', function (event: any) {
+        let $file = event.currentTarget;
+        let file: any = $file?.files
+        let URL: string | null = null;
+        if ((window as any).createObjectURL != undefined) {
+          URL = (window as any).createObjectURL(file[0]);
+        } else if (window.URL != undefined) {
+          URL = window.URL.createObjectURL(file[0]);
+        } else if (window.webkitURL != undefined) {
+          URL = window.webkitURL.createObjectURL(file[0]);
+        }
+        imgFormData = new FormData();
+        (imgFormData as any).append('file', (file as any)[0]);
+        imgFormData.append('fileSize', file[0].size);
+        // imgFormData.append('file', element.file)
+        // 获取上传图片的本地URL，用于上传前的本地预览
+        uploadFastImg(imgFormData).then((res:any) => {
+          if(res && res.code && res.code === 200) {
+            setFastImgUrl(res.data.fastUrl+res.data.fastPath)
+            if(URL) {
+              Dialog.show({
+                image: URL,
+                content: '人在天边月上明，风初紧，吹入画帘旌',
+                closeOnAction: true,
+                actions: [
+                  [
+                    {
+                      key: 'cancel',
+                      text: '取消',
+                      onClick: () => {
+                        console.log('取消发送图片')
+                      }
+                    },
+                    {
+                      key: 'confirm',
+                      text: '发送',
+                      // bold: true,
+                      danger: true,
+                      style: { color: '#1677ff' },
+                      onClick: () => {
+                        //在这里将图片发送塞到websocket中
+                        console.log('确认发送图片')
+                      }
+                    },
+                  ],
+                ],
+              })
+            }
+          }
+         })
+        
+        // document.getElementsByClassName('checked-img')[0].src = URL;
+        // document.getElementsByClassName('img-send-box')[0].style.display = 'block'
+      });
+    }
+    
+  }
+
   //监听聊天记录，出发滚动到底部操作
   useEffect(() => {
     scrollToBottom();
@@ -141,6 +206,7 @@ const Chat = () => {
   //页面初始化
   useEffect(() => {
     onLoad();
+    uploadMessageImg()
   }, []);
 
   return (
@@ -353,6 +419,7 @@ const Chat = () => {
       <div className={styles.message_bottom}>
         <div className={styles.uploadImg}>
           <PicturesOutline />
+          <input type="file" accept="image/*" name="uploader-input" className={ styles.uploader_file } ref={inputRef}></input>
         </div>
         <div className={styles.message_input}>
           <Input
@@ -366,6 +433,9 @@ const Chat = () => {
         </div>
         <div className={styles.messageSend}>发送</div>
       </div>
+      {/* 上传图片的预览弹框 */}
+
+      {/* 上传图片的预览弹框 */}
     </div>
   );
 };

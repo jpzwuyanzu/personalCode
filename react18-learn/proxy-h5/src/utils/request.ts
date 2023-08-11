@@ -28,7 +28,7 @@ service.interceptors.response.use(
      // 通过判断状态码统一处理响应， 根据实际情况修改，同时可以根据http状态码判断请求结果
      (response: any) => {
         const res = response.data
-        if(res.code !== 0) {
+        if(res.code !== 200) {
             // if(res.code === 1401) {
             //     sessionStorage.clear()
             //     removeCookieItem('token')

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Card, Dialog, Toast } from 'antd-mobile'
+import CopyToClipboard from 'react-copy-to-clipboard'
 import styles from './Order.module.scss'
 
 const Order = ()=>  {
@@ -10,6 +11,12 @@ const Order = ()=>  {
    * 2: 充值成功， 不可以点击
    */
   const [orderStatus, setOrderStatus] = useState(0);
+  const [orderNum, setOrderNum] = useState('IM7879879878978787987');
+  const [actAmount, setActAmount] = useState(3000);
+
+  const handleCopyOrderNum = () => {
+    Toast.show({ content: '复制成功', position: 'top' })
+  }
 
   const handleOrderBtn = async () => {
     if(!orderStatus) {
@@ -34,7 +41,10 @@ const Order = ()=>  {
           <div className={ styles.detail_container }>
             <div className={ styles.detail_item }>
               <span className={ styles.label }>订单编号:</span>
-              <span className={ styles.info }>IM7879879878978787987</span>
+              <span className={ styles.info }>{ orderNum }</span>
+              <CopyToClipboard text={orderNum} onCopy={handleCopyOrderNum}>
+               <div className={ styles.copyOrderNow }>复制</div>
+              </CopyToClipboard>
             </div>
             <div className={ styles.detail_item }>
               <span className={ styles.label }>创建时间:</span>
@@ -62,7 +72,7 @@ const Order = ()=>  {
       {/* 按钮模块 */}
       <div className={ styles.order_btns }>
         <div className={ styles.btns_group }>
-          <div className={ styles.left_part }>实付金额: <span>/</span></div>
+          <div className={ styles.left_part }>实付金额:&nbsp;<span>{ actAmount ? '¥' + actAmount.toFixed(2) : '/' }</span></div>
           <div className={ orderStatus === 0 ? styles.right_part : styles.disBtn } onClick={handleOrderBtn}>{ orderStatus === 0 ? '取消订单' : (orderStatus === 1 ? '已关闭' : '充值成功') }</div>
         </div>
       </div>

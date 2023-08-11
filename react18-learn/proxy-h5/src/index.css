@@ -22,12 +22,12 @@ p {
   font-size: 29px;
 }
 :root:root {
-  --adm-color-primary: #ff5f16;
+  --adm-color-primary: #ff6034;
   
 }
 
 #nprogress, .bar {
-  background: #ff5f16 !important;
+  background: #1677ff !important;
 }
 
 .adm-nav-bar-title {

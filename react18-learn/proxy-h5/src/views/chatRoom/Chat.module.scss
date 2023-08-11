@@ -1,0 +1,252 @@
+.chat_container {
+    height: 100%;
+
+    .message_content {
+        height: calc(100% - 100px);
+        padding: 0 15px;
+        padding-top: 20px;
+        box-sizing: border-box;
+        // background: skyblue;
+        overflow-y: scroll;
+
+        // 客服消息
+        .customer_message {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            margin-bottom: 30px;
+
+            .message_avator {
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+            }
+
+            .cusTextMessage {
+                max-width: 70%;
+                height: auto;
+                padding: 20px;
+                box-sizing: border-box;
+                border-radius: 15px;
+                margin-left: 20px;
+                background: #ececec;
+                display: flex;
+                flex-wrap: wrap;
+
+                .cusTextMessage_right_time {
+                    display: flex;
+                    width: 100%;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    padding: 10px;
+                    box-sizing: border-box;
+                }
+            }
+
+            .cusImgMessage {
+                max-width: 60%;
+                height: 250px;
+                padding: 20px;
+                box-sizing: border-box;
+                background: #ececec;
+                border-radius: 15px;
+                margin-left: 20px;
+
+                .cusImgMessage_right_time {
+                    display: flex;
+                    width: 100%;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    padding: 10px;
+                    box-sizing: border-box;
+                }
+            }
+        }
+
+        //用户消息
+        .user_message {
+            max-width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: 30px;
+            justify-content: flex-end;
+
+            .message_avator {
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+            }
+
+            .userTextMessage {
+                max-width: 70%;
+                height: auto;
+                padding: 20px;
+                box-sizing: border-box;
+                border-radius: 15px;
+                margin-right: 20px;
+                background: #ececec;
+                flex-wrap: wrap;
+                display: flex;
+
+                .userTextMessage_right_time {
+                    display: flex;
+                    width: 100%;
+                    flex-direction: row;
+                    justify-content: flex-end;
+                    padding: 10px;
+                    box-sizing: border-box;
+                }
+            }
+
+            .userImgMessage {
+                max-width: 60%;
+                height: 250px;
+                padding: 20px;
+                box-sizing: border-box;
+                background: #ececec;
+                border-radius: 15px;
+                margin-right: 20px;
+
+                .userImgMessage_right_time {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-end;
+                    padding: 10px;
+                    box-sizing: border-box;
+                }
+            }
+        }
+
+        //官方欢迎消息
+        .common_message {
+            width: 70%;
+            margin: 0 auto;
+            height: auto;
+            padding: 20px;
+            background: #ececec;
+            border-radius: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+
+            .common_message_right_time {
+                display: flex;
+                width: 100%;
+                flex-direction: row;
+                justify-content: flex-end;
+                padding: 10px;
+                box-sizing: border-box;
+            }
+        }
+
+        //充值方式消息
+        .rechartype_message {
+            max-width: 70%;
+            margin: 0 auto;
+            height: auto;
+            padding: 20px;
+            background: #ececec;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            .rechartype_title {
+                text-align: center;
+                padding: 10px;
+            }
+            .rechartype_label {
+                text-align: center;
+                padding: 10px;
+            }
+            .rechartype_list {
+                padding-left: 20px;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-start;
+                flex-wrap: wrap;
+                .type_item {
+                    // display: flex;
+                    // flex-direction: row;
+                    // align-items: center;
+                    // justify-content: center;
+                    margin: 10px;
+                    .type_name {
+                        text-align: center;
+                        padding-top: 10px;
+                    }
+                }
+            }
+            .rechartype_right_time {
+                display: flex;
+                width: 100%;
+                flex-direction: row;
+                justify-content: flex-end;
+                padding: 10px;
+                box-sizing: border-box;
+            }
+        }
+
+        //充值链接消息
+        .recharlink_message {
+            max-width: 70%;
+            margin: 0 auto;
+            height: auto;
+            padding: 15px;
+            background: #ececec;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            .recharge_link {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                .linkNow {
+                    color: #1677ff;
+                }
+                .link_right_time  {
+                    font-size: 20px;
+                }
+            }
+        }
+    }
+
+    .message_bottom {
+        height: 100px;
+        // background: #ccc;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        .uploadImg {
+            // width: 40px;
+            // height: 40px;
+            font-size: 50px;
+        }
+
+        .message_input {
+            width: 70%;
+            background: #e9e7e7;
+            border-radius: 50px;
+            margin-left: 20px;
+            margin-right: 20px;
+            padding-left: 20px;
+            box-sizing: border-box;
+
+            .cusInput {
+                width: 100%;
+                height: 80px;
+                border-radius: 20px;
+            }
+        }
+
+        .messageSend {
+            font-size: 25px;
+            padding: 15px 25px;
+            background: #000;
+            color: #fff;
+            border-radius: 25px;
+        }
+    }
+}

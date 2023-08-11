@@ -1,0 +1,98 @@
+.recharge_container {
+    height: 100%;
+    .re_nav_container {
+        height: 90px;
+    }
+    .re_content_area {
+        height: calc(100% - 90px);
+        overflow-y: scroll;
+        padding-top: 80px;
+        box-sizing: border-box;
+        .re_header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            .re_label {
+                font-size: 35px;
+                padding: 20px;
+            }
+            .re_amount {
+                font-size: 40px;
+                color: #ff0f1d;
+                padding: 20px;
+            }
+        }
+        .re_account_part {
+            padding-top: 40px;
+            .re_qr_type {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                .re_tips {
+                    font-size: 25px;
+                }
+                .re_qr_img {
+                    max-width: 280px;
+                    height: 280px;
+                    box-sizing: border-box;
+                    border-radius: 15px;
+                    margin-top: 40px;
+                    margin-bottom: 40px;
+                }
+                .qr_account_name {
+                    font-size: 25px;
+                }
+            }
+            .re_account_type {
+                padding: 0 40px;
+                .account_tips {
+                    text-align: center;
+                    font-size: 25px;
+
+                }
+                .re_account_area {
+                    padding-top: 40px;
+                    .account_item {
+                        display: flex;
+                        width: 100%;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: center;
+                        padding: 15px 20px;
+                        font-size: 26px;
+                        .acc_label {
+                            flex: 1;
+                            text-align: right;
+                            color: #b0a4a4;
+                        }
+                        .acc_num {
+                            flex: 2.5;
+                            padding-left: 20px;
+                        }
+                        .copyOrderNow {
+                            background: #ccc;
+                            padding: 3px 20px;
+                            font-size: 20px;
+                            border-radius: 10px;
+                            color: #0bc226;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .best_tips {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 80px;
+        .tips_item {
+            width: 100%;
+            padding: 10px 80px;
+            box-sizing: border-box;
+            text-align: left;
+        }
+    }
+}

@@ -24,6 +24,10 @@ const MRouter = () => {
           ]  
         },
         {
+            path: '/recharge/recharge/:amount',
+            element: LazyLoad('Recharge/Recharge')
+        },
+        {
             path: '/proxy/allproxy',
             element: LazyLoad('proxy/index')
         },

@@ -2,6 +2,15 @@
     height: 100%;
     .navbar_container {
         height: 90px;
+        .reportNow {
+            padding: 5px;
+            background: linear-gradient(to right, #ff6034, #ee0a24);
+            width: 70px;
+            float: right;
+            text-align: center;
+            border-radius: 20px;
+            color: #fff;
+        }
     }
     .tabs_container {
         height: 86px;
@@ -25,8 +34,32 @@
             color: #0bc226;
         }
     }
+    .order_status_disline {
+        height: 80px;
+        background: #ccc;
+        width: 70%;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        border-radius: 10px;
+        color: #666161;
+    }
     .proxy_content {
         height: calc(100% - 286px);
-        overflow-y: scroll;
+        overflow: hidden;
+    }
+}
+.report_container {
+    .report_input {
+        background: #f2f2f2;
+    }
+    .report_tips {
+        margin-top: 30px;
+        color: #ff6084;
+        font-size: 20px;
     }
 }

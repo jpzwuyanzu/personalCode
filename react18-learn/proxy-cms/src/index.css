@@ -1,0 +1,27 @@
+.app .ql-container {
+    border-bottom-left-radius: 0.5em;
+    border-bottom-right-radius: 0.5em;
+    background: #fefcfc;
+    min-height: 300px;
+  }
+  
+  /* Snow Theme */
+  .app .ql-snow.ql-toolbar {
+    display: block;
+    background: #eaecec;
+    border-top-left-radius: 0.5em;
+    border-top-right-radius: 0.5em;
+  }
+  
+  /* Bubble Theme */
+  .app .ql-bubble .ql-editor {
+    border: 1px solid #ccc;
+    border-radius: 0.5em;
+  }
+  
+  .app .ql-editor {
+    min-height: 18em;
+  }
+  .ql-container {
+    min-height: 200px !important;
+  }

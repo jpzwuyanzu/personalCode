@@ -160,7 +160,47 @@ export function laodActiveUserList (params? :any) {
 }
 
 
-
+// 代理充值模块接口
+//交易明细
+export function loadTradeRecord (params? :any) {
+    return request.post('/api/agent/record/listPage', {'requestTimeStamp': (new Date()).getTime() , ...params})
+}
+//数据统计
+export function loadTradeStatic(params? :any) {
+    return request.post('/api/agent/statistic/listPage', {'requestTimeStamp': (new Date()).getTime() , ...params})
+}
+//举报列表
+export function loadReportList(params? :any) {
+    return request.post('/api/agent/report/listPage', {'requestTimeStamp': (new Date()).getTime() , ...params})
+}
+//公告列表
+export function loadAnoceMentList(params? :any) {
+    return request.post('/api/agent/notice/listPage', {'requestTimeStamp': (new Date()).getTime() , ...params})
+}
+//编辑公告
+export function editAnoceMent(params? :any) {
+    return request.post('/api/agent/notice/saveOrUpdate', {'requestTimeStamp': (new Date()).getTime() , ...params})
+}
+//订单列表
+export function proxyOrderList(params? :any) {
+    return request.post('/api/agent/order/listPage', {'requestTimeStamp': (new Date()).getTime() , ...params})
+}
+//代理上下分
+export function updateAgentAmount(params? :any) {
+    return request.post('/api/agent/updateAgentAmount', {'requestTimeStamp': (new Date()).getTime() , ...params})
+}
+//代理收款方式
+export function agentReciveType(params? :any) {
+    return request.post('/api/agent/pay/listPage', {'requestTimeStamp': (new Date()).getTime() , ...params})
+}
+//新增编辑收款方式
+export function updateAgentReciveType(params? :any) {
+    return request.post('/api/agent/pay/saveOrUpdate', {'requestTimeStamp': (new Date()).getTime() , ...params})
+}
+//删除收款方式
+export function delAgentReciveType(params? :any) {
+    return request.post('/api/agent/pay/deleteById', {'requestTimeStamp': (new Date()).getTime() , ...params})
+}
 
 
 

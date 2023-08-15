@@ -63,7 +63,8 @@ const ProxyOrder: React.FC = () => {
       values["startMs"] = "";
       values["endMs"] = "";
     }
-    fetchData(values);
+    setpage(1)
+    fetchData({page: 1, ...values});
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -116,6 +117,7 @@ const ProxyOrder: React.FC = () => {
 
   const fetchData = async (params?: any) => {
     setLoading(true);
+    console.log({ page, pageSize, ...params })
     const data: any = await proxyOrderList({ page, pageSize, ...params });
     setLoading(false);
     if (data && data.code && data.code === 200) {
@@ -392,8 +394,8 @@ const ProxyOrder: React.FC = () => {
           <Form
             form={searchUserForm}
             name="basic"
-            labelCol={{ span: 1 }}
-            wrapperCol={{ span: 23 }}
+            labelCol={{ span: 7 }}
+            wrapperCol={{ span: 15 }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             autoComplete="off"
@@ -408,83 +410,49 @@ const ProxyOrder: React.FC = () => {
             }}
           >
             <Row justify="start">
-              <Col span={3.5}>
+              <Col span={4}>
                 <Form.Item
-                  label=""
+                  label="用户ID"
                   name="playerId"
                   rules={[{ required: false, message: "请输入用户ID!" }]}
                 >
                   <Input
                     placeholder="输入用户ID"
                     allowClear={true}
-                    style={{ width: "130px", margin: "0 8px" }}
                   />
                 </Form.Item>
               </Col>
-              <Col span={3.5}>
+              <Col span={4}>
                 <Form.Item
-                  label=""
+                  label="用户昵称"
                   name="playerName"
                   rules={[{ required: false, message: "请输入用户昵称!" }]}
                 >
                   <Input
                     placeholder="输入用户昵称"
                     allowClear={true}
-                    style={{ width: "130px", margin: "0 8px" }}
                   />
                 </Form.Item>
               </Col>
-              {
-                 userType !== 1 && <Col span={3.5}>
-                 <Form.Item
-                   label=""
-                   name="agentId"
-                   rules={[{ required: false, message: "请输入代理ID!" }]}
-                 >
-                   <Input
-                     placeholder="输入代理ID"
-                     allowClear={true}
-                     style={{ width: "130px", margin: "0 8px" }}
-                   />
-                 </Form.Item>
-               </Col>
-              }
-              {
-                userType !== 1 &&  <Col span={3.5}>
+              <Col span={5}>
                 <Form.Item
-                  label=""
-                  name="agentName"
-                  rules={[{ required: false, message: "请输入代理昵称!" }]}
-                >
-                  <Input
-                    placeholder="输入代理昵称"
-                    allowClear={true}
-                    style={{ width: "130px", margin: "0 8px" }}
-                  />
-                </Form.Item>
-              </Col>
-              }
-              <Col span={3.5}>
-                <Form.Item
-                  label=""
+                  label="订单号"
                   name={ userType === 1 ? 'merchantOrderId' : 'platformOrderId' }
                   rules={[{ required: false, message: "请输入订单号!" }]}
                 >
                   <Input
                     placeholder="输入订单号"
                     allowClear={true}
-                    style={{ width: "230px", margin: "0 8px" }}
                   />
                 </Form.Item>
               </Col>
-              <Col span={3.5}>
+              <Col span={4}>
                 <Form.Item
-                  label=""
+                  label="订单状态"
                   name="payStatus"
                   rules={[{ required: false, message: "请选择订单状态!" }]}
                 >
                   <Select
-                    style={{ width: "120px", margin: "0 8px" }}
                     placeholder="订单状态"
                     onChange={() => {}}
                     options={[
@@ -496,14 +464,13 @@ const ProxyOrder: React.FC = () => {
                   />
                 </Form.Item>
               </Col>
-              <Col span={3.5}>
+            <Col span={4}>
                 <Form.Item
-                  label=""
+                  label="支付方式"
                   name="payCode"
                   rules={[{ required: false, message: "请选择支付方式!" }]}
                 >
                   <Select
-                    style={{ width: "120px", margin: "0 8px" }}
                     placeholder="支付方式"
                     onChange={() => {}}
                     options={[
@@ -515,18 +482,48 @@ const ProxyOrder: React.FC = () => {
                   />
                 </Form.Item>
               </Col>
-              <Col span={3.5}>
+            </Row>
+            <Row justify="start">
+              {
+                 userType !== 1 && <Col span={4}>
+                 <Form.Item
+                   label="代理ID"
+                   name="agentId"
+                   rules={[{ required: false, message: "请输入代理ID!" }]}
+                 >
+                   <Input
+                     placeholder="输入代理ID"
+                     allowClear={true}
+                   />
+                 </Form.Item>
+               </Col>
+              }
+              {
+                userType !== 1 &&  <Col span={4}>
                 <Form.Item
-                  label=""
+                  label="代理昵称"
+                  name="agentName"
+                  rules={[{ required: false, message: "请输入代理昵称!" }]}
+                >
+                  <Input
+                    placeholder="输入代理昵称"
+                    allowClear={true}
+                  />
+                </Form.Item>
+              </Col>
+              }
+              <Col span={5}>
+                <Form.Item
+                  label="交易时间"
                   name="createTime"
                   rules={[{ required: false, message: "请选择交易时间!" }]}
                 >
-                  <RangePicker />
+                  <RangePicker style={{ width: '230px' }}/>
                 </Form.Item>
               </Col>
               {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
               <Col span={1}>
-                <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
+                <Form.Item wrapperCol={{ offset: 0, span: 16 }} style={{ marginLeft: '20px' }}>
                   <Button type="primary" htmlType="submit">
                     搜索
                   </Button>
@@ -534,8 +531,8 @@ const ProxyOrder: React.FC = () => {
               </Col>
               {/* </JudgePemission> */}
               {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
-              <Col span={1}>
-                <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
+              <Col span={4}>
+                <Form.Item wrapperCol={{ offset: 2, span: 16 }}>
                   <Button
                     type="primary"
                     style={{ marginLeft: "13px" }}

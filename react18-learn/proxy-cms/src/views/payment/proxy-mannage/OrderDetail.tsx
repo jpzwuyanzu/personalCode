@@ -202,7 +202,7 @@ const OrderDetail: React.FC = () => {
             form={searchUserForm}
             name="basic"
             labelCol={{ span: 6 }}
-            wrapperCol={{ span: 16 }}
+            wrapperCol={{ span: 18 }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             autoComplete="off"
@@ -213,7 +213,29 @@ const OrderDetail: React.FC = () => {
             }}
           >
             <Row justify="start">
-              <Col span={3.5}>
+            {
+                userType !== 1 &&  <Col span={4}>
+                <Form.Item
+                  label="代理昵称"
+                  name="agentName"
+                  rules={[{ required: false, message: "请输入代理昵称!" }]}
+                >
+                  <Input placeholder="代理昵称" allowClear={true} />
+                </Form.Item>
+              </Col>
+              }
+             {
+              userType !== 1 &&<Col span={4}>
+              <Form.Item
+                label="代理ID"
+                name="agentId"
+                rules={[{ required: false, message: "请输入代理ID!" }]}
+              >
+                <Input placeholder="代理ID"  allowClear={true}/>
+              </Form.Item>
+            </Col>
+             }
+              <Col span={4}>
                 <Form.Item
                   label="订单号"
                   name="platformOrderId"
@@ -222,36 +244,14 @@ const OrderDetail: React.FC = () => {
                   <Input placeholder="请输入订单编号" allowClear={true} />
                 </Form.Item>
               </Col>
-              {
-                userType !== 1 &&  <Col span={3.5}>
-                <Form.Item
-                  label="代理昵称"
-                  name="agentName"
-                  rules={[{ required: false, message: "请输入代理昵称!" }]}
-                >
-                  <Input placeholder="请输入代理昵称" allowClear={true} />
-                </Form.Item>
-              </Col>
-              }
-             {
-              userType !== 1 &&<Col span={3.5}>
-              <Form.Item
-                label="代理ID"
-                name="agentId"
-                rules={[{ required: false, message: "请输入代理ID!" }]}
-              >
-                <Input placeholder="请输入代理ID"  allowClear={true} />
-              </Form.Item>
-            </Col>
-             }
-              <Col span={3.5}>
+              
+              <Col span={4}>
                 <Form.Item
                   label="类型"
                   name="changeType"
                   rules={[{ required: false, message: "请选择订单类型!" }]}
                 >
                   <Select
-                    style={{ width: "120px" }}
                     placeholder="请选择订单类型"
                     onChange={() => {}}
                     options={[
@@ -263,7 +263,7 @@ const OrderDetail: React.FC = () => {
                   />
                 </Form.Item>
               </Col>
-              <Col span={6}>
+              <Col span={5}>
                 <Form.Item
                   label="交易时间"
                   name="createTime"
@@ -274,7 +274,7 @@ const OrderDetail: React.FC = () => {
               </Col>
               {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
               <Col span={1}>
-                <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
+                <Form.Item wrapperCol={{ offset: 2, span: 16 }}>
                   <Button type="primary" htmlType="submit">
                     搜索
                   </Button>
@@ -283,10 +283,9 @@ const OrderDetail: React.FC = () => {
               {/* </JudgePemission> */}
               {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
               <Col span={1}>
-                <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
+                <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
                   <Button
                     type="primary"
-                    style={{ marginLeft: "13px" }}
                     onClick={() => resetParams()}
                   >
                     重置

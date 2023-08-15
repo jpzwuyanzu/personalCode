@@ -45,7 +45,8 @@ const UserList: React.FC = () => {
   const [searchUserForm] = Form.useForm();
 
   const onFinish = (values: any) => {
-    fetchData(values);
+    setpage(1)
+    fetchData({page: 1, ...values});
   };
 
   const onFinishFailed = (errorInfo: any) => {

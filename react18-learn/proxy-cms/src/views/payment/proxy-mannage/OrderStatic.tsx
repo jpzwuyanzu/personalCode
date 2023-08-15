@@ -63,7 +63,8 @@ const OrderDetail: React.FC = () => {
       values["startTime"] = "";
       values["endTime"] = "";
     }
-    fetchData(values);
+    setpage(1)
+    fetchData({page: 1, ...values});
   };
 
   const onFinishFailed = (errorInfo: any) => {

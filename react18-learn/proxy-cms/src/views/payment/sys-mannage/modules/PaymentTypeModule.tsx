@@ -38,7 +38,7 @@ export default function PaymentTypeModule({
 }: IProps) {
   console.log(paymentTypeInfo);
   console.log(fastHeadHost)
-  const [userForm] = Form.useForm();
+  const [paymentTypeForm] = Form.useForm();
   const [payCodeNow, setPayCodeNow] = useState('UNION_PAY');
   const [fastUrl, setFastUrl] = useState<string>("");
 
@@ -48,10 +48,10 @@ export default function PaymentTypeModule({
 
   const fetchData = async () => {
     if (open) {
-      if (userForm) {
+      if (paymentTypeForm) {
         console.log(paymentTypeInfo);
         if (Object.keys(paymentTypeInfo).length) {
-          userForm.setFieldsValue({
+          paymentTypeForm.setFieldsValue({
             payCode: (paymentTypeInfo as any).payCode,
             payName: (paymentTypeInfo as any).payName,
             bankAccount: (paymentTypeInfo as any).bankAccount,
@@ -67,22 +67,25 @@ export default function PaymentTypeModule({
           });
           setPayCodeNow((paymentTypeInfo as any).payCode)
         } else {
-          userForm.setFieldsValue({
-            payCode: "",
+          paymentTypeForm.setFieldsValue({
+            payCode: "UNION_PAY",
             payName: "",
             status: true,
             bankAccount: "",
             bankNo: "",
             bankName: "",
-            headImage: ""
+            headImage: "",
+            payImage: ""
           });
+          setPayCodeNow('UNION_PAY')
         }
+        console.log(paymentTypeForm.getFieldsValue())
       }
     }
   };
 
   const confirmEditUser = async () => {
-    userForm
+    paymentTypeForm
       ?.validateFields()
       .then(async (values) => {
         if (Object.keys(paymentTypeInfo).length) {
@@ -110,7 +113,7 @@ export default function PaymentTypeModule({
           }
         } else {
           if (String(values.password) !== String(values.confirmPassword)) {
-            userForm.setFieldsValue({ confirmPassword: "" });
+            paymentTypeForm.setFieldsValue({ confirmPassword: "" });
             message.open({
               type: "error",
               content: "两次输入的密码不一致!",
@@ -188,7 +191,7 @@ export default function PaymentTypeModule({
           layout="horizontal"
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
-          form={userForm}
+          form={paymentTypeForm}
           initialValues={{
             status: true,
             payCode: 'UNION_PAY'

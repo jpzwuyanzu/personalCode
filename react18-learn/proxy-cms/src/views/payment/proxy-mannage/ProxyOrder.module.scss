@@ -24,24 +24,3 @@
     }
     
 }
-
-// 账号详情
-.accountInfoDetail {
-    width: 100%;
-    .payTypeDetail {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: nowrap;
-    .info_label {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: nowrap;
-        min-width: 250px;
-    }
-}
-}
-

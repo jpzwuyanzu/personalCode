@@ -13,20 +13,26 @@ import {
   Tag,
   Image,
   DatePicker,
+  Statistic,
 } from "antd";
 import { respMessage } from "@/utils/message";
 import {
   CheckCircleOutlined,
+  ClockCircleOutlined,
   CloseCircleOutlined,
   ExclamationCircleOutlined,
+  MinusCircleOutlined,
+  SyncOutlined,
 } from "@ant-design/icons";
 import PagiNation from "@/components/PagiNation";
 import { proxyOrderList } from "@/api/index";
 import dayjs from "dayjs";
 import { getRecentMounth } from "@/utils/common";
+import { useAppSelector } from '@/hooks/hooks'
 import styles from "./ProxyOrder.module.scss";
 
 const { RangePicker } = DatePicker;
+const { Countdown } = Statistic;
 
 const ProxyOrder: React.FC = () => {
   const [total, setTotal] = useState<number>(0);
@@ -35,6 +41,7 @@ const ProxyOrder: React.FC = () => {
   const [tableList, setTableList] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [searchUserForm] = Form.useForm();
+  const userType = useAppSelector((state) => state.user.userType)
 
   //初始化查询时间
   const initSearchDate = () => {
@@ -66,10 +73,13 @@ const ProxyOrder: React.FC = () => {
   const resetParams = () => {
     searchUserForm?.setFieldsValue({
       platformOrderId: "",
+      merchantOrderId: "",
       agentId: "",
       agentName: "",
+      playerName: "",
       status: 0,
-      changeType: "",
+      payStatus: "",
+      payCode: "",
       createTime: [
         dayjs(getRecentMounth()[0], "YYYY-MM-DD"),
         dayjs(getRecentMounth()[1], "YYYY-MM-DD"),
@@ -119,6 +129,7 @@ const ProxyOrder: React.FC = () => {
     }
   };
 
+
   const columns: any = [
     {
       title: "代理订单号",
@@ -126,24 +137,28 @@ const ProxyOrder: React.FC = () => {
       key: "merchantOrderId",
       align: "center",
       width: 200,
-      fixed: "left",
-      render: (text: any) => <span style={{ whiteSpace: 'nowrap' }}>{text}</span>
+      // fixed: "left",
+      render: (text: any) => (
+        <span style={{ whiteSpace: "nowrap" }}>{text}</span>
+      ),
     },
     {
       title: "平台订单号",
       dataIndex: "platformOrderId",
       align: "center",
       width: 200,
-      fixed: "left",
+      // fixed: "left",
       key: "platformOrderId",
-      render: (text: any) => <span style={{ whiteSpace: 'nowrap' }}>{text}</span>
+      render: (text: any) => (
+        <span style={{ whiteSpace: "nowrap" }}>{text}</span>
+      ),
     },
     {
       title: "用户ID",
       dataIndex: "playerId",
       align: "center",
       key: "playerId",
-      with: 200
+      with: 200,
     },
     {
       title: "用户昵称",
@@ -172,14 +187,19 @@ const ProxyOrder: React.FC = () => {
       align: "center",
       key: "merchantName",
       with: 200,
-      render: (text: any) => text === 'WD' ? '挖洞' : '加藤'
+      render: (text: any) => (text === "WD" ? "挖洞" : "加藤"),
     },
     {
       title: "订单类型",
-      dataIndex: "agentName",
+      dataIndex: "orderType",
       align: "center",
-      key: "agentName",
+      key: "orderType",
       with: 200,
+      render: (text: any) => (
+        <span>
+          {text === 1 ? "游戏订单" : text === 2 ? "会员订单" : "金币订单"}
+        </span>
+      ),
     },
     {
       title: "订单金额(¥)",
@@ -207,7 +227,8 @@ const ProxyOrder: React.FC = () => {
       align: "center",
       key: "payCode",
       with: 200,
-      render: (text: any) => (text === 'UNION_PAY' ? '银联' : (text === 'ALI_PAY' ? '支付宝' : '微信'))
+      render: (text: any) =>
+        text === "UNION_PAY" ? "银联" : text === "ALI_PAY" ? "支付宝" : "微信",
     },
     {
       title: "订单状态",
@@ -215,20 +236,87 @@ const ProxyOrder: React.FC = () => {
       align: "center",
       key: "payStatus",
       with: 200,
-      render: (text: number) =>
-        text === 2 ? (
-          <Tag icon={<ExclamationCircleOutlined />} color="success">
-            未支付
-          </Tag>
-        ) : text === 0 ? (
-          <Tag icon={<CloseCircleOutlined />} color="error">
-            待转账
-          </Tag>
-        ) : (
-          <Tag icon={<CheckCircleOutlined />} color="success">
-            已支付
-          </Tag>
-        ),
+      fixed: 'right',
+      render: (text: any, record: any) => {
+        //payStatus:0:待支付，显示倒计时 1:已支付 2:未支付，订单超时可以关闭 3:已关闭
+        let res: any = "";
+        switch (text) {
+          case 0:
+            res = (
+              <div style={{ whiteSpace: "nowrap" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignContent: "center",
+                    justifyContent: "center",
+                    color: "#52C41A",
+                    fontSize: "15px",
+                  }}
+                >
+                  进行中 (
+                  <Countdown
+                    value={
+                      new Date(record.createTime).getTime() + 1000 * 30 * 60
+                    }
+                    format="mm:ss"
+                    valueStyle={{ fontSize: "15px", color: "#52C41A" }}
+                  />
+                  )
+                </div>
+              </div>
+            );
+            break;
+          case 1:
+            if (record.callbackStatus === 0) {
+              res = (
+                <div style={{ whiteSpace: "nowrap" }}>
+                  <Tag icon={<SyncOutlined spin />} color="processing">
+                    等待回调
+                  </Tag>
+                </div>
+              );
+            } else if (record.callbackStatus === 1) {
+              res = (
+                <div style={{ whiteSpace: "nowrap" }}>
+                  <Tag icon={<CheckCircleOutlined />} color="success">
+                    已完成
+                  </Tag>
+                </div>
+              );
+            } else {
+              res = (
+                <div style={{ whiteSpace: "nowrap" }}>
+                  <Tag icon={<CloseCircleOutlined />} color="error">
+                    回调失败
+                  </Tag>
+                </div>
+              );
+            }
+            break;
+          case 2:
+            res = (
+              <div style={{ whiteSpace: "nowrap" }}>
+                <Tag icon={<ExclamationCircleOutlined />} color="warning">
+                  未支付
+                </Tag>
+              </div>
+            );
+            break;
+          case 3:
+            res = (
+              <div style={{ whiteSpace: "nowrap" }}>
+                <Tag icon={<MinusCircleOutlined />} color="default">
+                  已关闭
+                </Tag>
+              </div>
+            );
+            break;
+          default:
+            break;
+        }
+        return res;
+      },
     },
     {
       title: "创建时间",
@@ -256,7 +344,7 @@ const ProxyOrder: React.FC = () => {
       title: "操作",
       key: "action",
       align: "center",
-      width: 100,
+      width: 120,
       fixed: "right",
       render: (_: any, record: any) => (
         <Space size="middle">
@@ -264,9 +352,13 @@ const ProxyOrder: React.FC = () => {
             充值
           </Button> */}
           {/* <JudgePemission pageUrl={"/payment/userlist_133"}> */}
-          <Button type="primary" onClick={() => {}}>
-            上分
-          </Button>
+          {
+            (record.payStatus === 1 && record.callbackStatus === 3) ? <>
+            <Button type="primary" onClick={() => {}}>
+            手动回调
+          </Button></> : '---'
+          }
+          
           {/* </JudgePemission> */}
           {/* <Button type="dashed" danger onClick={() => openModal(record)}>
             重置密码
@@ -290,6 +382,7 @@ const ProxyOrder: React.FC = () => {
 
   useEffect(() => {
     initSearchDate();
+    return () => {};
   }, []);
 
   return (
@@ -310,7 +403,8 @@ const ProxyOrder: React.FC = () => {
                 dayjs(getRecentMounth()[1], "YYYY-MM-DD"),
               ],
               // createTime: '',
-              changeType: "",
+              payStatus: "",
+              payCode: ""
             }}
           >
             <Row justify="start">
@@ -340,20 +434,23 @@ const ProxyOrder: React.FC = () => {
                   />
                 </Form.Item>
               </Col>
-              <Col span={3.5}>
-                <Form.Item
-                  label=""
-                  name="agentId"
-                  rules={[{ required: false, message: "请输入代理ID!" }]}
-                >
-                  <Input
-                    placeholder="输入代理ID"
-                    allowClear={true}
-                    style={{ width: "130px", margin: "0 8px" }}
-                  />
-                </Form.Item>
-              </Col>
-              <Col span={3.5}>
+              {
+                 userType !== 1 && <Col span={3.5}>
+                 <Form.Item
+                   label=""
+                   name="agentId"
+                   rules={[{ required: false, message: "请输入代理ID!" }]}
+                 >
+                   <Input
+                     placeholder="输入代理ID"
+                     allowClear={true}
+                     style={{ width: "130px", margin: "0 8px" }}
+                   />
+                 </Form.Item>
+               </Col>
+              }
+              {
+                userType !== 1 &&  <Col span={3.5}>
                 <Form.Item
                   label=""
                   name="agentName"
@@ -366,34 +463,35 @@ const ProxyOrder: React.FC = () => {
                   />
                 </Form.Item>
               </Col>
+              }
               <Col span={3.5}>
                 <Form.Item
                   label=""
-                  name="agentName"
+                  name={ userType === 1 ? 'merchantOrderId' : 'platformOrderId' }
                   rules={[{ required: false, message: "请输入订单号!" }]}
                 >
                   <Input
                     placeholder="输入订单号"
                     allowClear={true}
-                    style={{ width: "140px", margin: "0 8px" }}
+                    style={{ width: "230px", margin: "0 8px" }}
                   />
                 </Form.Item>
               </Col>
               <Col span={3.5}>
                 <Form.Item
                   label=""
-                  name="changeType"
+                  name="payStatus"
                   rules={[{ required: false, message: "请选择订单状态!" }]}
                 >
                   <Select
                     style={{ width: "120px", margin: "0 8px" }}
-                    placeholder="请选择订单类型"
+                    placeholder="订单状态"
                     onChange={() => {}}
                     options={[
                       { value: "", label: "全部" },
-                      { value: 1, label: "预付款缴纳" },
-                      { value: 2, label: "追分" },
-                      { value: 3, label: "下单" },
+                      { value: 1, label: "已支付" },
+                      { value: 2, label: "未支付" },
+                      { value: 3, label: "已关闭" },
                     ]}
                   />
                 </Form.Item>
@@ -401,18 +499,18 @@ const ProxyOrder: React.FC = () => {
               <Col span={3.5}>
                 <Form.Item
                   label=""
-                  name="changeType"
+                  name="payCode"
                   rules={[{ required: false, message: "请选择支付方式!" }]}
                 >
                   <Select
                     style={{ width: "120px", margin: "0 8px" }}
-                    placeholder="请选择订单类型"
+                    placeholder="支付方式"
                     onChange={() => {}}
                     options={[
                       { value: "", label: "全部" },
-                      { value: 1, label: "预付款缴纳" },
-                      { value: 2, label: "追分" },
-                      { value: 3, label: "下单" },
+                      { value: "WX_PAY", label: "微信" },
+                      { value: "UNION_PAY", label: "银联" },
+                      { value: "ALI_PAY", label: "支付宝" },
                     ]}
                   />
                 </Form.Item>
@@ -457,7 +555,7 @@ const ProxyOrder: React.FC = () => {
             loading={loading}
             pagination={false}
             rowKey={(record) => record.id}
-            scroll={{ x: 2100, y: "60vh" }}
+            scroll={{ x: 2500, y: "60vh" }}
           />
         </div>
         <div className={styles.bottom_Pag_area}>

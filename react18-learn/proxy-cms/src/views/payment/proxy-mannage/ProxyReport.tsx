@@ -14,6 +14,7 @@ import PagiNation from "@/components/PagiNation";
 import { loadReportList } from "@/api/index";
 import dayjs from "dayjs";
 import { getRecentMounth } from "@/utils/common";
+import { useAppSelector } from '@/hooks/hooks'
 import styles from "./ProxyReport.module.scss";
 
 const { RangePicker } = DatePicker;
@@ -25,6 +26,7 @@ const ProxyReport: React.FC = () => {
   const [tableList, setTableList] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [searchUserForm] = Form.useForm();
+  const userType = useAppSelector((state) => state.user.userType)
 
 
 
@@ -187,7 +189,9 @@ const ProxyReport: React.FC = () => {
             }}
           >
             <Row justify="start">
-              <Col span={3.5}>
+              {
+                userType !== 1 && <>
+                <Col span={3.5}>
                 <Form.Item
                   label="代理昵称"
                   name="agentName"
@@ -205,6 +209,8 @@ const ProxyReport: React.FC = () => {
                   <Input placeholder="请输入代理ID" allowClear={true} />
                 </Form.Item>
               </Col>
+                </>
+              }
               <Col span={6}>
                 <Form.Item
                   label="统计时间"

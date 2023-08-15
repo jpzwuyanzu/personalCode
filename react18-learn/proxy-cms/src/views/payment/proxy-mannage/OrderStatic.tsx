@@ -31,6 +31,7 @@ const OrderDetail: React.FC = () => {
   const [searchUserForm] = Form.useForm();
 
   const cusColor = useAppSelector((state) => state.cusColor.color);
+  const userType = useAppSelector((state) => state.user.userType);
 
 
 
@@ -237,7 +238,8 @@ const OrderDetail: React.FC = () => {
             }}
           >
             <Row justify="start">
-              <Col span={3.5}>
+              {
+                userType !== 1 && <Col span={3.5}>
                 <Form.Item
                   label="代理昵称"
                   name="agentName"
@@ -246,7 +248,9 @@ const OrderDetail: React.FC = () => {
                   <Input placeholder="请输入代理昵称" allowClear={true} />
                 </Form.Item>
               </Col>
-              <Col span={3.5}>
+              }
+              {
+                userType !== 1 && <Col span={3.5}>
                 <Form.Item
                   label="代理ID"
                   name="agentId"
@@ -255,6 +259,7 @@ const OrderDetail: React.FC = () => {
                   <Input placeholder="请输入代理ID" allowClear={true} />
                 </Form.Item>
               </Col>
+              }
               <Col span={6}>
                 <Form.Item
                   label="统计时间"

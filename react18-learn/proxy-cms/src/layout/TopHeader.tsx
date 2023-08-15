@@ -113,10 +113,11 @@ export default function TopHeader() {
                 <span className={styles.user_head}>
                   <img
                     className={styles.user_Img}
-                    src="https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png"
+                    src={ userInfo.fastUrl+ userInfo.headImage}
                     alt=""
+                    style={{ borderRadius: '50%' }}
                   />
-                  <span className={styles.user_Name}>Serati Ma</span>
+                  <span className={styles.user_Name}>{ userInfo.name }</span>
                 </span>
               </Space>
             </a>

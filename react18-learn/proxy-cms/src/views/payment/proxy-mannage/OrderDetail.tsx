@@ -25,6 +25,7 @@ import { loadTradeRecord } from "@/api/index";
 import dayjs from "dayjs";
 import JudgePemission from "@/components/JudgePemission";
 import { getRecentMounth } from '@/utils/common'
+import { useAppSelector } from '@/hooks/hooks'
 import styles from "./OrderDetail.module.scss";
 
 const { RangePicker } = DatePicker;
@@ -36,6 +37,7 @@ const OrderDetail: React.FC = () => {
   const [tableList, setTableList] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [searchUserForm] = Form.useForm();
+  const userType = useAppSelector((state) => state.user.userType)
 
 
   //初始化查询时间
@@ -220,7 +222,8 @@ const OrderDetail: React.FC = () => {
                   <Input placeholder="请输入订单编号" allowClear={true} />
                 </Form.Item>
               </Col>
-              <Col span={3.5}>
+              {
+                userType !== 1 &&  <Col span={3.5}>
                 <Form.Item
                   label="代理昵称"
                   name="agentName"
@@ -229,15 +232,18 @@ const OrderDetail: React.FC = () => {
                   <Input placeholder="请输入代理昵称" allowClear={true} />
                 </Form.Item>
               </Col>
-              <Col span={3.5}>
-                <Form.Item
-                  label="代理ID"
-                  name="agentId"
-                  rules={[{ required: false, message: "请输入代理ID!" }]}
-                >
-                  <Input placeholder="请输入代理ID"  allowClear={true} />
-                </Form.Item>
-              </Col>
+              }
+             {
+              userType !== 1 &&<Col span={3.5}>
+              <Form.Item
+                label="代理ID"
+                name="agentId"
+                rules={[{ required: false, message: "请输入代理ID!" }]}
+              >
+                <Input placeholder="请输入代理ID"  allowClear={true} />
+              </Form.Item>
+            </Col>
+             }
               <Col span={3.5}>
                 <Form.Item
                   label="类型"

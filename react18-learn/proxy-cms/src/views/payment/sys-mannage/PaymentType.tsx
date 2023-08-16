@@ -26,7 +26,7 @@ import {
   CloseOutlined,
 } from "@ant-design/icons";
 import PagiNation from "@/components/PagiNation";
-import { agentReciveType, updateAgentReciveType, delUser } from "@/api/index";
+import { agentReciveType, updateAgentReciveType, delAgentReciveType } from "@/api/index";
 import dayjs from "dayjs";
 import PaymentTypeModule from "./modules/PaymentTypeModule";
 import JudgePemission from "@/components/JudgePemission";
@@ -104,7 +104,7 @@ const UserList: React.FC = () => {
   };
 
   const confirmDelRole = async (userId: any) => {
-    const resp: any = await delUser({ id: userId });
+    const resp: any = await delAgentReciveType({ id: userId });
     if (resp && resp.code && resp.code === 200) {
       fetchData({});
     } else {
@@ -246,7 +246,7 @@ const UserList: React.FC = () => {
           <JudgePemission pageUrl={"/payment/userlist_134"}>
             <Popconfirm
               title="删除"
-              description="你确认删除该用户吗?"
+              description="你确认删除该收款方式吗?"
               onConfirm={() => confirmDelRole(record.id)}
               onCancel={() => {}}
               okText="是"

@@ -201,9 +201,24 @@ export function updateAgentReciveType(params? :any) {
 export function delAgentReciveType(params? :any) {
     return request.post('/api/agent/pay/deleteById', {'requestTimeStamp': (new Date()).getTime() , ...params})
 }
+//快捷回复列表
+export function quickFeedBack(params? :any) {
+    return request.post('/api/agent/reply/list', {'requestTimeStamp': (new Date()).getTime() , ...params})
+}
+//新增编辑快捷回复
+export function updateQuickFeedBack(params? :any) {
+    return request.post('/api/agent/reply/saveOrUpdate', {'requestTimeStamp': (new Date()).getTime() , ...params})
+}
+//删除快捷回复
+export function delQuickFeedBack(params? :any) {
+    return request.post('/api/agent/reply/deleteById', {'requestTimeStamp': (new Date()).getTime() , ...params})
+}
 
-
-
+//客服模块接口
+//上传图片到fast接口
+export function uploadCusFastImg (params? :any) {
+    return request.post('/api/sys/upload/uploadFile', params)
+}
 
 
 

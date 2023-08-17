@@ -32,7 +32,7 @@ service.interceptors.response.use(
      (response: any) => {
         const res = response.data
         if(res.code !== 200) {
-            if(res.code === 11012 || res.code === 11015) {
+            if(res.code === 11012 || res.code === 11015 || res.code === 11016) {
                 sessionStorage.clear();
                 localStorage.clear();
                 window.location.href = window.location.origin+'/#/login'

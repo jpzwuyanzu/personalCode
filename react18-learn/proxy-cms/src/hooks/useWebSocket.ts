@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
-import 'google-protobuf'
-import proto from './../proto/proto_pb.js'
-console.log(proto)
+// import 'google-protobuf'
+// import proto from './../proto/proto_pb.js'
+// console.log(proto)
 //避免重复连接
 let lockReconnect = false
 //心跳检测间隔时长
@@ -72,12 +72,12 @@ const useWebSocket = (url: string, info: any) => {
             //msgType 1:文字，2：图片
             //wsRef.current.send(joinParams) // 发起c.jr进房操作
             wsRef.current.readyState === 1 && wsRef.current.send(
-                (proto as any).CIMReqProtocol('1')
-                // JSON.stringify({
-                //     // 连接成功将token传给服务端
-                //     "type": "2",
-                //     "message": { "token": "a8b7cb40-785e-496d-99b9-6d08c9612759", "userType": "1" }
-                // })
+                // (proto as any).CIMReqProtocol('1')
+                JSON.stringify({
+                    // 连接成功将token传给服务端
+                    "type": "2",
+                    "message": { "token": "a8b7cb40-785e-496d-99b9-6d08c9612759", "userType": "1" }
+                })
             )
             resetTimer()
             startTimer()
@@ -95,11 +95,11 @@ const useWebSocket = (url: string, info: any) => {
     }
 
     //处理得到的数据
-    const handleRecive = (data) => {
+    const handleRecive = (data: any) => {
          // 这里对接收到的二进制消息进行解码
         //  var rep = (proto as any).ChatResponse.deserializeBinary(data)
         //  // 可以获取data和code
-        //  console.log(rep)
+         console.log(data)
     }
     useEffect(() => {
         if (!url) return

@@ -10,11 +10,15 @@ import {
   Select,
   message,
   Switch,
+  Tag,
+  InputNumber
 } from "antd";
 import { respMessage } from "@/utils/message";
-import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
+import { CheckOutlined, CloseOutlined ,PlusCircleOutlined} from "@ant-design/icons";
 import CusUpload from "@/components/CusUpload";
 import { updateAgentReciveType } from "@/api/index";
+import { useAppSelector } from '@/hooks/hooks'
+import styles from './PaymentTypeModule.module.scss'
 
 interface IProps {
   moduleWidth?: any;
@@ -39,8 +43,12 @@ export default function PaymentTypeModule({
   console.log(paymentTypeInfo);
   console.log(fastHeadHost)
   const [paymentTypeForm] = Form.useForm();
-  const [payCodeNow, setPayCodeNow] = useState('UNION_PAY');
+  const [payCodeNow, setPayCodeNow] = useState('UNION_PAY'); //设置默认的收款方式
+  const [isJumpOutSide, setIsJumpOutSide] = useState(1); //是否是外跳链接 1:内跳 2:外跳
   const [fastUrl, setFastUrl] = useState<string>("");
+  const cusColor = useAppSelector((state) => state.cusColor.color)
+  const [isShowAmountInput, setIsShowAmountinput] = useState(false); // 控制支持金额输入框
+  const [supportAmount, setSupportAmount] = useState<any>([]); //支持金额列表
 
   const saveUploadImgUrl = (url: string) => {
     setFastUrl(url);
@@ -58,14 +66,22 @@ export default function PaymentTypeModule({
             status: (paymentTypeInfo as any).status,
             bankNo: (paymentTypeInfo as any).bankNo,
             bankName: (paymentTypeInfo as any).bankName,
-            payImage: (paymentTypeInfo as any).payImage
+            payImage: (paymentTypeInfo as any).payImage && (paymentTypeInfo as any).jumpType === 1
               ? fastHeadHost + "" + (paymentTypeInfo as any).payImage
-              : "",
+              : (paymentTypeInfo as any).payImage,
               headImage: (paymentTypeInfo as any).payImage
               ? fastHeadHost + "" + (paymentTypeInfo as any).payImage
               : "",
+            jumpType: (paymentTypeInfo as any).jumpType,
+            amountList: (paymentTypeInfo as any).amountList,
           });
           setPayCodeNow((paymentTypeInfo as any).payCode)
+          setIsJumpOutSide((paymentTypeInfo as any).jumpType)
+          setSupportAmount(
+            (paymentTypeInfo as any).amountList
+              ? (paymentTypeInfo as any).amountList
+              : []
+          );
         } else {
           paymentTypeForm.setFieldsValue({
             payCode: "UNION_PAY",
@@ -75,19 +91,47 @@ export default function PaymentTypeModule({
             bankNo: "",
             bankName: "",
             headImage: "",
-            payImage: ""
+            payImage: "",
+            jumpType: 1,
+            amountList: []
           });
           setPayCodeNow('UNION_PAY')
+          setIsJumpOutSide(1)
+          setSupportAmount([]);
         }
         console.log(paymentTypeForm.getFieldsValue())
       }
     }
   };
 
+  // 赋值给表单中支持金额字段
+  const assignmentValue = (list: any) => {
+    if (paymentTypeForm) {
+      paymentTypeForm.setFieldsValue({ amountList: list });
+    }
+  };
+
+  //添加支持金额
+  const pushAmount = (e: any) => {
+    let newAmount: any = e.target.value;
+    newAmount && setSupportAmount([...supportAmount, newAmount]);
+    assignmentValue([...supportAmount, newAmount]);
+    setIsShowAmountinput(false);
+  };
+  //删除支持金额
+  const spliceAmout = (inx: any) => {
+    let newAmount = supportAmount;
+    newAmount.splice(inx, 1);
+    setSupportAmount(newAmount);
+    assignmentValue(newAmount);
+  };
+
   const confirmEditUser = async () => {
     paymentTypeForm
       ?.validateFields()
       .then(async (values) => {
+        console.log(values)
+        console.log(paymentTypeInfo)
         if (Object.keys(paymentTypeInfo).length) {
           const res: any = await updateAgentReciveType({
             payName: values.payName,
@@ -97,7 +141,9 @@ export default function PaymentTypeModule({
             id: paymentTypeInfo.id,
             bankAccount: values.bankAccount,
             bankNo: values.bankNo,
-            payImage: fastUrl ? fastUrl : "",
+            jumpType: values.jumpType,
+            payImage: values.jumpType === 1 && fastUrl ? fastUrl :  values.payImage,
+            amountList: values.amountList
           });
           if (res && res.code && res.code === 200) {
             (closeDrawer as any)();
@@ -126,8 +172,9 @@ export default function PaymentTypeModule({
                 bankName: values.bankName,
                 id: paymentTypeInfo.id,
                 bankAccount: values.bankAccount,
-                bankNo: values.bankNo,
-                payImage: fastUrl ? fastUrl : "",
+                jumpType: values.jumpType,
+                payImage: values.jumpType === 1 && fastUrl ? fastUrl :  values.payImage,
+                amountList: values.amountList
             });
             if (res && res.code && res.code === 200) {
               (closeDrawer as any)();
@@ -152,6 +199,10 @@ export default function PaymentTypeModule({
   const handlePayCodeChange = (value: any) => {
     setPayCodeNow(value)
   };
+
+  const handleJumpTypeChange = (value: any) => {
+    setIsJumpOutSide(value)
+  }
 
 
   useEffect(() => {
@@ -194,7 +245,8 @@ export default function PaymentTypeModule({
           form={paymentTypeForm}
           initialValues={{
             status: true,
-            payCode: 'UNION_PAY'
+            payCode: 'UNION_PAY',
+            jumpType: 1
           }}
         >
           <Row>
@@ -220,6 +272,25 @@ export default function PaymentTypeModule({
           <Row>
             <Col span={24}>
               <Form.Item
+                name="jumpType"
+                label="是否外跳"
+                rules={[{ required: true, message: "请选择是否外跳" }]}
+              >
+                <Select
+                  style={{ width: "100%" }}
+                  placeholder="请选择是否外跳"
+                  options={[
+                    { value: 1, label: "非外跳" },
+                    { value: 2, label: "外跳链接" },
+                  ]}
+                  onChange={handleJumpTypeChange}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24}>
+              <Form.Item
                 name="payName"
                 label="收款账户名称"
                 rules={[{ required: true, message: "请输入收款账户名称" }]}
@@ -228,6 +299,8 @@ export default function PaymentTypeModule({
               </Form.Item>
             </Col>
           </Row>
+         {
+          isJumpOutSide === 1 ? <>
           {/* 微信支付宝有二维码，银行卡没有 */}
           {
             (payCodeNow === 'ALI_PAY' || payCodeNow === 'WX_PAY') ? <> <Row>
@@ -295,6 +368,71 @@ export default function PaymentTypeModule({
             </Col>
           </Row></> : null
           }
+          </> : <>
+          <Row>
+            <Col span={24}>
+              <Form.Item
+                name="payImage"
+                label="外跳链接"
+                rules={[{ required: true, message: "请输入外跳链接" }]}
+              >
+                <Input placeholder="请输入外跳链接" />
+              </Form.Item>
+            </Col>
+          </Row>
+          </>
+         }
+          <Row>
+          <Col span={24}>
+                <Form.Item
+                  name="amountList"
+                  label="支持金额"
+                  rules={[{ required: true, message: "请添加支持金额" }]}
+                >
+                  <div className={styles.amountContainer}>
+                    {/* <Space> */}
+                    {supportAmount &&
+                      supportAmount.map((itm: any, inx: any) => (
+                        <Tag
+                          className={styles.amountTag}
+                          key={inx}
+                          color="green"
+                          closable
+                          onClose={() => spliceAmout(inx)}
+                        >
+                          ¥{itm}
+                        </Tag>
+                      ))}
+
+                    {/* </Space> */}
+                    {isShowAmountInput ? (
+                      <InputNumber
+                        autoFocus
+                        style={{ width: "80px" }}
+                        min={1}
+                        size="small"
+                        className={styles.amountInput}
+                        onBlur={(e) => pushAmount(e)}
+                        onPressEnter={(e) => pushAmount(e)}
+                      />
+                    ) : (
+                      <Tag
+                        className={
+                          supportAmount && supportAmount.length
+                            ? styles.amountTag
+                            : styles.addTag
+                        }
+                        icon={<PlusCircleOutlined />}
+                        color={`${cusColor}`}
+                        onClick={() => setIsShowAmountinput(true)}
+                      >
+                        添加
+                      </Tag>
+                    )}
+                  </div>
+                </Form.Item>
+              </Col>
+          </Row>
           <Row>
             <Col span={24}>
               <Form.Item name="status" label="收款方式状态" valuePropName="checked">

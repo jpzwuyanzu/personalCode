@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import useWebSocket from "@/hooks/useWebSocket";
 import {
   Input,
@@ -11,14 +12,25 @@ import {
   message,
   Modal,
   Image,
+  Card,
+  Button,
+  Popconfirm,
 } from "antd";
-import { SearchOutlined, CameraOutlined } from "@ant-design/icons";
+import {
+  SearchOutlined,
+  CameraOutlined,
+  EditOutlined,
+  EllipsisOutlined,
+  SettingOutlined,
+} from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import BScroll from "@better-scroll/core";
 import { uploadFastImg } from "@/api/index";
 import styles from "./ChatRoom.module.scss";
 import MouseWheel from "@better-scroll/mouse-wheel";
 BScroll.use(MouseWheel);
+
+const { Meta } = Card;
 
 const style: React.CSSProperties = { background: "#0092ff", padding: "8px 0" };
 
@@ -55,7 +67,8 @@ interface UserItem {
 }
 
 const ChatRoom = () => {
-  const [ws, wsData] = useWebSocket("ws://172.28.113.232:10086/webSocket", {});
+  const naviagte = useNavigate();
+  const [ws, wsData] = useWebSocket("ws://172.28.113.248:10086/webSocket", {});
   const scrollWrapperRef = useRef(null);
   // 左侧联系人列表
   const [cusList, setCusList] = useState([
@@ -164,128 +177,89 @@ const ChatRoom = () => {
   const [fastImgUrl, setFastImgUrl] = useState("");
   const [previewImgUrl, setPreviewImgUrl] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   //消息列表
+  /**
+   *type : 1: 客服消息 2:用户消息 3:官方欢迎消息 4:充值方式消息 5:充值链接类型
+   */
   const messageList = [
     {
-      name: "tom",
-      type: 0,
-      date: "2023-07-24",
-      messageType: 0,
-      message: "这是消息001",
       id: 1,
+      icon: "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
+      msg: {
+        content:
+          "欢迎使用官方代理充值,请按照提示操作充值请按照提示操作充值请按照提示操作充值请按照提示操作充值请按照提示操作充值请按照提示操作充值!",
+        msgT: 0, //0: 代表文字消息， 1: 代表图片
+      },
+      type: 1,
+      time: new Date().getTime(),
     },
     {
-      name: "tom",
-      type: 0,
-      date: "2023-07-24",
-      messageType: 0,
-      message: "这是消息002",
       id: 2,
+      icon: "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
+      msg: {
+        content:
+          "欢迎使用官方代理充值,请按照提示操作充值请按照提示操作充值请按照提示操作充值请按照提示操作充值请按照提示操作充值请按照提示操作充值!",
+        msgT: 0, //0: 代表文字消息， 1: 代表图片
+      },
+      type: 2,
+      time: new Date().getTime(),
     },
     {
-      name: "tom",
-      type: 0,
-      date: "2023-07-24",
-      messageType: 0,
-      message: "这是消息003",
       id: 3,
+      icon: "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
+      msg: {
+        content:
+          "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
+        msgT: 1, //0: 代表文字消息， 1: 代表图片
+      },
+      type: 1,
+      time: new Date().getTime(),
     },
     {
-      name: "tom",
-      type: 0,
-      date: "2023-07-24",
-      messageType: 0,
-      message: "这是消息004",
       id: 4,
+      icon: "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
+      msg: {
+        content:
+          "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
+        msgT: 1, //0: 代表文字消息， 1: 代表图片
+      },
+      type: 2,
+      time: new Date().getTime(),
     },
     {
-      name: "tom",
-      type: 0,
-      date: "2023-07-24",
-      messageType: 0,
-      message: "这是消息005",
       id: 5,
+      icon: "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
+      msg: {
+        content:
+          "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
+        msgT: 1, //0: 代表文字消息， 1: 代表图片
+      },
+      type: 2,
+      time: new Date().getTime(),
     },
     {
-      name: "tom",
-      type: 0,
-      date: "2023-07-24",
-      messageType: 0,
-      message: "这是消息006",
       id: 6,
+      icon: "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
+      msg: {
+        content:
+          "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
+        msgT: 1, //0: 代表文字消息， 1: 代表图片
+      },
+      type: 2,
+      time: new Date().getTime(),
     },
     {
-      name: "tom",
-      type: 0,
-      date: "2023-07-24",
-      messageType: 0,
-      message: "这是消息007",
       id: 7,
-    },
-    {
-      name: "tom",
-      type: 0,
-      date: "2023-07-24",
-      messageType: 0,
-      message: "这是消息008",
-      id: 8,
-    },
-    {
-      name: "tom",
-      type: 0,
-      date: "2023-07-24",
-      messageType: 0,
-      message: "这是消息009",
-      id: 9,
-    },
-    {
-      name: "tom",
-      type: 0,
-      date: "2023-07-24",
-      messageType: 0,
-      message: "这是消息010",
-      id: 10,
-    },
-    {
-      name: "tom",
-      type: 0,
-      date: "2023-07-24",
-      messageType: 0,
-      message: "这是消息011",
-      id: 11,
-    },
-    {
-      name: "tom",
-      type: 0,
-      date: "2023-07-24",
-      messageType: 0,
-      message: "这是消息012",
-      id: 12,
-    },
-    {
-      name: "tom",
-      type: 0,
-      date: "2023-07-24",
-      messageType: 0,
-      message: "这是消息013",
-      id: 13,
-    },
-    {
-      name: "tom",
-      type: 0,
-      date: "2023-07-24",
-      messageType: 0,
-      message: "这是消息014",
-      id: 14,
-    },
-    {
-      name: "tom",
-      type: 0,
-      date: "2023-07-24",
-      messageType: 0,
-      message: "这是消息015",
-      id: 15,
+      icon: "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
+      msg: {
+        content:
+          "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
+        msgT: 1, //0: 代表文字消息， 1: 代表图片
+      },
+      type: 2,
+      time: new Date().getTime(),
     },
   ];
 
@@ -332,6 +306,13 @@ const ChatRoom = () => {
         });
       });
     }
+  };
+
+  const handleConfirmOrder = () => {
+    setIsConfirmModalOpen(false);
+  };
+  const handleCancelOrder = () => {
+    setIsConfirmModalOpen(false);
   };
 
   useEffect(() => {
@@ -405,7 +386,63 @@ const ChatRoom = () => {
             {messageList &&
               messageList.map((itm) => (
                 <div className={styles.messageList_item} key={itm.id}>
-                  {itm.message}
+                  {itm.type === 1 ? (
+                    <div className={styles.cusMessage_container}>
+                      <div className={styles.cusMessage_item}>
+                        <img
+                          className={styles.cus_msgIcon}
+                          src={itm.icon}
+                          alt=""
+                        />
+                        {itm.msg.msgT === 0 ? (
+                          <div className={styles.cus_textMessage}>
+                            {itm.msg.content}
+                            <span className={styles.cusMessage_time}>
+                              2023-08-17
+                            </span>
+                          </div>
+                        ) : (
+                          <div className={styles.cus_imgMessage}>
+                            <Image
+                              width={150}
+                              src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+                            />
+                            <span className={styles.cusMessage_time}>
+                              2023-08-17
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className={styles.userMessage_container}>
+                      <div className={styles.userMessage_item}>
+                        {itm.msg.msgT === 0 ? (
+                          <div className={styles.user_textMessage}>
+                            {itm.msg.content}
+                            <span className={styles.userMessage_time}>
+                              2023-08-17
+                            </span>
+                          </div>
+                        ) : (
+                          <div className={styles.user_imgMessage}>
+                            <Image
+                              width={150}
+                              src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+                            />
+                            <span className={styles.userMessage_time}>
+                              2023-08-17
+                            </span>
+                          </div>
+                        )}
+                        <img
+                          className={styles.user_msgIcon}
+                          src={itm.icon}
+                          alt=""
+                        />
+                      </div>
+                    </div>
+                  )}
                 </div>
               ))}
             {/* 这里需要区分几种不同的消息格式,图片格式，官方欢迎消息， 支付方式选择，客服消息，用户消息 */}
@@ -416,13 +453,13 @@ const ChatRoom = () => {
             <div className={styles.fastMessage}></div>
           </Dropdown>
           <div className={styles.uploadMessageImg}>
-            <CameraOutlined style={{ cursor: 'pointer' }} />
+            <CameraOutlined style={{ cursor: "pointer" }} />
             <input
               type="file"
               accept="image/*"
               name="uploader-input"
               className={styles.uploader_file}
-              style={{ cursor: 'pointer' }}
+              style={{ cursor: "pointer" }}
               ref={inputRef}
             ></input>
           </div>
@@ -439,77 +476,136 @@ const ChatRoom = () => {
       </div>
       {/* 用户订单信息 */}
       <div className={styles.chatRoom_right_info}>
-        <Row gutter={24}>
-          <Col className="gutter-row" span={12}>
-            <div style={style}>col-6</div>
-          </Col>
-          <Col className="gutter-row" span={12}>
-            <div style={style}>col-6</div>
-          </Col>
-        </Row>
-        <Divider orientation="left"></Divider>
-        <Row gutter={24}>
-          <Col className="gutter-row" span={12}>
-            <div style={style}>col-6</div>
-          </Col>
-          <Col className="gutter-row" span={12}>
-            <div style={style}>col-6</div>
-          </Col>
-        </Row>
-        <Divider orientation="left"></Divider>
-        <Row gutter={24}>
-          <Col className="gutter-row" span={12}>
-            <div style={style}>col-6</div>
-          </Col>
-          <Col className="gutter-row" span={12}>
-            <div style={style}>col-6</div>
-          </Col>
-        </Row>
-        <Divider orientation="left"></Divider>
-        <Row gutter={24}>
-          <Col className="gutter-row" span={12}>
-            <div style={style}>col-6</div>
-          </Col>
-          <Col className="gutter-row" span={12}>
-            <div style={style}>col-6</div>
-          </Col>
-        </Row>
-        <Divider orientation="left"></Divider>
-        <Row gutter={24}>
-          <Col className="gutter-row" span={12}>
-            <div style={style}>col-6</div>
-          </Col>
-          <Col className="gutter-row" span={12}>
-            <div style={style}>col-6</div>
-          </Col>
-        </Row>
-        <Divider orientation="left"></Divider>
-        <Row gutter={24}>
-          <Col className="gutter-row" span={12}>
-            <div style={style}>col-6</div>
-          </Col>
-          <Col className="gutter-row" span={12}>
-            <div style={style}>col-6</div>
-          </Col>
-        </Row>
-        <Divider orientation="left"></Divider>
-        <Row gutter={24}>
-          <Col className="gutter-row" span={12}>
-            <div style={style}>col-6</div>
-          </Col>
-          <Col className="gutter-row" span={12}>
-            <div style={style}>col-6</div>
-          </Col>
-        </Row>
-        <Divider orientation="left"></Divider>
-        <Row gutter={24}>
-          <Col className="gutter-row" span={12}>
-            <div style={style}>col-6</div>
-          </Col>
-          <Col className="gutter-row" span={12}>
-            <div style={style}>col-6</div>
-          </Col>
-        </Row>
+        <div className={styles.user_info_item} style={{ height: "17%" }}>
+          <Card
+            style={{ width: "100%", height: "100%" }}
+            // actions={[
+            //   <SettingOutlined key="setting" />,
+            //   <EditOutlined key="edit" />,
+            //   <EllipsisOutlined key="ellipsis" />,
+            // ]}
+          >
+            <Meta
+              avatar={
+                <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel" />
+              }
+              title="用户信息"
+              description={
+                <>
+                  <div className={styles.userInfo_detail}>
+                    <div className={styles.detailInfo_item}>
+                      <span>用户昵称：</span>
+                      <span>章三</span>
+                    </div>
+                    <div className={styles.detailInfo_item}>
+                      <span>用户ID：</span>
+                      <span>章三</span>
+                    </div>
+                    <div className={styles.detailInfo_item}>
+                      <span>用户来源：</span>
+                      <span>章三</span>
+                    </div>
+                    <div className={styles.detailInfo_item}>
+                      <span>用户备注：</span>
+                      <span>章三</span>
+                    </div>
+                  </div>
+                </>
+              }
+            />
+          </Card>
+        </div>
+        <div className={styles.user_info_item}>
+          <Card
+            style={{ width: "100%", height: "100%" }}
+            actions={[
+              <SettingOutlined key="setting" />,
+              <EditOutlined key="edit" />,
+              <EllipsisOutlined key="ellipsis" />,
+            ]}
+          >
+            <Meta
+              // avatar={<Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel" />}
+              title="手动充值"
+              description="This is the description"
+            />
+          </Card>
+        </div>
+        <div className={styles.userOrder_item}>
+          <Card
+            style={{ width: "100%", height: "100%" }}
+            // actions={[
+            //   <SettingOutlined key="setting" />,
+            //   <EditOutlined key="edit" />,
+            //   <EllipsisOutlined key="ellipsis" />,
+            // ]}
+          >
+            <Meta
+              // avatar={<Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel" />}
+              title="用户订单"
+              // description="This is the description"
+            />
+            <>
+              <div className={styles.order_info_part}>
+                <div className={styles.order_itm}>
+                  <span>订单状态:&nbsp;&nbsp;</span>
+                  <span className={styles.user_OrderStatus}>
+                    {" "}
+                    进行中(29:23:50)
+                  </span>
+                </div>
+                <div className={styles.order_itm}>
+                  <span>订单编号:&nbsp;&nbsp;</span>
+                  <span>IM4893569655655555</span>
+                </div>
+                <div className={styles.order_itm}>
+                  <span>订单金额:&nbsp;&nbsp;</span>
+                  <span>¥10000.00</span>
+                </div>
+                <div className={styles.order_itm}>
+                  <span>订单类型:&nbsp;&nbsp;</span>
+                  <span>游戏充值/金币充值/会员充值</span>
+                </div>
+                <div className={styles.order_itm}>
+                  <span>创建时间:&nbsp;&nbsp;</span>
+                  <span>2020.02.02 12:20:32</span>
+                </div>
+                <div className={styles.order_itm}>
+                  <span>结束时间:&nbsp;&nbsp;</span>
+                  <span>2020.02.02 12:20:32</span>
+                </div>
+              </div>
+              <div className={styles.order_operatorBtns}>
+                <Button
+                  type="primary"
+                  onClick={() => setIsConfirmModalOpen(true)}
+                >
+                  确认收款
+                </Button>
+                {/* <Button type="primary">修改价格</Button> */}
+                <Popconfirm
+                  title="关闭订单"
+                  description="确认关闭该订单吗?"
+                  onConfirm={() => {}}
+                  onCancel={() => {}}
+                  okText="Yes"
+                  cancelText="No"
+                >
+                  <Button type="primary" style={{ margin: "0 10px" }}>
+                    关闭订单
+                  </Button>
+                </Popconfirm>
+
+                <Button
+                  type="primary"
+                  onClick={() => naviagte("/payment/proxyorder")}
+                >
+                  查看历史订单
+                </Button>
+              </div>
+            </>
+          </Card>
+        </div>
       </div>
       {/* 上传图片预览弹框 */}
       <Modal
@@ -522,6 +618,32 @@ const ChatRoom = () => {
       >
         <div className={styles.preModalImgContainer}>
           <Image width={200} src={previewImgUrl} />
+        </div>
+      </Modal>
+      {/* 确认订单 */}
+      <Modal
+        width="400px"
+        style={{ top: "300px" }}
+        title="确认订单"
+        open={isConfirmModalOpen}
+        onOk={handleConfirmOrder}
+        onCancel={handleCancelOrder}
+      >
+        <div className={styles.confirm_item}>
+          <div className={styles.conLabel}>订单类型:</div>
+          <div className={styles.ordContent}>金币充值</div>
+        </div>
+        <div className={styles.confirm_item}>
+          <div className={styles.conLabel}>订单金额:</div>
+          <div className={styles.ordContent}>¥1000</div>
+        </div>
+        <div className={styles.confirm_item}>
+          <div className={styles.conLabel}>支付方式:</div>
+          <div className={styles.ordContent}>支付宝</div>
+        </div>
+        <div className={styles.confirm_item}>
+          <div className={styles.conLabel}>实付金额:</div>
+          <div className={styles.ordContent}>1000</div>
         </div>
       </Modal>
     </div>

@@ -27,6 +27,8 @@ import styles from "./ChatRoom.module.scss";
 // import MouseWheel from "@better-scroll/mouse-wheel";
 // BScroll.use(MouseWheel);
 import dayjs from 'dayjs'
+import { useAppSelector } from '@/hooks/hooks'
+
 
 const { Meta } = Card;
 
@@ -56,107 +58,98 @@ const ChatRoom = () => {
   const naviagte = useNavigate();
   const [ws, wsData] = useWebSocket("ws://172.28.113.248:10086/webSocket", {});
   const scrollWrapperRef = useRef(null);
+  const userInfo = useAppSelector((state: any) => state.user.userInfo)
   const [cusList, setCusList] = useState([
     {
-      name: "章三",
-      id: 1,
+      fromUserId: "jt_1102312",
+      fromUserName: "张三",
       icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-      date: "2018-01-14",
-      unread: 4,
+      time: (new Date()).getTime(),
+      unread: 0,
       lastMessage: "这是最后一条消息",
     },
-    {
-      name: "李四",
-      id: 2,
-      icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-      date: "2018-01-14",
-      unread: 4,
-      lastMessage: "这是最后一条消息",
-    },
-    {
-      name: "赵钱孙",
-      id: 3,
-      icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-      date: "2018-01-14",
-      unread: 4,
-      lastMessage: "这是最后一条消息",
-    },
-    {
-      name: "王六",
-      id: 4,
-      icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-      date: "2018-01-14",
-      unread: 4,
-      lastMessage: "这是最后一条消息",
-    },
-    {
-      name: "阿大",
-      id: 5,
-      icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-      date: "2018-01-14",
-      unread: 4,
-      lastMessage: "这是最后一条消息",
-    },
-    {
-      name: "阿大",
-      id: 5,
-      icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-      date: "2018-01-14",
-      unread: 4,
-      lastMessage: "这是最后一条消息",
-    },
-    {
-      name: "阿大",
-      id: 5,
-      icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-      date: "2018-01-14",
-      unread: 4,
-      lastMessage: "这是最后一条消息",
-    },
-    {
-      name: "阿大",
-      id: 5,
-      icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-      date: "2018-01-14",
-      unread: 4,
-      lastMessage: "这是最后一条消息",
-    },
-    {
-      name: "阿大",
-      id: 5,
-      icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-      date: "2018-01-14",
-      unread: 4,
-      lastMessage: "这是最后一条消息",
-    },
-    {
-      name: "阿大",
-      id: 5,
-      icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-      date: "2018-01-14",
-      unread: 4,
-      lastMessage: "这是最后一条消息",
-    },
-    {
-      name: "阿大",
-      id: 5,
-      icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-      date: "2018-01-14",
-      unread: 4,
-      lastMessage: "这是最后一条消息",
-    },
+    // {
+    //   name: "李四",
+    //   id: 2,
+    //   icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+    //   date: "2018-01-14",
+    //   unread: 4,
+    //   lastMessage: "这是最后一条消息",
+    // },
+    // {
+    //   name: "赵钱孙",
+    //   id: 3,
+    //   icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+    //   date: "2018-01-14",
+    //   unread: 4,
+    //   lastMessage: "这是最后一条消息",
+    // },
+    // {
+    //   name: "王六",
+    //   id: 4,
+    //   icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+    //   date: "2018-01-14",
+    //   unread: 4,
+    //   lastMessage: "这是最后一条消息",
+    // },
+    // {
+    //   name: "阿大",
+    //   id: 5,
+    //   icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+    //   date: "2018-01-14",
+    //   unread: 4,
+    //   lastMessage: "这是最后一条消息",
+    // },
+    // {
+    //   name: "阿大",
+    //   id: 5,
+    //   icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+    //   date: "2018-01-14",
+    //   unread: 4,
+    //   lastMessage: "这是最后一条消息",
+    // },
+    // {
+    //   name: "阿大",
+    //   id: 5,
+    //   icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+    //   date: "2018-01-14",
+    //   unread: 4,
+    //   lastMessage: "这是最后一条消息",
+    // },
+    // {
+    //   name: "阿大",
+    //   id: 5,
+    //   icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+    //   date: "2018-01-14",
+    //   unread: 4,
+    //   lastMessage: "这是最后一条消息",
+    // },
+    // {
+    //   name: "阿大",
+    //   id: 5,
+    //   icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+    //   date: "2018-01-14",
+    //   unread: 4,
+    //   lastMessage: "这是最后一条消息",
+    // },
+    // {
+    //   name: "阿大",
+    //   id: 5,
+    //   icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+    //   date: "2018-01-14",
+    //   unread: 4,
+    //   lastMessage: "这是最后一条消息",
+    // },
+    // {
+    //   name: "阿大",
+    //   id: 5,
+    //   icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+    //   date: "2018-01-14",
+    //   unread: 4,
+    //   lastMessage: "这是最后一条消息",
+    // },
   ]);// 左侧联系人列表
-  const [chattingUser, setChattingUser] = useState([
-    {
-      name: "章三",
-      id: 1,
-      icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-      date: "2018-01-14",
-      unread: 4,
-      lastMessage: "这是最后一条消息",
-    },
-  ]);//当前正在聊天的用户
-  const [chatUserIndex, setChatUserIndex] = useState(-1); // 左侧用户列表选中项
+  const [chatUserIndex, setChatUserIndex] = useState(0); // 左侧用户列表选中项
   const [fastImgUrl, setFastImgUrl] = useState("");
   const [previewImgUrl, setPreviewImgUrl] = useState("");
   const [messageList, setMessageList] = useState<any[]>([]);
@@ -246,10 +239,10 @@ const items: MenuProps["items"] = [
   const handleMessageSend = (msgType: any) => {
     let temp: any = [...messageList];
     let insertMsg: any = {
-      fromUserId: "agent_1000",
+      fromUserId: "agent_1000", //userInfo.id
       fromUserName: "张三",
-      toUserName: "李四",
-      toUserId: "jt_1102312",
+      toUserName: cusList[chatUserIndex]['fromUserName'],
+      toUserId: cusList[chatUserIndex]['fromUserId'],
       icon: "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
       content: msgType === 0 ? inputMessage : fastImgUrl,
       msgType: msgType,
@@ -307,14 +300,19 @@ const items: MenuProps["items"] = [
               itemLayout="horizontal"
               dataSource={cusList}
               renderItem={(item, index) => (
-                <List.Item>
+                <List.Item className={ chatUserIndex === index ? styles.activeConcat : '' }>
                   <List.Item.Meta
                     avatar={
                       <Avatar
                         src={`https://xsgames.co/randomusers/avatar.php?g=pixel&key=${index}`}
                       />
                     }
-                    title={<a href="https://ant.design">{item.name}</a>}
+                    title={<>
+                    <div className={ styles.concat_title_info }>
+                      <a className={ styles.concat_name } href="https://ant.design">{item.fromUserName}</a>
+                      <span className={ styles.concat_time }>{dayjs(item.time).format('MM-DD HH:mm')}</span>
+                    </div>
+                    </>}
                     description={item.lastMessage}
                   />
                 </List.Item>
@@ -329,7 +327,7 @@ const items: MenuProps["items"] = [
           <List
             size="small"
             itemLayout="horizontal"
-            dataSource={chattingUser}
+            dataSource={[cusList[chatUserIndex]]}
             renderItem={(item, index) => (
               <List.Item>
                 <List.Item.Meta
@@ -338,8 +336,8 @@ const items: MenuProps["items"] = [
                       src={`https://xsgames.co/randomusers/avatar.php?g=pixel&key=${index}`}
                     />
                   }
-                  title={<a href="https://ant.design">{item.name}</a>}
-                  description={<span>上次上线时间</span>}
+                  title={<a href="https://ant.design">{item.fromUserName}</a>}
+                  description={<span>上次在线时间: { dayjs(item.time).format('HH:mm:ss') }</span>}
                 />
               </List.Item>
             )}

@@ -55,6 +55,23 @@
                         }
                     }
                 }
+                .activeConcat {
+                    background: #00B96B;
+                }
+                .concat_title_info {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding-right: 10px;
+                    .concat_name {
+                        color: #00000073;
+                    }
+                    .concat_time {
+                        color: #00000073;
+                        font-size: 13px;
+                    }
+                }
             }
         }
 

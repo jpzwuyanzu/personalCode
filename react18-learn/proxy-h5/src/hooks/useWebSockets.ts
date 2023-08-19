@@ -73,24 +73,24 @@ const useWebSocket = (url: string, info: any) => {
             // 加藤 jt_userId
             // 挖洞 wd_userId
             //orderType: 1: 游戏充值 2:会员充值 3:金币充值
-            //type: 1: 客服消息 2:用户消息 3:官方欢迎消息 4:充值方式消息 5:充值链接类型
+            //isCreat: true: 代表是h5端第一次创建订单链接 false：否
             wsRef.current.readyState === 1 && wsRef.current.send(
                 JSON.stringify({
                     "handType": "2",
                     "message": {
-                        "fromUserId": "agent_1000",
+                        "fromUserId": "jt_1102312",
                         "fromUserName": "张三",
-                        "toUserName": "",
-                        "toUserId": "",
+                        "toUserName": "李四",
+                        "toUserId": "agent_1000",
                         "icon": "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
-                        "content": "",
+                        "content": "欢迎使用官方代理充值,请按照提示操作充值请按照提示操作充值请按照提示操作充值请按照提示操作充值请按照提示操作充值请按照提示操作充值!",
                         "msgType": 0,
                         "type": 1,
                         "time": new Date().getTime(),
-                        "oredrNumber": '',
-                        "orderAmount": '',
-                        "orderType": '',
-                        "createOrder": 0,
+                        "oredrNumber": '1111',
+                        "orderAmount": 100,
+                        "orderType": 1,
+                        "createOrder": 1,
                         "msgId": uuidv4()
                     }
                 })
@@ -101,7 +101,8 @@ const useWebSocket = (url: string, info: any) => {
         //接收消息
         wsRef.current.onmessage = function (evt: any) {
             // let data = JSON.parse(evt.data) // 接收消息string=>json
-            if(evt.data.indexOf('HEARTBEAT_RESPONSE') === -1 && evt.data.indexOf('CHAT_SEND_RESPONSE') === -1 && evt.data.indexOf('加藤代理欢迎你') === -1) {
+            console.log(evt.data)
+            if(evt.data.indexOf('HEARTBEAT_RESPONSE') === -1 && evt.data.indexOf('CHAT_SEND_RESPONSE') === -1) {
                 let data = JSON.parse(evt.data)
                 setWsData(data)
             }
@@ -114,6 +115,7 @@ const useWebSocket = (url: string, info: any) => {
         if (!url) return
         console.log('0-0-0-0-')
         createWebSocket()
+
     }, [url])
 
     return [wsRef.current, wsData]

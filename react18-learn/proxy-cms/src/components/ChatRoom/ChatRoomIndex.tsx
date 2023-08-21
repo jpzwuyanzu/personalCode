@@ -49,7 +49,7 @@ const ChatRoomIndex: any = ({ open, closeChatRoom }:IProps) => {
     <>
       {/* <Button onClick={showModal}>Open Draggable Modal</Button> */}
       <Modal
-      width="70%"
+      width="80%"
         title={
           <div
             style={{

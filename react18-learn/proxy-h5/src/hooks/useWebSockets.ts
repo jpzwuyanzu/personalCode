@@ -1,11 +1,18 @@
 import { useEffect, useState, useRef } from 'react'
 import { v4 as uuidv4 } from 'uuid';
+import { useLocation } from 'react-router-dom'
 //避免重复连接
 let lockReconnect = false
 //心跳检测间隔时长
 const heartCheckSecond = 30 * 1000
 
 const useWebSocket = (url: string, info: any) => {
+
+    const { pathname, search } = useLocation();
+    
+    // console.log(decodeURIComponent(search.split("?")[1].split("&")))
+    console.log(search.split("?")[1].split("&")[2].split('='))
+    console.log(search.split("?")[1].split("&")[3].split('='))
     //接收的消息
     const [wsData, setWsData] = useState({})
     //客户端定时器
@@ -87,8 +94,8 @@ const useWebSocket = (url: string, info: any) => {
                         "msgType": 0,
                         "type": 1,
                         "time": new Date().getTime(),
-                        "oredrNumber": '1111',
-                        "orderAmount": 100,
+                        "oredrNumber": search.split("?")[1].split("&")[2].split('=')[1],
+                        "orderAmount": Number(search.split("?")[1].split("&")[3].split('=')[1])*100,
                         "orderType": 1,
                         "createOrder": 1,
                         "msgId": uuidv4()

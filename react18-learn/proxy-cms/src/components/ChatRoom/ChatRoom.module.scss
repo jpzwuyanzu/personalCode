@@ -294,7 +294,7 @@
         height: 650px;
         // height: 80%;
         box-sizing: border-box;
-        padding: 0 10px 8px;
+        padding: 0 10px 0px;
         // overflow-y: scroll;
         display: flex;
         flex-direction: column;
@@ -315,12 +315,27 @@
                     display: flex;
                     flex-direction: row;
                     align-items: center;
+                    flex-wrap: nowrap;
+                }
+            }
+            .userRemark {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                .remarkOperations {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    padding-left: 10px;
+                    .cancel_remark {
+                        margin-right: 3px;
+                    }
                 }
             }
         }
 
         .userOrder_item {
-            height: 50%;
+            height: 46%;
 
             .order_info_part {
                 padding-top: 10px;
@@ -368,4 +383,8 @@
     .ordContent {
         color: red;
     }
+}
+
+.ant-card-body {
+    padding: 10px !important;
 }

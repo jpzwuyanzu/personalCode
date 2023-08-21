@@ -78,7 +78,7 @@ const useWebSocket = (url: string, info: any) => {
                 JSON.stringify({
                     "handType": "2",
                     "message": {
-                        "fromUserId": "agent_1000",
+                        "fromUserId": "agent_70",
                         "fromUserName": "张三",
                         "toUserName": "",
                         "toUserId": "",

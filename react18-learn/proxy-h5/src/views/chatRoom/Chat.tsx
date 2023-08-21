@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   Input,
   Image,
@@ -29,6 +29,7 @@ const Chat = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const [fastImgUrl, setFastImgUrl] = useState("");
+  const { pathname, search } = useLocation()
   let msgImgUrl = "";
 
   /**
@@ -236,8 +237,8 @@ const Chat = () => {
       msgType: msgType,
       type: 2,
       time: new Date().getTime(),
-      oredrNumber: "0000",
-      orderAmount: 100,
+      oredrNumber: search.split("?")[1].split("&")[2].split('=')[1],
+      orderAmount: Number(search.split("?")[1].split("&")[3].split('=')[1])*100,
       orderType: 1,
       createOrder: 0,
       msgId: uuidv4(),

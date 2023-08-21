@@ -12,6 +12,8 @@ import {
   Card,
   Button,
   Popconfirm,
+  message,
+  Statistic
 } from "antd";
 import {
   SearchOutlined,
@@ -19,6 +21,7 @@ import {
   EditOutlined,
   EllipsisOutlined,
   SettingOutlined,
+  CopyOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 // import BScroll from "@better-scroll/core";
@@ -28,8 +31,10 @@ import styles from "./ChatRoom.module.scss";
 // BScroll.use(MouseWheel);
 import dayjs from "dayjs";
 import { useAppSelector } from "@/hooks/hooks";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const { Meta } = Card;
+const { Countdown } = Statistic;
 
 const style: React.CSSProperties = { background: "#0092ff", padding: "8px 0" };
 
@@ -56,6 +61,7 @@ const ChatRoom = () => {
    */
   const naviagte = useNavigate();
   const [ws, wsData] = useWebSocket("ws://172.28.113.248:10086/webSocket", {});
+  const [messageApi, contextHolder] = message.useMessage();
   const scrollWrapperRef = useRef(null);
   const userInfo = useAppSelector((state: any) => state.user.userInfo);
   const [cusList, setCusList] = useState([
@@ -155,9 +161,11 @@ const ChatRoom = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [inputMessage, setInputMessage] = useState("");
+  const [isEditRemark, setIsEditRemark] = useState(false);
+  const [remarkInfo, setRemarkInfo] = useState("");
   const listEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const inputMessageRef = useRef<HTMLInputElement>(null);
+  const inputMessageRef = useRef<any>(null);
 
   //快捷回复事件
   const handleQuickMessage = (msg: string) => {
@@ -186,6 +194,16 @@ const ChatRoom = () => {
       ),
     },
   ];
+
+  //取消备注信息
+  const cancelRemarkInfo = () => {
+    setIsEditRemark(false);
+  };
+  //保存备注信息
+  const saveRemarkInfo = () => {
+    setIsEditRemark(false);
+    //在这里调用保存
+  };
 
   //聊天记录滚动到底部
   const scrollToBottom = () => {
@@ -250,7 +268,7 @@ const ChatRoom = () => {
   const handleMessageSend = (msgType: any) => {
     let temp: any = [...messageList];
     let insertMsg: any = {
-      fromUserId: "agent_1000", //userInfo.id
+      fromUserId: "agent_70", //userInfo.id
       fromUserName: "张三",
       toUserName: cusList[chatUserIndex]["fromUserName"],
       toUserId: cusList[chatUserIndex]["fromUserId"],
@@ -477,7 +495,7 @@ const ChatRoom = () => {
       </div>
       {/* 用户订单信息 */}
       <div className={styles.chatRoom_right_info}>
-        <div className={styles.user_info_item} style={{ height: "17%" }}>
+        <div className={styles.user_info_item} style={{ height: "22%" }}>
           <Card
             style={{ width: "100%", height: "100%" }}
             // actions={[
@@ -495,20 +513,73 @@ const ChatRoom = () => {
                 <>
                   <div className={styles.userInfo_detail}>
                     <div className={styles.detailInfo_item}>
-                      <span>用户昵称：</span>
+                      <span>昵称：</span>
+                      <span>{cusList[chatUserIndex].fromUserName}</span>
+                    </div>
+                    <div className={styles.detailInfo_item}>
+                      <span style={{ whiteSpace: "nowrap" }}>ID：</span>
+                      <span>{cusList[chatUserIndex].fromUserId}</span>
+                      <CopyToClipboard
+                        text={cusList[chatUserIndex].fromUserId}
+                        onCopy={() =>
+                          message.open({
+                            type: "success",
+                            content: "复制成功",
+                            className: "custom-class",
+                            style: {
+                              marginTop: "20vh",
+                              fontSize: "20px",
+                            },
+                          })
+                        }
+                      >
+                        <span style={{ marginLeft: "10px" }}>
+                          <CopyOutlined />
+                        </span>
+                      </CopyToClipboard>
+                    </div>
+                    <div className={styles.detailInfo_item}>
+                      <span>来源：</span>
                       <span>章三</span>
                     </div>
                     <div className={styles.detailInfo_item}>
-                      <span>用户ID：</span>
-                      <span>章三</span>
+                      {/* <span>用户备注：</span>
+                      <span>章三</span> */}
                     </div>
-                    <div className={styles.detailInfo_item}>
-                      <span>用户来源：</span>
-                      <span>章三</span>
-                    </div>
-                    <div className={styles.detailInfo_item}>
-                      <span>用户备注：</span>
-                      <span>章三</span>
+                  </div>
+                  <div className={styles.userRemark}>
+                    <span>备注：</span>
+                    {isEditRemark ? (
+                      <Input
+                        placeholder="请输入备注信息"
+                        value={remarkInfo}
+                        style={{ width: "200px" }}
+                        size="small"
+                        onChange={(val: any) => setRemarkInfo(val.target.value)}
+                      />
+                    ) : (
+                      <span>{remarkInfo ? remarkInfo : '暂无备注'}</span>
+                    )}
+
+                    <div className={styles.remarkOperations}>
+                      {isEditRemark ? (
+                        <>
+                          <span
+                            className={styles.cancel_remark}
+                            onClick={() => cancelRemarkInfo()}
+                          >
+                            取消
+                          </span>
+                          <span
+                            className={styles.save_remark}
+                            onClick={() => saveRemarkInfo()}
+                          >
+                            保存
+                          </span>
+                        </>
+                      ) : (
+                        <EditOutlined onClick={() => setIsEditRemark(true)} />
+                      )}
                     </div>
                   </div>
                 </>
@@ -551,8 +622,14 @@ const ChatRoom = () => {
                 <div className={styles.order_itm}>
                   <span>订单状态:&nbsp;&nbsp;</span>
                   <span className={styles.user_OrderStatus}>
-                    {" "}
-                    进行中(29:23:50)
+                    进行中(29:12:30)
+                    {/* (<Countdown
+                    value={
+                      new Date(record.createTime).getTime() + 1000 * 30 * 60
+                    }
+                    format="mm:ss"
+                    valueStyle={{ fontSize: "15px", color: "#52C41A" }}
+                  />) */}
                   </span>
                 </div>
                 <div className={styles.order_itm}>

@@ -26,9 +26,8 @@ import { uploadFastImg } from "@/api/index";
 import styles from "./ChatRoom.module.scss";
 // import MouseWheel from "@better-scroll/mouse-wheel";
 // BScroll.use(MouseWheel);
-import dayjs from 'dayjs'
-import { useAppSelector } from '@/hooks/hooks'
-
+import dayjs from "dayjs";
+import { useAppSelector } from "@/hooks/hooks";
 
 const { Meta } = Card;
 
@@ -58,13 +57,13 @@ const ChatRoom = () => {
   const naviagte = useNavigate();
   const [ws, wsData] = useWebSocket("ws://172.28.113.248:10086/webSocket", {});
   const scrollWrapperRef = useRef(null);
-  const userInfo = useAppSelector((state: any) => state.user.userInfo)
+  const userInfo = useAppSelector((state: any) => state.user.userInfo);
   const [cusList, setCusList] = useState([
     {
       fromUserId: "jt_1102312",
       fromUserName: "张三",
       icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-      time: (new Date()).getTime(),
+      time: new Date().getTime(),
       unread: 0,
       lastMessage: "这是最后一条消息",
     },
@@ -148,7 +147,7 @@ const ChatRoom = () => {
     //   unread: 4,
     //   lastMessage: "这是最后一条消息",
     // },
-  ]);// 左侧联系人列表
+  ]); // 左侧联系人列表
   const [chatUserIndex, setChatUserIndex] = useState(0); // 左侧用户列表选中项
   const [fastImgUrl, setFastImgUrl] = useState("");
   const [previewImgUrl, setPreviewImgUrl] = useState("");
@@ -158,23 +157,35 @@ const ChatRoom = () => {
   const [inputMessage, setInputMessage] = useState("");
   const listEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const inputMessageRef = useRef<HTMLInputElement>(null);
+
+  //快捷回复事件
+  const handleQuickMessage = (msg: string) => {
+    setInputMessage(msg);
+    inputMessageRef.current?.focus();
+  };
 
   //快捷回复列表
-const items: MenuProps["items"] = [
-  {
-    key: "1",
-    label: <div onClick={() => setInputMessage('快捷回复1') }>快捷回复1</div>,
-  },
-  {
-    key: "2",
-    label: <div onClick={() => setInputMessage('快捷回复2') }>快捷回复2</div>,
-  },
-  {
-    key: "3",
-    label: <div onClick={() => setInputMessage('快捷回复3') }>快捷回复3</div>,
-  },
-];
-  
+  const items: MenuProps["items"] = [
+    {
+      key: "1",
+      label: (
+        <div onClick={() => handleQuickMessage("快捷回复1")}>快捷回复1</div>
+      ),
+    },
+    {
+      key: "2",
+      label: (
+        <div onClick={() => handleQuickMessage("快捷回复2")}>快捷回复2</div>
+      ),
+    },
+    {
+      key: "3",
+      label: (
+        <div onClick={() => handleQuickMessage("快捷回复3")}>快捷回复3</div>
+      ),
+    },
+  ];
 
   //聊天记录滚动到底部
   const scrollToBottom = () => {
@@ -241,8 +252,8 @@ const items: MenuProps["items"] = [
     let insertMsg: any = {
       fromUserId: "agent_1000", //userInfo.id
       fromUserName: "张三",
-      toUserName: cusList[chatUserIndex]['fromUserName'],
-      toUserId: cusList[chatUserIndex]['fromUserId'],
+      toUserName: cusList[chatUserIndex]["fromUserName"],
+      toUserId: cusList[chatUserIndex]["fromUserId"],
       icon: "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
       content: msgType === 0 ? inputMessage : fastImgUrl,
       msgType: msgType,
@@ -263,6 +274,14 @@ const items: MenuProps["items"] = [
     temp.push(insertMsg);
     setMessageList(temp);
     setInputMessage("");
+  };
+
+  //enter发送消息
+  const handleEnterKey = (e: any) => {
+    console.log(e);
+    if (e.nativeEvent.keyCode === 13) {
+      handleMessageSend(0);
+    }
   };
 
   //监听聊天记录，触发滚动到底部操作
@@ -300,19 +319,30 @@ const items: MenuProps["items"] = [
               itemLayout="horizontal"
               dataSource={cusList}
               renderItem={(item, index) => (
-                <List.Item className={ chatUserIndex === index ? styles.activeConcat : '' }>
+                <List.Item
+                  className={chatUserIndex === index ? styles.activeConcat : ""}
+                >
                   <List.Item.Meta
                     avatar={
                       <Avatar
                         src={`https://xsgames.co/randomusers/avatar.php?g=pixel&key=${index}`}
                       />
                     }
-                    title={<>
-                    <div className={ styles.concat_title_info }>
-                      <a className={ styles.concat_name } href="https://ant.design">{item.fromUserName}</a>
-                      <span className={ styles.concat_time }>{dayjs(item.time).format('MM-DD HH:mm')}</span>
-                    </div>
-                    </>}
+                    title={
+                      <>
+                        <div className={styles.concat_title_info}>
+                          <a
+                            className={styles.concat_name}
+                            href="https://ant.design"
+                          >
+                            {item.fromUserName}
+                          </a>
+                          <span className={styles.concat_time}>
+                            {dayjs(item.time).format("MM-DD HH:mm")}
+                          </span>
+                        </div>
+                      </>
+                    }
                     description={item.lastMessage}
                   />
                 </List.Item>
@@ -337,7 +367,11 @@ const items: MenuProps["items"] = [
                     />
                   }
                   title={<a href="https://ant.design">{item.fromUserName}</a>}
-                  description={<span>上次在线时间: { dayjs(item.time).format('HH:mm:ss') }</span>}
+                  description={
+                    <span>
+                      上次在线时间: {dayjs(item.time).format("HH:mm:ss")}
+                    </span>
+                  }
                 />
               </List.Item>
             )}
@@ -355,14 +389,14 @@ const items: MenuProps["items"] = [
                           <div className={styles.cus_textMessage}>
                             {itm.content}
                             <span className={styles.cusMessage_time}>
-                            {dayjs(itm.time).format("YYYY-MM-DD HH:mm:ss")}
+                              {dayjs(itm.time).format("MM-DD HH:mm:ss")}
                             </span>
                           </div>
                         ) : (
                           <div className={styles.cus_imgMessage}>
                             <Image width={150} height={150} src={itm.content} />
                             <span className={styles.cusMessage_time}>
-                            {dayjs(itm.time).format("YYYY-MM-DD HH:mm:ss")}
+                              {dayjs(itm.time).format("MM-DD HH:mm:ss")}
                             </span>
                           </div>
                         )}
@@ -385,14 +419,14 @@ const items: MenuProps["items"] = [
                           <div className={styles.user_textMessage}>
                             {itm.content}
                             <span className={styles.userMessage_time}>
-                            {dayjs(itm.time).format("YYYY-MM-DD HH:mm:ss")}
+                              {dayjs(itm.time).format("MM-DD HH:mm:ss")}
                             </span>
                           </div>
                         ) : (
                           <div className={styles.user_imgMessage}>
                             <Image width={150} height={150} src={itm.content} />
                             <span className={styles.userMessage_time}>
-                            {dayjs(itm.time).format("YYYY-MM-DD HH:mm:ss")}
+                              {dayjs(itm.time).format("MM-DD HH:mm:ss")}
                             </span>
                           </div>
                         )}
@@ -406,8 +440,8 @@ const items: MenuProps["items"] = [
           <div style={{ float: "left", clear: "both" }} ref={listEndRef}></div>
         </div>
         <div className={styles.send_message}>
-          <Dropdown menu={{ items }} placement="topLeft" arrow >
-            <div className={styles.fastMessage} ></div>
+          <Dropdown menu={{ items }} placement="topLeft" arrow>
+            <div className={styles.fastMessage}></div>
           </Dropdown>
           <div className={styles.uploadMessageImg}>
             <CameraOutlined style={{ cursor: "pointer" }} />
@@ -422,6 +456,7 @@ const items: MenuProps["items"] = [
           </div>
           <div className={styles.messageInput}>
             <Input
+              ref={inputMessageRef}
               size="large"
               className={styles.message_insert}
               placeholder="请输入消息内容"
@@ -430,6 +465,7 @@ const items: MenuProps["items"] = [
                 console.log(val);
                 setInputMessage(val.target.value);
               }}
+              onPressEnter={handleEnterKey}
             />
             <div className={styles.faceIcon}></div>
           </div>

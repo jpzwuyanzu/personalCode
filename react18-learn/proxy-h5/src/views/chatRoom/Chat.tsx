@@ -294,7 +294,7 @@ const Chat = () => {
                       <div className={styles.cusTextMessage}>
                         {_.content}
                         <span className={styles.cusTextMessage_right_time}>
-                          {dayjs(_.time).format("YYYY-MM-DD HH:mm:ss")}
+                          {dayjs(_.time).format("MM-DD HH:mm:ss")}
                         </span>
                       </div>
                     ) : (
@@ -304,7 +304,7 @@ const Chat = () => {
                       >
                         <Image src={_.content} width={"100%"} height={"80%"} />
                         <span className={styles.cusImgMessage_right_time}>
-                        {dayjs(_.time).format("YYYY-MM-DD HH:mm:ss")}
+                        {dayjs(_.time).format("MM-DD HH:mm:ss")}
                         </span>
                         <ImageViewer
                           image={_.content}
@@ -326,7 +326,7 @@ const Chat = () => {
                       <div className={styles.userTextMessage}>
                         {_.content}
                         <span className={styles.userTextMessage_right_time}>
-                        {dayjs(_.time).format("YYYY-MM-DD HH:mm:ss")}
+                        {dayjs(_.time).format("MM-DD HH:mm:ss")}
                         </span>
                       </div>
                     ) : (
@@ -336,7 +336,7 @@ const Chat = () => {
                       >
                         <Image src={_.content} width={"100%"} height={"80%"} />
                         <span className={styles.userImgMessage_right_time}>
-                        {dayjs(_.time).format("YYYY-MM-DD HH:mm:ss")}
+                        {dayjs(_.time).format("MM-DD HH:mm:ss")}
                         </span>
                         <ImageViewer
                           image={_.content}
@@ -444,7 +444,7 @@ const Chat = () => {
                       </div>
                     </div>
                     <span className={styles.rechartype_right_time}>
-                    {dayjs(_.time).format("YYYY-MM-DD HH:mm:ss")}
+                    {dayjs(_.time).format("MM-DD HH:mm:ss")}
                     </span>
                   </div>
                 );
@@ -465,7 +465,7 @@ const Chat = () => {
                         <div className={styles.recharge_link}>
                           <span className={styles.linkNow}>点击立即充值</span>
                           <span className={styles.link_right_time}>
-                          {dayjs(_.time).format("YYYY-MM-DD HH:mm:ss")}
+                          {dayjs(_.time).format("MM-DD HH:mm:ss")}
                           </span>
                         </div>
                       </Card.Body>

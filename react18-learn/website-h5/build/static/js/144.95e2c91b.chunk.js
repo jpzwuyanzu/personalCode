@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkmaizuo=self.webpackChunkmaizuo||[]).push([[144],{7144:function(u,t,n){n.r(t),n.d(t,{default:function(){return a}});var e=n(2791),i=n(6273),s=n(7747),f=n(7689),r=n(184);function a(){var u=(0,i.T)(),t=(0,f.UO)();return(0,e.useEffect)((function(){return u((0,s.P4)({status:!1})),function(){u((0,s.P4)({status:!0}))}}),[]),(0,r.jsxs)("div",{children:["Detail--- ",t.filmId]})}}}]);
+//# sourceMappingURL=144.95e2c91b.chunk.js.map

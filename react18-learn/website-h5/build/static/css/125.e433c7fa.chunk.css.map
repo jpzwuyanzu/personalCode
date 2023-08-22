@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/125.e433c7fa.chunk.css","mappings":"AAAA,sBACE","sources":["views/films/film.module.scss"],"sourcesContent":[".myTopTab {\n  --title-font-size: 28px;\n  }"],"names":[],"sourceRoot":""}

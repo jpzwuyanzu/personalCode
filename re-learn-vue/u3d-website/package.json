@@ -1,0 +1,29 @@
+{
+  "name": "u3d-website",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.4.15",
+    "axios": "^1.4.0",
+    "lib-flexible": "0.3",
+    "nprogress": "^0.2.0",
+    "postcss-pxtorem": "5",
+    "sass": "^1.66.1",
+    "vant": "^4.6.6",
+    "vue": "^3.3.4",
+    "vue-router": "4",
+    "vuex": "^4.0.2",
+    "vuex-persistedstate": "^4.1.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.2.3",
+    "unplugin-vue-components": "^0.25.1",
+    "vite": "^4.4.5"
+  }
+}

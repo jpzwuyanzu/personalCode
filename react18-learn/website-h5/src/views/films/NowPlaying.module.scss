@@ -1,0 +1,63 @@
+.film_contianer {
+    height: calc(100% - 391px);
+    overflow: auto;
+}
+.homeList_content {
+    height: auto;
+    overflow-y: auto;
+}
+.film_right_part {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.buyNow_btn {
+    // width: 100px;
+    height: 35px;
+    line-height: 35px;
+    color: #ff5f16;
+    font-size: 13px;
+    text-align: center;
+    border-radius: 5px;
+    padding: 2px 15px;
+    box-sizing: content-box;
+}
+.film_desc {
+    flex: 1;
+}
+.detail {
+    font-size: 13px;
+    margin-top: 6px;
+    color: #797d82;
+}
+.grade {
+    color: #ffb232;
+    font-size: 14px;
+    margin-left: 10px;
+}
+.film_title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+.film_name {
+    max-width: calc(100% - 200px);
+    color: #191a1b;
+    font-size: 28px;
+    height: 35px;
+    margin-right: 10px;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.film_type {
+    font-size: 9px;
+    color: #fff;
+    background-color: #d2d6dc;
+    height: 30px;
+    padding: 0 2px;
+    border-radius: 2px;
+    vertical-align: center;
+}

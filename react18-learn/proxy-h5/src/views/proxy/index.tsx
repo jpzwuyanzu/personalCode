@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
-import { NavBar, List, Image, Dialog, Modal } from "antd-mobile";
+import { useNavigate, useLocation,useParams } from "react-router-dom";
+import { NavBar, List, Image, Dialog, Modal, Toast } from "antd-mobile";
 import styles from "./index.module.scss";
+import { getOnlineAgent, getAgentNotice } from './../../api/index'
 
 const proxyStatusMsg = {
   close: "该商家代理已停止营业，为了不影响您的充值体验，请换一个店铺",
@@ -11,39 +12,18 @@ const proxyStatusMsg = {
 
 const ProxyIndex = () => {
   const [visible, setVisible] = useState<boolean>(false);
-  const [proxUserList, setProUserList] = useState([
-    {
-      name: "代理充值-001",
-      id: 1,
-      num: 9000,
-      icon: "https://images.unsplash.com/photo-1548532928-b34e3be62fc6?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ",
-    },
-    {
-      name: "代理充值-001",
-      id: 2,
-      num: 9000,
-      icon: "https://images.unsplash.com/photo-1548532928-b34e3be62fc6?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ",
-    },
-    {
-      name: "代理充值-001",
-      id: 3,
-      num: 9000,
-      icon: "https://images.unsplash.com/photo-1548532928-b34e3be62fc6?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ",
-    },
-    {
-      name: "代理充值-001",
-      id: 4,
-      num: 9000,
-      icon: "https://images.unsplash.com/photo-1548532928-b34e3be62fc6?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ",
-    },
-  ])
+  const [proxUserList, setProUserList] = useState([]);
+  const [headFastUrl,setHeadFastUrl] = useState('');
+  const { pathname, search } = useLocation()
+  const searchParams = new URLSearchParams(search);
   const navigate = useNavigate();
+
   const factUser = useMemo(() => {
     let temp: any = [];
-    proxUserList.forEach((itm, inx) => {
+    proxUserList.forEach((itm: any, inx) => {
       temp.push({
         id: itm.id,
-        avatar: itm.icon,
+        avatar: headFastUrl + itm.headImage,
         name: (
           <>
             <span className={styles.proxy_name}>{itm.name}</span>
@@ -59,7 +39,7 @@ const ProxyIndex = () => {
           <>
             <span className={styles.descript_container}>
               <span className={styles.proxy_store}>店铺</span>
-              <span className={styles.proxy_num}>已累计充值{itm.num}单</span>
+              <span className={styles.proxy_num}>已累计充值{Number(itm.realOrderCount) + Number(itm.fakeOrderCount)}单</span>
             </span>
           </>
         ),
@@ -76,7 +56,7 @@ const ProxyIndex = () => {
   };
   //跳转到代理通道
   const linkProxy = (proxyId: number,proxyName: string) => {
-    navigate(`/chat/chatroom?id=${proxyId}&name=${proxyName}`);
+    navigate(`/chat/chatroom?toUserId=agent_${proxyId}&toUserName=${proxyName}&orderNumber=${searchParams.get('orderNumber')}&orderAmount=${searchParams.get('orderAmount')}&orderType=${searchParams.get('orderType')}&fromUserId=${searchParams.get('fromUserId')}&fromUserName=${searchParams.get('fromUserName')}`);
   };
   //打开弹框
   const openDialog = (type: string) => {
@@ -97,10 +77,30 @@ const ProxyIndex = () => {
         openDialog('close')
       }
   }
+//加载在线代理列表
+const loadProxyList = async () => {
+  console.log(search)
+  //["userName='%E5%BC%A0%E4%B8%89'", 'userId=12222222', 'orderNumber=11111111', 'orderAmount=100000', 'orderType=1']
+  //orderType: 1:游戏充值 3:金币充值 2:会员充值
+  let res: any = await getOnlineAgent({ orderNumber:searchParams.get('orderNumber'), orderAmount: searchParams.get('orderAmount'), orderType: searchParams.get('orderType')})
+  if(res.code === 200) {
+    setProUserList(res.data ? res.data.agent : [])
+    setHeadFastUrl(res.data ? res.data.fastUrl : '')
+  } else {
+    Toast.show({
+      icon: 'fail',
+      content: res.msg
+    })
+  }
+}
+
+
 
   useEffect(() => {
+    loadProxyList()
     setVisible(true);
   }, []);
+
 
   return (
     <div className={styles.proxy_container}>

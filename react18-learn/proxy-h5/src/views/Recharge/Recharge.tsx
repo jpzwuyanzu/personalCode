@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { NavBar, Image, ImageViewer, Toast } from "antd-mobile";
 import CopyToClipboard from "react-copy-to-clipboard";
 import styles from "./Recharge.module.scss";
@@ -15,6 +15,7 @@ const Recharge = () => {
   const [reName, setReName] = useState("张三");
   const [reAccount, setReAccount] = useState("23434234234234");
   const [reBankName, setReBankName] = useState("工商银行");
+  const {amount} = useParams()
 
   const handleCopy = () => {
     Toast.show({ content: "复制成功", position: "top" });
@@ -31,7 +32,7 @@ const Recharge = () => {
             当前使用{reType === 0 ? "支付宝" : reType === 1 ? "微信" : "银行卡"}
             付款
           </div>
-          <div className={styles.re_amount}>¥ 1000.00</div>
+          <div className={styles.re_amount}>¥ {(Number(amount)/100).toFixed(2)}</div>
         </div>
         {/*这里要区分是账号支付还是二维码支付， 微信支付宝支持二维码， 支付宝和银行支持账号支付 */}
         <div className={styles.re_account_part}>

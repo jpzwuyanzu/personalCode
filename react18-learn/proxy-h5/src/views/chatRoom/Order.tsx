@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { Card, Dialog, Toast } from 'antd-mobile'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import styles from './Order.module.scss'
@@ -12,7 +13,9 @@ const Order = ()=>  {
    */
   const [orderStatus, setOrderStatus] = useState(0);
   const [orderNum, setOrderNum] = useState('IM7879879878978787987');
-  const [actAmount, setActAmount] = useState(3000);
+  const { pathname, search } = useLocation();
+  const searchParams = new URLSearchParams(search);
+  const [actAmount, setActAmount] = useState<any>(Number(searchParams.get('orderAmount')));
 
   const handleCopyOrderNum = () => {
     Toast.show({ content: '复制成功', position: 'top' })
@@ -27,6 +30,7 @@ const Order = ()=>  {
       if (result) {
         //在这里做取消订单的操作
         setOrderStatus(1)
+        setActAmount('')
         Toast.show({ content: '订单已取消', position: 'bottom' })
       }
     }
@@ -64,7 +68,7 @@ const Order = ()=>  {
             </div>
             <div className={ styles.detail_item }>
               <span className={ styles.label }>订单金额:</span>
-              <span className={ styles.info }>¥10000.00</span>
+              <span className={ styles.info }>¥{(Number(searchParams.get('orderAmount'))/100).toFixed(2)}</span>
             </div>
           </div>
         </Card>
@@ -72,7 +76,7 @@ const Order = ()=>  {
       {/* 按钮模块 */}
       <div className={ styles.order_btns }>
         <div className={ styles.btns_group }>
-          <div className={ styles.left_part }>实付金额:&nbsp;<span>{ actAmount ? '¥' + actAmount.toFixed(2) : '/' }</span></div>
+          <div className={ styles.left_part }>实付金额:&nbsp;<span>{ actAmount ? '¥' + (Number(actAmount)/100).toFixed(2) : '/' }</span></div>
           <div className={ orderStatus === 0 ? styles.right_part : styles.disBtn } onClick={handleOrderBtn}>{ orderStatus === 0 ? '取消订单' : (orderStatus === 1 ? '已关闭' : '充值成功') }</div>
         </div>
       </div>

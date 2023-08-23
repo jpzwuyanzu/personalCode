@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
 import { v4 as uuidv4 } from 'uuid';
+import { useAppSelector } from '@/hooks/hooks'
 //避免重复连接
 let lockReconnect = false
 //心跳检测间隔时长
@@ -14,6 +15,8 @@ const useWebSocket = (url: string, info: any) => {
     const serverTimeoutObjRef: any = useRef(null)
     //websocket
     const wsRef: any = useRef(null)
+    const userInfo = useAppSelector((state: any) => state.user.userInfo);
+    console.log(userInfo)
 
     // 创建socket连接
     const createWebSocket = () => {
@@ -78,16 +81,16 @@ const useWebSocket = (url: string, info: any) => {
                 JSON.stringify({
                     "handType": "2",
                     "message": {
-                        "fromUserId": "agent_70",
-                        "fromUserName": "张三",
+                        "fromUserId": `agent_${userInfo.id}`,
+                        "fromUserName": userInfo.username,
                         "toUserName": "",
                         "toUserId": "",
-                        "icon": "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
+                        "icon": userInfo.fastUrl+userInfo.headImage,
                         "content": "",
                         "msgType": 0,
                         "type": 1,
                         "time": new Date().getTime(),
-                        "oredrNumber": '',
+                        "orderNumber": '',
                         "orderAmount": '',
                         "orderType": '',
                         "createOrder": 0,

@@ -66,94 +66,13 @@ const ChatRoom = () => {
   const userInfo = useAppSelector((state: any) => state.user.userInfo);
   const [cusList, setCusList] = useState([
     {
-      fromUserId: "jt_1102312",
-      fromUserName: "张三",
+      fromUserId: "jt_1000",
+      fromUserName: "加藤001",
       icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
       time: new Date().getTime(),
       unread: 0,
       lastMessage: "这是最后一条消息",
-    },
-    // {
-    //   name: "李四",
-    //   id: 2,
-    //   icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-    //   date: "2018-01-14",
-    //   unread: 4,
-    //   lastMessage: "这是最后一条消息",
-    // },
-    // {
-    //   name: "赵钱孙",
-    //   id: 3,
-    //   icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-    //   date: "2018-01-14",
-    //   unread: 4,
-    //   lastMessage: "这是最后一条消息",
-    // },
-    // {
-    //   name: "王六",
-    //   id: 4,
-    //   icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-    //   date: "2018-01-14",
-    //   unread: 4,
-    //   lastMessage: "这是最后一条消息",
-    // },
-    // {
-    //   name: "阿大",
-    //   id: 5,
-    //   icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-    //   date: "2018-01-14",
-    //   unread: 4,
-    //   lastMessage: "这是最后一条消息",
-    // },
-    // {
-    //   name: "阿大",
-    //   id: 5,
-    //   icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-    //   date: "2018-01-14",
-    //   unread: 4,
-    //   lastMessage: "这是最后一条消息",
-    // },
-    // {
-    //   name: "阿大",
-    //   id: 5,
-    //   icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-    //   date: "2018-01-14",
-    //   unread: 4,
-    //   lastMessage: "这是最后一条消息",
-    // },
-    // {
-    //   name: "阿大",
-    //   id: 5,
-    //   icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-    //   date: "2018-01-14",
-    //   unread: 4,
-    //   lastMessage: "这是最后一条消息",
-    // },
-    // {
-    //   name: "阿大",
-    //   id: 5,
-    //   icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-    //   date: "2018-01-14",
-    //   unread: 4,
-    //   lastMessage: "这是最后一条消息",
-    // },
-    // {
-    //   name: "阿大",
-    //   id: 5,
-    //   icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-    //   date: "2018-01-14",
-    //   unread: 4,
-    //   lastMessage: "这是最后一条消息",
-    // },
-    // {
-    //   name: "阿大",
-    //   id: 5,
-    //   icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-    //   date: "2018-01-14",
-    //   unread: 4,
-    //   lastMessage: "这是最后一条消息",
-    // },
-  ]); // 左侧联系人列表
+    }]); // 左侧联系人列表
   const [chatUserIndex, setChatUserIndex] = useState(0); // 左侧用户列表选中项
   const [fastImgUrl, setFastImgUrl] = useState("");
   const [previewImgUrl, setPreviewImgUrl] = useState("");
@@ -268,8 +187,8 @@ const ChatRoom = () => {
   const handleMessageSend = (msgType: any) => {
     let temp: any = [...messageList];
     let insertMsg: any = {
-      fromUserId: "agent_70", //userInfo.id
-      fromUserName: "张三",
+      fromUserId: `agent_${userInfo.id}`, //userInfo.id
+      fromUserName: userInfo.name,
       toUserName: cusList[chatUserIndex]["fromUserName"],
       toUserId: cusList[chatUserIndex]["fromUserId"],
       icon: "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
@@ -277,7 +196,7 @@ const ChatRoom = () => {
       msgType: msgType,
       type: 1,
       time: new Date().getTime(),
-      oredrNumber: "",
+      orderNumber: "",
       orderAmount: "",
       orderType: "",
       createOrder: 0,
@@ -308,17 +227,20 @@ const ChatRoom = () => {
   }, [messageList]);
 
   useEffect(() => {
-    console.log("webSocket message:", wsData);
-    uploadMessageImg();
-  }, []);
-
-  useEffect(() => {
     console.log(wsData);
     console.log(messageList);
-    if (wsData && wsData.msgId) {
+    if (wsData && wsData.msgId && wsData.type) {
       setMessageList([...messageList, wsData]);
     }
   }, [wsData]);
+
+  useEffect(() => {
+    console.log("webSocket message:", wsData);
+    uploadMessageImg();
+    return () => {
+      ws && ws.close()
+   }
+  }, []);
 
   return (
     <div className={styles.chatRoom_container}>

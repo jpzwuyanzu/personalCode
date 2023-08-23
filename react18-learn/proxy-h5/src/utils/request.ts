@@ -5,7 +5,7 @@ import { Toast } from 'antd-mobile'
 
 //创建axios实例
 const service = axios.create({
-    // baseURL: '',
+    // baseURL: 'http://172.28.113.248:8067',
     timeout: 5000
 })
 

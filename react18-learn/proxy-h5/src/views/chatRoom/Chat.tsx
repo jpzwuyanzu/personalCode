@@ -29,115 +29,14 @@ const Chat = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const [fastImgUrl, setFastImgUrl] = useState("");
-  const { pathname, search } = useLocation()
+  const { pathname, search } = useLocation();
+  const searchParams = new URLSearchParams(search);
   let msgImgUrl = "";
 
   /**
    *type : 1: 客服消息 2:用户消息 3:官方欢迎消息 4:充值方式消息 5:充值链接类型
    */
-  const onLoad = async () => {
-    // const data = await getData()
-    // setMessageList([
-    //   {
-    //     id: 3,
-    //     icon: "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
-    //     content:
-    //         "欢迎使用官方代理充值,请按照提示操作充值请按照提示操作充值请按照提示操作充值请按照提示操作充值请按照提示操作充值请按照提示操作充值!",
-    //       msgType: 0, //0: 代表文字消息， 1: 代表图片
-    //     type: 3,
-    //     time: new Date().getTime(),
-    //   },
-    //   {
-    //     id: 4,
-    //     icon: "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
-    //     content: "当前代理支持的充值方式",
-    //     msgType: 0, //0: 代表文字消息， 1: 代表图片
-    //     msgList: [
-    //       {
-    //         paytype: "支付宝",
-    //         icon: "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
-    //         link: "https://www.baidu.com",
-    //       },
-    //       {
-    //         paytype: "微信",
-    //         icon: "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
-    //         link: "https://www.baidu.com",
-    //       },
-    //     ],
-    //     type: 4,
-    //     time: new Date().getTime(),
-    //   },
-    //   {
-    //     id: 5,
-    //     icon: "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
-    //     content: "支付宝充值: ¥10000.00",
-    //     msgType: 0,
-    //     link: "https://www.baidu.com",
-    //     type: 5,
-    //     time: new Date().getTime(),
-    //   },
-    //   {
-    //     id: 1,
-    //     icon: "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
-    //     content:
-    //         "我是客服人员我是客服人员我是客服人员我是客服人员我是客服人员我是客服人员我是客服人员我是客服人员我是客服人员我是客服人员我是客服人员我是客服人员我是客服人员我是客服人员我是客服人员我是客服人员我是客服人员我是客服人员我是客服人员我是客服人员",
-    //     msgType: 0,
-    //     type: 1,
-    //     time: new Date().getTime(),
-    //   },
-    //   {
-    //     id: 6,
-    //     icon: "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
-    //     content:
-    //         "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
-    //       msgType: 1,
-    //     type: 1,
-    //     time: new Date().getTime(),
-    //   },
-    //   {
-    //     id: 2,
-    //     icon: "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
-    //     content:
-    //         "我是用户我是用户我是用户我是用户我是用户我是用户我是用户我是用户我是用户我是用户我是用户我是用户我是用户我是用户我是用户我是用户我是用户我是用户我是用户",
-    //       msgType: 0,
-    //     type: 2,
-    //     time: new Date().getTime(),
-    //   },
-    //   {
-    //     id: 7,
-    //     icon: "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
-    //     content:
-    //         "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
-    //       msgType: 1,
-    //     type: 2,
-    //     time: new Date().getTime(),
-    //   },
-    // ]);
-    // setMessageList([
-    //   {
-    //         "fromUserId": "jt_1102312",
-    //         "fromUserName": "张三",
-    //         "toUserName": "李四",
-    //         "toUserId": "agent_1000",
-    //         "icon": "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
-    //         "content": value,
-    //         "msgType": 0,
-    //         "type": 2,
-    //         "time": new Date().getTime(),
-    //         "oredrNumber": '0000',
-    //         "orderAmount": 100,
-    //         "orderType": 1,
-    //         "isCreate": false,
-    //         "chatIndex":0,
-    //         "msgId": uuidv4()
-    //   }
-    // ])
-    // if (messageList.length) {
-    //   setFinished(true);
-    // } else {
-    //   setFinished(false);
-    // }
-  };
+  const onLoad = async () => {};
 
 
   //聊天记录滚动到底部
@@ -154,6 +53,13 @@ const Chat = () => {
   //点击充值方式事件处理
   const handleRechargeTypeClick = (item: any) => {
     console.log(item);
+    //jumpType 1:非外跳 2:外跳
+    if(item.jumpType == 2) {
+      //跳转外部
+      window.open(item.payImage, '_blank')
+    } else {
+      navigate(`/recharge/recharge/${Number(searchParams.get('orderAmount'))}`)
+    }
   };
 
   //点击充值链接处理事件
@@ -228,17 +134,17 @@ const Chat = () => {
     console.log(fastImgUrl);
     let temp = [...messageList];
     let insertMsg = {
-      fromUserId: "jt_1102312",
-      fromUserName: "张三",
-      toUserName: "李四",
-      toUserId: "agent_1000",
+      fromUserId: searchParams.get('fromUserId'),
+      fromUserName: searchParams.get('fromUserName'),
+      toUserName: searchParams.get('toUserName'),
+      toUserId: searchParams.get('toUserId'),
       icon: "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
       content: msgType === 0 ? value : msgImgUrl,
       msgType: msgType,
       type: 2,
       time: new Date().getTime(),
-      oredrNumber: search.split("?")[1].split("&")[2].split('=')[1],
-      orderAmount: Number(search.split("?")[1].split("&")[3].split('=')[1])*100,
+      orderNumber: searchParams.get('orderNumber'),
+      orderAmount: searchParams.get('orderAmount'),
       orderType: 1,
       createOrder: 0,
       msgId: uuidv4(),
@@ -261,7 +167,12 @@ const Chat = () => {
   useEffect(() => {
     onLoad();
     uploadMessageImg();
+    return () => {
+     ws && ws.close()
+  }
   }, []);
+
+
 
   //监听聊天记录，触发滚动到底部操作
   useEffect(() => {
@@ -270,7 +181,10 @@ const Chat = () => {
 
   //监听收到的消息
   useEffect(() => {
-    setMessageList([...messageList, wsData]);
+    console.log(wsData)
+    if (wsData && wsData.msgId) {
+      setMessageList([...messageList, wsData]);
+    }
   }, [wsData]);
 
   return (
@@ -371,20 +285,24 @@ const Chat = () => {
                 );
                 break;
               case 4:
+                console.log(JSON.parse(_.content))
                 return (
                   <div className={styles.rechartype_message} key={_.msgId}>
                     <div className={styles.rechartype_title}>
-                      待支付金额: <span>1000.00</span>
+                      待支付金额: <span>¥{Number(searchParams.get('orderAmount'))/100}</span>
                     </div>
                     <div className={styles.rechartype_label}>
                       请点击选择您的充值方式
                     </div>
                     <div className={styles.rechartype_list}>
-                      <div
+                      {
+                        JSON.parse(_.content).map((itm: any,index: any) => <div
                         className={styles.type_item}
-                        onClick={() => handleRechargeTypeClick({})}
+                        key={itm.id}
+                        onClick={() => handleRechargeTypeClick(itm)}
                       >
-                        <Image
+                       <>
+                       <Image
                           src={
                             "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60"
                           }
@@ -393,56 +311,10 @@ const Chat = () => {
                           fit="fill"
                           style={{ borderRadius: "10%" }}
                         />
-                        <div className={styles.type_name}>微信</div>
-                      </div>
-                      <div className={styles.type_item}>
-                        <Image
-                          src={
-                            "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60"
-                          }
-                          width={50}
-                          height={50}
-                          fit="fill"
-                          style={{ borderRadius: "10%" }}
-                        />
-                        <div className={styles.type_name}>微信</div>
-                      </div>
-                      <div className={styles.type_item}>
-                        <Image
-                          src={
-                            "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60"
-                          }
-                          width={50}
-                          height={50}
-                          fit="fill"
-                          style={{ borderRadius: "10%" }}
-                        />
-                        <div className={styles.type_name}>微信</div>
-                      </div>
-                      <div className={styles.type_item}>
-                        <Image
-                          src={
-                            "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60"
-                          }
-                          width={50}
-                          height={50}
-                          fit="fill"
-                          style={{ borderRadius: "10%" }}
-                        />
-                        <div className={styles.type_name}>微信</div>
-                      </div>
-                      <div className={styles.type_item}>
-                        <Image
-                          src={
-                            "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60"
-                          }
-                          width={50}
-                          height={50}
-                          fit="fill"
-                          style={{ borderRadius: "10%" }}
-                        />
-                        <div className={styles.type_name}>微信</div>
-                      </div>
+                        <div className={styles.type_name}>{ itm.payName }</div>
+                       </>
+                      </div>)
+                      }
                     </div>
                     <span className={styles.rechartype_right_time}>
                     {dayjs(_.time).format("MM-DD HH:mm:ss")}

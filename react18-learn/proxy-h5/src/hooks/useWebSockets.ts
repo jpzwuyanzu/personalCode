@@ -8,11 +8,12 @@ const heartCheckSecond = 30 * 1000
 
 const useWebSocket = (url: string, info: any) => {
 
-    const { pathname, search } = useLocation();
+    const { pathname, search } = useLocation()
+    const searchParams = new URLSearchParams(search);
     
     // console.log(decodeURIComponent(search.split("?")[1].split("&")))
-    console.log(search.split("?")[1].split("&")[2].split('='))
-    console.log(search.split("?")[1].split("&")[3].split('='))
+    console.log(search.split("?")[1].split("&"))
+    // console.log(search.split("?")[1].split("&")[3].split('='))
     //接收的消息
     const [wsData, setWsData] = useState({})
     //客户端定时器
@@ -85,18 +86,18 @@ const useWebSocket = (url: string, info: any) => {
                 JSON.stringify({
                     "handType": "2",
                     "message": {
-                        "fromUserId": "jt_1102312",
-                        "fromUserName": "张三",
-                        "toUserName": "李四",
-                        "toUserId": "agent_1000",
+                        "fromUserId": searchParams.get('fromUserId'),
+                        "fromUserName": searchParams.get('fromUserName'),
+                        "toUserName": searchParams.get('toUserName'),
+                        "toUserId": searchParams.get('toUserId'),
                         "icon": "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
-                        "content": "欢迎使用官方代理充值,请按照提示操作充值请按照提示操作充值请按照提示操作充值请按照提示操作充值请按照提示操作充值请按照提示操作充值!",
+                        "content": "",
                         "msgType": 0,
                         "type": 1,
                         "time": new Date().getTime(),
-                        "oredrNumber": search.split("?")[1].split("&")[2].split('=')[1],
-                        "orderAmount": Number(search.split("?")[1].split("&")[3].split('=')[1])*100,
-                        "orderType": 1,
+                        "orderNumber": searchParams.get('orderNumber'),
+                        "orderAmount": searchParams.get('orderAmount'),
+                        "orderType": searchParams.get('orderType'),
                         "createOrder": 1,
                         "msgId": uuidv4()
                     }
@@ -107,8 +108,8 @@ const useWebSocket = (url: string, info: any) => {
         }
         //接收消息
         wsRef.current.onmessage = function (evt: any) {
+            console.log(evt)
             // let data = JSON.parse(evt.data) // 接收消息string=>json
-            console.log(evt.data)
             if(evt.data.indexOf('HEARTBEAT_RESPONSE') === -1 && evt.data.indexOf('CHAT_SEND_RESPONSE') === -1) {
                 let data = JSON.parse(evt.data)
                 setWsData(data)
@@ -122,7 +123,6 @@ const useWebSocket = (url: string, info: any) => {
         if (!url) return
         console.log('0-0-0-0-')
         createWebSocket()
-
     }, [url])
 
     return [wsRef.current, wsData]

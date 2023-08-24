@@ -219,6 +219,11 @@ export function delQuickFeedBack(params? :any) {
 export function uploadCusFastImg (params? :any) {
     return request.post('/api/sys/upload/uploadFile', params)
 }
-
-
-
+//初始化获取联系人列表
+export function loadCusList (params? :any) {
+    return request.post('/api/agent/queryChatList', params)
+}
+//修改订单状态
+export function changeOrderStatus (params? :any) {
+    return request.post('/api/agent/updateOrderPayStatus', params)
+}

@@ -81,7 +81,7 @@ const useWebSocket = (url: string, info: any) => {
                 JSON.stringify({
                     "handType": "2",
                     "message": {
-                        "fromUserId": `agent_${userInfo.id}`,
+                        "fromUserId": `AGENT_${userInfo.id}`,
                         "fromUserName": userInfo.username,
                         "toUserName": "",
                         "toUserId": "",
@@ -119,7 +119,7 @@ const useWebSocket = (url: string, info: any) => {
         createWebSocket()
     }, [url])
 
-    return [wsRef.current, wsData]
+    return [createWebSocket, wsRef.current, wsData]
 }
 
 export default useWebSocket

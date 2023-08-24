@@ -25,7 +25,7 @@ import {
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 // import BScroll from "@better-scroll/core";
-import { uploadFastImg } from "@/api/index";
+import { uploadFastImg, loadCusList } from "@/api/index";
 import styles from "./ChatRoom.module.scss";
 // import MouseWheel from "@better-scroll/mouse-wheel";
 // BScroll.use(MouseWheel);
@@ -60,13 +60,13 @@ const ChatRoom = () => {
    *type : 1: 客服消息 2:用户消息 3:官方欢迎消息 4:充值方式消息 5:充值链接类型
    */
   const naviagte = useNavigate();
-  const [ws, wsData] = useWebSocket("ws://172.28.113.248:10086/webSocket", {});
+  const [createWebSocket, ws, wsData] = useWebSocket("ws://172.28.113.248:10086/webSocket", {});
   const [messageApi, contextHolder] = message.useMessage();
   const scrollWrapperRef = useRef(null);
   const userInfo = useAppSelector((state: any) => state.user.userInfo);
   const [cusList, setCusList] = useState([
     {
-      fromUserId: "jt_1000",
+      fromUserId: "JT_1000",
       fromUserName: "加藤001",
       icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
       time: new Date().getTime(),
@@ -187,7 +187,7 @@ const ChatRoom = () => {
   const handleMessageSend = (msgType: any) => {
     let temp: any = [...messageList];
     let insertMsg: any = {
-      fromUserId: `agent_${userInfo.id}`, //userInfo.id
+      fromUserId: `AGENT_${userInfo.id}`, //userInfo.id
       fromUserName: userInfo.name,
       toUserName: cusList[chatUserIndex]["fromUserName"],
       toUserId: cusList[chatUserIndex]["fromUserId"],
@@ -221,6 +221,22 @@ const ChatRoom = () => {
     }
   };
 
+  //加载联系人列表
+  const loadLeftCusList = async () => {
+    const res: any = await loadCusList({})
+    console.log(res)
+    if(res.code === 200) {
+        setCusList(res.data.chat)
+    }
+  }
+//切换联系人，关闭旧的socket，链接新的socket
+  const switchCusSocket = (index: any) => {
+    setChatUserIndex(index)
+    ws && ws.close()
+    setMessageList([])
+    createWebSocket()
+  }
+
   //监听聊天记录，触发滚动到底部操作
   useEffect(() => {
     scrollToBottom();
@@ -235,7 +251,7 @@ const ChatRoom = () => {
   }, [wsData]);
 
   useEffect(() => {
-    console.log("webSocket message:", wsData);
+    loadLeftCusList()
     uploadMessageImg();
     return () => {
       ws && ws.close()
@@ -261,6 +277,7 @@ const ChatRoom = () => {
               renderItem={(item, index) => (
                 <List.Item
                   className={chatUserIndex === index ? styles.activeConcat : ""}
+                  onClick = { () => switchCusSocket(index) }
                 >
                   <List.Item.Meta
                     avatar={

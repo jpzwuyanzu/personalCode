@@ -16,6 +16,7 @@ import { uploadFastImg } from "./../../api/index";
 import useWebSocket from "./../../hooks/useWebSockets";
 import { v4 as uuidv4 } from "uuid";
 import dayjs from "dayjs";
+import { getStorage, setStorage} from './../../utils/common'
 
 const Chat = () => {
   const [ws, wsData] = useWebSocket("ws://172.28.113.248:10086/webSocket", {});
@@ -70,7 +71,7 @@ const Chat = () => {
   //上传图片
   const uploadMessageImg = () => {
     let imgFormData = null;
-    if (inputRef && inputRef.current && ws) {
+    if (inputRef && inputRef.current) {
       inputRef.current.addEventListener("change", function (event: any) {
         let $file = event.currentTarget;
         let file: any = $file?.files;
@@ -87,43 +88,45 @@ const Chat = () => {
         imgFormData.append("fileSize", file[0].size);
         // imgFormData.append('file', element.file)
         // 获取上传图片的本地URL，用于上传前的本地预览
-        uploadFastImg(imgFormData).then((res: any) => {
-          if (res && res.code && res.code === 200) {
-            setFastImgUrl(res.data.fastUrl + res.data.fastPath);
-            msgImgUrl = res.data.fastUrl + res.data.fastPath;
-            if (URL) {
-              Dialog.show({
-                image: URL,
-                content: "",
-                closeOnAction: true,
-                actions: [
-                  [
-                    {
-                      key: "cancel",
-                      text: "取消",
-                      onClick: () => {
-                        console.log("取消发送图片");
+        console.log(messageList)
+        console.log(URL)
+          uploadFastImg(imgFormData).then((res: any) => {
+            if (res && res.code && res.code === 200) {
+              setFastImgUrl(res.data.fastUrl + res.data.fastPath);
+              msgImgUrl = res.data.fastUrl + res.data.fastPath;
+              if (URL) {
+                Dialog.show({
+                  image: URL,
+                  content: "",
+                  closeOnAction: true,
+                  actions: [
+                    [
+                      {
+                        key: "cancel",
+                        text: "取消",
+                        onClick: () => {
+                          console.log("取消发送图片");
+                        },
                       },
-                    },
-                    {
-                      key: "confirm",
-                      text: "发送",
-                      // bold: true,
-                      danger: true,
-                      style: { color: "#1677ff" },
-                      onClick: () => {
-                        //在这里将图片发送塞到websocket中
-                        console.log("确认发送图片");
-                        setInsertMsgType(1);
-                        handleSendMessage(1);
+                      {
+                        key: "confirm",
+                        text: "发送",
+                        // bold: true,
+                        danger: true,
+                        style: { color: "#1677ff" },
+                        onClick: () => {
+                          //在这里将图片发送塞到websocket中
+                          console.log("确认发送图片");
+                          // setInsertMsgType(1);
+                          handleSendMessage(1);
+                        },
                       },
-                    },
+                    ],
                   ],
-                ],
-              });
+                });
+              }
             }
-          }
-        });
+          });
       });
     }
   };
@@ -132,7 +135,8 @@ const Chat = () => {
   const handleSendMessage = (msgType: any) => {
     console.log(ws);
     console.log(fastImgUrl);
-    let temp = [...messageList];
+    let temp = getStorage('session', searchParams.get('orderNumber')) ? JSON.parse(getStorage('session', searchParams.get('orderNumber'))): [];
+    console.log(temp)
     let insertMsg = {
       fromUserId: searchParams.get('fromUserId'),
       fromUserName: searchParams.get('fromUserName'),
@@ -156,21 +160,13 @@ const Chat = () => {
       })
     );
     temp.push(insertMsg);
-    console.log(temp);
+    
     msgImgUrl = "";
+    console.log(temp)
+    setStorage('session', searchParams.get('orderNumber'), temp)
     setMessageList(temp);
     setValue("");
-    setInsertMsgType(0);
   };
-
-  //页面初始化
-  useEffect(() => {
-    onLoad();
-    uploadMessageImg();
-    return () => {
-     ws && ws.close()
-  }
-  }, []);
 
 
 
@@ -179,13 +175,33 @@ const Chat = () => {
     scrollToBottom();
   }, [messageList]);
 
-  //监听收到的消息
+    //监听收到的消息
+    useEffect(() => {
+      console.log(wsData)
+      if (wsData && wsData.msgId && wsData.type){
+        setStorage('session', searchParams.get('orderNumber'), [...messageList, wsData])
+        setMessageList([...messageList, wsData]);
+      }
+    }, [wsData]);
+
+
+  //页面初始化
   useEffect(() => {
-    console.log(wsData)
-    if (wsData && wsData.msgId) {
-      setMessageList([...messageList, wsData]);
+   console.log(ws)
+    if(ws) {
+      uploadMessageImg();
     }
-  }, [wsData]);
+  }, [ws]);
+
+
+
+  useEffect(() => {
+    onLoad();
+    // uploadMessageImg();
+    return () => {
+      ws && ws.close()
+   }
+  }, [])
 
   return (
     <div className={styles.chat_container}>
@@ -285,6 +301,7 @@ const Chat = () => {
                 );
                 break;
               case 4:
+                console.log(messageList)
                 console.log(JSON.parse(_.content))
                 return (
                   <div className={styles.rechartype_message} key={_.msgId}>

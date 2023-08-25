@@ -347,6 +347,9 @@
 
                     .user_OrderStatus {
                         color: #00b96b;
+                        white-space: nowrap;
+                        display: flex;
+                        flex-direction: row;
                     }
                 }
             }

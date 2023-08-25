@@ -243,32 +243,6 @@ const ProxyOrder: React.FC = () => {
         //payStatus:0:待支付，显示倒计时 1:已支付 2:未支付，订单超时可以关闭 3:已关闭
         let res: any = "";
         switch (text) {
-          case 0:
-            res = (
-              <div style={{ whiteSpace: "nowrap" }}>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignContent: "center",
-                    justifyContent: "center",
-                    color: "#52C41A",
-                    fontSize: "15px",
-                  }}
-                >
-                  进行中 (
-                  <Countdown
-                    value={
-                      new Date(record.createTime).getTime() + 1000 * 30 * 60
-                    }
-                    format="mm:ss"
-                    valueStyle={{ fontSize: "15px", color: "#52C41A" }}
-                  />
-                  )
-                </div>
-              </div>
-            );
-            break;
           case 1:
             if (record.callbackStatus === 0) {
               res = (
@@ -296,16 +270,42 @@ const ProxyOrder: React.FC = () => {
               );
             }
             break;
-          case 2:
+            case 2:
             res = (
               <div style={{ whiteSpace: "nowrap" }}>
-                <Tag icon={<ExclamationCircleOutlined />} color="warning">
-                  未支付
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignContent: "center",
+                    justifyContent: "center",
+                    color: "#52C41A",
+                    fontSize: "15px",
+                  }}
+                >
+                  进行中 (
+                  <Countdown
+                    value={
+                      new Date(record.ms).getTime() + 1000 * 30 * 60
+                    }
+                    format="mm:ss"
+                    valueStyle={{ fontSize: "15px", color: "#52C41A" }}
+                  />
+                  )
+                </div>
+              </div>
+            );
+            break;
+            case 3:
+            res = (
+              <div style={{ whiteSpace: "nowrap" }}>
+                <Tag icon={<MinusCircleOutlined />} color="default">
+                  取消订单
                 </Tag>
               </div>
             );
             break;
-          case 3:
+          case 4:
             res = (
               <div style={{ whiteSpace: "nowrap" }}>
                 <Tag icon={<MinusCircleOutlined />} color="default">

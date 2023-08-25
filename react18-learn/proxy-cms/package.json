@@ -41,6 +41,7 @@
     "react-router-dom": "^6.11.1",
     "redux-persist": "^6.0.0",
     "reset-css": "^5.0.1",
+    "rollup-plugin-copy": "^3.4.0",
     "sass": "^1.62.1",
     "uuid": "^9.0.0",
     "websocket": "^1.0.34"

@@ -92,8 +92,8 @@ const Chat = () => {
         console.log(URL)
           uploadFastImg(imgFormData).then((res: any) => {
             if (res && res.code && res.code === 200) {
-              setFastImgUrl(res.data.fastUrl + res.data.fastPath);
-              msgImgUrl = res.data.fastUrl + res.data.fastPath;
+              setFastImgUrl(res.data.fastPath);
+              msgImgUrl = res.data.fastPath;
               if (URL) {
                 Dialog.show({
                   image: URL,
@@ -168,6 +168,32 @@ const Chat = () => {
     setValue("");
   };
 
+  //连接建立之后需要发送消息去拉取聊天记录
+  const handleMessageHistory = () => {
+    let insertMsg = {
+      fromUserId: searchParams.get('fromUserId'),
+      fromUserName: searchParams.get('fromUserName'),
+      toUserName: searchParams.get('toUserName'),
+      toUserId: searchParams.get('toUserId'),
+      icon: "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
+      content: '',
+      msgType: 1,
+      type: 2,
+      time: new Date().getTime(),
+      orderNumber: searchParams.get('orderNumber'),
+      orderAmount: searchParams.get('orderAmount'),
+      orderType: 1,
+      createOrder: 0,
+      msgId: uuidv4(),
+    };
+    ws && ws.readyState === 1 && ws.send(
+      JSON.stringify({
+        handType: "6",
+        message: insertMsg,
+      })
+    );
+  }
+
 
 
   //监听聊天记录，触发滚动到底部操作
@@ -181,6 +207,9 @@ const Chat = () => {
       if (wsData && wsData.msgId && wsData.type){
         setStorage('session', searchParams.get('orderNumber'), [...messageList, wsData])
         setMessageList([...messageList, wsData]);
+      } else if(wsData && wsData.code === 1) {
+        console.log(wsData)
+        setMessageList(wsData.list)
       }
     }, [wsData]);
 
@@ -190,6 +219,7 @@ const Chat = () => {
    console.log(ws)
     if(ws) {
       uploadMessageImg();
+      handleMessageHistory()
     }
   }, [ws]);
 

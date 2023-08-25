@@ -69,7 +69,7 @@ const useWebSocket = (url: string, info: any) => {
             let str = dt.getFullYear() + '-' + (dt.getMonth() + 1) + '-' + dt.getDate() + ' ' + dt.getHours() + ':' + dt.getMinutes() + ':' + dt.getSeconds()
             console.log('连接成功:' + str)
             //用户类型 userType 1:客服 2:玩家，3:游客
-            //handType  1-心跳，2-鉴权,3-发送给指定用户
+            //handType  1-心跳，2-鉴权,3-发送给指定用户 6:拉消息记录
             //msgType 0:文字，1：图片
             //wsRef.current.send(joinParams) // 发起c.jr进房操作
             //代理 agent_userId
@@ -104,7 +104,9 @@ const useWebSocket = (url: string, info: any) => {
         //接收消息
         wsRef.current.onmessage = function (evt: any) {
             // let data = JSON.parse(evt.data) // 接收消息string=>json
-            if(evt.data.indexOf('HEARTBEAT_RESPONSE') === -1 && evt.data.indexOf('CHAT_SEND_RESPONSE') === -1 && evt.data.indexOf('加藤代理欢迎你') === -1) {
+            // if(evt.data)
+            console.log(evt)
+             if(evt.data.indexOf('HEARTBEAT_RESPONSE') === -1 && evt.data.indexOf('CHAT_SEND_RESPONSE') === -1 && evt.data.indexOf('加藤代理欢迎你') === -1) {
                 let data = JSON.parse(evt.data)
                 setWsData(data)
             }

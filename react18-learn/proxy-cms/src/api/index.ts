@@ -223,6 +223,10 @@ export function uploadCusFastImg (params? :any) {
 export function loadCusList (params? :any) {
     return request.post('/api/agent/queryChatList', params)
 }
+//获取订单详情
+export function loadCusOrderDetail (params? :any) {
+    return request.post('/api/agent/queryAgentOrder', params)
+}
 //修改订单状态
 export function changeOrderStatus (params? :any) {
     return request.post('/api/agent/updateOrderPayStatus', params)

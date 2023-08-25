@@ -11,10 +11,10 @@ const Order = ()=>  {
    * 1: 已关闭， 按钮不可以点击
    * 2: 充值成功， 不可以点击
    */
-  const [orderStatus, setOrderStatus] = useState(0);
-  const [orderNum, setOrderNum] = useState('IM7879879878978787987');
   const { pathname, search } = useLocation();
   const searchParams = new URLSearchParams(search);
+  const [orderStatus, setOrderStatus] = useState(0);
+  const [orderNum, setOrderNum] = useState<any>(searchParams.get('orderNumber'));
   const [actAmount, setActAmount] = useState<any>(Number(searchParams.get('orderAmount')));
 
   const handleCopyOrderNum = () => {

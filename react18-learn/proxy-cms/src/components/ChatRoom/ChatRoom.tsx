@@ -24,14 +24,12 @@ import {
   CopyOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-// import BScroll from "@better-scroll/core";
-import { uploadFastImg, loadCusList } from "@/api/index";
+import { uploadFastImg, loadCusList, loadCusOrderDetail, changeOrderStatus } from "@/api/index";
 import styles from "./ChatRoom.module.scss";
-// import MouseWheel from "@better-scroll/mouse-wheel";
-// BScroll.use(MouseWheel);
 import dayjs from "dayjs";
 import { useAppSelector } from "@/hooks/hooks";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+
 
 const { Meta } = Card;
 const { Countdown } = Statistic;
@@ -64,16 +62,8 @@ const ChatRoom = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const scrollWrapperRef = useRef(null);
   const userInfo = useAppSelector((state: any) => state.user.userInfo);
-  const [cusList, setCusList] = useState([
-    {
-      fromUserId: "JT_1000",
-      fromUserName: "加藤001",
-      icon: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-      time: new Date().getTime(),
-      unread: 0,
-      lastMessage: "这是最后一条消息",
-    }]); // 左侧联系人列表
-  const [chatUserIndex, setChatUserIndex] = useState(0); // 左侧用户列表选中项
+  const [cusList, setCusList] = useState<any[]>([]); // 左侧联系人列表
+  const [chatUserIndex, setChatUserIndex] = useState<any>(); // 左侧用户列表选中项
   const [fastImgUrl, setFastImgUrl] = useState("");
   const [previewImgUrl, setPreviewImgUrl] = useState("");
   const [messageList, setMessageList] = useState<any[]>([]);
@@ -82,9 +72,12 @@ const ChatRoom = () => {
   const [inputMessage, setInputMessage] = useState("");
   const [isEditRemark, setIsEditRemark] = useState(false);
   const [remarkInfo, setRemarkInfo] = useState("");
+  const [cusOrderInfo, setCusOrderInfo] = useState<any>({});
+  const [isShowCountDown, setIsShowCountDown] = useState(true);
   const listEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const inputMessageRef = useRef<any>(null);
+
 
   //快捷回复事件
   const handleQuickMessage = (msg: string) => {
@@ -165,7 +158,7 @@ const ChatRoom = () => {
         // 获取上传图片的本地URL，用于上传前的本地预览
         uploadFastImg(imgFormData).then((res: any) => {
           if (res && res.code && res.code === 200) {
-            setFastImgUrl(res.data.fastUrl + res.data.fastPath);
+            setFastImgUrl(res.data.fastPath);
             if (URL) {
               console.log(URL);
               setPreviewImgUrl(URL);
@@ -177,12 +170,19 @@ const ChatRoom = () => {
     }
   };
 
-  const handleConfirmOrder = () => {
+  const handleConfirmOrder =  () => {
     setIsConfirmModalOpen(false);
+   switchOrderStatus(cusOrderInfo.merchantOrderId, 1)
   };
   const handleCancelOrder = () => {
     setIsConfirmModalOpen(false);
   };
+
+  const handleCloseOrder = () => {
+   switchOrderStatus(cusOrderInfo.merchantOrderId, 4)
+  }
+
+
   //type: 1: 客服消息 2:用户消息 3:官方欢迎消息 4:充值方式消息 5:充值链接类型
   const handleMessageSend = (msgType: any) => {
     let temp: any = [...messageList];
@@ -196,8 +196,8 @@ const ChatRoom = () => {
       msgType: msgType,
       type: 1,
       time: new Date().getTime(),
-      orderNumber: "",
-      orderAmount: "",
+      orderNumber: cusList[chatUserIndex]['orderNumber'],
+      orderAmount: cusList[chatUserIndex]['orderAmount'],
       orderType: "",
       createOrder: 0,
       msgId: uuidv4(),
@@ -213,6 +213,33 @@ const ChatRoom = () => {
     setInputMessage("");
   };
 
+  //连接建立之后需要发送拉取聊天记录
+  const handleMessageHistory = (orderNumber: any) => {
+    
+    if(cusList && cusList.length) {
+      let insertMsg: any = {
+        fromUserId: `AGENT_${userInfo.id}`, //userInfo.id
+        fromUserName: userInfo.name,
+        content: '',
+        msgType: 1,
+        type: 1,
+        time: new Date().getTime(),
+        orderNumber,
+        orderAmount: "",
+        orderType: "",
+        createOrder: 0,
+        msgId: uuidv4(),
+      };
+      console.log(ws)
+      ws && ws.readyState === 1 && ws.send(
+        JSON.stringify({
+          handType: "6",
+          message: insertMsg,
+        })
+      );
+    }
+  }
+
   //enter发送消息
   const handleEnterKey = (e: any) => {
     console.log(e);
@@ -227,15 +254,45 @@ const ChatRoom = () => {
     console.log(res)
     if(res.code === 200) {
         setCusList(res.data.chat)
+        if(res.data.chat.length) {
+          setChatUserIndex(0)
+          getCusOrderDetail(res.data.chat[0]['fromUserId'], res.data.chat[0]['orderNumber'])
+        }
     }
   }
+
+  //加载当前客户的订单
+  const getCusOrderDetail = async (fromUserId: any, orderNumber: any) => {
+    console.log(fromUserId)
+    const res: any = await loadCusOrderDetail({ fromUserId,payStatus: 2, orderNumber})
+    console.log(res)
+    if(res.code === 200 && res.data && res.data.order) {
+      setCusOrderInfo(res.data.order)
+    } else {
+      setCusOrderInfo({})
+    }
+  }
+
 //切换联系人，关闭旧的socket，链接新的socket
   const switchCusSocket = (index: any) => {
     setChatUserIndex(index)
-    ws && ws.close()
+    // ws && ws.close()
     setMessageList([])
-    createWebSocket()
+    // createWebSocket()
+    console.log(cusList, chatUserIndex)
+    handleMessageHistory(cusList[index]['orderNumber'])
+    getCusOrderDetail(cusList[index]['fromUserId'], cusList[index]['orderNumber'])
   }
+
+//修改订单状态
+const switchOrderStatus = async(merchantOrderId: any, payStatus: any) => {
+  const res: any = await changeOrderStatus({merchantOrderId, payStatus})
+  console.log(res)
+  if(res.code === 200) {
+    getCusOrderDetail(cusList[chatUserIndex]['fromUserId'], cusList[chatUserIndex]['orderNumber'])
+  }
+}
+
 
   //监听聊天记录，触发滚动到底部操作
   useEffect(() => {
@@ -247,8 +304,17 @@ const ChatRoom = () => {
     console.log(messageList);
     if (wsData && wsData.msgId && wsData.type) {
       setMessageList([...messageList, wsData]);
+    } else if(wsData && wsData.code === 1) {
+      console.log(wsData)
+      setMessageList(wsData.list)
     }
   }, [wsData]);
+
+  useEffect(() => {
+    if(ws && cusList && cusList.length) {
+      handleMessageHistory(cusList[chatUserIndex]['orderNumber'])
+    }
+  }, [ws, cusList])
 
   useEffect(() => {
     loadLeftCusList()
@@ -260,8 +326,10 @@ const ChatRoom = () => {
 
   return (
     <div className={styles.chatRoom_container}>
-      {/* 联系人列表 */}
-      <div className={styles.chatRoom_left_contact}>
+     {
+      cusList && cusList.length ? <>
+       {/* 联系人列表 */}
+       <div className={styles.chatRoom_left_contact}>
         <div className={styles.concat_container}>
           <div className={styles.concat_search}>
             <Input
@@ -288,12 +356,11 @@ const ChatRoom = () => {
                     title={
                       <>
                         <div className={styles.concat_title_info}>
-                          <a
+                          <span
                             className={styles.concat_name}
-                            href="https://ant.design"
                           >
                             {item.fromUserName}
-                          </a>
+                          </span>
                           <span className={styles.concat_time}>
                             {dayjs(item.time).format("MM-DD HH:mm")}
                           </span>
@@ -323,7 +390,7 @@ const ChatRoom = () => {
                       src={`https://xsgames.co/randomusers/avatar.php?g=pixel&key=${index}`}
                     />
                   }
-                  title={<a href="https://ant.design">{item.fromUserName}</a>}
+                  title={<span>{item.fromUserName}</span>}
                   description={
                     <span>
                       上次在线时间: {dayjs(item.time).format("HH:mm:ss")}
@@ -486,7 +553,7 @@ const ChatRoom = () => {
                       <span>章三</span> */}
                     </div>
                   </div>
-                  <div className={styles.userRemark}>
+                  {/* <div className={styles.userRemark}>
                     <span>备注：</span>
                     {isEditRemark ? (
                       <Input
@@ -520,7 +587,7 @@ const ChatRoom = () => {
                         <EditOutlined onClick={() => setIsEditRemark(true)} />
                       )}
                     </div>
-                  </div>
+                  </div> */}
                 </>
               }
             />
@@ -536,7 +603,6 @@ const ChatRoom = () => {
             ]}
           >
             <Meta
-              // avatar={<Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel" />}
               title="手动充值"
               description="This is the description"
             />
@@ -545,52 +611,48 @@ const ChatRoom = () => {
         <div className={styles.userOrder_item}>
           <Card
             style={{ width: "100%", height: "100%" }}
-            // actions={[
-            //   <SettingOutlined key="setting" />,
-            //   <EditOutlined key="edit" />,
-            //   <EllipsisOutlined key="ellipsis" />,
-            // ]}
           >
             <Meta
-              // avatar={<Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel" />}
               title="用户订单"
-              // description="This is the description"
             />
             <>
               <div className={styles.order_info_part}>
                 <div className={styles.order_itm}>
                   <span>订单状态:&nbsp;&nbsp;</span>
-                  <span className={styles.user_OrderStatus}>
-                    进行中(29:12:30)
-                    {/* (<Countdown
-                    value={
-                      new Date(record.createTime).getTime() + 1000 * 30 * 60
-                    }
-                    format="mm:ss"
-                    valueStyle={{ fontSize: "15px", color: "#52C41A" }}
-                  />) */}
-                  </span>
+                 {
+                  isShowCountDown ?  <span className={styles.user_OrderStatus}>
+                  进行中( <Countdown
+                   value={
+                     (new Date(cusOrderInfo.ms).getTime() + 1000 * 30 * 60)
+                   }
+                   format="mm:ss"
+                   valueStyle={{ fontSize: "15px", color: "#52C41A" }}
+                   onFinish={ () =>  setIsShowCountDown(false)}
+                 />)
+                 </span> :  <span className={styles.user_OrderStatus}>{cusOrderInfo.payStatus === 1 ? '已支付' : (cusOrderInfo.payStatus === 2 ? '未支付' : (cusOrderInfo.payStatus === 3 ? '取消订单' : '关闭订单'))}</span>
+                
+                 }
                 </div>
                 <div className={styles.order_itm}>
                   <span>订单编号:&nbsp;&nbsp;</span>
-                  <span>IM4893569655655555</span>
+                  <span>{ cusOrderInfo.merchantOrderId}</span>
                 </div>
                 <div className={styles.order_itm}>
                   <span>订单金额:&nbsp;&nbsp;</span>
-                  <span>¥10000.00</span>
+                  <span>¥{(Number(cusOrderInfo.amount)/100).toFixed(2)}</span>
                 </div>
                 <div className={styles.order_itm}>
                   <span>订单类型:&nbsp;&nbsp;</span>
-                  <span>游戏充值/金币充值/会员充值</span>
+                  <span>{cusOrderInfo.orderType === 1 ? "游戏订单" : cusOrderInfo.orderType === 2 ? "会员订单" : "金币订单"}</span>
                 </div>
                 <div className={styles.order_itm}>
                   <span>创建时间:&nbsp;&nbsp;</span>
-                  <span>2020.02.02 12:20:32</span>
+                  <span>{ dayjs(new Date(cusOrderInfo.createTime).getTime()).format('YYYY-MM-DD hh:mm:ss') }</span>
                 </div>
-                <div className={styles.order_itm}>
+                {/* <div className={styles.order_itm}>
                   <span>结束时间:&nbsp;&nbsp;</span>
                   <span>2020.02.02 12:20:32</span>
-                </div>
+                </div> */}
               </div>
               <div className={styles.order_operatorBtns}>
                 <Button
@@ -603,7 +665,7 @@ const ChatRoom = () => {
                 <Popconfirm
                   title="关闭订单"
                   description="确认关闭该订单吗?"
-                  onConfirm={() => {}}
+                  onConfirm={() => handleCloseOrder()}
                   onCancel={() => {}}
                   okText="Yes"
                   cancelText="No"
@@ -623,7 +685,9 @@ const ChatRoom = () => {
             </>
           </Card>
         </div>
-      </div>
+      </div> 
+      </> : null
+     }
       {/* 上传图片预览弹框 */}
       <Modal
         title="上传图片"

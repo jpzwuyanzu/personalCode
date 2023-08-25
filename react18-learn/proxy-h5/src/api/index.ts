@@ -17,5 +17,9 @@ export function getOnlineAgent (params? :any) {
 }
 //查询公告信息
 export function getAgentNotice (params? :any) {
-    return request.post('/chat/agent/notice/queryNotice', params)
+    return request.post('/api/agent/notice/queryNotice', params)
+}
+//添加举报信息接口
+export function addReport (params? :any) {
+    return request.post('/api/agent/report/add', params)
 }

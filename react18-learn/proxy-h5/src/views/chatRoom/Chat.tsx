@@ -16,7 +16,7 @@ import { uploadFastImg } from "./../../api/index";
 import useWebSocket from "./../../hooks/useWebSockets";
 import { v4 as uuidv4 } from "uuid";
 import dayjs from "dayjs";
-import { getStorage, setStorage} from './../../utils/common'
+import { getStorage, setStorage } from "./../../utils/common";
 
 const Chat = () => {
   const [ws, wsData] = useWebSocket("ws://172.28.113.248:10086/webSocket", {});
@@ -39,7 +39,6 @@ const Chat = () => {
    */
   const onLoad = async () => {};
 
-
   //聊天记录滚动到底部
   const scrollToBottom = () => {
     if (listEndRef && listEndRef.current) {
@@ -55,11 +54,11 @@ const Chat = () => {
   const handleRechargeTypeClick = (item: any) => {
     console.log(item);
     //jumpType 1:非外跳 2:外跳
-    if(item.jumpType == 2) {
+    if (item.jumpType == 2) {
       //跳转外部
-      window.open(item.payImage, '_blank')
+      window.open(item.payImage, "_blank");
     } else {
-      navigate(`/recharge/recharge/${Number(searchParams.get('orderAmount'))}`)
+      navigate(`/recharge/recharge/${Number(searchParams.get("orderAmount"))}`);
     }
   };
 
@@ -88,45 +87,45 @@ const Chat = () => {
         imgFormData.append("fileSize", file[0].size);
         // imgFormData.append('file', element.file)
         // 获取上传图片的本地URL，用于上传前的本地预览
-        console.log(messageList)
-        console.log(URL)
-          uploadFastImg(imgFormData).then((res: any) => {
-            if (res && res.code && res.code === 200) {
-              setFastImgUrl(res.data.fastPath);
-              msgImgUrl = res.data.fastPath;
-              if (URL) {
-                Dialog.show({
-                  image: URL,
-                  content: "",
-                  closeOnAction: true,
-                  actions: [
-                    [
-                      {
-                        key: "cancel",
-                        text: "取消",
-                        onClick: () => {
-                          console.log("取消发送图片");
-                        },
+        console.log(messageList);
+        console.log(URL);
+        uploadFastImg(imgFormData).then((res: any) => {
+          if (res && res.code && res.code === 200) {
+            setFastImgUrl(res.data.fastPath);
+            msgImgUrl = res.data.fastPath;
+            if (URL) {
+              Dialog.show({
+                image: URL,
+                content: "",
+                closeOnAction: true,
+                actions: [
+                  [
+                    {
+                      key: "cancel",
+                      text: "取消",
+                      onClick: () => {
+                        console.log("取消发送图片");
                       },
-                      {
-                        key: "confirm",
-                        text: "发送",
-                        // bold: true,
-                        danger: true,
-                        style: { color: "#1677ff" },
-                        onClick: () => {
-                          //在这里将图片发送塞到websocket中
-                          console.log("确认发送图片");
-                          // setInsertMsgType(1);
-                          handleSendMessage(1);
-                        },
+                    },
+                    {
+                      key: "confirm",
+                      text: "发送",
+                      // bold: true,
+                      danger: true,
+                      style: { color: "#1677ff" },
+                      onClick: () => {
+                        //在这里将图片发送塞到websocket中
+                        console.log("确认发送图片");
+                        // setInsertMsgType(1);
+                        handleSendMessage(1);
                       },
-                    ],
+                    },
                   ],
-                });
-              }
+                ],
+              });
             }
-          });
+          }
+        });
       });
     }
   };
@@ -135,20 +134,22 @@ const Chat = () => {
   const handleSendMessage = (msgType: any) => {
     console.log(ws);
     console.log(fastImgUrl);
-    let temp = getStorage('session', searchParams.get('orderNumber')) ? JSON.parse(getStorage('session', searchParams.get('orderNumber'))): [];
-    console.log(temp)
+    let temp = getStorage("session", searchParams.get("orderNumber"))
+      ? JSON.parse(getStorage("session", searchParams.get("orderNumber")))
+      : [];
+    console.log(temp);
     let insertMsg = {
-      fromUserId: searchParams.get('fromUserId'),
-      fromUserName: searchParams.get('fromUserName'),
-      toUserName: searchParams.get('toUserName'),
-      toUserId: searchParams.get('toUserId'),
+      fromUserId: searchParams.get("fromUserId"),
+      fromUserName: searchParams.get("fromUserName"),
+      toUserName: searchParams.get("toUserName"),
+      toUserId: searchParams.get("toUserId"),
       icon: "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
       content: msgType === 0 ? value : msgImgUrl,
       msgType: msgType,
       type: 2,
       time: new Date().getTime(),
-      orderNumber: searchParams.get('orderNumber'),
-      orderAmount: searchParams.get('orderAmount'),
+      orderNumber: searchParams.get("orderNumber"),
+      orderAmount: searchParams.get("orderAmount"),
       orderType: 1,
       createOrder: 0,
       msgId: uuidv4(),
@@ -160,10 +161,10 @@ const Chat = () => {
       })
     );
     temp.push(insertMsg);
-    
+
     msgImgUrl = "";
-    console.log(temp)
-    setStorage('session', searchParams.get('orderNumber'), temp)
+    console.log(temp);
+    setStorage("session", searchParams.get("orderNumber"), temp);
     setMessageList(temp);
     setValue("");
   };
@@ -171,67 +172,67 @@ const Chat = () => {
   //连接建立之后需要发送消息去拉取聊天记录
   const handleMessageHistory = () => {
     let insertMsg = {
-      fromUserId: searchParams.get('fromUserId'),
-      fromUserName: searchParams.get('fromUserName'),
-      toUserName: searchParams.get('toUserName'),
-      toUserId: searchParams.get('toUserId'),
+      fromUserId: searchParams.get("fromUserId"),
+      fromUserName: searchParams.get("fromUserName"),
+      toUserName: searchParams.get("toUserName"),
+      toUserId: searchParams.get("toUserId"),
       icon: "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
-      content: '',
+      content: "",
       msgType: 1,
       type: 2,
       time: new Date().getTime(),
-      orderNumber: searchParams.get('orderNumber'),
-      orderAmount: searchParams.get('orderAmount'),
+      orderNumber: searchParams.get("orderNumber"),
+      orderAmount: searchParams.get("orderAmount"),
       orderType: 1,
       createOrder: 0,
       msgId: uuidv4(),
     };
-    ws && ws.readyState === 1 && ws.send(
-      JSON.stringify({
-        handType: "6",
-        message: insertMsg,
-      })
-    );
-  }
-
-
+    ws &&
+      ws.readyState === 1 &&
+      ws.send(
+        JSON.stringify({
+          handType: "6",
+          message: insertMsg,
+        })
+      );
+  };
 
   //监听聊天记录，触发滚动到底部操作
   useEffect(() => {
     scrollToBottom();
   }, [messageList]);
 
-    //监听收到的消息
-    useEffect(() => {
-      console.log(wsData)
-      if (wsData && wsData.msgId && wsData.type){
-        setStorage('session', searchParams.get('orderNumber'), [...messageList, wsData])
-        setMessageList([...messageList, wsData]);
-      } else if(wsData && wsData.code === 1) {
-        console.log(wsData)
-        setMessageList(wsData.list)
-      }
-    }, [wsData]);
-
+  //监听收到的消息
+  useEffect(() => {
+    console.log(wsData);
+    if (wsData && wsData.msgId && wsData.type) {
+      setStorage("session", searchParams.get("orderNumber"), [
+        ...messageList,
+        wsData,
+      ]);
+      setMessageList([...messageList, wsData]);
+    } else if (wsData && wsData.code === 1 && (wsData as any).list.length) {
+      console.log(wsData);
+      setMessageList(wsData.list);
+    }
+  }, [wsData]);
 
   //页面初始化
   useEffect(() => {
-   console.log(ws)
-    if(ws) {
+    console.log(ws);
+    if (ws) {
       uploadMessageImg();
-      handleMessageHistory()
+      handleMessageHistory();
     }
   }, [ws]);
-
-
 
   useEffect(() => {
     onLoad();
     // uploadMessageImg();
     return () => {
-      ws && ws.close()
-   }
-  }, [])
+      ws && ws.close();
+    };
+  }, []);
 
   return (
     <div className={styles.chat_container}>
@@ -265,7 +266,7 @@ const Chat = () => {
                       >
                         <Image src={_.content} width={"100%"} height={"80%"} />
                         <span className={styles.cusImgMessage_right_time}>
-                        {dayjs(_.time).format("MM-DD HH:mm:ss")}
+                          {dayjs(_.time).format("MM-DD HH:mm:ss")}
                         </span>
                         <ImageViewer
                           image={_.content}
@@ -287,7 +288,7 @@ const Chat = () => {
                       <div className={styles.userTextMessage}>
                         {_.content}
                         <span className={styles.userTextMessage_right_time}>
-                        {dayjs(_.time).format("MM-DD HH:mm:ss")}
+                          {dayjs(_.time).format("MM-DD HH:mm:ss")}
                         </span>
                       </div>
                     ) : (
@@ -297,7 +298,7 @@ const Chat = () => {
                       >
                         <Image src={_.content} width={"100%"} height={"80%"} />
                         <span className={styles.userImgMessage_right_time}>
-                        {dayjs(_.time).format("MM-DD HH:mm:ss")}
+                          {dayjs(_.time).format("MM-DD HH:mm:ss")}
                         </span>
                         <ImageViewer
                           image={_.content}
@@ -331,40 +332,45 @@ const Chat = () => {
                 );
                 break;
               case 4:
-                console.log(messageList)
-                console.log(JSON.parse(_.content))
+                console.log(messageList);
+                console.log(JSON.parse(_.content));
                 return (
                   <div className={styles.rechartype_message} key={_.msgId}>
                     <div className={styles.rechartype_title}>
-                      待支付金额: <span>¥{Number(searchParams.get('orderAmount'))/100}</span>
+                      待支付金额:{" "}
+                      <span>
+                        ¥{Number(searchParams.get("orderAmount")) / 100}
+                      </span>
                     </div>
                     <div className={styles.rechartype_label}>
                       请点击选择您的充值方式
                     </div>
                     <div className={styles.rechartype_list}>
-                      {
-                        JSON.parse(_.content).map((itm: any,index: any) => <div
-                        className={styles.type_item}
-                        key={itm.id}
-                        onClick={() => handleRechargeTypeClick(itm)}
-                      >
-                       <>
-                       <Image
-                          src={
-                            "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60"
-                          }
-                          width={50}
-                          height={50}
-                          fit="fill"
-                          style={{ borderRadius: "10%" }}
-                        />
-                        <div className={styles.type_name}>{ itm.payName }</div>
-                       </>
-                      </div>)
-                      }
+                      {JSON.parse(_.content).map((itm: any, index: any) => (
+                        <div
+                          className={styles.type_item}
+                          key={itm.id}
+                          onClick={() => handleRechargeTypeClick(itm)}
+                        >
+                          <>
+                            <Image
+                              src={
+                                "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60"
+                              }
+                              width={50}
+                              height={50}
+                              fit="fill"
+                              style={{ borderRadius: "10%" }}
+                            />
+                            <div className={styles.type_name}>
+                              {itm.payName}
+                            </div>
+                          </>
+                        </div>
+                      ))}
                     </div>
                     <span className={styles.rechartype_right_time}>
-                    {dayjs(_.time).format("MM-DD HH:mm:ss")}
+                      {dayjs(_.time).format("MM-DD HH:mm:ss")}
                     </span>
                   </div>
                 );
@@ -385,7 +391,7 @@ const Chat = () => {
                         <div className={styles.recharge_link}>
                           <span className={styles.linkNow}>点击立即充值</span>
                           <span className={styles.link_right_time}>
-                          {dayjs(_.time).format("MM-DD HH:mm:ss")}
+                            {dayjs(_.time).format("MM-DD HH:mm:ss")}
                           </span>
                         </div>
                       </Card.Body>

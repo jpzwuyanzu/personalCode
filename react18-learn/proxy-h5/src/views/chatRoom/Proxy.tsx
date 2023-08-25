@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
-import { Tabs, NavBar } from "antd-mobile";
+import { Tabs, NavBar, Toast,  TextArea, Popup} from "antd-mobile";
 import { CountDown, Dialog, Input } from "react-vant";
 import styles from "./Proxy.module.scss";
+import { addReport } from "../../api";
 
 const Proxy = () => {
   const navigate = useNavigate();
   const { pathname, search } = useLocation();
+  const searchParams = new URLSearchParams(search);
   const [activeKey, setActiveKey] = useState<string>();
   const [times, setTimes] = useState(30 * 60 * 1000);
   const [navTitle, setNavTitle] = useState(decodeURIComponent(search.split("?")[1].split("&")[1].split("=")[1]));
@@ -17,28 +19,78 @@ const Proxy = () => {
    * 2: 充值成功， 不可以点击
    */
   const [orderStatus, setOrderStatus] = useState(1);
+  const [reportInfo, setReportInfo] = useState("");
+  let reportFactInfo = '';
 
   const handleTabChange = (val: string) => {
     navigate(`${val}${search}`);
   };
 
-  const reportProxy = () => {
-    Dialog.alert({
-      title: <span style={{ color: '#ff6084' }}>请输入举报内容</span>,
-      showCancelButton: true,
-      theme: 'round-button',
-      message: (
-        <div className={ styles.report_container }>
-          <div className={ styles.report_input }>
-            <Input.TextArea autoSize={{ minHeight: 120 }} placeholder="  请输入..." maxLength={100} showWordLimit />
-          </div>
-          <div className={ styles.report_tips }>官方将核实举报内容，胡乱举报将承担后果!</div>
-        </div>
-      ),
-    })
+  const handleTextChange = (val: any) => {
+    setReportInfo(val)
+    reportFactInfo = val
   }
 
 
+  const handleCancelReport = () => {
+    setReportInfo("")
+    reportFactInfo = '';
+  }
+
+  const handleConfirmReport = async () => {
+    console.log(reportFactInfo)
+    if(reportFactInfo) {
+      let res: any = await addReport({
+        playerId: searchParams.get("fromUserId"),
+        playerName: searchParams.get("fromUserName"),
+        agentId: searchParams.get("fromUserName")?.split('_')[1],
+        agentName: searchParams.get("toUserName"),
+        content: reportFactInfo,
+      });
+      if(res && res.code === 200) {
+        Toast.show({
+          icon: 'success',
+          content: '举报成功',
+        })
+        setReportInfo('')
+        reportFactInfo = '';
+      }
+    }
+  };
+
+  const reportProxy = () => {
+    Dialog.alert({
+      title: <span style={{ color: "#ff6084" }}>请输入举报内容</span>,
+      showCancelButton: true,
+      theme: "round-button",
+      message: (
+        <div className={styles.report_container}>
+          <div className={styles.report_input}>
+            <Input.TextArea
+              autoSize={{ minHeight: 120 }}
+              placeholder="  请输入..."
+              onChange={(val) => handleTextChange(val)}
+              maxLength={100}
+              showWordLimit
+            />
+            {/* <TextArea
+            showCount
+            value={reportInfo}
+            onChange={(val) => console.log(val)}
+            maxLength={30}
+          /> */}
+          {/* <input type="text" /> */}
+          {/* <textarea value={reportInfo} onChange={(val) => console.log(val.target.value)} ></textarea> */}
+          </div>
+          <div className={styles.report_tips}>
+            官方将核实举报内容，胡乱举报将承担后果!
+          </div>
+        </div>
+      ),
+      onCancel: () => handleCancelReport(),
+      onConfirm: () => handleConfirmReport(),
+    });
+  };
 
   useEffect(() => {
     console.log(search);
@@ -50,7 +102,18 @@ const Proxy = () => {
   return (
     <div className={styles.proxy_container}>
       <div className={styles.navbar_container}>
-        <NavBar onBack={() => navigate("/proxy/allproxy")} right={<><div className={ styles.reportNow } onClick={reportProxy}>举报</div></>}>{navTitle}</NavBar>
+        <NavBar
+          onBack={() => navigate("/proxy/allproxy")}
+          right={
+            <>
+              <div className={styles.reportNow} onClick={reportProxy}>
+                举报
+              </div>
+            </>
+          }
+        >
+          {navTitle}
+        </NavBar>
       </div>
       <div className={styles.tabs_container}>
         <Tabs activeKey={activeKey} onChange={(val) => handleTabChange(val)}>
@@ -58,7 +121,13 @@ const Proxy = () => {
           <Tabs.Tab title="代理订单" key="/chat/order/"></Tabs.Tab>
         </Tabs>
       </div>
-      <div className={orderStatus === 1 ? styles.order_status_disline :  styles.order_status_line}>
+      <div
+        className={
+          orderStatus === 1
+            ? styles.order_status_disline
+            : styles.order_status_line
+        }
+      >
         {orderStatus === 0 ? (
           <>
             <span>订单进行中，剩余时间:</span>&nbsp;
@@ -78,6 +147,13 @@ const Proxy = () => {
       <div className={styles.proxy_content}>
         <Outlet />
       </div>
+      {/* 举报 */}
+      {/* <div className="reportDialog">
+        <div className="report_content">
+          909090
+        </div>
+      </div> */}
+      {/* 举报 */}
     </div>
   );
 };

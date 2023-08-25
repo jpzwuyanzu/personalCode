@@ -94,9 +94,17 @@ const loadProxyList = async () => {
   }
 }
 
+//获取代理公告
+const loadProxynotice = async () => {
+  let res: any = await getAgentNotice({})
+  console.log(res)
+  
+}
+
 
 
   useEffect(() => {
+    loadProxynotice()
     loadProxyList()
     setVisible(true);
   }, []);

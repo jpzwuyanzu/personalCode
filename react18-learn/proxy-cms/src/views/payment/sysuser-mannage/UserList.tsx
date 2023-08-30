@@ -28,6 +28,7 @@ import { userList, createUser, delUser } from "@/api/index";
 import dayjs from "dayjs";
 import UserListModule from "./modules/UserListModule";
 import ResetPassModal from "../../../components/ResetPassModal";
+import UserRechargeModule from './modules/UserRechargeModule'
 import JudgePemission from "@/components/JudgePemission";
 import styles from "./UserList.module.scss";
 
@@ -123,7 +124,8 @@ const UserList: React.FC = () => {
   const [moduleWidth, setModuleWidth] = useState("");
   const [userInfo, setUserInfo] = useState({});
   const [loading, setLoading] = useState<boolean>(false);
-  const [modalStatus, setModalStatus] = useState(false);
+  const [modalStatus, setModalStatus] = useState(false); //重置密码弹框
+  const [rechargeModalStatus, setRechargeModalStatus] = useState(false);//充值弹框
   const [fastHeadHost, setFastHeadHost] = useState("");
   const [searchUserForm] = Form.useForm();
 
@@ -312,9 +314,11 @@ const UserList: React.FC = () => {
       width: 350,
       render: (_: any, record: any) => (
         <Space size="middle">
-          <Button type="primary" onClick={() => openModal(record)}>
+          {
+            _.userType === 1 ? <Button type="primary" onClick={() => openRechargeModal(record)}>
             充值
-          </Button>
+          </Button> : null
+          }
           <JudgePemission pageUrl={"/payment/userlist_133"}>
             <Button type="primary" onClick={() => openDrawer("378px", record)}>
               编辑
@@ -411,6 +415,22 @@ const UserList: React.FC = () => {
     setModalStatus(false);
     fetchData({});
   }, [modalStatus]);
+
+  //打开充值弹框
+  const openRechargeModal = useCallback(
+    (userInfo: any) => {
+      setUserInfo(userInfo);
+      setRechargeModalStatus(true);
+    },
+    [rechargeModalStatus]
+  );
+  //关闭充值弹框
+  const closeRechargeModal = useCallback(() => {
+    setRechargeModalStatus(false);
+    fetchData({});
+  }, [rechargeModalStatus]);
+
+
 
   useEffect(() => {
     fetchData({});
@@ -548,6 +568,12 @@ const UserList: React.FC = () => {
         userInfo={userInfo}
         closeModal={closeModal}
         isTop={false}
+      />
+      <UserRechargeModule
+       open={rechargeModalStatus}
+       proxyInfo={userInfo}
+       closeModal={closeRechargeModal}
+       isTop={false}
       />
     </div>
   );

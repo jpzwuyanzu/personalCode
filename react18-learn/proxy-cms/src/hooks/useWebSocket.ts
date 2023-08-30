@@ -94,7 +94,8 @@ const useWebSocket = (url: string, info: any) => {
                         "orderAmount": '',
                         "orderType": '',
                         "createOrder": 0,
-                        "msgId": uuidv4()
+                        "msgId": uuidv4(),
+                        "token": userInfo.tokenInfo.tokenValue
                     }
                 })
             )

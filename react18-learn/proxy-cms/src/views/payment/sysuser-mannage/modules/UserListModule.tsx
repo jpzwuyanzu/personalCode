@@ -46,6 +46,7 @@ export default function UserListModule({
   open,
   closeDrawer,
 }: IProps) {
+  console.log(fastHeadHost)
   console.log(userInfo)
   const [userForm] = Form.useForm();
   const [roleList, SetRoleList] = useState<any[]>([]);
@@ -123,8 +124,8 @@ export default function UserListModule({
             openStatus: Boolean(values.openStatus) ? 1 : 2,
             seq: values.seq,
             fakeOrderCount: values.fakeOrderCount,
-            manageId: values.manageId.join(','),
-            payType: values.payType.join(','),
+            manageId: values.manageId ? values.manageId.join(',') : '',
+              payType: values.payType ? values.payType.join(',') : '',
             headImage: fastUrl ? fastUrl : ''
           });
           if (res && res.code && res.code === 200) {
@@ -156,8 +157,8 @@ export default function UserListModule({
               name: values.name,
               seq: values.seq,
               fakeOrderCount: values.fakeOrderCount,
-              manageId: values.manageId.join(','),
-              payType: values.payType.join(','),
+              manageId: values.manageId ? values.manageId.join(',') : '',
+              payType: values.payType ? values.payType.join(',') : '',
               headImage: fastUrl ? fastUrl : ''
             });
             if (res && res.code && res.code === 200) {

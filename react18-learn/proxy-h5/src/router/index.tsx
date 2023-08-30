@@ -24,7 +24,8 @@ const MRouter = () => {
           ]  
         },
         {
-            path: '/recharge/recharge/:amount',
+            // path: '/recharge/recharge/:amount/:reTypeP/:accTypeP/:reNameP?/:reAccountP?/:reBankNameP?',
+            path: '/recharge/recharge/',
             element: LazyLoad('Recharge/Recharge')
         },
         {

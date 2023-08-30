@@ -59,6 +59,10 @@ export default function PaymentTypeModule({
       if (paymentTypeForm) {
         console.log(paymentTypeInfo);
         if (Object.keys(paymentTypeInfo).length) {
+          let supAmountList:any = [];
+          if((paymentTypeInfo as any).amountList && (paymentTypeInfo as any).amountList.length) {
+            (paymentTypeInfo as any).amountList.forEach((itm:any, _inx:Number) => supAmountList.push(Number(itm)/100))
+          }
           paymentTypeForm.setFieldsValue({
             payCode: (paymentTypeInfo as any).payCode,
             payName: (paymentTypeInfo as any).payName,
@@ -73,13 +77,13 @@ export default function PaymentTypeModule({
               ? fastHeadHost + "" + (paymentTypeInfo as any).payImage
               : "",
             jumpType: (paymentTypeInfo as any).jumpType,
-            amountList: (paymentTypeInfo as any).amountList,
+            amountList: supAmountList,
           });
           setPayCodeNow((paymentTypeInfo as any).payCode)
           setIsJumpOutSide((paymentTypeInfo as any).jumpType)
           setSupportAmount(
-            (paymentTypeInfo as any).amountList
-              ? (paymentTypeInfo as any).amountList
+            supAmountList.length
+              ? supAmountList
               : []
           );
         } else {
@@ -113,7 +117,7 @@ export default function PaymentTypeModule({
 
   //添加支持金额
   const pushAmount = (e: any) => {
-    let newAmount: any = e.target.value;
+    let newAmount: any = Number(e.target.value);
     newAmount && setSupportAmount([...supportAmount, newAmount]);
     assignmentValue([...supportAmount, newAmount]);
     setIsShowAmountinput(false);
@@ -132,6 +136,12 @@ export default function PaymentTypeModule({
       .then(async (values) => {
         console.log(values)
         console.log(paymentTypeInfo)
+        //这里将支持金额数据转换成分
+        let supAmountList:any = [];
+        if(values.amountList && values.amountList.length) {
+          values.amountList.forEach((itm:any, _inx:Number) =>  supAmountList.push(Number(itm)*100))
+         
+        }
         if (Object.keys(paymentTypeInfo).length) {
           const res: any = await updateAgentReciveType({
             payName: values.payName,
@@ -143,7 +153,7 @@ export default function PaymentTypeModule({
             bankNo: values.bankNo,
             jumpType: values.jumpType,
             payImage: values.jumpType === 1 && fastUrl ? fastUrl :  values.payImage,
-            amountList: values.amountList
+            amountList: supAmountList
           });
           if (res && res.code && res.code === 200) {
             (closeDrawer as any)();
@@ -174,7 +184,7 @@ export default function PaymentTypeModule({
                 bankAccount: values.bankAccount,
                 jumpType: values.jumpType,
                 payImage: values.jumpType === 1 && fastUrl ? fastUrl :  values.payImage,
-                amountList: values.amountList
+                amountList: supAmountList
             });
             if (res && res.code && res.code === 200) {
               (closeDrawer as any)();

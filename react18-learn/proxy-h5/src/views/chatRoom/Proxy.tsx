@@ -3,7 +3,9 @@ import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { Tabs, NavBar, Toast,  TextArea, Popup} from "antd-mobile";
 import { CountDown, Dialog, Input } from "react-vant";
 import styles from "./Proxy.module.scss";
-import { addReport } from "../../api";
+import { addReport,loadCusOrderDetail} from "../../api";
+import { useAppSelector, useAppDispatch } from './../../hooks/redux-hook'
+import { switchState } from './../../store/order.slice'
 
 const Proxy = () => {
   const navigate = useNavigate();
@@ -18,8 +20,11 @@ const Proxy = () => {
    * 1: 已关闭， 按钮不可以点击
    * 2: 充值成功， 不可以点击
    */
-  const [orderStatus, setOrderStatus] = useState(1);
+  const [orderStatus, setOrderStatus] = useState(2);
   const [reportInfo, setReportInfo] = useState("");
+  const [orderInfo, setOrderInfo] = useState<any>({});
+  const orderStateCache = useAppSelector((state: any) => state.updateState.status)
+  const dispatch = useAppDispatch()
   let reportFactInfo = '';
 
   const handleTabChange = (val: string) => {
@@ -92,6 +97,18 @@ const Proxy = () => {
     });
   };
 
+  //获取当前订单信息
+  const loadOrderDetailInfo = async() => {
+    const res: any = await loadCusOrderDetail({ fromUserId: searchParams.get('fromUserId'), orderNumber: searchParams.get('orderNumber')})
+    console.log(res)
+    if(res.code === 200 && res.data && res.data.order) {
+      setOrderInfo(res.data.order)
+      setOrderStatus(res.data.order.payStatus)
+    } else {
+      setOrderInfo({})
+    }
+  }
+
   useEffect(() => {
     console.log(search);
     setActiveKey(
@@ -99,11 +116,24 @@ const Proxy = () => {
     );
   }, [pathname]);
 
+  useEffect(() => {
+   console.log(orderStateCache)
+   if(orderStateCache) {
+    loadOrderDetailInfo()
+    dispatch(switchState({ status: false }))
+   }
+  }, [orderStateCache])
+
+  useEffect(() => {
+    loadOrderDetailInfo()
+  },[])
+
+
   return (
     <div className={styles.proxy_container}>
       <div className={styles.navbar_container}>
         <NavBar
-          onBack={() => navigate("/proxy/allproxy")}
+          onBack={() => navigate(`/proxy/allproxy${search}`)}
           right={
             <>
               <div className={styles.reportNow} onClick={reportProxy}>
@@ -123,26 +153,28 @@ const Proxy = () => {
       </div>
       <div
         className={
-          orderStatus === 1
+          orderStatus === 3 || orderStatus === 4
             ? styles.order_status_disline
             : styles.order_status_line
         }
       >
-        {orderStatus === 0 ? (
+        {orderStatus === 2 ? (
           <>
             <span>订单进行中，剩余时间:</span>&nbsp;
             <CountDown
-              time={times}
+              time={orderInfo && orderInfo.ms ? 30*60*1000 - (Number(new Date().getTime()) - Number(new Date(orderInfo.ms).getTime())) : 30*60*1000}
+              // time={times}
               millisecond
               format="mm:ss"
               className={styles.countDownNow}
+              onFinish={ () => setOrderStatus(4) }
             />
           </>
-        ) : orderStatus === 1 ? (
-          "订单已关闭"
-        ) : (
+        ) : (orderStatus === 1 ? (
           "充值成功"
-        )}
+        ) : (
+          "订单关闭"
+        ))}
       </div>
       <div className={styles.proxy_content}>
         <Outlet />

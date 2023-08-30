@@ -231,3 +231,7 @@ export function loadCusOrderDetail (params? :any) {
 export function changeOrderStatus (params? :any) {
     return request.post('/api/agent/updateOrderPayStatus', params)
 }
+//代理确认收款
+export function confirmReceiveMoney (params? :any) {
+    return request.post('/api/agent/finish/OrderStatus', params)
+}

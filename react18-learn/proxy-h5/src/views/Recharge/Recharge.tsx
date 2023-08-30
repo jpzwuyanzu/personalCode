@@ -6,16 +6,18 @@ import styles from "./Recharge.module.scss";
 
 const Recharge = () => {
   const navigate = useNavigate();
+  const { pathname, search } = useLocation();
+  const searchParams = new URLSearchParams(search);
   const [imgPreVisiable, setImgPreVisiable] = useState(false);
   //reType: 0: 代表支付宝 1:代表微信 2：代表银行卡
-  const [reType, setReType] = useState(2);
+  const [reType, setReType] = useState(Number(searchParams.get('reTypeP')));
   //accType: 0: 代表二维码 1: 代表账号
-  const [accType, setAccType] = useState(1);
+  const [accType, setAccType] = useState(Number(searchParams.get('accTypeP')));
   // 名称， 账号， 卡号
-  const [reName, setReName] = useState("张三");
-  const [reAccount, setReAccount] = useState("23434234234234");
-  const [reBankName, setReBankName] = useState("工商银行");
-  const {amount} = useParams()
+  const [reName, setReName] = useState<any>(searchParams.get('reNameP') ? searchParams.get('reNameP') : '');
+  const [reAccount, setReAccount] = useState<any>(searchParams.get('reAccountP') ? searchParams.get('reAccountP') : '');
+  const [reBankName, setReBankName] = useState<any>(searchParams.get('reBankNameP') ? searchParams.get('reBankNameP') : '');
+  const amount = searchParams.get('amount')
 
   const handleCopy = () => {
     Toast.show({ content: "复制成功", position: "top" });
@@ -70,7 +72,6 @@ const Recharge = () => {
           ) : (
             <div className={styles.re_account_type}>
               <div className={styles.account_tips}>
-                {" "}
                 复制
                 {reType === 0 ? "支付宝" : reType === 1 ? "微信" : "银行卡"}
                 账号， 转账付款
@@ -98,7 +99,7 @@ const Recharge = () => {
                 </div>
                 {reType === 2 ? (
                   <div className={styles.account_item}>
-                    <div className={styles.acc_label}>银行卡号:</div>
+                    <div className={styles.acc_label}>银行名称:</div>
                     <div className={styles.acc_num}>{reBankName}</div>
                     <CopyToClipboard text={reBankName} onCopy={handleCopy}>
                       <div className={styles.copyOrderNow}>复制</div>

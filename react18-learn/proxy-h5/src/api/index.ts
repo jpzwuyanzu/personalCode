@@ -23,3 +23,11 @@ export function getAgentNotice (params? :any) {
 export function addReport (params? :any) {
     return request.post('/api/agent/report/add', params)
 }
+//获取订单详情
+export function loadCusOrderDetail (params? :any) {
+    return request.post('/api/agent/queryAgentOrder', params)
+}
+//修改订单状态
+export function changeOrderStatus (params? :any) {
+    return request.post('/api/agent/updateOrderPayStatus', params)
+}

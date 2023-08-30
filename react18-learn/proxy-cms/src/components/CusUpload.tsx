@@ -4,6 +4,7 @@ import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import { uploadFastImg } from '@/api/index'
 import { respMessage } from '@/utils/message'
 import React, { useState } from 'react';
+import styles from './CusUpload.module.scss'
 
 interface IProps {
   uploadInfo?: any;
@@ -14,6 +15,7 @@ interface IProps {
 
 const CusUpload: any = ({ uploadInfo, isAdd, saveUploadImgUrl, fastHeadHost }:IProps) => {
   console.log(uploadInfo)
+  console.log(fastHeadHost)
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
@@ -30,6 +32,7 @@ const CusUpload: any = ({ uploadInfo, isAdd, saveUploadImgUrl, fastHeadHost }:IP
 
 
   const onChange: UploadProps['onChange'] = async ({ fileList: newFileList }) => {
+    console.log(newFileList)
     setFileList(newFileList);
   };
 
@@ -39,7 +42,9 @@ const CusUpload: any = ({ uploadInfo, isAdd, saveUploadImgUrl, fastHeadHost }:IP
       formData.append('file', files.file)
       const res: any = await uploadFastImg(formData)
       if(res && res.code && res.code === 200) {
-        setFileList([{...fileList[0],'status': 'done','thumbUrl': res.data.fastUrl+''+res.data.fastPath}])
+        console.log(res.data)
+        console.log(fileList)
+        setFileList([{...fileList[0],'status': 'done','thumbUrl': res.data.fastUrl+''+res.data.fastPath, url: res.data.fastUrl+''+res.data.fastPath}])
         saveUploadImgUrl(res.data.fastPath)
       } else {
         message.open({
@@ -64,6 +69,7 @@ const CusUpload: any = ({ uploadInfo, isAdd, saveUploadImgUrl, fastHeadHost }:IP
 
   return (
     <>
+      <div style={{ position: 'relative' }}>
       <ImgCrop rotationSlider>
         <Upload
           accept={'.jpg,.png,.jpeg'}
@@ -79,6 +85,10 @@ const CusUpload: any = ({ uploadInfo, isAdd, saveUploadImgUrl, fastHeadHost }:IP
           {fileList.length < 1 && '+ Upload'}
         </Upload>
       </ImgCrop>
+      {
+        fileList.length ? <img className={ styles.small_Img_Preview }  alt="example" src={fileList[0]['url']} /> : null
+      }
+      </div>
       <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
         <img alt="example" style={{ width: '100%' }} src={previewImage} />
       </Modal>

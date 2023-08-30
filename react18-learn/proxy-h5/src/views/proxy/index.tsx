@@ -12,8 +12,10 @@ const proxyStatusMsg = {
 
 const ProxyIndex = () => {
   const [visible, setVisible] = useState<boolean>(false);
+  const [noticeContent, setNoticeContent] = useState('');
   const [proxUserList, setProUserList] = useState([]);
   const [headFastUrl,setHeadFastUrl] = useState('');
+  const [onLineStatus, setOnLineStatus] = useState<any>(1);
   const { pathname, search } = useLocation()
   const searchParams = new URLSearchParams(search);
   const navigate = useNavigate();
@@ -29,8 +31,8 @@ const ProxyIndex = () => {
             <span className={styles.proxy_name}>{itm.name}</span>
             <span className={styles.socketStatus}>
               <span className={styles.proxy_flex}>
-                <span className={styles.status_point}></span>
-                <span className={styles.proxy_status}>在线</span>
+                <span className={ Number(onLineStatus) === 1 ?  styles.status_point : styles.statusOffLine}></span>
+                <span className={styles.proxy_status}>{Number(onLineStatus) === 1 ? '在线' : '离线'}</span>
               </span>
             </span>
           </>
@@ -56,7 +58,7 @@ const ProxyIndex = () => {
   };
   //跳转到代理通道
   const linkProxy = (proxyId: number,proxyName: string) => {
-    navigate(`/chat/chatroom?toUserId=agent_${proxyId}&toUserName=${proxyName}&orderNumber=${searchParams.get('orderNumber')}&orderAmount=${searchParams.get('orderAmount')}&orderType=${searchParams.get('orderType')}&fromUserId=${searchParams.get('fromUserId')}&fromUserName=${searchParams.get('fromUserName')}`);
+    navigate(`/chat/chatroom?toUserId=AGENT_${proxyId}&toUserName=${proxyName}&orderNumber=${searchParams.get('orderNumber')}&orderAmount=${searchParams.get('orderAmount')}&orderType=${searchParams.get('orderType')}&fromUserId=${searchParams.get('fromUserId')}&fromUserName=${searchParams.get('fromUserName')}`);
   };
   //打开弹框
   const openDialog = (type: string) => {
@@ -84,8 +86,10 @@ const loadProxyList = async () => {
   //orderType: 1:游戏充值 3:金币充值 2:会员充值
   let res: any = await getOnlineAgent({ orderNumber:searchParams.get('orderNumber'), orderAmount: searchParams.get('orderAmount'), orderType: searchParams.get('orderType')})
   if(res.code === 200) {
+    console.log(res.data)
     setProUserList(res.data ? res.data.agent : [])
     setHeadFastUrl(res.data ? res.data.fastUrl : '')
+    setOnLineStatus(res.data.isOnline)
   } else {
     Toast.show({
       icon: 'fail',
@@ -98,7 +102,10 @@ const loadProxyList = async () => {
 const loadProxynotice = async () => {
   let res: any = await getAgentNotice({})
   console.log(res)
-  
+  if(res.code === 200 && res.content) {
+    setNoticeContent(res.content)
+    setVisible(true);
+  }
 }
 
 
@@ -106,7 +113,6 @@ const loadProxynotice = async () => {
   useEffect(() => {
     loadProxynotice()
     loadProxyList()
-    setVisible(true);
   }, []);
 
 
@@ -178,8 +184,7 @@ const loadProxynotice = async () => {
                 <div
                   className={styles.insert_element}
                   dangerouslySetInnerHTML={{
-                    __html:
-                      "<p>345345345</p><p>345345345</p><p>345345345</p><p>345345345</p><p>345345345</p><p>345345345</p><p>345345345</p><p>345345345</p><p>345345345</p><p>345345345</p><p>345345345</p>",
+                    __html: noticeContent,
                   }}
                 ></div>
               </div>

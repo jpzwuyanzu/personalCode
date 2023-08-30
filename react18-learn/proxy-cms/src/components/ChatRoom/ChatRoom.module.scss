@@ -16,14 +16,24 @@
             box-sizing: border-box;
 
             .concat_search {
-                height: 40px;
-                padding: 5px;
+                height: 64px;
+                // padding: 5px;
                 background-color: #f5f0f0;
                 box-sizing: border-box;
+                .concat_top_title {
+                    text-align: center;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: center;
+                    height: 100%;
+                    background: #fff;
+                    font-size: 18px;
+                }
             }
 
             .concat_list {
-                height: calc(100% - 40px);
+                height: calc(100% - 64px);
                 overflow-y: scroll;
                 // border-right: 1px solid rgba(5, 5, 5, 0.06);
                 box-sizing: border-box;
@@ -64,6 +74,7 @@
                     justify-content: space-between;
                     align-items: center;
                     padding-right: 10px;
+                    position: relative;
                     .concat_name {
                         color: #00000073;
                     }
@@ -247,6 +258,18 @@
                 background-size: cover;
                 cursor: pointer;
             }
+            .quickPaytype {
+                width: 40px;
+                height: 40px;
+                font-size: 35px;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                color: #b3b9c8;
+                margin: 0 10px;
+                cursor: pointer;
+            }
 
             .uploadMessageImg {
                 font-size: 30px;
@@ -294,11 +317,11 @@
         height: 650px;
         // height: 80%;
         box-sizing: border-box;
-        padding: 0 10px 0px;
+        padding: 30px 10px 0px;
         // overflow-y: scroll;
         display: flex;
         flex-direction: column;
-        justify-content: space-around;
+        justify-content: flex-start;
 
         .user_info_item {
             height: 28%;
@@ -336,6 +359,7 @@
 
         .userOrder_item {
             height: 46%;
+            margin-top: 30px;
 
             .order_info_part {
                 padding-top: 10px;
@@ -376,11 +400,12 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    padding: 1px 80px;
+    align-items: center;
+    padding: 8px 80px;
 
     .conLabel {
         margin-right: 10px;
-        width: 100px;
+        // width: 10px;
     }
 
     .ordContent {
@@ -390,4 +415,35 @@
 
 .ant-card-body {
     padding: 10px !important;
+}
+
+.unread_icon {
+    position: absolute;
+    top: 5px;
+    left: 18px;
+}
+
+.payType_line {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    width: 100px;
+    padding: 5px 0 ;
+    cursor: pointer;
+    .payType_img {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+        margin-right: 10px;        
+    }
+    .payType_name {
+        display: inline-block;
+        height: 100%;
+        width: 80px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
 }

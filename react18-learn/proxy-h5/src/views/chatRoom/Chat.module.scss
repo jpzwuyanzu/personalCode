@@ -186,6 +186,10 @@
                     .type_name {
                         text-align: center;
                         padding-top: 10px;
+                        width: 100px;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
                     }
                 }
             }

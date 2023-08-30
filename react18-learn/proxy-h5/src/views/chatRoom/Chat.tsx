@@ -17,13 +17,28 @@ import useWebSocket from "./../../hooks/useWebSockets";
 import { v4 as uuidv4 } from "uuid";
 import dayjs from "dayjs";
 import { getStorage, setStorage } from "./../../utils/common";
+import wxPay from './../../assets/payType/WX_PAY.png'
+import aliPay from './../../assets/payType/ALI_PAY.png'
+import unionPay from './../../assets/payType/UNION_PAY.png'
+
+
+const regTypesList: any = {
+  "UNION_PAY" : 2,
+  "WX_PAY": 1,
+  "ALI_PAY": 0
+}
+
+//图片资源桶地址
+const ossImgUrl = 'https://hk-jmcy.oss-cn-hongkong.aliyuncs.com/';
+
 
 const Chat = () => {
   const [ws, wsData] = useWebSocket("ws://172.28.113.248:10086/webSocket", {});
   const [value, setValue] = useState("");
   const [messageList, setMessageList] = useState<any[]>([]);
   const [finished, setFinished] = useState<boolean>(true);
-  const [imgPreVisiable, setImgPreVisiable] = useState(false);
+  const [imgPreVisiable, setImgPreVisiable] = useState(false); //用户消息图片预览
+  const [imgPreVisiable1, setImgPreVisiable1] = useState(false); //客服消息图片预览
   const [insertMsgType, setInsertMsgType] = useState(0); //0 :文字 1:图片
   const [visibleMask, setVisibleMask] = useState(false);
   const listEndRef = useRef<HTMLDivElement>(null);
@@ -41,8 +56,9 @@ const Chat = () => {
 
   //聊天记录滚动到底部
   const scrollToBottom = () => {
+    console.log(listEndRef)
     if (listEndRef && listEndRef.current) {
-      listEndRef.current.scrollIntoView({ behavior: "smooth" });
+      listEndRef.current.scrollIntoView({ behavior: "auto" });
     }
   };
 
@@ -58,7 +74,8 @@ const Chat = () => {
       //跳转外部
       window.open(item.payImage, "_blank");
     } else {
-      navigate(`/recharge/recharge/${Number(searchParams.get("orderAmount"))}`);
+      // navigate(`/recharge/recharge/${Number(searchParams.get("orderAmount"))}/${regTypesList[item.payCode]}/${item.payImage ? 0 : 1}/${item.bankAccount}/${item.bankNo}/${item.bankName}`);
+      navigate(`/recharge/recharge?amount=${Number(searchParams.get("orderAmount"))}&reTypeP=${regTypesList[item.payCode]}&accTypeP=${item.payImage ? 0 : 1}&reNameP=${item.bankAccount}&reAccountP=${item.bankNo}&reBankNameP=${item.bankName}`);
     }
   };
 
@@ -143,7 +160,7 @@ const Chat = () => {
       fromUserName: searchParams.get("fromUserName"),
       toUserName: searchParams.get("toUserName"),
       toUserId: searchParams.get("toUserId"),
-      icon: "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
+      icon: `https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1500&amp;q=60`,
       content: msgType === 0 ? value : msgImgUrl,
       msgType: msgType,
       type: 2,
@@ -160,10 +177,9 @@ const Chat = () => {
         message: insertMsg,
       })
     );
-    temp.push(insertMsg);
 
+    temp.push(insertMsg);
     msgImgUrl = "";
-    console.log(temp);
     setStorage("session", searchParams.get("orderNumber"), temp);
     setMessageList(temp);
     setValue("");
@@ -212,8 +228,15 @@ const Chat = () => {
       ]);
       setMessageList([...messageList, wsData]);
     } else if (wsData && wsData.code === 1 && (wsData as any).list.length) {
-      console.log(wsData);
-      setMessageList(wsData.list);
+      let temp = getStorage("session", searchParams.get("orderNumber"))
+      ? JSON.parse(getStorage("session", searchParams.get("orderNumber")))
+      : [];
+      if(temp) {
+        setStorage("session", searchParams.get("orderNumber"),[...temp, ...wsData.list]);
+      }  else {
+        setStorage("session", searchParams.get("orderNumber"),[...wsData.list]);
+      }
+      setMessageList([...temp, ...wsData.list]);
     }
   }, [wsData]);
 
@@ -294,17 +317,18 @@ const Chat = () => {
                     ) : (
                       <div
                         className={styles.userImgMessage}
-                        onClick={() => setImgPreVisiable(true)}
+                        // onClick={() => setImgPreVisiable1(true)}
+                        onClick={() => console.log(_.content)}
                       >
-                        <Image src={_.content} width={"100%"} height={"80%"} />
+                        <Image src={_.content.indexOf('http') !== -1 ? _.content : ossImgUrl + _.content} width={"100%"} height={"80%"} />
                         <span className={styles.userImgMessage_right_time}>
                           {dayjs(_.time).format("MM-DD HH:mm:ss")}
                         </span>
                         <ImageViewer
-                          image={_.content}
-                          visible={imgPreVisiable}
+                          image={_.content.indexOf('http') !== -1 ? _.content : ossImgUrl + _.content}
+                          visible={imgPreVisiable1}
                           onClose={() => {
-                            setImgPreVisiable(false);
+                            setImgPreVisiable1(false);
                           }}
                         />
                       </div>
@@ -354,9 +378,7 @@ const Chat = () => {
                         >
                           <>
                             <Image
-                              src={
-                                "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60"
-                              }
+                              src={itm.payCode === 'WX_PAY' ? wxPay : (itm.payCode === 'ALI_PAY' ? aliPay : unionPay)}
                               width={50}
                               height={50}
                               fit="fill"

@@ -2,7 +2,10 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import TabBarReducer from './tabbar.slice';
 import {SHOW_TAB_KEY} from './tabbar.slice'
 import SelectCityReducer from './selectcity.slice';
-import {SELECT_CITY_KEY} from './selectcity.slice'
+import {SELECT_CITY_KEY} from './selectcity.slice';
+import UpdateStateReducer from './order.slice';
+import { UPDATE_STATE_KEY } from './order.slice'
+
 
 //配置redux数据持久化
 import { persistStore, persistReducer } from 'redux-persist'
@@ -10,7 +13,8 @@ import storage from 'redux-persist/lib/storage'
 
 const reducers = combineReducers({
     [SHOW_TAB_KEY] : TabBarReducer,
-    [SELECT_CITY_KEY] : SelectCityReducer
+    [SELECT_CITY_KEY] : SelectCityReducer,
+    [UPDATE_STATE_KEY]: UpdateStateReducer
 })
 const persistConfig = {
     key: 'root',

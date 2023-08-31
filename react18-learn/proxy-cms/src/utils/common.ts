@@ -118,7 +118,7 @@ export function getRecentMounth() {
     let end = new Date();
     let year = end.getFullYear();
     let month = end.getMonth() + 1;//0-11表示1-12月
-    let day = end.getDate();
+    let day = end.getDate()+1;
     let dateObj: any = {};
     dateObj.end = year + '-' + (month > 9 ? month : '0'+ month) + '-' + (day > 9 ? day : '0'+day);
     let endMonthDay = new Date(year, month, 0).getDate();//当前月的总天数

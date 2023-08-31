@@ -36,6 +36,7 @@ import {
   changeOrderStatus,
   agentReciveType,
   confirmReceiveMoney,
+  quickFeedBack
 } from "@/api/index";
 import styles from "./ChatRoom.module.scss";
 import dayjs from "dayjs";
@@ -93,6 +94,7 @@ const ChatRoom = () => {
   const [isShowCountDown, setIsShowCountDown] = useState(true);
   const [receive, setReceive] = useState<any>('');
   const [actAmount, setActAmount] = useState<any>(0);
+  const [quickList, setQuickList] = useState<any>([]);
   const listEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const inputMessageRef = useRef<any>(null);
@@ -103,29 +105,16 @@ const ChatRoom = () => {
     inputMessageRef.current?.focus();
   };
 
-  //快捷回复列表
-  const items: MenuProps["items"] = [
-    {
-      key: "1",
-      label: (
-        <div onClick={() => handleQuickMessage("快捷回复1")}>快捷回复1</div>
-      ),
-    },
-    {
-      key: "2",
-      label: (
-        <div onClick={() => handleQuickMessage("快捷回复2")}>快捷回复2</div>
-      ),
-    },
-    {
-      key: "3",
-      label: (
-        <div onClick={() => handleQuickMessage("快捷回复3")}>快捷回复3</div>
-      ),
-    },
-  ];
 
   let quickPayTypeList: any = null;
+
+  //获取快捷回复列表
+  const loadQuickReplayList = async() => {
+    const res:any = await quickFeedBack({})
+    if(res && res.code === 200) {
+      setQuickList(res.data.list ? res.data.list : [])
+    }
+  }
 
   //获取快捷发送支付方式列表
   const loadQuickPaytype = async (orderInfo: any) => {
@@ -502,6 +491,7 @@ const ChatRoom = () => {
   useEffect(() => {
     loadLeftCusList();
     uploadMessageImg();
+    loadQuickReplayList()
     return () => {
       ws && ws.close();
     };
@@ -678,9 +668,25 @@ const ChatRoom = () => {
               ></div>
             </div>
             <div className={styles.send_message}>
-              <Dropdown menu={{ items }} placement="topLeft" arrow>
+              {/* <Dropdown menu={{ items }} placement="topLeft" arrow>
                 <div className={styles.fastMessage}></div>
-              </Dropdown>
+              </Dropdown> */}
+              <Popover
+                content={
+                  <>
+                    {quickList &&
+                      quickList.length &&
+                      quickList.map((itm: any) => (
+                        <div onClick={() => handleQuickMessage(itm.content)} style={{ cursor: 'pointer' }}>{itm.content}</div>
+                      ))}
+                  </>
+                }
+                placement="topLeft"
+                arrow
+              >
+                {/* <AlipayOutlined className={ styles.quickPaytype }/> */}
+                <div className={styles.fastMessage}></div>
+              </Popover>
               <div className={styles.uploadMessageImg}>
                 <CameraOutlined style={{ cursor: "pointer" }} />
                 <input

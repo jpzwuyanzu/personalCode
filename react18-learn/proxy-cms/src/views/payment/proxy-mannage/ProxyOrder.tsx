@@ -139,7 +139,7 @@ const ProxyOrder: React.FC = () => {
       key: "merchantOrderId",
       align: "center",
       width: 200,
-      // fixed: "left",
+      fixed: "left",
       render: (text: any) => (
         <span style={{ whiteSpace: "nowrap" }}>{text}</span>
       ),
@@ -148,7 +148,7 @@ const ProxyOrder: React.FC = () => {
       title: "平台订单号",
       dataIndex: "platformOrderId",
       align: "center",
-      width: 200,
+      width: 400,
       // fixed: "left",
       key: "platformOrderId",
       render: (text: any) => (
@@ -518,7 +518,7 @@ const ProxyOrder: React.FC = () => {
                   name="createTime"
                   rules={[{ required: false, message: "请选择交易时间!" }]}
                 >
-                  <RangePicker style={{ width: '230px' }}/>
+                  <RangePicker style={{ width: '250px' }}/>
                 </Form.Item>
               </Col>
               {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
@@ -551,7 +551,7 @@ const ProxyOrder: React.FC = () => {
             dataSource={tableList}
             loading={loading}
             pagination={false}
-            rowKey={(record) => record.id}
+            rowKey={(record) => record.platformOrderId}
             scroll={{ x: 2500, y: "60vh" }}
           />
         </div>

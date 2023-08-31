@@ -586,7 +586,7 @@ const ChatRoom = () => {
               <div className={styles.message_content}>
                 {messageList &&
                   messageList.map((itm: any, inx) => (
-                    <div className={styles.messageList_item} key={itm.msgId}>
+                    <div className={styles.messageList_item} key={itm.msgId + '' + itm.type + '' + itm.time}>
                       {itm.type === 1 ? (
                         <div className={styles.cusMessage_container}>
                           <div className={styles.cusMessage_item}>
@@ -677,7 +677,7 @@ const ChatRoom = () => {
                     {quickList &&
                       quickList.length &&
                       quickList.map((itm: any) => (
-                        <div onClick={() => handleQuickMessage(itm.content)} style={{ cursor: 'pointer' }}>{itm.content}</div>
+                        <div onClick={() => handleQuickMessage(itm.content)} key={itm.id} style={{ cursor: 'pointer' }}>{itm.content}</div>
                       ))}
                   </>
                 }

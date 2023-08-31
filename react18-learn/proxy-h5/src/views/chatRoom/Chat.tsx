@@ -160,7 +160,7 @@ const Chat = () => {
       fromUserName: searchParams.get("fromUserName"),
       toUserName: searchParams.get("toUserName"),
       toUserId: searchParams.get("toUserId"),
-      icon: `https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1500&amp;q=60`,
+      icon: `agent/20230831/ff151b8e0d0143a28af70413afce72cd.abc`,
       content: msgType === 0 ? value : msgImgUrl,
       msgType: msgType,
       type: 2,
@@ -192,7 +192,7 @@ const Chat = () => {
       fromUserName: searchParams.get("fromUserName"),
       toUserName: searchParams.get("toUserName"),
       toUserId: searchParams.get("toUserId"),
-      icon: "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60",
+      icon: "agent/20230831/ff151b8e0d0143a28af70413afce72cd.abc",
       content: "",
       msgType: 1,
       type: 2,
@@ -269,7 +269,7 @@ const Chat = () => {
                     {/* 客服人员消息放在左边，同时要区分文字消息和图片消息 */}
                     <div className={styles.message_avator}>
                       <Image
-                        src={_.icon}
+                        src={_.icon.indexOf("http") !== -1 ? _.icon : ossImgUrl+_.icon}
                         width={"100%"}
                         height={"100%"}
                         style={{ borderRadius: "50%" }}
@@ -335,7 +335,7 @@ const Chat = () => {
                     )}
                     <div className={styles.message_avator}>
                       <Image
-                        src={_.icon}
+                        src={_.icon.indexOf("http") !== -1 ? _.icon : ossImgUrl+_.icon}
                         width={"100%"}
                         height={"100%"}
                         style={{ borderRadius: "50%" }}

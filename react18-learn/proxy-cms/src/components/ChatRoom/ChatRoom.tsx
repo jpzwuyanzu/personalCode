@@ -6,7 +6,6 @@ import {
   Input,
   Avatar,
   List,
-  Dropdown,
   Modal,
   Image,
   Card,
@@ -17,7 +16,7 @@ import {
   Popover,
   Badge,
   InputNumber,
-  Select
+  Select,
 } from "antd";
 import {
   SearchOutlined,
@@ -28,7 +27,6 @@ import {
   CopyOutlined,
   AlipayCircleOutlined,
 } from "@ant-design/icons";
-import type { MenuProps } from "antd";
 import {
   uploadFastImg,
   loadCusList,
@@ -36,7 +34,7 @@ import {
   changeOrderStatus,
   agentReciveType,
   confirmReceiveMoney,
-  quickFeedBack
+  quickFeedBack,
 } from "@/api/index";
 import styles from "./ChatRoom.module.scss";
 import dayjs from "dayjs";
@@ -49,6 +47,9 @@ import UNION_PAY from "@/assets/imgs/paytype/UNION_PAY.png";
 
 const { Meta } = Card;
 const { Countdown } = Statistic;
+
+//图片资源桶地址
+const ossImgUrl = "https://hk-jmcy.oss-cn-hongkong.aliyuncs.com/";
 
 const style: React.CSSProperties = { background: "#0092ff", padding: "8px 0" };
 
@@ -75,10 +76,7 @@ const ChatRoom = () => {
    */
   const naviagte = useNavigate();
   const userInfo = useAppSelector((state: any) => state.user.userInfo);
-  const [createWebSocket, ws, wsData] = useWebSocket(
-    `ws://172.28.113.248:10086/webSocket`,
-    {}
-  );
+  const [createWebSocket, ws, wsData] = useWebSocket(`ws://172.28.113.248:10086/webSocket`,{});
   const [cusList, setCusList] = useState<any[]>([]); // 左侧联系人列表
   const [chatUserIndex, setChatUserIndex] = useState<any>(); // 左侧用户列表选中项
   const [fastImgUrl, setFastImgUrl] = useState("");
@@ -92,7 +90,7 @@ const ChatRoom = () => {
   const [cusOrderInfo, setCusOrderInfo] = useState<any>({});
   const [expayType, setExPayType] = useState<any>([]);
   const [isShowCountDown, setIsShowCountDown] = useState(true);
-  const [receive, setReceive] = useState<any>('');
+  const [receive, setReceive] = useState<any>("");
   const [actAmount, setActAmount] = useState<any>(0);
   const [quickList, setQuickList] = useState<any>([]);
   const listEndRef = useRef<HTMLDivElement>(null);
@@ -105,22 +103,17 @@ const ChatRoom = () => {
     inputMessageRef.current?.focus();
   };
 
-
-  let quickPayTypeList: any = null;
-
   //获取快捷回复列表
-  const loadQuickReplayList = async() => {
-    const res:any = await quickFeedBack({})
-    if(res && res.code === 200) {
-      setQuickList(res.data.list ? res.data.list : [])
+  const loadQuickReplayList = async () => {
+    const res: any = await quickFeedBack({});
+    if (res && res.code === 200) {
+      setQuickList(res.data.list ? res.data.list : []);
     }
-  }
+  };
 
   //获取快捷发送支付方式列表
   const loadQuickPaytype = async (orderInfo: any) => {
     let res: any = await agentReciveType({ page: 1, pageSize: 100 });
-    console.log(res);
-    console.log(orderInfo);
     //在这里过滤出支持当前订单金额的支付方式
     let supportPayTypeList: any = [];
     if (res && res.code && res.code === 200 && res.page.list.length) {
@@ -209,34 +202,39 @@ const ChatRoom = () => {
   //打开确认收款弹框
   const handleOpenConfirm = () => {
     //把订单信息赋值给支付类型和实际付款金额
-    setReceive(cusOrderInfo.payCode)
-    setActAmount(Number(cusOrderInfo.amount)/100)
-    setIsConfirmModalOpen(true)
-  }
+    setReceive(cusOrderInfo.payCode);
+    setActAmount(Number(cusOrderInfo.amount) / 100);
+    setIsConfirmModalOpen(true);
+  };
 
   //代理确认收款
-  const handleConfirmOrder = async() => {
-    const res:any = await confirmReceiveMoney({'orderNo': cusOrderInfo.merchantOrderId, 'payCode': receive, 'realAmount': Number(actAmount)*100})
-    console.log(res)
-    if(res && res.code === 200) {
+  const handleConfirmOrder = async () => {
+    const res: any = await confirmReceiveMoney({
+      orderNo: cusOrderInfo.merchantOrderId,
+      payCode: receive,
+      realAmount: Number(actAmount) * 100,
+    });
+    console.log(res);
+    if (res && res.code === 200) {
       setIsConfirmModalOpen(false);
-      setIsShowCountDown(false)
+      setIsShowCountDown(false);
       getCusOrderDetail(
         cusList[chatUserIndex]["fromUserId"],
         cusList[chatUserIndex]["orderNumber"]
       );
       message.open({
-        type: 'success',
-        content: '确认收款成功',
+        type: "success",
+        content: "确认收款成功",
         className: "custom-class",
         style: {
           marginTop: "20vh",
           fontSize: "20px",
-        }
-      })
+        },
+      });
     }
     // switchOrderStatus(cusOrderInfo.merchantOrderId, 1);
   };
+  //取消确认订单
   const handleCancelOrder = () => {
     setIsConfirmModalOpen(false);
   };
@@ -363,7 +361,6 @@ const ChatRoom = () => {
   //加载联系人列表
   const loadLeftCusList = async () => {
     const res: any = await loadCusList({});
-    console.log(res);
     if (res.code === 200) {
       if (res.data.chat.length) {
         //这里去判断是否存在未读
@@ -491,7 +488,7 @@ const ChatRoom = () => {
   useEffect(() => {
     loadLeftCusList();
     uploadMessageImg();
-    loadQuickReplayList()
+    loadQuickReplayList();
     return () => {
       ws && ws.close();
     };
@@ -527,7 +524,7 @@ const ChatRoom = () => {
                       <List.Item.Meta
                         avatar={
                           <Avatar
-                            src={`https://xsgames.co/randomusers/avatar.php?g=pixel&key=${item.fromUserId}`}
+                            src={`${ossImgUrl}agent/20230831/ff151b8e0d0143a28af70413afce72cd.abc`}
                           />
                         }
                         title={
@@ -568,7 +565,7 @@ const ChatRoom = () => {
                     <List.Item.Meta
                       avatar={
                         <Avatar
-                          src={`https://xsgames.co/randomusers/avatar.php?g=pixel&key=${item.fromUserId}`}
+                          src={`${ossImgUrl}agent/20230831/ff151b8e0d0143a28af70413afce72cd.abc`}
                         />
                       }
                       title={<span>{item.fromUserName}</span>}
@@ -586,7 +583,10 @@ const ChatRoom = () => {
               <div className={styles.message_content}>
                 {messageList &&
                   messageList.map((itm: any, inx) => (
-                    <div className={styles.messageList_item} key={itm.msgId + '' + itm.type + '' + itm.time}>
+                    <div
+                      className={styles.messageList_item}
+                      key={itm.msgId + "" + itm.type + "" + itm.time}
+                    >
                       {itm.type === 1 ? (
                         <div className={styles.cusMessage_container}>
                           <div className={styles.cusMessage_item}>
@@ -668,16 +668,19 @@ const ChatRoom = () => {
               ></div>
             </div>
             <div className={styles.send_message}>
-              {/* <Dropdown menu={{ items }} placement="topLeft" arrow>
-                <div className={styles.fastMessage}></div>
-              </Dropdown> */}
               <Popover
                 content={
                   <>
                     {quickList &&
                       quickList.length &&
                       quickList.map((itm: any) => (
-                        <div onClick={() => handleQuickMessage(itm.content)} key={itm.id} style={{ cursor: 'pointer' }}>{itm.content}</div>
+                        <div
+                          onClick={() => handleQuickMessage(itm.content)}
+                          key={itm.id}
+                          style={{ cursor: "pointer" }}
+                        >
+                          {itm.content}
+                        </div>
                       ))}
                   </>
                 }
@@ -768,7 +771,7 @@ const ChatRoom = () => {
                 <Meta
                   avatar={
                     <Avatar
-                      src={`https://xsgames.co/randomusers/avatar.php?g=pixel&key=${cusList[chatUserIndex].fromUserId}`}
+                      src={`${ossImgUrl}/agent/20230831/ff151b8e0d0143a28af70413afce72cd.abc`}
                     />
                   }
                   title="用户信息"
@@ -869,9 +872,9 @@ const ChatRoom = () => {
                   <div className={styles.order_info_part}>
                     <div className={styles.order_itm}>
                       <span>订单状态:&nbsp;&nbsp;</span>
-                      {isShowCountDown ? (
+                      {isShowCountDown && cusOrderInfo.payStatus === 2 ? (
                         <span className={styles.user_OrderStatus}>
-                          进行中({" "}
+                          进行中(
                           <Countdown
                             value={
                               new Date(cusOrderInfo.ms).getTime() +
@@ -989,24 +992,32 @@ const ChatRoom = () => {
       >
         <div className={styles.confirm_item}>
           <div className={styles.conLabel}>订单类型:</div>
-          <div className={styles.ordContent}>{ cusOrderInfo.orderType === 1 ? '游戏充值' : (cusOrderInfo.orderType === 2 ? '会员充值' : '金币充值') }</div>
+          <div className={styles.ordContent}>
+            {cusOrderInfo.orderType === 1
+              ? "游戏充值"
+              : cusOrderInfo.orderType === 2
+              ? "会员充值"
+              : "金币充值"}
+          </div>
         </div>
         <div className={styles.confirm_item}>
           <div className={styles.conLabel}>订单金额:</div>
-          <div className={styles.ordContent}>¥{(Number(cusOrderInfo.amount) / 100).toFixed(2)}</div>
+          <div className={styles.ordContent}>
+            ¥{(Number(cusOrderInfo.amount) / 100).toFixed(2)}
+          </div>
         </div>
         <div className={styles.confirm_item}>
           <div className={styles.conLabel}>支付方式:</div>
           <div className={styles.ordContent}>
-          <Select
+            <Select
               placeholder="请选择支付方式"
               style={{ width: 150 }}
               onChange={(val) => setReceive(val)}
               value={receive}
               options={[
-                { value: 'WX_PAY', label: '微信支付' },
-                { value: 'ALI_PAY', label: '支付宝' },
-                { value: 'UNION_PAY', label: '银联支付' },
+                { value: "WX_PAY", label: "微信支付" },
+                { value: "ALI_PAY", label: "支付宝" },
+                { value: "UNION_PAY", label: "银联支付" },
               ]}
             />
           </div>
@@ -1014,7 +1025,14 @@ const ChatRoom = () => {
         <div className={styles.confirm_item}>
           <div className={styles.conLabel}>实付金额:</div>
           <div className={styles.ordContent}>
-          <InputNumber prefix="¥" value={actAmount} style={{ width: '150px' }} min={0} placeholder="请输入实收金额"  onChange={(val) => setActAmount(val)} />
+            <InputNumber
+              prefix="¥"
+              value={actAmount}
+              style={{ width: "150px" }}
+              min={0}
+              placeholder="请输入实收金额"
+              onChange={(val) => setActAmount(val)}
+            />
           </div>
         </div>
       </Modal>

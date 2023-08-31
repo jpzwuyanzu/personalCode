@@ -133,7 +133,7 @@ const Proxy = () => {
     <div className={styles.proxy_container}>
       <div className={styles.navbar_container}>
         <NavBar
-          onBack={() => navigate(`/proxy/allproxy${search}`)}
+          onBack={() => navigate(`/proxy/allproxy?orderNumber=${searchParams.get('orderNumber')}&orderAmount=${searchParams.get('orderAmount')}&orderType=${searchParams.get('orderType')}&fromUserId=${searchParams.get("fromUserId")}&fromUserName=${searchParams.get("fromUserName")}`)}
           right={
             <>
               <div className={styles.reportNow} onClick={reportProxy}>

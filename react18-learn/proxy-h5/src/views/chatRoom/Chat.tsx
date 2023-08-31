@@ -5,8 +5,6 @@ import {
   Image,
   ImageViewer,
   Dialog,
-  Mask,
-  DotLoading,
 } from "antd-mobile";
 import { List, Card } from "react-vant";
 import { Arrow } from "@react-vant/icons";
@@ -17,33 +15,30 @@ import useWebSocket from "./../../hooks/useWebSockets";
 import { v4 as uuidv4 } from "uuid";
 import dayjs from "dayjs";
 import { getStorage, setStorage } from "./../../utils/common";
-import wxPay from './../../assets/payType/WX_PAY.png'
-import aliPay from './../../assets/payType/ALI_PAY.png'
-import unionPay from './../../assets/payType/UNION_PAY.png'
-
+import wxPay from "./../../assets/payType/WX_PAY.png";
+import aliPay from "./../../assets/payType/ALI_PAY.png";
+import unionPay from "./../../assets/payType/UNION_PAY.png";
 
 const regTypesList: any = {
-  "UNION_PAY" : 2,
-  "WX_PAY": 1,
-  "ALI_PAY": 0
-}
+  UNION_PAY: 2,
+  WX_PAY: 1,
+  ALI_PAY: 0,
+};
 
 //图片资源桶地址
-const ossImgUrl = 'https://hk-jmcy.oss-cn-hongkong.aliyuncs.com/';
-
+const ossImgUrl = "https://hk-jmcy.oss-cn-hongkong.aliyuncs.com/";
 
 const Chat = () => {
   const [ws, wsData] = useWebSocket("ws://172.28.113.248:10086/webSocket", {});
   const [value, setValue] = useState("");
+  const navigate = useNavigate();
   const [messageList, setMessageList] = useState<any[]>([]);
   const [finished, setFinished] = useState<boolean>(true);
   const [imgPreVisiable, setImgPreVisiable] = useState(false); //用户消息图片预览
   const [imgPreVisiable1, setImgPreVisiable1] = useState(false); //客服消息图片预览
-  const [insertMsgType, setInsertMsgType] = useState(0); //0 :文字 1:图片
   const [visibleMask, setVisibleMask] = useState(false);
   const listEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const navigate = useNavigate();
   const [fastImgUrl, setFastImgUrl] = useState("");
   const { pathname, search } = useLocation();
   const searchParams = new URLSearchParams(search);
@@ -56,15 +51,11 @@ const Chat = () => {
 
   //聊天记录滚动到底部
   const scrollToBottom = () => {
-    console.log(listEndRef)
+    console.log(listEndRef);
     if (listEndRef && listEndRef.current) {
       listEndRef.current.scrollIntoView({ behavior: "auto" });
     }
   };
-
-  //card点击事件
-  const onBodyClick = () => {};
-  const onHeaderClick = () => {};
 
   //点击充值方式事件处理
   const handleRechargeTypeClick = (item: any) => {
@@ -74,8 +65,15 @@ const Chat = () => {
       //跳转外部
       window.open(item.payImage, "_blank");
     } else {
-      // navigate(`/recharge/recharge/${Number(searchParams.get("orderAmount"))}/${regTypesList[item.payCode]}/${item.payImage ? 0 : 1}/${item.bankAccount}/${item.bankNo}/${item.bankName}`);
-      navigate(`/recharge/recharge?amount=${Number(searchParams.get("orderAmount"))}&reTypeP=${regTypesList[item.payCode]}&accTypeP=${item.payImage ? 0 : 1}&reNameP=${item.bankAccount}&reAccountP=${item.bankNo}&reBankNameP=${item.bankName}`);
+      navigate(
+        `/recharge/recharge?amount=${Number(
+          searchParams.get("orderAmount")
+        )}&reTypeP=${regTypesList[item.payCode]}&accTypeP=${
+          item.payImage ? 0 : 1
+        }&reNameP=${item.bankAccount}&reAccountP=${item.bankNo}&reBankNameP=${
+          item.bankName
+        }`
+      );
     }
   };
 
@@ -133,7 +131,6 @@ const Chat = () => {
                       onClick: () => {
                         //在这里将图片发送塞到websocket中
                         console.log("确认发送图片");
-                        // setInsertMsgType(1);
                         handleSendMessage(1);
                       },
                     },
@@ -229,12 +226,17 @@ const Chat = () => {
       setMessageList([...messageList, wsData]);
     } else if (wsData && wsData.code === 1 && (wsData as any).list.length) {
       let temp = getStorage("session", searchParams.get("orderNumber"))
-      ? JSON.parse(getStorage("session", searchParams.get("orderNumber")))
-      : [];
-      if(temp) {
-        setStorage("session", searchParams.get("orderNumber"),[...temp, ...wsData.list]);
-      }  else {
-        setStorage("session", searchParams.get("orderNumber"),[...wsData.list]);
+        ? JSON.parse(getStorage("session", searchParams.get("orderNumber")))
+        : [];
+      if (temp) {
+        setStorage("session", searchParams.get("orderNumber"), [
+          ...temp,
+          ...wsData.list,
+        ]);
+      } else {
+        setStorage("session", searchParams.get("orderNumber"), [
+          ...wsData.list,
+        ]);
       }
       setMessageList([...temp, ...wsData.list]);
     }
@@ -251,7 +253,6 @@ const Chat = () => {
 
   useEffect(() => {
     onLoad();
-    // uploadMessageImg();
     return () => {
       ws && ws.close();
     };
@@ -269,7 +270,11 @@ const Chat = () => {
                     {/* 客服人员消息放在左边，同时要区分文字消息和图片消息 */}
                     <div className={styles.message_avator}>
                       <Image
-                        src={_.icon.indexOf("http") !== -1 ? _.icon : ossImgUrl+_.icon}
+                        src={
+                          _.icon.indexOf("http") !== -1
+                            ? _.icon
+                            : ossImgUrl + _.icon
+                        }
                         width={"100%"}
                         height={"100%"}
                         style={{ borderRadius: "50%" }}
@@ -317,15 +322,26 @@ const Chat = () => {
                     ) : (
                       <div
                         className={styles.userImgMessage}
-                        // onClick={() => setImgPreVisiable1(true)}
-                        onClick={() => console.log(_.content)}
+                        onClick={() => setImgPreVisiable1(true)}
                       >
-                        <Image src={_.content.indexOf('http') !== -1 ? _.content : ossImgUrl + _.content} width={"100%"} height={"80%"} />
+                        <Image
+                          src={
+                            _.content.indexOf("http") !== -1
+                              ? _.content
+                              : ossImgUrl + _.content
+                          }
+                          width={"100%"}
+                          height={"80%"}
+                        />
                         <span className={styles.userImgMessage_right_time}>
                           {dayjs(_.time).format("MM-DD HH:mm:ss")}
                         </span>
                         <ImageViewer
-                          image={_.content.indexOf('http') !== -1 ? _.content : ossImgUrl + _.content}
+                          image={
+                            _.content.indexOf("http") !== -1
+                              ? _.content
+                              : ossImgUrl + _.content
+                          }
                           visible={imgPreVisiable1}
                           onClose={() => {
                             setImgPreVisiable1(false);
@@ -335,7 +351,11 @@ const Chat = () => {
                     )}
                     <div className={styles.message_avator}>
                       <Image
-                        src={_.icon.indexOf("http") !== -1 ? _.icon : ossImgUrl+_.icon}
+                        src={
+                          _.icon.indexOf("http") !== -1
+                            ? _.icon
+                            : ossImgUrl + _.icon
+                        }
                         width={"100%"}
                         height={"100%"}
                         style={{ borderRadius: "50%" }}
@@ -378,7 +398,13 @@ const Chat = () => {
                         >
                           <>
                             <Image
-                              src={itm.payCode === 'WX_PAY' ? wxPay : (itm.payCode === 'ALI_PAY' ? aliPay : unionPay)}
+                              src={
+                                itm.payCode === "WX_PAY"
+                                  ? wxPay
+                                  : itm.payCode === "ALI_PAY"
+                                  ? aliPay
+                                  : unionPay
+                              }
                               width={50}
                               height={50}
                               fit="fill"

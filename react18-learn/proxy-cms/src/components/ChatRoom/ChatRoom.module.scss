@@ -15,13 +15,19 @@
         .concat_container {
             height: 100%;
             box-sizing: border-box;
+            position: relative;
+            // padding: 0 10px;
 
             .concat_search {
                 height: 64px;
-                // padding: 5px;
-                background-color: #f5f0f0;
+                padding: 5px;
                 box-sizing: border-box;
                 border-top: 1px solid #e7e2e2;
+                border-bottom: 1px solid #e7e2e2;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                background: #fff;
 
                 .concat_top_title {
                     text-align: center;
@@ -68,9 +74,12 @@
                         }
                     }
                 }
-
+                .normalConcat {
+                    border-bottom: 1px solid #e7e2e2;
+                }
                 .activeConcat {
                     background: #00B96B;
+                    border-bottom: 1px solid #e7e2e2;
                 }
 
                 .concat_title_info {
@@ -93,6 +102,81 @@
                         color: #00000073;
                         font-size: 13px;
                     }
+                }
+            }
+            .filterConcat_list {
+                height: calc(100% - 64px);
+                overflow-y: scroll;
+                // border-right: 1px solid rgba(5, 5, 5, 0.06);
+                box-sizing: border-box;
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 64px;
+                bottom: 0;
+                background: #f4f4f4;
+
+                .concat_item {
+                    width: 100%;
+                    padding: 4px 5px;
+                    box-sizing: border-box;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+
+                    .concat_item_left {
+                        display: flex;
+                        width: 20%;
+                    }
+
+                    .concat_item_right {
+                        display: flex;
+                        width: 80%;
+                        flex-direction: column;
+                        align-items: center;
+
+                        .item_line {
+                            width: 100%;
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                        }
+                    }
+                }
+
+                .normalConcat {
+                    border-bottom: 1px solid #e7e2e2;
+                }
+                .activeConcat {
+                    background: #00B96B;
+                    border-bottom: 1px solid #e7e2e2;
+                }
+
+                .concat_title_info {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding-right: 10px;
+                    position: relative;
+
+                    .concat_name {
+                        color: #00000073;
+                        width: 50%;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                    }
+
+                    .concat_time {
+                        color: #00000073;
+                        font-size: 13px;
+                    }
+                }
+                .noMore_Data {
+                    text-align: center;
+                    color: #ccc;
+                    padding-top: 20px;
                 }
             }
         }
@@ -330,7 +414,6 @@
                 height: 40px;
                 padding: 0 20px;
                 box-sizing: border-box;
-
                 .fastMessage {
                     width: 40px;
                     height: 40px;
@@ -546,4 +629,11 @@
         text-overflow: ellipsis;
         overflow: hidden;
     }
+}
+
+.quickBack_Pop {
+    cursor: pointer;
+    padding: 3px 5px;
+    width: 160px;
+    margin-bottom: 4px;
 }

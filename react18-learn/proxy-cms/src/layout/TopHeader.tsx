@@ -7,15 +7,16 @@ import { switchCollapsed } from "./../store/slices/collapse.slice";
 import { useAppDispatch, useAppSelector } from "./../hooks/hooks";
 import useWebSocket from "@/hooks/useWebSocket";
 import ResetPassModal from '@/components/ResetPassModal'
+import ChangeAvatorModal from '@/components/ChangeAvatorModal'
 import ChatRoomIndex from '@/components/ChatRoom/ChatRoomIndex'
 import CusColor from '@/components/CusColor';
 import styles from "./TopHeader.module.scss";
 import {
   LoginOutlined,
   SettingOutlined,
-  UserOutlined,
   MenuFoldOutlined, 
-  MenuUnfoldOutlined
+  MenuUnfoldOutlined,
+  GithubOutlined
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { loginOut, loadCusList } from "./../api/index";
@@ -35,6 +36,9 @@ export default function TopHeader() {
   const [modalStatus, setModalStatus] = useState(false); 
   //聊天室
   const [chatRoomStatus, setChatRoomStatus] = useState(false);
+  //修改用户头像
+  const [avatorModalStatus, setAvatorModalStatus] = useState(false);
+
   // 退出登录
   const loginOutNow = async () => {
     const resp: any = await loginOut();
@@ -56,6 +60,10 @@ export default function TopHeader() {
   //关闭修改密码
   const closeModal = () => {
     setModalStatus(false)
+  }
+  //关闭修改头像
+  const closeAvatorModal = () => {
+    setAvatorModalStatus(false)
   }
   //打开聊天室
   const openChatRoom = async() => {
@@ -85,8 +93,8 @@ export default function TopHeader() {
   const items: MenuProps["items"] = [
     {
       key: "1",
-      label: <div className={styles.dropDown_Items}>个人中心</div>,
-      icon: <UserOutlined />,
+      label: <div className={styles.dropDown_Items} onClick={ () => setAvatorModalStatus(true) }>修改头像</div>,
+      icon: <GithubOutlined />,
     },
     {
       key: "2",
@@ -158,6 +166,7 @@ export default function TopHeader() {
         </div>
         <ResetPassModal open={modalStatus} userInfo={userInfo} closeModal={closeModal} isTop={true}/>
         <ChatRoomIndex open={chatRoomStatus} closeChatRoom={closeChatRoom}  />
+        <ChangeAvatorModal open={ avatorModalStatus } userInfo={userInfo} closeModal={closeAvatorModal}/>
       </Header>
     </>
   );

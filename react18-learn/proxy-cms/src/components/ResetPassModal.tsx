@@ -10,7 +10,7 @@ interface IProps {
   isTop?: boolean
 }
 
-const UserListModal: any = ({ open, userInfo, isTop, closeModal }: IProps) => {
+const ResetPassModal: any = ({ open, userInfo, isTop, closeModal }: IProps) => {
 
   const [passForm] = Form.useForm();
   const navigate = useNavigate()
@@ -118,4 +118,4 @@ const UserListModal: any = ({ open, userInfo, isTop, closeModal }: IProps) => {
   );
 };
 
-export default UserListModal;
+export default ResetPassModal;

@@ -129,6 +129,8 @@ const OrderDetail: React.FC = () => {
       dataIndex: "orderNo",
       key: "orderNo",
       align: "center",
+      with:400,
+      fixed: 'left',
       render: (
         text:
           | string
@@ -139,13 +141,14 @@ const OrderDetail: React.FC = () => {
           | React.ReactPortal
           | null
           | undefined
-      ) => <a>{text ? text : "--"}</a>,
+      ) => <span style={{ whiteSpace: 'nowrap' }}>{text ? text : "--"}</span>,
     },
     {
       title: "变动前店铺余额(¥)",
       dataIndex: "beforeAmount",
       align: "center",
       key: "beforeAmount",
+      with:100,
       render: (text: number) => (
         <span>{text ? (Number(text) / 100).toFixed(2) : "0.00"}</span>
       ),
@@ -155,6 +158,7 @@ const OrderDetail: React.FC = () => {
       dataIndex: "amount",
       align: "center",
       key: "amount",
+      with:100,
       render: (text: any) => (
         <span>{text ? (Number(text) / 100).toFixed(2) : "0.00"}</span>
       ),
@@ -164,6 +168,7 @@ const OrderDetail: React.FC = () => {
       dataIndex: "afterAmount",
       align: "center",
       key: "afterAmount",
+      with:100,
       render: (text: any) => (
         <span>{text ? (Number(text) / 100).toFixed(2) : "0.00"}</span>
       ),
@@ -173,6 +178,7 @@ const OrderDetail: React.FC = () => {
       dataIndex: "changeType",
       align: "center",
       key: "changeType",
+      with:100,
       render: (text: number) =>
         text === 1 ? (
           <Tag icon={<ExclamationCircleOutlined />} color="success">
@@ -205,19 +211,21 @@ const OrderDetail: React.FC = () => {
       dataIndex: "agentName",
       align: "center",
       key: "agentName",
+      with:100,
     },
     {
       title: "代理ID",
       dataIndex: "agentId",
       align: "center",
       key: "agentId",
+      with:100,
     },
     {
       title: "创建时间",
       dataIndex: "createTime",
       align: "center",
       key: "createTime",
-      width: 180,
+      width: 100,
       render: (
         text: string | number | Date | dayjs.Dayjs | null | undefined
       ) => <>{text ? dayjs(text).format("YYYY-MM-DD hh:mm:ss") : "--"}</>,
@@ -344,7 +352,7 @@ const OrderDetail: React.FC = () => {
             loading={loading}
             pagination={false}
             rowKey={(record) => (String(record.id)+''+record.changeType+''+record.ms)}
-            scroll={{ y: "60vh" }}
+            scroll={{ x: 2000, y: "60vh" }}
           />
         </div>
         <div className={styles.bottom_Pag_area}>

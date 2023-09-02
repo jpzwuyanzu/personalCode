@@ -166,11 +166,11 @@ const UserList: React.FC = () => {
     }
   };
 
-  const switchUserStatus = async (checked: boolean, userId: any) => {
+  const switchUserStatus = async (checked: boolean, userId: any, key: any) => {
     setLoading(true);
     const resp: any = await createUser({
       id: userId,
-      status: Number(Boolean(checked) ? 1 : 2),
+      [key]: Number(Boolean(checked) ? 1 : 2),
     });
     setLoading(false);
     if (resp && resp.code && resp.code === 200) {
@@ -256,16 +256,26 @@ const UserList: React.FC = () => {
       dataIndex: "openStatus",
       align: "center",
       key: "openStatus",
-      render: (text: number) =>
-        text === 1 ? (
-          <Tag icon={<CheckCircleOutlined />} color="success">
-            营业中
-          </Tag>
-        ) : (
-          <Tag icon={<CloseCircleOutlined />} color="error">
-            已停业
-          </Tag>
-        ),
+      // render: (text: number) =>
+      //   text === 1 ? (
+      //     <Tag icon={<CheckCircleOutlined />} color="success">
+      //       营业中
+      //     </Tag>
+      //   ) : (
+      //     <Tag icon={<CloseCircleOutlined />} color="error">
+      //       已停业
+      //     </Tag>
+      //   ),
+      render: (text: any, record: any) => (
+        <>
+          <Switch
+            checkedChildren={<CheckOutlined />}
+            unCheckedChildren={<CloseOutlined />}
+            checked={Number(text) === 1 ? true : false}
+            onClick={(checked: boolean) => switchUserStatus(checked, record.id, 'openStatus')}
+          />
+        </>
+      ),
     },
     {
       title: "账号状态",
@@ -278,7 +288,7 @@ const UserList: React.FC = () => {
             checkedChildren={<CheckOutlined />}
             unCheckedChildren={<CloseOutlined />}
             checked={Number(text) === 1 ? true : false}
-            onClick={(checked: boolean) => switchUserStatus(checked, record.id)}
+            onClick={(checked: boolean) => switchUserStatus(checked, record.id, 'status')}
           />
         </>
       ),

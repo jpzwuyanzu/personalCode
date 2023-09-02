@@ -138,7 +138,7 @@ const UserList: React.FC = () => {
           | React.ReactPortal
           | null
           | undefined
-      ) => <a>{text}</a>,
+      ) => <span>{text}</span>,
     },
     {
       title: "收款方式",

@@ -1,9 +1,13 @@
 .chatPage_container {
     height: 100%;
-    padding: 40px;
+    padding: 20px;
     box-sizing: border-box;
     overflow-y: scroll;
     background: #f9f9f9;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
     .emptyContainer {
         display: flex;
         flex-direction: row;

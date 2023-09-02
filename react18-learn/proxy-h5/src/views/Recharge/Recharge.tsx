@@ -1,33 +1,45 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
-import { NavBar, Image, ImageViewer, Toast } from "antd-mobile";
+import { NavBar, Image, ImageViewer } from "antd-mobile";
+import { Toast } from 'react-vant'
 import CopyToClipboard from "react-copy-to-clipboard";
 import styles from "./Recharge.module.scss";
 
-const Recharge = () => {
+
+interface IProps {
+  amount:any
+  reTypeP:any
+  accTypeP:any
+  reNameP:any
+  reAccountP:any
+  reBankNameP:any
+}
+
+
+const Recharge = ({reTypeP, accTypeP,reNameP, reAccountP, reBankNameP, amount}:any) => {
   const navigate = useNavigate();
+  console.log(reTypeP)
   const { pathname, search } = useLocation();
   const searchParams = new URLSearchParams(search);
   const [imgPreVisiable, setImgPreVisiable] = useState(false);
   //reType: 0: 代表支付宝 1:代表微信 2：代表银行卡
-  const [reType, setReType] = useState(Number(searchParams.get('reTypeP')));
+  const [reType, setReType] = useState(Number(reTypeP));
   //accType: 0: 代表二维码 1: 代表账号
-  const [accType, setAccType] = useState(Number(searchParams.get('accTypeP')));
+  const [accType, setAccType] = useState(Number(accTypeP));
   // 名称， 账号， 卡号
-  const [reName, setReName] = useState<any>(searchParams.get('reNameP') ? searchParams.get('reNameP') : '');
-  const [reAccount, setReAccount] = useState<any>(searchParams.get('reAccountP') ? searchParams.get('reAccountP') : '');
-  const [reBankName, setReBankName] = useState<any>(searchParams.get('reBankNameP') ? searchParams.get('reBankNameP') : '');
-  const amount = searchParams.get('amount')
+  const [reName, setReName] = useState<any>(reNameP ? reNameP : '');
+  const [reAccount, setReAccount] = useState<any>(reAccountP ? reAccountP : '');
+  const [reBankName, setReBankName] = useState<any>(reBankNameP ? reBankNameP : '');
 
   const handleCopy = () => {
-    Toast.show({ content: "复制成功", position: "top" });
+    Toast.success('复制成功')
   };
 
   return (
     <div className={styles.recharge_container}>
-      <div className={styles.re_nav_container}>
+      {/* <div className={styles.re_nav_container}>
         <NavBar onBack={() => navigate(-1)}>付款</NavBar>
-      </div>
+      </div> */}
       <div className={styles.re_content_area}>
         <div className={styles.re_header}>
           <div className={styles.re_label}>

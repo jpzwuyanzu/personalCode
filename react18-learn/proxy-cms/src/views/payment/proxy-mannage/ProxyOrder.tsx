@@ -25,7 +25,7 @@ import {
   SyncOutlined,
 } from "@ant-design/icons";
 import PagiNation from "@/components/PagiNation";
-import { proxyOrderList } from "@/api/index";
+import { proxyOrderList, orderCallBack } from "@/api/index";
 import dayjs from "dayjs";
 import { getRecentMounth } from "@/utils/common";
 import { useAppSelector } from '@/hooks/hooks'
@@ -131,18 +131,37 @@ const ProxyOrder: React.FC = () => {
     }
   };
 
+  const handleCallback = async({merchantOrderId, amount, realAmount, payStatus, callbackStatus, ms, orderType, merchantId}:any) => {
+    const res: any = await orderCallBack({merchantOrderId,amount,realAmount,payStatus,callbackStatus,ms,orderType, merchantId})
+    console.log(res)
+    if(res && res.code === 200) {
+      message.open({
+        type: 'success',
+        content: '操作成功',
+      })
+    }
+  }
+
 
   const columns: any = [
     {
-      title: "代理订单号",
+      title: "来源订单号",
       dataIndex: "merchantOrderId",
       key: "merchantOrderId",
       align: "center",
-      width: 200,
+      width: 300,
       fixed: "left",
       render: (text: any) => (
         <span style={{ whiteSpace: "nowrap" }}>{text}</span>
       ),
+    },
+    {
+      title: "订单来源",
+      dataIndex: "merchantName",
+      align: "center",
+      width: 100,
+      // fixed: "left",
+      key: "merchantName",
     },
     {
       title: "平台订单号",
@@ -233,6 +252,26 @@ const ProxyOrder: React.FC = () => {
         text === "UNION_PAY" ? "银联" : text === "ALI_PAY" ? "支付宝" : "微信",
     },
     {
+      title: "创建时间",
+      dataIndex: "createTime",
+      align: "center",
+      key: "createTime",
+      width: 180,
+      render: (
+        text: string | number | Date | dayjs.Dayjs | null | undefined
+      ) => <>{text ? dayjs(text).format("YYYY-MM-DD hh:mm:ss") : "--"}</>,
+    },
+    {
+      title: "更新时间",
+      key: "updateTime",
+      align: "center",
+      dataIndex: "updateTime",
+      width: 180,
+      render: (
+        text: string | number | Date | dayjs.Dayjs | null | undefined
+      ) => <>{dayjs(text).format("YYYY-MM-DD hh:mm:ss")}</>,
+    },
+    {
       title: "订单状态",
       dataIndex: "payStatus",
       align: "center",
@@ -321,28 +360,6 @@ const ProxyOrder: React.FC = () => {
       },
     },
     {
-      title: "创建时间",
-      dataIndex: "createTime",
-      align: "center",
-      key: "createTime",
-      width: 180,
-      fixed: "right",
-      render: (
-        text: string | number | Date | dayjs.Dayjs | null | undefined
-      ) => <>{text ? dayjs(text).format("YYYY-MM-DD hh:mm:ss") : "--"}</>,
-    },
-    {
-      title: "更新时间",
-      key: "updateTime",
-      align: "center",
-      dataIndex: "updateTime",
-      width: 180,
-      fixed: "right",
-      render: (
-        text: string | number | Date | dayjs.Dayjs | null | undefined
-      ) => <>{dayjs(text).format("YYYY-MM-DD hh:mm:ss")}</>,
-    },
-    {
       title: "操作",
       key: "action",
       align: "center",
@@ -356,7 +373,7 @@ const ProxyOrder: React.FC = () => {
           {/* <JudgePemission pageUrl={"/payment/userlist_133"}> */}
           {
             (record.payStatus === 1 && record.callbackStatus === 3) ? <>
-            <Button type="primary" onClick={() => {}}>
+            <Button type="primary" onClick={() => handleCallback(record)}>
             手动回调
           </Button></> : '---'
           }
@@ -523,7 +540,7 @@ const ProxyOrder: React.FC = () => {
               </Col>
               {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
               <Col span={1}>
-                <Form.Item wrapperCol={{ offset: 0, span: 16 }} style={{ marginLeft: '20px' }}>
+                <Form.Item wrapperCol={{ offset: 10, span: 10 }} style={{ marginLeft: '20px' }}>
                   <Button type="primary" htmlType="submit">
                     搜索
                   </Button>
@@ -532,7 +549,7 @@ const ProxyOrder: React.FC = () => {
               {/* </JudgePemission> */}
               {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
               <Col span={4}>
-                <Form.Item wrapperCol={{ offset: 2, span: 16 }}>
+                <Form.Item wrapperCol={{ offset: 4, span: 12 }}>
                   <Button
                     type="primary"
                     style={{ marginLeft: "13px" }}
@@ -552,7 +569,7 @@ const ProxyOrder: React.FC = () => {
             loading={loading}
             pagination={false}
             rowKey={(record) => record.platformOrderId}
-            scroll={{ x: 2500, y: "60vh" }}
+            scroll={{ x: 2960, y: "60vh" }}
           />
         </div>
         <div className={styles.bottom_Pag_area}>

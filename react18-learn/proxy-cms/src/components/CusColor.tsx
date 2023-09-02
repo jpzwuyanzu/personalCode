@@ -24,7 +24,7 @@ const CusColor = () => {
     }
   }, [colorHex]);
   return (
-    <Space direction="vertical" size="middle" style={{ display: "flex" }}>
+    <Space direction="vertical" size="middle" style={{ height: '100%' }}>
       <Row align="middle">
         <Space>
           <Col>

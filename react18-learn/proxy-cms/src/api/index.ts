@@ -235,3 +235,12 @@ export function changeOrderStatus (params? :any) {
 export function confirmReceiveMoney (params? :any) {
     return request.post('/api/agent/finish/OrderStatus', params)
 }
+
+//代理支付聊天记录
+export function loadChatRecordHistory (params? :any) {
+    return request.post('/api/agent/payment/chatHistory', params)
+}
+//代理订单手动回调
+export function orderCallBack (params? :any) {
+    return request.post('/api/agent/callback/OrderStatus', params)
+}

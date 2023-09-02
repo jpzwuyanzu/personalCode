@@ -2,19 +2,30 @@
     float: right;
     // padding-right: 50px;
     margin-right: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 100%;
+    overflow: hidden;
+    padding-top: 14px;
+    box-sizing: border-box;
     .user_head {
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: center;
+        margin-left: 25px;
+        height: 64px;
+        box-sizing: border-box;
         .user_Img {
-            width: 24px;
-            height: 24px;
+            width: 30px;
+            height: 30px;
             object-fit: cover;
             margin-right: 8px;
         }
         .user_Name {
             color: #666666;
+            font-size: 16px;
         }
     }
 }
@@ -22,10 +33,9 @@
     width: 90px;
 }
 .ring_container {
-    margin-right: 25px;
     margin-left: 20px;
     cursor: pointer;
     .messageTips {
-        font-size: 20px;
+        font-size: 23px;
     }
 }

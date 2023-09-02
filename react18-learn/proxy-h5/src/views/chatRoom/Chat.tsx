@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, memo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   Input,
@@ -6,12 +6,13 @@ import {
   ImageViewer,
   Dialog,
 } from "antd-mobile";
-import { List, Card } from "react-vant";
+import { List, Card, ActionSheet } from "react-vant";
 import { Arrow } from "@react-vant/icons";
 import { PicturesOutline } from "antd-mobile-icons";
 import styles from "./Chat.module.scss";
 import { uploadFastImg } from "./../../api/index";
 import useWebSocket from "./../../hooks/useWebSockets";
+import RechargeCom from './../Recharge/Recharge'
 import { v4 as uuidv4 } from "uuid";
 import dayjs from "dayjs";
 import { getStorage, setStorage } from "./../../utils/common";
@@ -27,10 +28,12 @@ const regTypesList: any = {
 
 //图片资源桶地址
 const ossImgUrl = "https://hk-jmcy.oss-cn-hongkong.aliyuncs.com/";
+let checkPayType:any = {};
 
-const Chat = () => {
+const Chat = memo(() => {
   const [ws, wsData] = useWebSocket("ws://172.28.113.248:10086/webSocket", {});
   const [value, setValue] = useState("");
+  const [actionSheetVisible, setActionSheetVisible] = useState(false)
   const navigate = useNavigate();
   const [messageList, setMessageList] = useState<any[]>([]);
   const [finished, setFinished] = useState<boolean>(true);
@@ -43,6 +46,7 @@ const Chat = () => {
   const { pathname, search } = useLocation();
   const searchParams = new URLSearchParams(search);
   let msgImgUrl = "";
+  
 
   /**
    *type : 1: 客服消息 2:用户消息 3:官方欢迎消息 4:充值方式消息 5:充值链接类型
@@ -60,20 +64,25 @@ const Chat = () => {
   //点击充值方式事件处理
   const handleRechargeTypeClick = (item: any) => {
     console.log(item);
+    checkPayType = {}
     //jumpType 1:非外跳 2:外跳
     if (item.jumpType == 2) {
       //跳转外部
       window.open(item.payImage, "_blank");
     } else {
-      navigate(
-        `/recharge/recharge?amount=${Number(
-          searchParams.get("orderAmount")
-        )}&reTypeP=${regTypesList[item.payCode]}&accTypeP=${
-          item.payImage ? 0 : 1
-        }&reNameP=${item.bankAccount}&reAccountP=${item.bankNo}&reBankNameP=${
-          item.bankName
-        }`
-      );
+      
+      checkPayType = item
+      setActionSheetVisible(true)
+      
+      // navigate(
+      //   `/recharge/recharge?amount=${Number(
+      //     searchParams.get("orderAmount")
+      //   )}&reTypeP=${regTypesList[item.payCode]}&accTypeP=${
+      //     item.payImage ? 0 : 1
+      //   }&reNameP=${item.bankAccount}&reAccountP=${item.bankNo}&reBankNameP=${
+      //     item.bankName
+      //   }`
+      // );
     }
   };
 
@@ -182,34 +191,6 @@ const Chat = () => {
     setValue("");
   };
 
-  //连接建立之后需要发送消息去拉取聊天记录
-  const handleMessageHistory = () => {
-    let insertMsg = {
-      fromUserId: searchParams.get("fromUserId"),
-      fromUserName: searchParams.get("fromUserName"),
-      toUserName: searchParams.get("toUserName"),
-      toUserId: searchParams.get("toUserId"),
-      icon: "agent/20230831/ff151b8e0d0143a28af70413afce72cd.abc",
-      content: "",
-      msgType: 1,
-      type: 2,
-      time: new Date().getTime(),
-      orderNumber: searchParams.get("orderNumber"),
-      orderAmount: searchParams.get("orderAmount"),
-      orderType: 1,
-      createOrder: 0,
-      msgId: uuidv4(),
-    };
-    ws &&
-      ws.readyState === 1 &&
-      ws.send(
-        JSON.stringify({
-          handType: "6",
-          message: insertMsg,
-        })
-      );
-  };
-
   //监听聊天记录，触发滚动到底部操作
   useEffect(() => {
     scrollToBottom();
@@ -225,20 +206,25 @@ const Chat = () => {
       ]);
       setMessageList([...messageList, wsData]);
     } else if (wsData && wsData.code === 1 && (wsData as any).list.length) {
+      console.log(wsData);
+      let temlist = wsData.list;
+      temlist.forEach((itm:any, inx: any) => {
+        if(itm.type === 4) {
+          itm.content = itm.content.split('.com/')[1]
+        }
+      })  
       let temp = getStorage("session", searchParams.get("orderNumber"))
-        ? JSON.parse(getStorage("session", searchParams.get("orderNumber")))
-        : [];
-      if (temp) {
-        setStorage("session", searchParams.get("orderNumber"), [
-          ...temp,
-          ...wsData.list,
-        ]);
-      } else {
-        setStorage("session", searchParams.get("orderNumber"), [
-          ...wsData.list,
-        ]);
+      ? JSON.parse(getStorage("session", searchParams.get("orderNumber")))
+      : [];
+      if(temp) {
+        // setStorage("session", searchParams.get("orderNumber"),[...temp, ...wsData.list]);
+        setStorage("session", searchParams.get("orderNumber"),[...temp, ...temlist]);
+      }  else {
+        // setStorage("session", searchParams.get("orderNumber"),[...wsData.list]);
+        setStorage("session", searchParams.get("orderNumber"),[...temlist]);
       }
-      setMessageList([...temp, ...wsData.list]);
+      // setMessageList([...temp, ...wsData.list]);
+      setMessageList([...temp, ...temlist]);
     }
   }, [wsData]);
 
@@ -247,7 +233,6 @@ const Chat = () => {
     console.log(ws);
     if (ws) {
       uploadMessageImg();
-      handleMessageHistory();
     }
   }, [ws]);
 
@@ -498,8 +483,18 @@ const Chat = () => {
       >
         <DotLoading color="primary" style={{ fontSize: "30px" }} />
       </Mask> */}
+      <ActionSheet visible={actionSheetVisible} duration={300} onCancel={() => setActionSheetVisible(false)}>
+       {
+        actionSheetVisible ? <div style={{ padding: '70px 10px' }}>
+        <RechargeCom amount={Number(
+        searchParams.get("orderAmount")
+      )} reTypeP={regTypesList[checkPayType.payCode]} accTypeP={ checkPayType.payImage ? 0 : 1} reNameP={checkPayType.bankAccount} reAccountP={checkPayType.bankNo} reBankNameP={checkPayType.bankName}/>
+     </div> : null
+       }
+       
+      </ActionSheet>
     </div>
   );
-};
+});
 
 export default Chat;

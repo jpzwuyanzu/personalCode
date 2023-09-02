@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Layout, Button, theme, message, Dropdown, Space, Badge } from "antd";
 import { BellOutlined } from '@ant-design/icons'
 import { respMessage } from '@/utils/message'
 import { useNavigate } from "react-router-dom";
 import { switchCollapsed } from "./../store/slices/collapse.slice";
 import { useAppDispatch, useAppSelector } from "./../hooks/hooks";
+import useWebSocket from "@/hooks/useWebSocket";
 import ResetPassModal from '@/components/ResetPassModal'
 import ChatRoomIndex from '@/components/ChatRoom/ChatRoomIndex'
 import CusColor from '@/components/CusColor';
@@ -17,15 +18,17 @@ import {
   MenuUnfoldOutlined
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { loginOut } from "./../api/index";
+import { loginOut, loadCusList } from "./../api/index";
 
 const { Header } = Layout;
 
 export default function TopHeader() {
+  const [createWebSocket, ws, wsData] = useWebSocket(`ws://172.28.113.248:10086/webSocket`,{});
   const collapsed = useAppSelector((state) => state.collapse.status);
   const userInfo = useAppSelector((state) => state.user.userInfo)
   const cusColor = useAppSelector((state) => state.cusColor.color)
   const {token: { colorBgContainer }} = theme.useToken();
+  const [unReadNum, setUnReadNum] = useState<any>(0);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   //重置密码
@@ -53,6 +56,27 @@ export default function TopHeader() {
   //关闭修改密码
   const closeModal = () => {
     setModalStatus(false)
+  }
+  //打开聊天室
+  const openChatRoom = async() => {
+    const res: any = await loadCusList({})
+    console.log(res)
+    if(res && res.code === 200) {
+      if(res.data.chat.length) {
+        setChatRoomStatus(true)
+      } else {
+        message.open({
+          type: "success",
+          content: "暂无联系人",
+          className: "custom-class",
+          style: {
+            marginTop: "20vh",
+            fontSize: "20px",
+          },
+        });
+      }
+      
+    } 
   }
   //关闭聊天室
   const closeChatRoom =async () => {
@@ -83,6 +107,15 @@ export default function TopHeader() {
     },
   ];
 
+
+  useEffect(() => {
+    if (wsData && wsData.msgId && wsData.type) {
+      console.log(wsData)
+      setUnReadNum(unReadNum+1)
+    }
+  }, [wsData])
+
+
   return (
     <>
       {/* <Header style={{ padding: 0, background: colorBgContainer }}> */}
@@ -101,11 +134,11 @@ export default function TopHeader() {
         <div className={styles.user_head_container}>
           <Space>
             <CusColor/>
-           <div className={ styles.ring_container }  onClick={() => setChatRoomStatus(true)}>
-           <Badge count={5}>
-               <BellOutlined  className={ styles.messageTips } style={{ color: 'white' }} />
-            </Badge>
-           </div>
+            {
+              userInfo.userType === 1 ?  <div className={ styles.ring_container }  onClick={() => openChatRoom()}><Badge count={(unReadNum as any)}>
+              <BellOutlined  className={ styles.messageTips } style={{ color: 'white' }} />
+           </Badge> </div>: null
+            }
           </Space>
           <Dropdown menu={{ items }} placement="bottom">
             <a onClick={(e) => e.preventDefault()}>

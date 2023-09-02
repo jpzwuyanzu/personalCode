@@ -119,7 +119,7 @@ const useWebSocket = (url: string, info: any) => {
     useEffect(() => {
         if (!url) return
         console.log('0-0-0-0-')
-        createWebSocket()
+        if(userInfo.userType === 1) createWebSocket()
     }, [url])
 
     return [createWebSocket, wsRef.current, wsData]

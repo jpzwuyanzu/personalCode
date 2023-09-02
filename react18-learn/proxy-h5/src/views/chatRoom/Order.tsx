@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, memo } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Card, Dialog, Toast } from 'antd-mobile'
 import { loadCusOrderDetail, changeOrderStatus } from './../../api/index'
@@ -8,20 +8,22 @@ import { useAppDispatch, useAppSelector } from './../../hooks/redux-hook'
 import { switchState } from './../../store/order.slice'
 import styles from './Order.module.scss'
 
-const Order = ()=>  {
-  /**
-   * orderStatus: 
-   * 0: 进行中订单，可以取消
-   * 1: 已关闭， 按钮不可以点击
-   * 2: 充值成功， 不可以点击
-   */
+interface IProp {
+  orderStatusP: any
+  orderInfoP: any
+}
+
+const Order = memo(({orderStatusP, orderInfoP}: IProp)=>  {
+
+  console.log(orderStatusP)
+  console.log(orderInfoP)
   const orderStateCache = useAppSelector((state: any) => state.updateState.status)
   const { pathname, search } = useLocation();
   const searchParams = new URLSearchParams(search);
-  const [orderStatus, setOrderStatus] = useState<any>();
+  const [orderStatus, setOrderStatus] = useState<any>(Number(orderStatusP));
   const [orderNum, setOrderNum] = useState<any>(searchParams.get('orderNumber'));
   const [actAmount, setActAmount] = useState<any>(Number(searchParams.get('orderAmount')));
-  const [orderInfo, setOrderInfo] = useState<any>({});
+  const [orderInfo, setOrderInfo] = useState<any>(orderInfoP);
   const dispatch = useAppDispatch()
 
   const loadOrderDetail = async() => {
@@ -40,19 +42,20 @@ const Order = ()=>  {
   }
 
   const handleOrderBtn = async () => {
-    if(orderStatus === 2) {
+    if(orderStatusP === 2) {
+
      const result = await Dialog.confirm({
         content: '确定【取消订单】吗?',
       })
       if (result) {
-        const res: any = await changeOrderStatus({merchantOrderId: orderInfo.merchantOrderId, payStatus: 4})
+        const res: any = await changeOrderStatus({merchantOrderId: orderInfoP.merchantOrderId, payStatus: 4})
         console.log(res)
         if(res && res.code === 200) {
           dispatch(switchState({status: true}))
-          setOrderStatus(4)
+          // setOrderStatus(4)
         }
         //在这里做取消订单的操作
-        setOrderStatus(3)
+        // setOrderStatus(3)
         setActAmount('')
         Toast.show({ content: '订单已取消', position: 'bottom' })
       }
@@ -60,7 +63,7 @@ const Order = ()=>  {
   }
 
   useEffect(() => {
-    loadOrderDetail()
+    // loadOrderDetail()
   },[])
 
 
@@ -80,21 +83,21 @@ const Order = ()=>  {
             </div>
             <div className={ styles.detail_item }>
               <span className={ styles.label }>创建时间:</span>
-              <span className={ styles.info }>{dayjs(orderInfo.ms).format("YYYY-MM-DD HH:mm:ss")}</span>
+              <span className={ styles.info }>{dayjs(orderInfoP.ms).format("YYYY-MM-DD HH:mm:ss")}</span>
             </div>
             {
-              orderInfo.finishTime ?  <div className={ styles.detail_item }>
+              orderInfoP.finishTime ?  <div className={ styles.detail_item }>
               <span className={ styles.label }>结束时间:</span>
-              <span className={ styles.info }>{orderInfo.finishTime}</span>
+              <span className={ styles.info }>{orderInfoP.finishTime}</span>
             </div> : null
             }
             <div className={ styles.detail_item }>
               <span className={ styles.label }>商品类型:</span>
-              <span className={ styles.info }>{orderInfo.orderType === 1 ? '游戏充值' : (orderInfo.orderType === 2 ? '会员充值' : '金币充值')}</span>
+              <span className={ styles.info }>{orderInfoP.orderType === 1 ? '游戏充值' : (orderInfoP.orderType === 2 ? '会员充值' : '金币充值')}</span>
             </div>
             <div className={ styles.detail_item }>
               <span className={ styles.label }>支付方式:</span>
-              <span className={ styles.info }>{orderInfo.payCode === 'WX_PAY' ? '微信支付' : (orderInfo.payCode === 'ALI_PAY' ? '支付宝' : '银联支付')}</span>
+              <span className={ styles.info }>{orderInfoP.payCode === 'WX_PAY' ? '微信支付' : (orderInfoP.payCode === 'ALI_PAY' ? '支付宝' : '银联支付')}</span>
             </div>
             <div className={ styles.detail_item }>
               <span className={ styles.label }>订单金额:</span>
@@ -106,13 +109,13 @@ const Order = ()=>  {
       {/* 按钮模块 */}
       <div className={ styles.order_btns }>
         <div className={ styles.btns_group }>
-          <div className={ styles.left_part }>实付金额:&nbsp;<span>{ orderStatus === 1 || orderStatus === 2 ? '¥' + (Number(actAmount)/100).toFixed(2) : '/' }</span></div>
-          <div className={ orderStatus === 2 ? styles.right_part : styles.disBtn } onClick={handleOrderBtn}>{ orderStatus === 2 ? '取消订单' : (orderStatus === 1 ? '充值成功' : '已关闭') }</div>
+          <div className={ styles.left_part }>实付金额:&nbsp;<span>{ orderStatusP === 1 || orderStatusP === 2 ? '¥' + (Number(actAmount)/100).toFixed(2) : '/' }</span></div>
+          <div className={ orderStatusP === 2 ? styles.right_part : styles.disBtn } onClick={handleOrderBtn}>{ orderStatusP === 2 ? '取消订单' : (orderStatusP === 1 ? '充值成功' : '已关闭') }</div>
         </div>
       </div>
     </div>
   )
-} 
+}) 
 
 
 export default Order

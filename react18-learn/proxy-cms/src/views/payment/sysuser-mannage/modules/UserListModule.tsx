@@ -54,6 +54,7 @@ export default function UserListModule({
   const [choosedRole, setChoosedRole] = useState<any>('');
 
   const saveUploadImgUrl = (url: string) => {
+    console.log(url)
     setFastUrl(url)
   }
 
@@ -81,8 +82,9 @@ export default function UserListModule({
             name: (userInfo as any).name,
             username: (userInfo as any).username,
             roleid: (userInfo as any).rolesList,
-            status: (userInfo as any).status,
-            openStatus: (userInfo as any).openStatus,
+            status: (userInfo as any).status === 1 ? true : false,
+            openStatus: (userInfo as any).openStatus === 1 ? true : false,
+            sayStatus:(userInfo as any).sayStatus === 1 ? true : false,
             seq: (userInfo as any).seq,
             fakeOrderCount: (userInfo as any).fakeOrderCount,
             manageId: (userInfo as any).manageId.length ? (userInfo as any).manageId.split(',') : '',
@@ -98,6 +100,7 @@ export default function UserListModule({
             password: "",
             status: true,
             openStatus: true,
+            sayStatus: true,
             seq: 0,
             fakeOrderCount: 0,
             manageId: [],
@@ -111,9 +114,11 @@ export default function UserListModule({
   };
 
   const confirmEditUser = async () => {
+    console.log(fastUrl)
     userForm
       ?.validateFields()
       .then(async (values) => {
+        console.log(values)
         if (Object.keys(userInfo).length) {
           const res: any = await createUser({
             rolesList: values.roleid,
@@ -122,11 +127,12 @@ export default function UserListModule({
             name: values.name,
             id: userInfo.id,
             openStatus: Boolean(values.openStatus) ? 1 : 2,
+            sayStatus: Boolean(values.sayStatus) ? 1 : 2,
             seq: values.seq,
             fakeOrderCount: values.fakeOrderCount,
             manageId: values.manageId ? values.manageId.join(',') : '',
               payType: values.payType ? values.payType.join(',') : '',
-            headImage: fastUrl ? fastUrl : ''
+            headImage: fastUrl ? fastUrl : (userInfo as any).headImage
           });
           if (res && res.code && res.code === 200) {
             (closeDrawer as any)();
@@ -153,6 +159,7 @@ export default function UserListModule({
               username: values.username,
               status: Boolean(values.status) ? 1 : 2,
               openStatus: Boolean(values.openStatus) ? 1 : 2,
+              sayStatus: Boolean(values.sayStatus) ? 1 : 2,
               password: MD5(values.password),
               name: values.name,
               seq: values.seq,
@@ -231,6 +238,7 @@ export default function UserListModule({
           initialValues={{
             status: true,
             openStatus: true,
+            sayStatus: true,
             fakeOrderCount: 0,
             seq: 0
           }}
@@ -376,6 +384,16 @@ export default function UserListModule({
           <Row>
             <Col span={24}>
               <Form.Item name="openStatus" label="营业状态" valuePropName="checked">
+                <Switch
+                  checkedChildren={<CheckOutlined />}
+                  unCheckedChildren={<CloseOutlined />}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24}>
+              <Form.Item name="sayStatus" label="代理聊天功能" valuePropName="checked">
                 <Switch
                   checkedChildren={<CheckOutlined />}
                   unCheckedChildren={<CloseOutlined />}

@@ -86,9 +86,9 @@ export default function CusSettingModule({
           }
         } else {
           const res: any = await updateQuickFeedBack({
-            content: "",
+            content: values.content,
             status: 1,
-            seq: 0,
+            seq: values.seq,
           });
           if (res && res.code && res.code === 200) {
             (closeDrawer as any)();

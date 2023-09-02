@@ -5,11 +5,11 @@
     width: 100%;
     box-sizing: border-box;
     border: 1px solid #e7e2e2;
-    height: 700px;
+    height: 650px;
 
     .chatRoom_left_contact {
         width: 15%;
-        height: 700px;
+        height: 650px;
 
         // height: 80%;
         .concat_container {
@@ -22,7 +22,7 @@
                 background-color: #f5f0f0;
                 box-sizing: border-box;
                 border-top: 1px solid #e7e2e2;
-
+                border-bottom: 1px solid #e7e2e2;
                 .concat_top_title {
                     text-align: center;
                     display: flex;
@@ -68,11 +68,9 @@
                         }
                     }
                 }
-
                 .activeConcat {
                     background: #00B96B;
                 }
-
                 .concat_title_info {
                     display: flex;
                     flex-direction: row;
@@ -80,18 +78,17 @@
                     align-items: center;
                     padding-right: 10px;
                     position: relative;
-
                     .concat_name {
                         color: #00000073;
-                        width: 50%;
                         white-space: nowrap;
-                        text-overflow: ellipsis;
+                        width: 50%;
                         overflow: hidden;
+                        text-overflow: ellipsis;
                     }
-
                     .concat_time {
                         color: #00000073;
                         font-size: 13px;
+                        white-space: nowrap;
                     }
                 }
             }
@@ -101,7 +98,7 @@
 
     .chatRoom_right_content {
         width: 55%;
-        height: 700px;
+        height: 650px;
         // height: 80%;
         box-sizing: border-box;
         background-color: #f6f7fb;
@@ -116,12 +113,12 @@
             padding: 0 10px;
             height: 64px;
             border-bottom: 1px solid #e7e2e2;
-            border-top: 1px solid #e7e2e2;
             box-sizing: border-box;
+            border-top: 1px solid #e7e2e2;
         }
 
         .message_wrapper {
-            height: calc(100% - 234px);
+            height: calc(100% - 64px);
             overflow-y: scroll;
             // overflow: hidden;
             padding: 10px 10px;
@@ -310,179 +307,170 @@
         }
 
         .send_message {
+            height: 60px;
             display: flex;
-            height: 170px;
-            flex-direction: column;
+            flex-direction: row;
             align-items: center;
-            justify-content: flex-start;
-            // padding: 0 20px;
+            justify-content: center;
+            padding: 0 20px;
             border-top: 1px solid #e7e2e2;
             box-sizing: border-box;
-            border-bottom: 1px solid #e7e2e2;
-            padding-top: 3px;
 
-            .top_message_input {
-                width: 100%;
+            .fastMessage {
+                width: 40px;
+                height: 40px;
+                background: url('../../assets/imgs/fastMessage.png') no-repeat center;
+                background-size: cover;
+                cursor: pointer;
+            }
+            .quickPaytype {
+                width: 40px;
+                height: 40px;
+                font-size: 35px;
                 display: flex;
                 flex-direction: row;
                 align-items: center;
-                justify-content: flex-end;
-                height: 40px;
-                padding: 0 20px;
-                box-sizing: border-box;
+                justify-content: center;
+                color: #b3b9c8;
+                margin: 0 10px;
+                cursor: pointer;
+            }
 
-                .fastMessage {
-                    width: 40px;
-                    height: 40px;
-                    background: url('../../assets/imgs/fastMessage.png') no-repeat center;
-                    background-size: cover;
+            .uploadMessageImg {
+                font-size: 30px;
+                color: #b3b9b8;
+                font-weight: bold;
+                margin: 0px 18px;
+                cursor: pointer;
+                position: relative;
+
+                .uploader_file {
+                    width: 100%;
+                    height: 100%;
+                    display: block;
+                    opacity: 0;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    padding: 0;
                     cursor: pointer;
-                }
-
-                .quickPaytype {
-                    width: 40px;
-                    height: 40px;
-                    font-size: 35px;
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    justify-content: center;
-                    color: #b3b9c8;
-                    margin: 0 10px;
-                    cursor: pointer;
-                }
-
-                .uploadMessageImg {
-                    font-size: 38px;
-                    color: #b3b9b8;
-                    font-weight: bold;
-                    margin: 0px 18px;
-                    margin-left: 25px;
-                    cursor: pointer;
-                    position: relative;
-
-                    .uploader_file {
-                        width: 100%;
-                        height: 100%;
-                        display: block;
-                        opacity: 0;
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        padding: 0;
-                        cursor: pointer;
-                    }
                 }
             }
 
-            .bottom_message_input {
-                width: 100%;
-                display: flex;
-                position: relative;
-                padding-top: 10px;
-                .messageInput {
-                   width: 100%;
-
-                    .message_insert {
-                        width: 100%;
-                        border: none;
-                    }
-
-                    .faceIcon {}
+            .messageInput {
+                .message_insert {
+                    width: 580px;
                 }
 
-                .messageSendBtn {
-                    position: absolute;
-                    right: 10px;
-                    bottom: 10px;
-                    width: 40px;
-                    height: 40px;
-                    background: url('./../../assets/imgs/sendMessage.png') no-repeat center;
-                    background-size: cover;
-                    overflow: hidden;
-                    cursor: pointer;
-                    margin-left: 25px;
-                }
+                .faceIcon {}
+            }
+
+            .messageSendBtn {
+                width: 40px;
+                height: 40px;
+                background: url('./../../assets/imgs/sendMessage.png') no-repeat center;
+                background-size: cover;
+                overflow: hidden;
+                cursor: pointer;
+                margin-left: 25px;
             }
         }
     }
 
     .chatRoom_right_info {
         width: 30%;
-        height: 700px;
+        height: 650px;
         // height: 80%;
         box-sizing: border-box;
         padding: 30px 10px 0px;
-        // overflow-y: scroll;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-
-        .user_info_item {
-            height: 28%;
-            display: flex;
-            flex-direction: row;
-
-            .userInfo_detail {
-                display: flex;
-                flex-direction: row;
-                flex-wrap: wrap;
-
-                .detailInfo_item {
-                    width: 50%;
+       .right_info_tab_container {
+        width: 21%;
+        margin: 0 auto;
+        height: 62px;
+        overflow: hidden;
+       }
+       .text_message_result {
+            padding: 0 10px;
+            height: calc(100% - 92px);
+            overflow: hidden;
+            box-sizing: border-box;
+            .message_search_input {
+             height: 32px;
+             overflow: hidden;
+            }
+            .message_result_container {
+                height: calc(100% - 52px);
+                padding: 20px 0px;
+                box-sizing: border-box;
+                overflow-y: scroll;
+                .message_result_item {
                     display: flex;
                     flex-direction: row;
-                    align-items: center;
-                    flex-wrap: nowrap;
+                    border: 1px solid #ccc;
+                    padding: 10px;
+                    box-sizing: border-box;
+                    border-radius: 10px;
+                    margin-bottom: 10px;
+                    cursor: pointer;
+                    .msg_result_avator {
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                    }
+                    .result_right_part {
+                        padding-left: 10px;
+                        flex: 1;
+                        box-sizing: border-box;
+                        .result_top_line {
+                            width: 100%;
+                            box-sizing: border-box;
+                            display: flex;
+                            flex-direction: row;
+                            justify-content: space-between;
+                            padding: 5px;
+                        }
+                    }
+                    .msg_result_content {
+                        min-height: 40px;
+                        height: auto;
+                        padding: 5px;
+                        color: #969696;
+                    }
                 }
             }
-
-            .userRemark {
+       }
+       .img_text_result {
+        height: calc(100% - 92px);
+        box-sizing: border-box;
+        overflow-y: scroll;
+        .img_text_item {
+            margin-bottom: 10px;
+            .his_img_time {
                 display: flex;
                 flex-direction: row;
                 align-items: center;
-
-                .remarkOperations {
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    padding-left: 10px;
-
-                    .cancel_remark {
-                        margin-right: 3px;
-                    }
+                justify-content: center;
+                margin-bottom: 10px;
+                .his_img_time_bg {
+                    padding: 3px 15px;
+                    border-radius: 15px;
+                    background: #939aa4;
+                    color: #fff;
                 }
             }
-        }
-
-        .userOrder_item {
-            height: 46%;
-            margin-top: 30px;
-
-            .order_info_part {
-                padding-top: 10px;
-
-                .order_itm {
-                    display: flex;
-                    flex-direction: row;
-                    padding: 4px 5px;
-
-                    .user_OrderStatus {
-                        color: #00b96b;
-                        white-space: nowrap;
-                        display: flex;
-                        flex-direction: row;
-                    }
-                }
-            }
-
-            .order_operatorBtns {
+            .img_text_group {
                 display: flex;
                 flex-direction: row;
                 justify-content: flex-start;
-                padding-top: 20px;
+                flex-wrap: wrap;
+                .his_img {
+                    margin: 10px;
+                    width: 85px;
+                    height: 85px;
+                }
             }
         }
+       }
     }
 }
 
@@ -528,16 +516,14 @@
     justify-content: flex-start;
     flex-wrap: nowrap;
     width: 100px;
-    padding: 5px 0;
+    padding: 5px 0 ;
     cursor: pointer;
-
     .payType_img {
         width: 20px;
         height: 20px;
         object-fit: contain;
-        margin-right: 10px;
+        margin-right: 10px;        
     }
-
     .payType_name {
         display: inline-block;
         height: 100%;

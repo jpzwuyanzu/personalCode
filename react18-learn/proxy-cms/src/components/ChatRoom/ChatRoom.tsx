@@ -69,6 +69,8 @@ interface UserItem {
   };
 }
 
+const { TextArea } = Input;
+
 const ChatRoom = () => {
   //消息列表
   /**
@@ -76,7 +78,10 @@ const ChatRoom = () => {
    */
   const naviagte = useNavigate();
   const userInfo = useAppSelector((state: any) => state.user.userInfo);
-  const [createWebSocket, ws, wsData] = useWebSocket(`ws://172.28.113.248:10086/webSocket`,{});
+  const [createWebSocket, ws, wsData] = useWebSocket(
+    `ws://172.28.113.248:10086/webSocket`,
+    {}
+  );
   const [cusList, setCusList] = useState<any[]>([]); // 左侧联系人列表
   const [chatUserIndex, setChatUserIndex] = useState<any>(); // 左侧用户列表选中项
   const [fastImgUrl, setFastImgUrl] = useState("");
@@ -100,7 +105,33 @@ const ChatRoom = () => {
   //快捷回复事件
   const handleQuickMessage = (msg: string) => {
     setInputMessage(msg);
-    inputMessageRef.current?.focus();
+    // inputMessageRef.current?.focus();
+    let temp: any = [...messageList];
+    let insertMsg: any = {
+      fromUserId: `AGENT_${userInfo.id}`, //userInfo.id
+      fromUserName: userInfo.name,
+      toUserName: cusList[chatUserIndex]["fromUserName"],
+      toUserId: cusList[chatUserIndex]["fromUserId"],
+      icon: userInfo.headImage,
+      content: msg,
+      msgType: 0,
+      type: 1,
+      time: new Date().getTime(),
+      orderNumber: cusList[chatUserIndex]["orderNumber"],
+      orderAmount: cusList[chatUserIndex]["orderAmount"],
+      orderType: "",
+      createOrder: 0,
+      msgId: uuidv4(),
+    };
+    ws.send(
+      JSON.stringify({
+        handType: "3",
+        message: insertMsg,
+      })
+    );
+    temp.push(insertMsg);
+    setMessageList(temp);
+    setInputMessage("");
   };
 
   //获取快捷回复列表
@@ -304,55 +335,62 @@ const ChatRoom = () => {
   //发送指定的支付方式类型给用户
   const sendPayTypeMessage = (itm: any) => {
     console.log(itm);
+    let temp: any = [...messageList];
+    let insertMessage: any = {
+      chatIndex: uuidv4(),
+      fromUserId: `AGENT_${userInfo.id}`, //userInfo.id
+      fromUserName: userInfo.name,
+      toUserName: cusList[chatUserIndex]["fromUserName"],
+      toUserId: cusList[chatUserIndex]["fromUserId"],
+      content: JSON.stringify([
+        {
+          agentId: userInfo.id,
+          agentName: userInfo.name,
+          amountList: itm.amountList,
+          bankAccount: itm.bankAccount,
+          bankName: itm.bankName,
+          bankNo: itm.bankNo,
+          id: itm.id,
+          jumpType: itm.jumpType,
+          maxAmount: itm.maxAmount,
+          minAmount: itm.minAmount,
+          payCode: itm.payCode,
+          payImage: itm.payImage,
+          payName: itm.payName,
+          requestTimeStamp: itm.requestTimeStamp,
+          seq: itm.seq,
+          status: itm.status,
+          updateTime: itm.updateTime,
+        },
+      ]),
+      orderNumber: cusList[chatUserIndex]["orderNumber"],
+      amount: cusOrderInfo.amount,
+      msgId: uuidv4(),
+      type: 4,
+    }
     ws.send(
       JSON.stringify({
         handType: "3",
-        message: JSON.stringify({
-          chatIndex: uuidv4(),
-          fromUserId: `AGENT_${userInfo.id}`, //userInfo.id
-          fromUserName: userInfo.name,
-          toUserName: cusList[chatUserIndex]["fromUserName"],
-          toUserId: cusList[chatUserIndex]["fromUserId"],
-          content: JSON.stringify([
-            {
-              agentId: userInfo.id,
-              agentName: userInfo.name,
-              amountList: itm.amountList,
-              bankAccount: itm.bankAccount,
-              bankName: itm.bankName,
-              bankNo: itm.bankNo,
-              id: itm.id,
-              jumpType: itm.jumpType,
-              maxAmount: itm.maxAmount,
-              minAmount: itm.minAmount,
-              payCode: itm.payCode,
-              payImage: itm.payImage,
-              payName: itm.payName,
-              requestTimeStamp: itm.requestTimeStamp,
-              seq: itm.seq,
-              status: itm.status,
-              updateTime: itm.updateTime,
-            },
-          ]),
-          msgId: uuidv4(),
-          type: 4,
-        }),
+        message: JSON.stringify(insertMessage),
       })
     );
-    message.open({
-      type: "success",
-      content: "支付方式发送成功",
-      className: "custom-class",
-      style: {
-        marginTop: "20vh",
-        fontSize: "20px",
-      },
-    });
+    temp.push(insertMessage);
+    setMessageList(temp);
+    // message.open({
+    //   type: "success",
+    //   content: "支付方式发送成功",
+    //   className: "custom-class",
+    //   style: {
+    //     marginTop: "20vh",
+    //     fontSize: "20px",
+    //   },
+    // });
   };
 
   //enter发送消息
   const handleEnterKey = (e: any) => {
     console.log(e);
+    e.preventDefault();
     if (e.nativeEvent.keyCode === 13 && inputMessage) {
       handleMessageSend(0);
     }
@@ -464,7 +502,14 @@ const ChatRoom = () => {
       //code: 1:代表聊天记录 2:代表新增的联系人
     } else if (wsData && wsData.code === 1) {
       console.log(wsData);
-      setMessageList(wsData.list);
+      let temp = wsData.list;
+      temp.forEach((itm: any, inx: any) => {
+        if (itm.type === 4) {
+          itm.content = itm.content.split(".com/")[1];
+        }
+      });
+      // setMessageList(wsData.list);
+      setMessageList(temp);
     } else if (wsData && wsData.code === 2) {
       console.log(cusList);
       console.log(wsData);
@@ -566,6 +611,7 @@ const ChatRoom = () => {
                       avatar={
                         <Avatar
                           src={`${ossImgUrl}agent/20230831/ff151b8e0d0143a28af70413afce72cd.abc`}
+                          style={{ width: "40px", height: "40px" }}
                         />
                       }
                       title={<span>{item.fromUserName}</span>}
@@ -582,84 +628,130 @@ const ChatRoom = () => {
             <div className={styles.message_wrapper}>
               <div className={styles.message_content}>
                 {messageList &&
-                  messageList.map((itm: any, inx) => (
-                    <div
-                      className={styles.messageList_item}
-                      key={itm.msgId + "" + itm.type + "" + itm.time}
-                    >
-                      {itm.type === 1 ? (
-                        <div className={styles.cusMessage_container}>
-                          <div className={styles.cusMessage_item}>
-                            {itm.msgType === 0 ? (
-                              <div className={styles.cus_textMessage}>
-                                {itm.content}
-                                <span className={styles.cusMessage_time}>
-                                  {dayjs(itm.time).format("MM-DD HH:mm:ss")}
-                                </span>
-                              </div>
-                            ) : (
-                              <div className={styles.cus_imgMessage}>
-                                <Image
-                                  width={150}
-                                  height={150}
-                                  src={
-                                    itm.content.indexOf("http") !== -1
-                                      ? itm.content
-                                      : userInfo.fastUrl + itm.content
-                                  }
-                                />
-                                <span className={styles.cusMessage_time}>
-                                  {dayjs(itm.time).format("MM-DD HH:mm:ss")}
-                                </span>
-                              </div>
-                            )}
-                            <img
-                              className={styles.cus_msgIcon}
-                              src={
-                                itm.icon.indexOf("http") !== -1
-                                  ? itm.icon
-                                  : userInfo.fastUrl + itm.icon
-                              }
-                              alt=""
-                            />
+                  messageList.map((itm: any, inx) => {
+                    switch (itm.type) {
+                      case 1:
+                        return (
+                         <div className={ styles.messageList_item } key={itm.msgId}>
+                           <div className={styles.cusMessage_container} >
+                            <div className={styles.cusMessage_item}>
+                              {itm.msgType === 0 ? (
+                                <div className={styles.cus_textMessage}>
+                                  {itm.content}
+                                  <span className={styles.cusMessage_time}>
+                                    {dayjs(itm.time).format("MM-DD HH:mm:ss")}
+                                  </span>
+                                </div>
+                              ) : (
+                                <div className={styles.cus_imgMessage}>
+                                  <Image
+                                    width={150}
+                                    height={150}
+                                    src={
+                                      itm.content.indexOf("http") !== -1
+                                        ? itm.content
+                                        : userInfo.fastUrl + itm.content
+                                    }
+                                  />
+                                  <span className={styles.cusMessage_time}>
+                                    {dayjs(itm.time).format("MM-DD HH:mm:ss")}
+                                  </span>
+                                </div>
+                              )}
+                              <img
+                                className={styles.cus_msgIcon}
+                                src={
+                                  itm.icon.indexOf("http") !== -1
+                                    ? itm.icon
+                                    : userInfo.fastUrl + itm.icon
+                                }
+                                alt=""
+                              />
+                            </div>
                           </div>
-                        </div>
-                      ) : (
-                        <div className={styles.userMessage_container}>
-                          <div className={styles.userMessage_item}>
-                            <img
-                              className={styles.user_msgIcon}
-                              src={itm.icon}
-                              alt=""
-                            />
-                            {itm.msgType === 0 ? (
-                              <div className={styles.user_textMessage}>
-                                {itm.content}
-                                <span className={styles.userMessage_time}>
-                                  {dayjs(itm.time).format("MM-DD HH:mm:ss")}
-                                </span>
-                              </div>
-                            ) : (
-                              <div className={styles.user_imgMessage}>
-                                <Image
-                                  width={150}
-                                  height={150}
-                                  src={
-                                    itm.content.indexOf("http") !== -1
-                                      ? itm.content
-                                      : userInfo.fastUrl + itm.content
-                                  }
-                                />
-                                <span className={styles.userMessage_time}>
-                                  {dayjs(itm.time).format("MM-DD HH:mm:ss")}
-                                </span>
-                              </div>
-                            )}
+                         </div>
+                        );
+                        break;
+                      case 2:
+                        return (
+                          <div className={ styles.messageList_item } key={itm.msgId}>
+                          <div className={styles.userMessage_container}>
+                            <div className={styles.userMessage_item}>
+                              <img
+                                className={styles.user_msgIcon}
+                                src={itm.icon}
+                                alt=""
+                              />
+                              {itm.msgType === 0 ? (
+                                <div className={styles.user_textMessage}>
+                                  {itm.content}
+                                  <span className={styles.userMessage_time}>
+                                    {dayjs(itm.time).format("MM-DD HH:mm:ss")}
+                                  </span>
+                                </div>
+                              ) : (
+                                <div className={styles.user_imgMessage}>
+                                  <Image
+                                    width={150}
+                                    height={150}
+                                    src={
+                                      itm.content.indexOf("http") !== -1
+                                        ? itm.content
+                                        : userInfo.fastUrl + itm.content
+                                    }
+                                  />
+                                  <span className={styles.userMessage_time}>
+                                    {dayjs(itm.time).format("MM-DD HH:mm:ss")}
+                                  </span>
+                                </div>
+                              )}
+                            </div>
                           </div>
-                        </div>
-                      )}
-                    </div>
-                  ))}
+                          </div>
+                        );
+                      case 4:
+                        console.log(JSON.parse(itm.content));
+                        return (
+                          <div className={ styles.messageList_item } key={itm.msgId}>
+                          <div className={styles.recharge_type_message}>
+                            <div className={styles.recharge_info_line}>
+                              待支付金额：¥100
+                            </div>
+                            <div className={styles.recharge_info_label}>
+                              请选择您的支付方式
+                            </div>
+                           {
+                            JSON.parse(itm.content).map((_:any,i:any) => (
+                              <div className={styles.recharge_type_list} key={_.id}>
+                              <div className={styles.type_item}>
+                                <img
+                                  className={styles.recharge_type_img}
+                                  src={
+                                    _.payCode === "WX_PAY"
+                                      ? WX_PAY
+                                      : _.payCode === "ALI_PAY"
+                                      ? ALI_PAY
+                                      : UNION_PAY
+                                  }
+                                  alt=""
+                                />
+                                <div className={styles.recharge_type_name}>
+                                  {_.payName}
+                                </div>
+                              </div>
+                            </div>
+                            ))
+                           }
+                            <div className={styles.type_message_time}>
+                            {dayjs(itm.time).format("MM-DD HH:mm:ss")}
+                            </div>
+                          </div>
+                          </div>
+                        );
+                      default:
+                        break;
+                    }
+                  })}
                 {/* 这里需要区分几种不同的消息格式,图片格式，官方欢迎消息， 支付方式选择，客服消息，用户消息 */}
               </div>
               <div
@@ -668,93 +760,103 @@ const ChatRoom = () => {
               ></div>
             </div>
             <div className={styles.send_message}>
-              <Popover
-                content={
-                  <>
-                    {quickList &&
-                      quickList.length &&
-                      quickList.map((itm: any) => (
-                        <div
-                          onClick={() => handleQuickMessage(itm.content)}
-                          key={itm.id}
-                          style={{ cursor: "pointer" }}
-                        >
-                          {itm.content}
-                        </div>
-                      ))}
-                  </>
-                }
-                placement="topLeft"
-                arrow
-              >
-                {/* <AlipayOutlined className={ styles.quickPaytype }/> */}
-                <div className={styles.fastMessage}></div>
-              </Popover>
-              <div className={styles.uploadMessageImg}>
-                <CameraOutlined style={{ cursor: "pointer" }} />
-                <input
-                  type="file"
-                  accept="image/*"
-                  name="uploader-input"
-                  className={styles.uploader_file}
-                  style={{ cursor: "pointer" }}
-                  ref={inputRef}
-                ></input>
+              <div className={styles.top_message_input}>
+                <Popover
+                  content={
+                    <>
+                      {quickList &&
+                        quickList.length &&
+                        quickList.map((itm: any) => (
+                          <div
+                            onClick={() => handleQuickMessage(itm.content)}
+                            key={itm.id}
+                            style={{ cursor: "pointer" }}
+                          >
+                            {itm.content}
+                          </div>
+                        ))}
+                    </>
+                  }
+                  placement="topLeft"
+                  arrow
+                >
+                  {/* <AlipayOutlined className={ styles.quickPaytype }/> */}
+                  <div className={styles.fastMessage}></div>
+                </Popover>
+                <div className={styles.uploadMessageImg}>
+                  <CameraOutlined style={{ cursor: "pointer" }} />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    name="uploader-input"
+                    className={styles.uploader_file}
+                    style={{ cursor: "pointer" }}
+                    ref={inputRef}
+                  ></input>
+                </div>
+                <Popover
+                  content={
+                    <>
+                      {expayType &&
+                        expayType.length &&
+                        expayType.map((itm: any) => (
+                          <div
+                            key={itm.id}
+                            className={styles.payType_line}
+                            onClick={() => sendPayTypeMessage(itm)}
+                          >
+                            <img
+                              className={styles.payType_img}
+                              src={
+                                itm.payCode === "WX_PAY"
+                                  ? WX_PAY
+                                  : itm.payCode === "ALI_PAY"
+                                  ? ALI_PAY
+                                  : UNION_PAY
+                              }
+                              alt=""
+                            />
+                            <span className={styles.payType_name}>
+                              {itm.payName}
+                            </span>
+                          </div>
+                        ))}
+                    </>
+                  }
+                  placement="topLeft"
+                  arrow
+                >
+                  {/* <AlipayOutlined className={ styles.quickPaytype }/> */}
+                  <AlipayCircleOutlined className={styles.quickPaytype} />
+                </Popover>
               </div>
-              <div className={styles.messageInput}>
-                <Input
-                  ref={inputMessageRef}
-                  size="large"
-                  className={styles.message_insert}
-                  placeholder="请输入消息内容"
-                  value={inputMessage}
-                  onChange={(val: any) => {
-                    console.log(val);
-                    setInputMessage(val.target.value);
-                  }}
-                  onPressEnter={handleEnterKey}
-                />
-                <div className={styles.faceIcon}></div>
+              <div className={styles.bottom_message_input}>
+                <div className={styles.messageInput}>
+                  <TextArea
+                    ref={inputMessageRef}
+                    size="large"
+                    className={styles.message_insert}
+                    rows={4}
+                    placeholder="请输入消息内容"
+                    value={inputMessage}
+                    onChange={(val: any) => {
+                      console.log(val);
+                      setInputMessage(val.target.value);
+                    }}
+                    onPressEnter={handleEnterKey}
+                    disabled={userInfo.sayStatus === 2 ? true : false}
+                  />
+                  <div className={styles.faceIcon}></div>
+                </div>
+                <div
+                  className={styles.messageSendBtn}
+                  onClick={() =>
+                    userInfo.sayStatus === 1
+                      ? handleMessageSend(0)
+                      : console.log("聊天功能已经被禁用")
+                  }
+                ></div>
               </div>
-              <div
-                className={styles.messageSendBtn}
-                onClick={() => handleMessageSend(0)}
-              ></div>
-              <Popover
-                content={
-                  <>
-                    {expayType &&
-                      expayType.length &&
-                      expayType.map((itm: any) => (
-                        <div
-                          key={itm.id}
-                          className={styles.payType_line}
-                          onClick={() => sendPayTypeMessage(itm)}
-                        >
-                          <img
-                            className={styles.payType_img}
-                            src={
-                              itm.payCode === "WX_PAY"
-                                ? WX_PAY
-                                : itm.payCode === "ALI_PAY"
-                                ? ALI_PAY
-                                : UNION_PAY
-                            }
-                            alt=""
-                          />
-                          <span className={styles.payType_name}>
-                            {itm.payName}
-                          </span>
-                        </div>
-                      ))}
-                  </>
-                }
-                placement="topLeft"
-                arrow
-              >
-                {/* <AlipayOutlined className={ styles.quickPaytype }/> */}
-                <AlipayCircleOutlined className={styles.quickPaytype} />
-              </Popover>
             </div>
           </div>
           {/* 用户订单信息 */}

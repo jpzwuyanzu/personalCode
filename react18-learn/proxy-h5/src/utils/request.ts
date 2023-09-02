@@ -36,7 +36,7 @@ service.interceptors.response.use(
             //     location.href=location.origin + "/#/login"
             // }
             //在这里处理错误
-            // Toast(res.msg)
+            Toast.show(res.msg)
         } else {
             Nprogress.done()
             return res

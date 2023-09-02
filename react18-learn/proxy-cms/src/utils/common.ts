@@ -118,9 +118,9 @@ export function getRecentMounth() {
     let end = new Date();
     let year = end.getFullYear();
     let month = end.getMonth() + 1;//0-11表示1-12月
-    let day = end.getDate()+1;
+    let day = end.getDate() + 1;
     let dateObj: any = {};
-    dateObj.end = year + '-' + (month > 9 ? month : '0'+ month) + '-' + (day > 9 ? day : '0'+day);
+    dateObj.end = year + '-' + (month > 9 ? month : '0' + month) + '-' + (day > 9 ? day : '0' + day);
     let endMonthDay = new Date(year, month, 0).getDate();//当前月的总天数
     if (month - 1 <= 0) { //如果是1月，年数往前推一年<br>　　　　
         dateObj.start = (year - 1) + '-' + 12 + '-' + day;
@@ -128,13 +128,44 @@ export function getRecentMounth() {
         let startMonthDay = new Date(year, (parseInt((month as any)) - 1), 0).getDate();
         if (startMonthDay < day) {//1个月前所在月的总天数小于现在的天日期
             if (day < endMonthDay) {//当前天日期小于当前月总天数
-                dateObj.start = year + '-' + ((month - 1) > 9 ? (month - 1) : '0'+(month - 1)) + '-' + ((startMonthDay - (endMonthDay - day)) > 9 ? (startMonthDay - (endMonthDay - day)) : '0'+(startMonthDay - (endMonthDay - day)));
+                dateObj.start = year + '-' + ((month - 1) > 9 ? (month - 1) : '0' + (month - 1)) + '-' + ((startMonthDay - (endMonthDay - day)) > 9 ? (startMonthDay - (endMonthDay - day)) : '0' + (startMonthDay - (endMonthDay - day)));
             } else {
-                dateObj.start = year + '-' + ((month - 1) > 9 ? (month - 1) : '0'+(month - 1)) + '-' + (startMonthDay > 9 ? startMonthDay : '0'+startMonthDay);
+                dateObj.start = year + '-' + ((month - 1) > 9 ? (month - 1) : '0' + (month - 1)) + '-' + (startMonthDay > 9 ? startMonthDay : '0' + startMonthDay);
             }
         } else {
-            dateObj.start = year + '-' + ((month - 1) > 9 ? (month - 1) : '0'+(month - 1)) + '-' + (day > 9 ? day : '0'+day);
+            dateObj.start = year + '-' + ((month - 1) > 9 ? (month - 1) : '0' + (month - 1)) + '-' + (day > 9 ? day : '0' + day);
         }
     }
-    return  [dateObj.start,  dateObj.end]
+    return [dateObj.start, dateObj.end]
+}
+
+//获取近三个月日期
+export function getRecentThreeMounth() {
+    let end = new Date();
+    let year = end.getFullYear();
+    let month: any = end.getMonth() + 1;//0-11表示1-12月
+    let day = end.getDate();
+    let dateObj: any = {};
+    dateObj.end = year + '-' + month + '-' + day;
+    let endMonthDay = new Date(year, month, 0).getDate(); //当前月的总天数
+    if (month - 3 <= 0) { //如果是1、2、3月，年数往前推一年
+        let start3MonthDay = new Date((year - 1), (12 - (3 - parseInt(month))), 0).getDate(); //3个月前所在月的总天数
+        if (start3MonthDay < day) { //3个月前所在月的总天数小于现在的天日期
+            dateObj.start = (year - 1) + '-' + (12 - (3 - month)) + '-' + start3MonthDay;
+        } else {
+            dateObj.start = (year - 1) + '-' + (12 - (3 - month)) + '-' + day;
+        }
+    } else {
+        let start3MonthDay = new Date(year, (parseInt(month) - 3), 0).getDate(); //3个月前所在月的总天数
+        if (start3MonthDay < day) { //3个月前所在月的总天数小于现在的天日期
+            if (day < endMonthDay) { //当前天日期小于当前月总天数,2月份比较特殊的月份
+                dateObj.start = year + '-' + (month - 3) + '-' + (start3MonthDay - (endMonthDay - day));
+            } else {
+                dateObj.start = year + '-' + (month - 3) + '-' + start3MonthDay;
+            }
+        } else {
+            dateObj.start = year + '-' + (month - 3) + '-' + day;
+        }
+    }
+    return [dateObj.start, dateObj.end]
 }

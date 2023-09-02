@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useMemo, useState } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { Tabs, NavBar, Toast,  TextArea, Popup} from "antd-mobile";
 import { CountDown, Dialog, Input } from "react-vant";
@@ -6,6 +6,8 @@ import styles from "./Proxy.module.scss";
 import { addReport,loadCusOrderDetail} from "../../api";
 import { useAppSelector, useAppDispatch } from './../../hooks/redux-hook'
 import { switchState } from './../../store/order.slice'
+import ChatRoom from './Chat'
+import OrderDetail from './Order'
 
 const Proxy = () => {
   const navigate = useNavigate();
@@ -20,7 +22,7 @@ const Proxy = () => {
    * 1: 已关闭， 按钮不可以点击
    * 2: 充值成功， 不可以点击
    */
-  const [orderStatus, setOrderStatus] = useState(2);
+  const [orderStatus, setOrderStatus] = useState<any>(2);
   const [reportInfo, setReportInfo] = useState("");
   const [orderInfo, setOrderInfo] = useState<any>({});
   const orderStateCache = useAppSelector((state: any) => state.updateState.status)
@@ -35,7 +37,6 @@ const Proxy = () => {
     setReportInfo(val)
     reportFactInfo = val
   }
-
 
   const handleCancelReport = () => {
     setReportInfo("")
@@ -109,6 +110,7 @@ const Proxy = () => {
     }
   }
 
+
   useEffect(() => {
     console.log(search);
     setActiveKey(
@@ -151,7 +153,8 @@ const Proxy = () => {
           <Tabs.Tab title="代理订单" key="/chat/order/"></Tabs.Tab>
         </Tabs>
       </div>
-      <div
+      {
+        orderStatus ? <div
         className={
           orderStatus === 3 || orderStatus === 4
             ? styles.order_status_disline
@@ -175,9 +178,17 @@ const Proxy = () => {
         ) : (
           "订单关闭"
         ))}
-      </div>
+      </div> : null
+      }
+      
       <div className={styles.proxy_content}>
-        <Outlet />
+        {/* <Outlet /> */}
+        <div className={ activeKey === '/chat/chatroom/' ? styles.showChatRoom : styles.hideChatRoom }>
+          <ChatRoom/>
+        </div>
+       <div className={ activeKey === '/chat/order/' ? styles.showOrderDetail : styles.hideOrderDetail }>
+       <OrderDetail orderStatusP={orderStatus}  orderInfoP={orderInfo}/>
+       </div>
       </div>
       {/* 举报 */}
       {/* <div className="reportDialog">

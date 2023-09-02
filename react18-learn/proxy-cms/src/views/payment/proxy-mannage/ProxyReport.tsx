@@ -37,10 +37,10 @@ const ProxyReport: React.FC = () => {
     if (temp && temp.length) {
       params["startTime"] = dayjs(new Date(temp[0]).getTime()).format(
         "YYYY-MM-DD"
-      );
+      ) +' 00:00:00';
       params["endTime"] = dayjs(new Date(temp[1]).getTime()).format(
         "YYYY-MM-DD"
-      );
+      ) + ' 23:59:59';
     }
     fetchData(params);
   };
@@ -50,10 +50,10 @@ const ProxyReport: React.FC = () => {
     if (values["createTime"] && values["createTime"].length) {
       values["startTime"] = dayjs(
         new Date(values["createTime"][0]).getTime()
-      ).format("YYYY-MM-DD");
+      ).format("YYYY-MM-DD")+' 00:00:00';
       values["endTime"] = dayjs(
         new Date(values["createTime"][1]).getTime()
-      ).format("YYYY-MM-DD");
+      ).format("YYYY-MM-DD")+ ' 23:59:59';
     } else {
       values["startTime"] = "";
       values["endTime"] = "";
@@ -80,10 +80,10 @@ const ProxyReport: React.FC = () => {
     if (temp && temp.length) {
       params["startTime"] = dayjs(new Date(temp[0]).getTime()).format(
         "YYYY-MM-DD"
-      );
+      )+ ' 00:00:00';
       params["endTime"] = dayjs(new Date(temp[1]).getTime()).format(
         "YYYY-MM-DD"
-      );
+      )+ ' 23:59:59';
     }
     fetchData(params);
   };
@@ -97,10 +97,10 @@ const ProxyReport: React.FC = () => {
       if (temp && temp.length) {
         params["startTime"] = dayjs(new Date(temp[0]).getTime()).format(
           "YYYY-MM-DD"
-        );
+        )+ ' 00:00:00';
         params["endTime"] = dayjs(new Date(temp[1]).getTime()).format(
           "YYYY-MM-DD"
-        );
+        )+ ' 23:59:59';
       }
       fetchData({ page, pageSize, ...params });
     },

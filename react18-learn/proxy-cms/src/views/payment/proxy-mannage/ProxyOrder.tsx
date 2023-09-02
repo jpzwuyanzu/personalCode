@@ -47,9 +47,10 @@ const ProxyOrder: React.FC = () => {
   const initSearchDate = () => {
     let temp: any = searchUserForm.getFieldsValue()["createTime"];
     let params: any = {};
+    console.log(dayjs(new Date(temp[0])).format('YYYY-MM-DD') + ' 00:00:00')
     if (temp && temp.length) {
-      params["startMs"] = new Date(temp[0]).getTime();
-      params["endMs"] = new Date(temp[1]).getTime();
+      params["startMs"] = new Date(dayjs(new Date(temp[0])).format('YYYY-MM-DD') + ' 00:00:00').getTime();
+      params["endMs"] = new Date(dayjs(new Date(temp[1])).format('YYYY-MM-DD') + ' 23:59:59').getTime();
     }
     fetchData(params);
   };
@@ -57,8 +58,8 @@ const ProxyOrder: React.FC = () => {
   const onFinish = (values: any) => {
     console.log(values);
     if (values["createTime"] && values["createTime"].length) {
-      values["startMs"] = new Date(values["createTime"][0]).getTime();
-      values["endMs"] = new Date(values["createTime"][1]).getTime();
+      values["startMs"] = new Date(dayjs(new Date(values["createTime"][0])).format('YYYY-MM-DD') + ' 00:00:00').getTime();
+      values["endMs"] = new Date(dayjs(new Date(values["createTime"][1])).format('YYYY-MM-DD') + ' 23:59:59').getTime();
     } else {
       values["startMs"] = "";
       values["endMs"] = "";
@@ -107,8 +108,8 @@ const ProxyOrder: React.FC = () => {
       let temp: any = searchUserForm.getFieldsValue()["createTime"];
       let params: any = {};
       if (temp && temp.length) {
-        params["startMs"] = new Date(temp[0]).getTime();
-        params["endMs"] = new Date(temp[1]).getTime();
+        params["startMs"] = new Date(dayjs(new Date(temp[0])).format('YYYY-MM-DD') + ' 00:00:00').getTime();
+        params["endMs"] = new Date(dayjs(new Date(temp[1])).format('YYYY-MM-DD') + ' 23:59:59').getTime();
       }
       fetchData({ page, pageSize, ...params });
     },

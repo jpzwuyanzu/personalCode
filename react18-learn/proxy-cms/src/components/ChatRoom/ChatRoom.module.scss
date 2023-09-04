@@ -77,6 +77,9 @@
                 .normalConcat {
                     border-bottom: 1px solid #e7e2e2;
                 }
+                .normalConcat:hover {
+                    background: #ececec;
+                }
                 .activeConcat {
                     background: #00B96B;
                     border-bottom: 1px solid #e7e2e2;
@@ -610,9 +613,10 @@
     align-items: center;
     justify-content: flex-start;
     flex-wrap: nowrap;
-    width: 100px;
-    padding: 5px 0;
+    width: 150px;
+    padding: 5px 5px;
     cursor: pointer;
+    border-radius: 10px;
 
     .payType_img {
         width: 20px;
@@ -624,11 +628,14 @@
     .payType_name {
         display: inline-block;
         height: 100%;
-        width: 80px;
+        width: 120px;
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
     }
+}
+.payType_line:hover {
+    background: #ececec;
 }
 
 .quickBack_Pop {
@@ -636,4 +643,8 @@
     padding: 3px 5px;
     width: 160px;
     margin-bottom: 4px;
+    border-radius: 10px;
+}
+.quickBack_Pop:hover {
+    background: #ececec;
 }

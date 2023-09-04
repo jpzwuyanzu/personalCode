@@ -101,7 +101,7 @@ const CusSetting: React.FC = () => {
       dataIndex: "id",
       key: "id",
       align: "center",
-      render: (text: any) => <a>{text}</a>,
+      render: (text: any) => <span>{text}</span>,
     },
     {
       title: "回复内容",
@@ -118,7 +118,7 @@ const CusSetting: React.FC = () => {
           | React.ReactPortal
           | null
           | undefined
-      ) => <a>{text}</a>,
+      ) => <span>{text}</span>,
     },
     {
       title: "排序",

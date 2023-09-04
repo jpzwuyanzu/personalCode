@@ -49,7 +49,7 @@ const Proxy = () => {
       let res: any = await addReport({
         playerId: searchParams.get("fromUserId"),
         playerName: searchParams.get("fromUserName"),
-        agentId: searchParams.get("fromUserName")?.split('_')[1],
+        agentId: searchParams.get("toUserId")?.split('_')[1],
         agentName: searchParams.get("toUserName"),
         content: reportFactInfo,
       });

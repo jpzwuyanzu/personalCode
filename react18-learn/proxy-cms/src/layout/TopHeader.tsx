@@ -71,7 +71,10 @@ export default function TopHeader() {
     console.log(res)
     if(res && res.code === 200) {
       if(res.data.chat.length) {
-        setChatRoomStatus(true)
+        // setChatRoomStatus(true)
+        //直接跳转客服页面，同时将未读数字设置为0
+        setUnReadNum(0)
+        navigate('/payment/cusroom')
       } else {
         message.open({
           type: "success",

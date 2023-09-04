@@ -463,10 +463,13 @@
                 flex-direction: row;
                 justify-content: flex-start;
                 flex-wrap: wrap;
+                background: #ececec;
+                border-radius: 10px;
                 .his_img {
                     margin: 10px;
                     width: 85px;
                     height: 85px;
+                    cursor: pointer;
                 }
             }
         }

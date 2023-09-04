@@ -18,12 +18,12 @@ const ossImgUrl = "https://hk-jmcy.oss-cn-hongkong.aliyuncs.com/";
 
 const rightTabList: any = [
   {
-    key: "1",
+    key: 0,
     label: "消息",
     children: [],
   },
   {
-    key: "2",
+    key: 1,
     label: "图片",
     children: [],
   },
@@ -42,7 +42,7 @@ const ChatRoom = memo(() => {
   const [messageList, setMessageList] = useState<any[]>([]);
   const [messageResult, setMessageResult] = useState<any>([]);
   const [contentKey, setContentKey] = useState<any>("");
-  const [activeTab, setActiveTab] = useState("1");
+  const [activeTab, setActiveTab] = useState<any>(0);
   const listEndRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
@@ -118,7 +118,9 @@ const ChatRoom = memo(() => {
     playerId: any,
     content: any
   ) => {
-    if (content) {
+    console.log(activeTab, content)
+    console.log(messageResult)
+    if ((activeTab === 0 && content) || activeTab === 1 && !content) {
       const initDate: any = getRecentThreeMounth();
       const res: any = await loadChatRecordHistory({
         chatGroup: 2,
@@ -133,10 +135,35 @@ const ChatRoom = memo(() => {
         page: 1,
         pageSize: 500,
         content,
+        msgType: activeTab
       });
       if (res.code === 200) {
-        if (res.page.list.length) {
-          setMessageResult(res.page.list);
+        if (res.page.list && res.page.list.length) {
+          let temp:any = [];
+          let dateTime:any = [];//图片消息时间
+          let imgMsgArr:any = [];
+
+          res.page.list.forEach((itm: any, _inx: any) => {
+            if(!((String(itm.content) as any).startsWith('[{') && (String(itm.content) as any).endsWith('}]'))) {
+              temp.push(itm)
+              dateTime.push(itm.chatTime)
+            }
+          })
+          if(activeTab === 1) {
+            //当是图片的时候需要单独处理下格式
+            dateTime = Array.from(new Set(dateTime));
+            dateTime.forEach((item:any,_index:any) => {
+              let list: any = [];
+              temp.forEach((msgItem:any, _msginx:any) => {
+                if(msgItem.chatTime === item) list.push(msgItem)
+              })
+              imgMsgArr.push({ "msgKey": item, "list": list})
+            })
+            console.log(imgMsgArr)
+            setMessageResult([...imgMsgArr])
+          } else {
+            setMessageResult(temp);
+          }
         }
       }
     } else {
@@ -157,9 +184,9 @@ const ChatRoom = memo(() => {
   };
 
   useEffect(() => {
-    if(activeTab === '2') {
-      setContentKey('')
-      setMessageResult([])
+    setContentKey('')
+    if(activeTab === 1) {
+      searchChatHistory(searchParams.get("agentId"), searchParams.get("playerId"), '')
     }
   },[activeTab])
 
@@ -421,16 +448,19 @@ const ChatRoom = memo(() => {
               ></div>
             </div>
           </div>
-          {/* 用户订单信息 */}
+          {/* 用户消息搜索 */}
           <div className={styles.chatRoom_right_info}>
             <div className={styles.right_info_tab_container}>
               <Tabs
                 activeKey={activeTab}
                 items={rightTabList}
-                onChange={(val) => setActiveTab(val)}
+                onChange={(val:any) => {
+                  setMessageResult([])
+                  setActiveTab(val)
+                }}
               />
             </div>
-            {activeTab === "1" ? (
+            {activeTab === 0 ? (
               <div className={styles.text_message_result}>
                 <div className={styles.message_search_input}>
                   <Input
@@ -482,134 +512,27 @@ const ChatRoom = memo(() => {
               </div>
             ) : (
               <div className={styles.img_text_result}>
-                <div className={styles.img_text_item}>
-                  <div className={styles.his_img_time}>
-                    <div className={styles.his_img_time_bg}>今天</div>
+                {
+                  messageResult && messageResult.map((itm: any,inx:any) => (
+                  <div className={styles.img_text_item} key={itm.msgKey}>
+                    <div className={styles.his_img_time}>
+                      <div className={styles.his_img_time_bg}>{itm['msgKey']}</div>
+                    </div>
+                    <div className={styles.img_text_group}>
+                      {
+                        itm.list && itm.list.map((img: any, _imgInx: any) => (<img
+                          className={styles.his_img}
+                          src={`${ossImgUrl}${img.content}`}
+                          alt=""
+                          key={img.id}
+                          id={img.msgId}
+                          onClick={() => scrollToAnchor(img.msgId)}
+                        />))
+                      }
+                    </div>
                   </div>
-                  <div className={styles.img_text_group}>
-                    <img
-                      className={styles.his_img}
-                      src="../../assets/imgs/paytype/ALI_PAY.png"
-                      alt=""
-                    />
-                    <img
-                      className={styles.his_img}
-                      src="../../assets/imgs/paytype/ALI_PAY.png"
-                      alt=""
-                    />
-                    <img
-                      className={styles.his_img}
-                      src="../../assets/imgs/paytype/ALI_PAY.png"
-                      alt=""
-                    />
-                    <img
-                      className={styles.his_img}
-                      src="../../assets/imgs/paytype/ALI_PAY.png"
-                      alt=""
-                    />
-                    <img
-                      className={styles.his_img}
-                      src="../../assets/imgs/paytype/ALI_PAY.png"
-                      alt=""
-                    />
-                  </div>
-                </div>
-                <div className={styles.img_text_item}>
-                  <div className={styles.his_img_time}>
-                    <div className={styles.his_img_time_bg}>今天</div>
-                  </div>
-                  <div className={styles.img_text_group}>
-                    <img
-                      className={styles.his_img}
-                      src="../../assets/imgs/paytype/ALI_PAY.png"
-                      alt=""
-                    />
-                    <img
-                      className={styles.his_img}
-                      src="../../assets/imgs/paytype/ALI_PAY.png"
-                      alt=""
-                    />
-                    <img
-                      className={styles.his_img}
-                      src="../../assets/imgs/paytype/ALI_PAY.png"
-                      alt=""
-                    />
-                    <img
-                      className={styles.his_img}
-                      src="../../assets/imgs/paytype/ALI_PAY.png"
-                      alt=""
-                    />
-                    <img
-                      className={styles.his_img}
-                      src="../../assets/imgs/paytype/ALI_PAY.png"
-                      alt=""
-                    />
-                  </div>
-                </div>
-                <div className={styles.img_text_item}>
-                  <div className={styles.his_img_time}>
-                    <div className={styles.his_img_time_bg}>今天</div>
-                  </div>
-                  <div className={styles.img_text_group}>
-                    <img
-                      className={styles.his_img}
-                      src="../../assets/imgs/paytype/ALI_PAY.png"
-                      alt=""
-                    />
-                    <img
-                      className={styles.his_img}
-                      src="../../assets/imgs/paytype/ALI_PAY.png"
-                      alt=""
-                    />
-                    <img
-                      className={styles.his_img}
-                      src="../../assets/imgs/paytype/ALI_PAY.png"
-                      alt=""
-                    />
-                    <img
-                      className={styles.his_img}
-                      src="../../assets/imgs/paytype/ALI_PAY.png"
-                      alt=""
-                    />
-                    <img
-                      className={styles.his_img}
-                      src="../../assets/imgs/paytype/ALI_PAY.png"
-                      alt=""
-                    />
-                  </div>
-                </div>
-                <div className={styles.img_text_item}>
-                  <div className={styles.his_img_time}>
-                    <div className={styles.his_img_time_bg}>今天</div>
-                  </div>
-                  <div className={styles.img_text_group}>
-                    <img
-                      className={styles.his_img}
-                      src="../../assets/imgs/paytype/ALI_PAY.png"
-                      alt=""
-                    />
-                    <img
-                      className={styles.his_img}
-                      src="../../assets/imgs/paytype/ALI_PAY.png"
-                      alt=""
-                    />
-                    <img
-                      className={styles.his_img}
-                      src="../../assets/imgs/paytype/ALI_PAY.png"
-                      alt=""
-                    />
-                    <img
-                      className={styles.his_img}
-                      src="../../assets/imgs/paytype/ALI_PAY.png"
-                      alt=""
-                    />
-                    <img
-                      className={styles.his_img}
-                      src="../../assets/imgs/paytype/ALI_PAY.png"
-                      alt=""
-                    />
-                  </div>
-                </div>
+                  ))
+                }
               </div>
             )}
           </div>

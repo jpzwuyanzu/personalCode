@@ -151,4 +151,3 @@ export default  ({ mode }) => defineConfig({
   ]
 })
 ```
-

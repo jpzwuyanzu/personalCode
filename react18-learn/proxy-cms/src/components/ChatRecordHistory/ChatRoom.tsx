@@ -41,6 +41,8 @@ const ChatRoom = memo(() => {
   const [chatUserIndex, setChatUserIndex] = useState<any>(); // 左侧用户列表选中项
   const [messageList, setMessageList] = useState<any[]>([]);
   const [messageResult, setMessageResult] = useState<any>([]);
+  const [filterCusList, setFilterCusList] = useState<any[]>([]);
+  const [filterCusKey, setFilterCusKey] = useState<any>("");
   const [contentKey, setContentKey] = useState<any>("");
   const [activeTab, setActiveTab] = useState<any>(0);
   const listEndRef = useRef<HTMLDivElement>(null);
@@ -183,6 +185,26 @@ const ChatRoom = memo(() => {
     loadChatHistory(searchParams.get("agentId"), cusList[index]["playerId"]);
   };
 
+  const chooseFilterCus = (item:any) => {
+    cusList.forEach((itm, inx) => {
+      if(item.playerId === itm.playerId) {
+        setFilterCusKey('')
+        setFilterCusList([])
+        setChatUserIndex(inx)
+        switchCusSocket(inx)
+      }
+    })
+  }
+
+    //过滤左侧联系人
+    const handleFilterCusList = (val: any) => {
+      console.log(val);
+      let temp = [];
+      temp = cusList.filter((itm: any) => itm.playerName.indexOf(val) !== -1);
+      console.log(temp);
+      setFilterCusList([...temp]);
+    };
+
   useEffect(() => {
     setContentKey('')
     if(activeTab === 1) {
@@ -208,11 +230,13 @@ const ChatRoom = memo(() => {
           <div className={styles.chatRoom_left_contact}>
             <div className={styles.concat_container}>
               <div className={styles.concat_search}>
-                {/* <Input
-              prefix={<SearchOutlined className="site-form-item-icon" />}
-              placeholder="搜索"
-            /> */}
-                <div className={styles.concat_top_title}>联系人列表</div>
+              <Input
+                  prefix={<SearchOutlined className="site-form-item-icon" />}
+                  placeholder="请输入联系人名称"
+                  onKeyUp={(val: any) => handleFilterCusList(val.target.value)}
+                  onChange={(val) => setFilterCusKey(val.target.value)}
+                  value={filterCusKey}
+                />
               </div>
               <div className={styles.concat_list}>
                 <List
@@ -257,6 +281,49 @@ const ChatRoom = memo(() => {
                   )}
                 />
               </div>
+              {
+                filterCusList && filterCusList.length ? (<div className={styles.filterConcat_list}>
+                  <List
+                    style={{ cursor: "pointer" }}
+                    itemLayout="horizontal"
+                    dataSource={filterCusList}
+                    renderItem={(item, index) => (
+                      <List.Item
+                        className={styles.normalConcat}
+                        style={{ position: "relative" }}
+                        onClick={() => chooseFilterCus(item)}
+                      >
+                        <List.Item.Meta
+                          avatar={
+                            <Avatar
+                              src={`${ossImgUrl}agent/20230831/ff151b8e0d0143a28af70413afce72cd.abc`}
+                            />
+                          }
+                          title={
+                            <>
+                              <div className={styles.concat_title_info}>
+                                <span className={styles.concat_name}>
+                                  {item.playerName}
+                                </span>
+                                <span className={styles.concat_time}>
+                                  {dayjs(item.chatTime).format("MM-DD")}
+                                </span>
+                              </div>
+                            </>
+                          }
+                          description={item.lastMessage}
+                        />
+                        {item.unread ? (
+                          <Badge
+                            className={styles.unread_icon}
+                            count={item.unread}
+                          ></Badge>
+                        ) : null}
+                      </List.Item>
+                    )}
+                  />
+                </div>) : null
+              }
             </div>
           </div>
           {/* 聊天信息框 */}

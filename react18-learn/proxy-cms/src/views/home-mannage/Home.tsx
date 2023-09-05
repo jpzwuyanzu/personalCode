@@ -1,25 +1,27 @@
 import React, { useEffect,useState } from 'react';
 import { CheckOutlined,  CloseOutlined, SettingOutlined, EditOutlined, EllipsisOutlined } from '@ant-design/icons';
 import { Avatar, Card, Switch, message } from 'antd';
-import { useAppSelector } from '@/hooks/hooks'
+import { useAppSelector, useAppDispatch } from '@/hooks/hooks'
 import { userList, createUser, changeHeadImg ,loadProxyDetailInfo} from '@/api/index'
+import { changeProxy } from '@/store/slices/proxy.slice';
 
 const { Meta } = Card
 
 const  Home = () => {
+  const dispatch = useAppDispatch();
   const userInfo = useAppSelector((state) => state.user.userInfo);
-  const [proxyInfo, setproxyInfo] = useState<any>({});
+  let proxyInfo = useAppSelector((state) => state.proxy.proxy)
   console.log(userInfo)
 
 //查询店铺状态
 const loadProxyStatus = async () => {
-  console.log('查询状态')
-  const res:any = await loadProxyDetailInfo({})
-  console.log(res)
-  if(res && res.code === 200) {
-    setproxyInfo(res.data.agent)
+  console.log("查询状态");
+  const res: any = await loadProxyDetailInfo({});
+  console.log(res);
+  if (res && res.code === 200) {
+    dispatch(changeProxy(res.data.agent))
   }
-}
+};
 
 //开启关闭店铺
   const switchCurrentProxyInfo = async(checked:any) => {

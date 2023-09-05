@@ -144,7 +144,7 @@ const OrderDetail: React.FC = () => {
           | null
           | undefined,
           record: any
-      ) => <a onClick={() => navigate(`/payment/proxyorder?orderNo=${record.orderNo}`)} style={{ whiteSpace: 'nowrap' }}>{text ? text : "--"}</a>,
+      ) => text ? <a onClick={() => navigate(`/payment/proxyorder?orderNo=${record.orderNo}`)} style={{ whiteSpace: 'nowrap' }}>{text}</a> : "--",
     },
     {
       title: "变动前店铺余额(¥)",

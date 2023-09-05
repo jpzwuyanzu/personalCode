@@ -40,24 +40,22 @@ import {
 import msgWaring from "@/assets/10759.mp3";
 import { switchUnreadNum } from "@/store/slices/message.slice";
 import dayjs from "dayjs";
+import { changeProxy } from "@/store/slices/proxy.slice";
+import { changeStatic } from "@/store/slices/static.slice";
 
 const { Header } = Layout;
 
 export default function TopHeader() {
-  const [createWebSocket, ws, wsData] = useWebSocket(
-    `ws://172.28.113.248:10086/webSocket`,
-    {}
-  );
+  const [createWebSocket, ws, wsData] = useWebSocket(`ws://172.28.113.248:10086/webSocket`,{});
   const { pathname } = useLocation();
   const collapsed = useAppSelector((state) => state.collapse.status);
   const userInfo = useAppSelector((state) => state.user.userInfo);
-  const [proxyInfo, setproxyInfo] = useState<any>({});
   const cusColor = useAppSelector((state) => state.cusColor.color);
-  const [proxyOrderStatic, setProxyorderStatic] = useState<any>({});
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
+  // const [proxyOrderStatic, setProxyorderStatic] = useState<any>({});
+  let proxyOrderStatic = useAppSelector((state) => state.static.static)
+  const {token: { colorBgContainer }} = theme.useToken();
   let unReadNum = useAppSelector((state) => state.unreadNum.unreadNum);
+  let proxyInfo = useAppSelector((state) => state.proxy.proxy)
   const warningRef = useRef(null);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -172,7 +170,8 @@ export default function TopHeader() {
     });
     console.log(res);
     if (res && res.code === 200) {
-      setProxyorderStatic(res.page.list[0]);
+      // setProxyorderStatic(res.page.list[0]);
+      dispatch(changeStatic(res.page.list[0]))
     }
   };
 
@@ -184,7 +183,7 @@ export default function TopHeader() {
     const res: any = await loadProxyDetailInfo({});
     console.log(res);
     if (res && res.code === 200) {
-      setproxyInfo(res.data.agent);
+      dispatch(changeProxy(res.data.agent))
     }
   };
 
@@ -202,14 +201,12 @@ export default function TopHeader() {
   };
 
   useEffect(() => {
-    if (
-      (wsData && wsData.msgId && wsData.type) ||
-      (wsData.code && wsData.code === 2)
-    ) {
+    if ((wsData && wsData.msgId && wsData.type) || (wsData.code && wsData.code === 2)) {
       console.log(wsData);
-      if (pathname !== "/payment/cusroom") {
+      if (pathname === "/payment/cusroom") {
         // setUnReadNum(unReadNum+1)
         // dispatch(switchUnreadNum({ 'ac': 'add', 'num': 1 } as any))
+        location.reload()
       }
       warningRef && (warningRef.current as any).play();
     }
@@ -269,14 +266,14 @@ export default function TopHeader() {
             </div>
           </div>
         ) : null}
-        {userInfo.userType === 1 ? (
+        {/* {userInfo.userType === 1 ? (
           <div
             className={styles.reloadBtn}
             onClick={() => loadCurrentProxyStatic()}
           >
             <RedoOutlined />
           </div>
-        ) : null}
+        ) : null} */}
         <div className={styles.user_head_container}>
           <Space>
             {userInfo.userType === 1 ? (
@@ -284,7 +281,7 @@ export default function TopHeader() {
                 <div className={styles.storeAmount}>
                   <span className={styles.storeLabel}>店铺余额: </span>
                   <span className={styles.storeAc}>
-                    {Number(Number(proxyInfo.amount) / 100).toFixed(2)}
+                    {proxyInfo && proxyInfo.amount ? Number(Number(proxyInfo.amount) / 100).toFixed(2) : 0.00}
                   </span>
                 </div>
                 <div className={styles.storeStatus}>
@@ -292,7 +289,7 @@ export default function TopHeader() {
                   <Switch
                     checkedChildren={<CheckOutlined />}
                     unCheckedChildren={<CloseOutlined />}
-                    checked={Number(proxyInfo.openStatus) === 1 ? true : false}
+                    checked={proxyInfo && proxyInfo.openStatus ? (Number(proxyInfo.openStatus) === 1 ? true : false) : false}
                     onClick={(checked: boolean) =>
                       switchCurrentProxyInfo(checked)
                     }

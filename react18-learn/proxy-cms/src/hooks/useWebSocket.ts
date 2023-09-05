@@ -114,6 +114,10 @@ const useWebSocket = (url: string, info: any) => {
                     if(((data && data.msgId && data.type) || (data.code && data.code === 2))){
                         dispatch(switchUnreadNum({ 'ac': 'add', 'num': 1 } as any))
                     }
+                }else {
+                    if(((data && data.msgId && data.type) || (data.code && data.code === 2))){
+                        location.reload()
+                    }
                 }
             }
             resetTimer()

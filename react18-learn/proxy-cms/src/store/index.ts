@@ -7,6 +7,9 @@ import UserReducer, { USER_FEATURE_KEY } from './slices/user.slice';
 import CollapseReducer, { COLLAPSE_FATURE_KEY} from './slices/collapse.slice';
 import CusolorReducer, { CUSCOLOR_FETURE_KEY } from './slices/colors.slice';
 import UnreadNumReducer, { UNREADNUM_FETURE_KEY } from './slices/message.slice'
+import ProxyReducer, { PROXY_FETURE_KEY } from './slices/proxy.slice';
+import StaticReducer, { STATIC_FETURE_KEY } from './slices/static.slice';
+
 
 const persistConfig = {
     key: 'root',
@@ -18,6 +21,8 @@ const persistCollapseReducer = persistReducer(persistConfig, CollapseReducer)
 const persistUserReducer = persistReducer(persistConfig, UserReducer)
 const persistCusolorReducer = persistReducer(persistConfig, CusolorReducer)
 const persistUnreadNumReducer = persistReducer(persistConfig, UnreadNumReducer)
+const persistProxyReducer = persistReducer(persistConfig, ProxyReducer)
+const persistStaticReducer = persistReducer(persistConfig, StaticReducer)
 
 
 //创建，配置，导出store对象
@@ -27,7 +32,9 @@ const store = configureStore({
         [COLLAPSE_FATURE_KEY]: persistCollapseReducer,
         [USER_FEATURE_KEY]: persistUserReducer,
         [CUSCOLOR_FETURE_KEY]: persistCusolorReducer,
-        [UNREADNUM_FETURE_KEY]: persistUnreadNumReducer
+        [UNREADNUM_FETURE_KEY]: persistUnreadNumReducer,
+        [PROXY_FETURE_KEY]: persistProxyReducer,
+        [STATIC_FETURE_KEY]: persistStaticReducer
     },
     // 配置中间件
     middleware: (getDefaultMiddleware) => [

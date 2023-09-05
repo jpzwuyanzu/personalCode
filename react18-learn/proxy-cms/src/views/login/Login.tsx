@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { LockOutlined, UserOutlined, EyeTwoTone, EyeInvisibleOutlined } from '@ant-design/icons';
 import { Button, Form, Input, message } from 'antd';
@@ -45,6 +45,10 @@ const Login: React.FC = () => {
     let temp = Math.ceil(Math.random()*10);
     setImgCode(`/api/sys/user/check/code?${temp}`)
   }
+
+  useEffect(() => {
+    changeMsgCode()
+  }, [])
 
   return (
     <div className={ styles.loginCom_container }>

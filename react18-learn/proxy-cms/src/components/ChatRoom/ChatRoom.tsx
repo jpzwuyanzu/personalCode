@@ -32,6 +32,8 @@ import {
   agentReciveType,
   confirmReceiveMoney,
   quickFeedBack,
+  loadProxyDetailInfo,
+  loadTradeStatic
 } from "@/api/index";
 import styles from "./ChatRoom.module.scss";
 import dayjs from "dayjs";
@@ -42,6 +44,8 @@ import WX_PAY from "@/assets/imgs/paytype/WX_PAY.png";
 import ALI_PAY from "@/assets/imgs/paytype/ALI_PAY.png";
 import UNION_PAY from "@/assets/imgs/paytype/UNION_PAY.png";
 import { switchUnreadNum } from "@/store/slices/message.slice";
+import { changeProxy } from "@/store/slices/proxy.slice";
+import { changeStatic } from "@/store/slices/static.slice";
 
 const { Meta } = Card;
 const { Countdown } = Statistic;
@@ -197,6 +201,32 @@ const ChatRoom = () => {
     }
   };
 
+ //查询店铺信息
+const loadProxyStatus = async () => {
+  console.log("查询状态");
+  const res: any = await loadProxyDetailInfo({});
+  console.log(res);
+  if (res && res.code === 200) {
+    dispatch(changeProxy(res.data.agent))
+  }
+};
+
+  //获取当前代理的订单信息统计
+  const loadCurrentProxyStatic = async () => {
+    const res: any = await loadTradeStatic({
+      page: 1,
+      pageSize: 10,
+      startTime: dayjs(new Date()).format("YYYY-MM-DD") + " 00:00:00",
+      endTime: dayjs(new Date()).format("YYYY-MM-DD") + " 23:59:59",
+      agentId: userInfo.id,
+    });
+    console.log(res);
+    if (res && res.code === 200) {
+      // setProxyorderStatic(res.page.list[0]);
+      dispatch(changeStatic(res.page.list[0]))
+    }
+  };
+
   //打开确认收款弹框
   const handleOpenConfirm = () => {
     //把订单信息赋值给支付类型和实际付款金额
@@ -220,6 +250,8 @@ const ChatRoom = () => {
         cusList[chatUserIndex]["fromUserId"],
         cusList[chatUserIndex]["orderNumber"]
       );
+      loadProxyStatus()
+      loadCurrentProxyStatic()
       message.open({
         type: "success",
         content: "确认收款成功",
@@ -395,6 +427,7 @@ const ChatRoom = () => {
           res.data.chat[0]["fromUserId"],
           res.data.chat[0]["orderNumber"]
         );
+        loadCurrentProxyStatic()
       }
     }
   };
@@ -456,6 +489,7 @@ const ChatRoom = () => {
         cusList[chatUserIndex]["fromUserId"],
         cusList[chatUserIndex]["orderNumber"]
       );
+      loadCurrentProxyStatic()
     }
   };
 
@@ -510,6 +544,7 @@ const ChatRoom = () => {
       if (!res.length) {
         setCusList([...cusList, ...wsData.list]);
       }
+      loadCurrentProxyStatic()
     }
   }, [wsData]);
 

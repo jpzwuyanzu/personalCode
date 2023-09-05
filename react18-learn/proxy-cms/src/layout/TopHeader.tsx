@@ -269,7 +269,7 @@ export default function TopHeader() {
             </div>
           </div>
         ) : null}
-        {userInfo.usertype === 1 ? (
+        {userInfo.userType === 1 ? (
           <div
             className={styles.reloadBtn}
             onClick={() => loadCurrentProxyStatic()}
@@ -318,7 +318,7 @@ export default function TopHeader() {
                     src={msgWaring}
                     preload="preload"
                   />
-                </Badge>{" "}
+                </Badge>
               </div>
             ) : null}
           </Space>

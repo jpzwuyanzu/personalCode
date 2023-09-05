@@ -37,10 +37,13 @@
 }
 .verifyCode {
     position: absolute;
-    right: 0;
-    top: 0;
+    right: 3px;
+    top: 10%;
     bottom: 0;
-    height: 100%;
-    width: 120px;
+    height: 80%;
+    width: 70px;
     z-index: 100;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 6px;
 }

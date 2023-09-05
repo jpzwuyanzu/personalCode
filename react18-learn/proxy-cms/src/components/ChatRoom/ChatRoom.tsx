@@ -273,6 +273,7 @@ const ChatRoom = () => {
 
   //连接建立之后需要发送拉取聊天记录
   const handleMessageHistory = (orderNumber: any) => {
+    console.log(cusList)
     if (cusList && cusList.length) {
       let insertMsg: any = {
         fromUserId: `AGENT_${userInfo.id}`, //userInfo.id
@@ -520,10 +521,10 @@ const ChatRoom = () => {
   }, [ws, cusList]);
 
   useEffect(() => {
-    dispatch(switchUnreadNum({ 'ac': 'equal', 'num': 0 } as any))
     loadLeftCusList();
     uploadMessageImg();
     loadQuickReplayList();
+    dispatch(switchUnreadNum({ 'ac': 'equal', 'num': 0 } as any))
     return () => {
       console.log(ws)
       ws && ws.close();
@@ -656,7 +657,7 @@ const ChatRoom = () => {
                       title={<span>{item.fromUserName}</span>}
                       description={
                         <span>
-                          上次在线时间: {dayjs(item.time).format("HH:mm:ss")}
+                          上次在线时间: {dayjs(item.time).format("MM-DD")}
                         </span>
                       }
                     />
@@ -949,14 +950,14 @@ const ChatRoom = () => {
                               })
                             }
                           >
-                            <span style={{ marginLeft: "10px" }}>
+                            <span style={{ marginLeft: "10px",cursor:'pointer' }}>
                               <CopyOutlined />
                             </span>
                           </CopyToClipboard>
                         </div>
                         <div className={styles.detailInfo_item}>
                           <span>来源：</span>
-                          <span>{cusList[chatUserIndex].merchantName}</span>
+                          <span>{(cusList[chatUserIndex].fromUserId).split('_')[0]}</span>
                         </div>
                         <div className={styles.detailInfo_item}>
                           {/* <span>用户备注：</span>

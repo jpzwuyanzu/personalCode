@@ -32,6 +32,7 @@ const CusColor = () => {
               format={'hex'}
               value={colorHex}
               onChange={setColorHex}
+              style={{ marginTop: '20px' }}
               // onFormatChange={setFormatHex}
             />
           </Col>

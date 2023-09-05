@@ -1,3 +1,49 @@
+
+.top_header_static {
+    float: left;
+    width: 200px;
+    height: 64px;
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    margin-left: 50px;
+    .static_item {
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding: 10px 10px;
+        .static_num {
+            color: #fff;
+            height: 50%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        .static_label {
+            color: #fff;
+            height: 50%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}
+.reloadBtn {
+    float: left;
+    width: 50px;
+    height: 64px;
+    font-size: 25px;
+    margin-left: 20px;
+    color: #fff;
+    cursor: pointer;
+}
+.reloadBtn:hover {
+    color: #00B96B;
+}
 .user_head_container {
     float: right;
     // padding-right: 50px;
@@ -7,8 +53,41 @@
     align-items: center;
     height: 100%;
     overflow: hidden;
-    padding-top: 14px;
     box-sizing: border-box;
+    .storeAmount {
+        height: 30px;
+        background: #00B96B;
+        color: #fff;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 0 10px;
+        box-sizing: border-box;
+        border-radius: 10px;
+        margin-right: 10px;
+        .storeLabel {
+            margin-right: 10px;
+        }
+        .storeAc {
+            
+        }
+    }
+    .storeStatus {
+        height: 44px;
+        // background: skyblue;
+        color: #fff;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 0 10px;
+        box-sizing: border-box;
+        border-radius: 10px;
+        margin-right: 20px;
+        .storeStatuslabel {
+            margin-right: 10px;
+
+        }
+    }
     .user_head {
         display: flex;
         flex-direction: row;
@@ -34,8 +113,14 @@
 }
 .ring_container {
     margin-left: 20px;
+    position: relative;
     cursor: pointer;
     .messageTips {
         font-size: 23px;
+    }
+    .audio_player {
+        opacity: 0;
+        position: absolute;
+        width: 0px;
     }
 }

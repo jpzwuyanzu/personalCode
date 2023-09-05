@@ -3,6 +3,7 @@ import { useNavigate, useLocation,useParams } from "react-router-dom";
 import { NavBar, List, Image, Dialog, Modal, Toast } from "antd-mobile";
 import styles from "./index.module.scss";
 import { getOnlineAgent, getAgentNotice } from './../../api/index'
+import appBridge from "../../utils/appBridge";
 
 const proxyStatusMsg = {
   close: "该商家代理已停止营业，为了不影响您的充值体验，请换一个店铺",
@@ -102,9 +103,17 @@ const loadProxyList = async () => {
 const loadProxynotice = async () => {
   let res: any = await getAgentNotice({})
   console.log(res)
-  if(res.code === 200 && res.content) {
-    setNoticeContent(res.content)
-    setVisible(true);
+  if(res.code === 200 && res.data) {
+    setNoticeContent(res.data.notice ? res.data.notice : '')
+    res.data.notice && setVisible(true)
+  }
+}
+
+const handleback = () => {
+  if ((window as any).WebLocalBridge) {
+    (window as any).WebLocalBridge.rechargeBack();
+  } else if ((window as any).webkit.messageHandlers) {
+    (window as any).webkit.messageHandlers.JsToOc.postMessage('rechargeBack');
   }
 }
 
@@ -119,7 +128,7 @@ const loadProxynotice = async () => {
   return (
     <div className={styles.proxy_container}>
       <div className={styles.top_nav_bar}>
-        <NavBar onBack={back}>全部代理</NavBar>
+        <NavBar onBack={() => handleback()}>全部代理</NavBar>
       </div>
       <div className={styles.all_proxy_list}>
         <List>

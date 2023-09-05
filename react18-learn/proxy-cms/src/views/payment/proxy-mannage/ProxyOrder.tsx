@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useLocation } from "react-router-dom";
 import {
   Space,
   Table,
@@ -28,44 +29,62 @@ import PagiNation from "@/components/PagiNation";
 import { proxyOrderList, orderCallBack } from "@/api/index";
 import dayjs from "dayjs";
 import { getRecentMounth } from "@/utils/common";
-import { useAppSelector } from '@/hooks/hooks'
+import { useAppSelector } from "@/hooks/hooks";
 import styles from "./ProxyOrder.module.scss";
 
 const { RangePicker } = DatePicker;
 const { Countdown } = Statistic;
 
 const ProxyOrder: React.FC = () => {
+  const { pathname, search } = useLocation();
+  const searchParams = new URLSearchParams(search);
   const [total, setTotal] = useState<number>(0);
   const [page, setpage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
   const [tableList, setTableList] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [searchUserForm] = Form.useForm();
-  const userType = useAppSelector((state) => state.user.userType)
+  const userType = useAppSelector((state) => state.user.userType);
 
   //初始化查询时间
   const initSearchDate = () => {
     let temp: any = searchUserForm.getFieldsValue()["createTime"];
     let params: any = {};
-    console.log(dayjs(new Date(temp[0])).format('YYYY-MM-DD') + ' 00:00:00')
-    if (temp && temp.length) {
-      params["startMs"] = new Date(dayjs(new Date(temp[0])).format('YYYY-MM-DD') + ' 00:00:00').getTime();
-      params["endMs"] = new Date(dayjs(new Date(temp[1])).format('YYYY-MM-DD') + ' 23:59:59').getTime();
+    if (searchParams.get("orderNo")) {
+      params.merchantOrderId = searchParams.get("orderNo");
+      searchUserForm?.setFieldsValue({platformOrderId: searchParams.get("orderNo")});
     }
+    
+    console.log(dayjs(new Date(temp[0])).format("YYYY-MM-DD") + " 00:00:00");
+    if (temp && temp.length) {
+      params["startMs"] = new Date(
+        dayjs(new Date(temp[0])).format("YYYY-MM-DD") + " 00:00:00"
+      ).getTime();
+      params["endMs"] = new Date(
+        dayjs(new Date(temp[1])).format("YYYY-MM-DD") + " 23:59:59"
+      ).getTime();
+    }
+    
     fetchData(params);
   };
 
   const onFinish = (values: any) => {
     console.log(values);
     if (values["createTime"] && values["createTime"].length) {
-      values["startMs"] = new Date(dayjs(new Date(values["createTime"][0])).format('YYYY-MM-DD') + ' 00:00:00').getTime();
-      values["endMs"] = new Date(dayjs(new Date(values["createTime"][1])).format('YYYY-MM-DD') + ' 23:59:59').getTime();
+      values["startMs"] = new Date(
+        dayjs(new Date(values["createTime"][0])).format("YYYY-MM-DD") +
+          " 00:00:00"
+      ).getTime();
+      values["endMs"] = new Date(
+        dayjs(new Date(values["createTime"][1])).format("YYYY-MM-DD") +
+          " 23:59:59"
+      ).getTime();
     } else {
       values["startMs"] = "";
       values["endMs"] = "";
     }
-    setpage(1)
-    fetchData({page: 1, ...values});
+    setpage(1);
+    fetchData({ page: 1, ...values });
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -90,12 +109,12 @@ const ProxyOrder: React.FC = () => {
     let temp: any = searchUserForm.getFieldsValue()["createTime"];
     let params: any = {};
     if (temp && temp.length) {
-      params["startTime"] = dayjs(new Date(temp[0]).getTime()).format(
-        "YYYY-MM-DD"
-      );
-      params["endTime"] = dayjs(new Date(temp[1]).getTime()).format(
-        "YYYY-MM-DD"
-      );
+      params["startMs"] = new Date(
+        dayjs(new Date(temp[0])).format("YYYY-MM-DD") + " 00:00:00"
+      ).getTime();
+      params["endMs"] = new Date(
+        dayjs(new Date(temp[1])).format("YYYY-MM-DD") + " 23:59:59"
+      ).getTime();
     }
     fetchData(params);
   };
@@ -108,8 +127,12 @@ const ProxyOrder: React.FC = () => {
       let temp: any = searchUserForm.getFieldsValue()["createTime"];
       let params: any = {};
       if (temp && temp.length) {
-        params["startMs"] = new Date(dayjs(new Date(temp[0])).format('YYYY-MM-DD') + ' 00:00:00').getTime();
-        params["endMs"] = new Date(dayjs(new Date(temp[1])).format('YYYY-MM-DD') + ' 23:59:59').getTime();
+        params["startMs"] = new Date(
+          dayjs(new Date(temp[0])).format("YYYY-MM-DD") + " 00:00:00"
+        ).getTime();
+        params["endMs"] = new Date(
+          dayjs(new Date(temp[1])).format("YYYY-MM-DD") + " 23:59:59"
+        ).getTime();
       }
       fetchData({ page, pageSize, ...params });
     },
@@ -118,7 +141,7 @@ const ProxyOrder: React.FC = () => {
 
   const fetchData = async (params?: any) => {
     setLoading(true);
-    console.log({ page, pageSize, ...params })
+    console.log({ page, pageSize, ...params });
     const data: any = await proxyOrderList({ page, pageSize, ...params });
     setLoading(false);
     if (data && data.code && data.code === 200) {
@@ -132,17 +155,34 @@ const ProxyOrder: React.FC = () => {
     }
   };
 
-  const handleCallback = async({merchantOrderId, amount, realAmount, payStatus, callbackStatus, ms, orderType, merchantId}:any) => {
-    const res: any = await orderCallBack({merchantOrderId,amount,realAmount,payStatus,callbackStatus,ms,orderType, merchantId})
-    console.log(res)
-    if(res && res.code === 200) {
+  const handleCallback = async ({
+    merchantOrderId,
+    amount,
+    realAmount,
+    payStatus,
+    callbackStatus,
+    ms,
+    orderType,
+    merchantId,
+  }: any) => {
+    const res: any = await orderCallBack({
+      merchantOrderId,
+      amount,
+      realAmount,
+      payStatus,
+      callbackStatus,
+      ms,
+      orderType,
+      merchantId,
+    });
+    console.log(res);
+    if (res && res.code === 200) {
       message.open({
-        type: 'success',
-        content: '操作成功',
-      })
+        type: "success",
+        content: "操作成功",
+      });
     }
-  }
-
+  };
 
   const columns: any = [
     {
@@ -151,7 +191,6 @@ const ProxyOrder: React.FC = () => {
       key: "merchantOrderId",
       align: "center",
       width: 300,
-      fixed: "left",
       render: (text: any) => (
         <span style={{ whiteSpace: "nowrap" }}>{text}</span>
       ),
@@ -174,6 +213,166 @@ const ProxyOrder: React.FC = () => {
       render: (text: any) => (
         <span style={{ whiteSpace: "nowrap" }}>{text}</span>
       ),
+    },
+    {
+      title: "订单状态",
+      dataIndex: "payStatus",
+      align: "center",
+      key: "payStatus",
+      with: 200,
+      render: (text: any, record: any) => {
+        //payStatus:0:待支付，显示倒计时 1:已支付 2:未支付，订单超时可以关闭 3:已关闭
+        let res: any = "";
+        switch (text) {
+          case 1:
+               res = (
+                <div style={{ whiteSpace: "nowrap" }}>
+                   <Tag icon={<CheckCircleOutlined />} color="success">
+                    已支付
+                  </Tag>
+                </div>
+              );
+            // if (record.callbackStatus === 0) {
+            //   res = (
+            //     <div style={{ whiteSpace: "nowrap" }}>
+            //       <Tag icon={<SyncOutlined spin />} color="processing">
+            //         等待回调
+            //       </Tag>
+            //     </div>
+            //   );
+            // } else if (record.callbackStatus === 1) {
+            //   res = (
+            //     <div style={{ whiteSpace: "nowrap" }}>
+            //       <Tag icon={<CheckCircleOutlined />} color="success">
+            //         已完成
+            //       </Tag>
+            //     </div>
+            //   );
+            // } else {
+            //   res = (
+            //     <div style={{ whiteSpace: "nowrap" }}>
+            //       <Tag icon={<CloseCircleOutlined />} color="error">
+            //         回调失败
+            //       </Tag>
+            //     </div>
+            //   );
+            // }
+            break;
+          case 2:
+            res = (
+              <div style={{ whiteSpace: "nowrap" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignContent: "center",
+                    justifyContent: "center",
+                    color: "#52C41A",
+                    fontSize: "15px",
+                  }}
+                >
+                  进行中 (
+                  <Countdown
+                    value={new Date(record.ms).getTime() + 1000 * 30 * 60}
+                    format="mm:ss"
+                    valueStyle={{ fontSize: "15px", color: "#52C41A" }}
+                  />
+                  )
+                </div>
+              </div>
+            );
+            break;
+          case 3:
+            res = (
+              <div style={{ whiteSpace: "nowrap" }}>
+                <Tag icon={<MinusCircleOutlined />} color="default">
+                  取消订单
+                </Tag>
+              </div>
+            );
+            break;
+          case 4:
+            res = (
+              <div style={{ whiteSpace: "nowrap" }}>
+                <Tag icon={<MinusCircleOutlined />} color="default">
+                  已关闭
+                </Tag>
+              </div>
+            );
+            break;
+          default:
+            break;
+        }
+        return res;
+      },
+    },
+    {
+      title: "回调状态",
+      dataIndex: "callbackStatus",
+      align: "center",
+      key: "callbackStatus",
+      with: 200,
+      render: (text: any, record: any) => {
+        //payStatus:0:待支付，显示倒计时 1:已支付 2:未支付，订单超时可以关闭 3:已关闭
+        let res: any = "";
+        switch (text) {
+          case 1:
+               res = (
+                <div style={{ whiteSpace: "nowrap" }}>
+                   <Tag icon={<CheckCircleOutlined />} color="success">
+                    已回调
+                  </Tag>
+                </div>
+              );
+            // if (record.callbackStatus === 0) {
+            //   res = (
+            //     <div style={{ whiteSpace: "nowrap" }}>
+            //       <Tag icon={<SyncOutlined spin />} color="processing">
+            //         等待回调
+            //       </Tag>
+            //     </div>
+            //   );
+            // } else if (record.callbackStatus === 1) {
+            //   res = (
+            //     <div style={{ whiteSpace: "nowrap" }}>
+            //       <Tag icon={<CheckCircleOutlined />} color="success">
+            //         已完成
+            //       </Tag>
+            //     </div>
+            //   );
+            // } else {
+            //   res = (
+            //     <div style={{ whiteSpace: "nowrap" }}>
+            //       <Tag icon={<CloseCircleOutlined />} color="error">
+            //         回调失败
+            //       </Tag>
+            //     </div>
+            //   );
+            // }
+            break;
+          case 2:
+               res = (
+                <div style={{ whiteSpace: "nowrap" }}>
+                  <Tag icon={<SyncOutlined spin />} color="processing">
+                    未回调
+                  </Tag>
+                </div>
+              );
+            break;
+          case 3:
+               res = (
+                <div style={{ whiteSpace: "nowrap" }}>
+                  <Tag icon={<CloseCircleOutlined />} color="error">
+                    回调失败
+                  </Tag>
+                </div>
+              );
+            break;
+          default:
+            break;
+        }
+        return res;
+      },
     },
     {
       title: "用户ID",
@@ -273,94 +472,6 @@ const ProxyOrder: React.FC = () => {
       ) => <>{dayjs(text).format("YYYY-MM-DD hh:mm:ss")}</>,
     },
     {
-      title: "订单状态",
-      dataIndex: "payStatus",
-      align: "center",
-      key: "payStatus",
-      with: 200,
-      fixed: 'right',
-      render: (text: any, record: any) => {
-        //payStatus:0:待支付，显示倒计时 1:已支付 2:未支付，订单超时可以关闭 3:已关闭
-        let res: any = "";
-        switch (text) {
-          case 1:
-            if (record.callbackStatus === 0) {
-              res = (
-                <div style={{ whiteSpace: "nowrap" }}>
-                  <Tag icon={<SyncOutlined spin />} color="processing">
-                    等待回调
-                  </Tag>
-                </div>
-              );
-            } else if (record.callbackStatus === 1) {
-              res = (
-                <div style={{ whiteSpace: "nowrap" }}>
-                  <Tag icon={<CheckCircleOutlined />} color="success">
-                    已完成
-                  </Tag>
-                </div>
-              );
-            } else {
-              res = (
-                <div style={{ whiteSpace: "nowrap" }}>
-                  <Tag icon={<CloseCircleOutlined />} color="error">
-                    回调失败
-                  </Tag>
-                </div>
-              );
-            }
-            break;
-            case 2:
-            res = (
-              <div style={{ whiteSpace: "nowrap" }}>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignContent: "center",
-                    justifyContent: "center",
-                    color: "#52C41A",
-                    fontSize: "15px",
-                  }}
-                >
-                  进行中 (
-                  <Countdown
-                    value={
-                      new Date(record.ms).getTime() + 1000 * 30 * 60
-                    }
-                    format="mm:ss"
-                    valueStyle={{ fontSize: "15px", color: "#52C41A" }}
-                  />
-                  )
-                </div>
-              </div>
-            );
-            break;
-            case 3:
-            res = (
-              <div style={{ whiteSpace: "nowrap" }}>
-                <Tag icon={<MinusCircleOutlined />} color="default">
-                  取消订单
-                </Tag>
-              </div>
-            );
-            break;
-          case 4:
-            res = (
-              <div style={{ whiteSpace: "nowrap" }}>
-                <Tag icon={<MinusCircleOutlined />} color="default">
-                  已关闭
-                </Tag>
-              </div>
-            );
-            break;
-          default:
-            break;
-        }
-        return res;
-      },
-    },
-    {
       title: "操作",
       key: "action",
       align: "center",
@@ -372,13 +483,16 @@ const ProxyOrder: React.FC = () => {
             充值
           </Button> */}
           {/* <JudgePemission pageUrl={"/payment/userlist_133"}> */}
-          {
-            (record.payStatus === 1 && record.callbackStatus === 3) ? <>
-            <Button type="primary" onClick={() => handleCallback(record)}>
-            手动回调
-          </Button></> : '---'
-          }
-          
+          {record.payStatus === 1 && (record.callbackStatus === 2 || record.callbackStatus === 3) ? (
+            <>
+              <Button type="primary" onClick={() => handleCallback(record)}>
+                手动回调
+              </Button>
+            </>
+          ) : (
+            "---"
+          )}
+
           {/* </JudgePemission> */}
           {/* <Button type="dashed" danger onClick={() => openModal(record)}>
             重置密码
@@ -401,6 +515,8 @@ const ProxyOrder: React.FC = () => {
   ];
 
   useEffect(() => {
+    console.log(searchParams.get("orderNo"));
+    //判断是否是否带有参数
     initSearchDate();
     return () => {};
   }, []);
@@ -424,7 +540,7 @@ const ProxyOrder: React.FC = () => {
               ],
               // createTime: '',
               payStatus: "",
-              payCode: ""
+              payCode: "",
             }}
           >
             <Row justify="start">
@@ -434,10 +550,7 @@ const ProxyOrder: React.FC = () => {
                   name="playerId"
                   rules={[{ required: false, message: "请输入用户ID!" }]}
                 >
-                  <Input
-                    placeholder="输入用户ID"
-                    allowClear={true}
-                  />
+                  <Input placeholder="输入用户ID" allowClear={true} />
                 </Form.Item>
               </Col>
               <Col span={4}>
@@ -446,25 +559,19 @@ const ProxyOrder: React.FC = () => {
                   name="playerName"
                   rules={[{ required: false, message: "请输入用户昵称!" }]}
                 >
-                  <Input
-                    placeholder="输入用户昵称"
-                    allowClear={true}
-                  />
+                  <Input placeholder="输入用户昵称" allowClear={true} />
                 </Form.Item>
               </Col>
               <Col span={5}>
                 <Form.Item
-                  label="订单号"
-                  name={ userType === 1 ? 'merchantOrderId' : 'platformOrderId' }
+                  label="来源订单号"
+                  name="merchantOrderId"
                   rules={[{ required: false, message: "请输入订单号!" }]}
                 >
-                  <Input
-                    placeholder="输入订单号"
-                    allowClear={true}
-                  />
+                  <Input placeholder="输入订单号" allowClear={true} />
                 </Form.Item>
               </Col>
-              <Col span={4}>
+              <Col span={5}>
                 <Form.Item
                   label="订单状态"
                   name="payStatus"
@@ -477,12 +584,12 @@ const ProxyOrder: React.FC = () => {
                       { value: "", label: "全部" },
                       { value: 1, label: "已支付" },
                       { value: 2, label: "未支付" },
-                      { value: 3, label: "已关闭" },
+                      { value: 4, label: "已关闭" },
                     ]}
                   />
                 </Form.Item>
               </Col>
-            <Col span={4}>
+              <Col span={4}>
                 <Form.Item
                   label="支付方式"
                   name="payCode"
@@ -502,46 +609,53 @@ const ProxyOrder: React.FC = () => {
               </Col>
             </Row>
             <Row justify="start">
-              {
-                 userType !== 1 && <Col span={4}>
-                 <Form.Item
-                   label="代理ID"
-                   name="agentId"
-                   rules={[{ required: false, message: "请输入代理ID!" }]}
-                 >
-                   <Input
-                     placeholder="输入代理ID"
-                     allowClear={true}
-                   />
-                 </Form.Item>
-               </Col>
-              }
-              {
-                userType !== 1 &&  <Col span={4}>
-                <Form.Item
-                  label="代理昵称"
-                  name="agentName"
-                  rules={[{ required: false, message: "请输入代理昵称!" }]}
-                >
-                  <Input
-                    placeholder="输入代理昵称"
-                    allowClear={true}
-                  />
-                </Form.Item>
-              </Col>
-              }
+              {userType !== 1 && (
+                <Col span={4}>
+                  <Form.Item
+                    label="代理ID"
+                    name="agentId"
+                    rules={[{ required: false, message: "请输入代理ID!" }]}
+                  >
+                    <Input placeholder="输入代理ID" allowClear={true} />
+                  </Form.Item>
+                </Col>
+              )}
+              {userType !== 1 && (
+                <Col span={4}>
+                  <Form.Item
+                    label="代理昵称"
+                    name="agentName"
+                    rules={[{ required: false, message: "请输入代理昵称!" }]}
+                  >
+                    <Input placeholder="输入代理昵称" allowClear={true} />
+                  </Form.Item>
+                </Col>
+              )}
+              {userType !== 1 && (
+                <Col span={5}>
+                  <Form.Item
+                    label="平台订单号"
+                    name="platformOrderId"
+                    rules={[{ required: false, message: "请输入订单号!" }]}
+                  >
+                    <Input placeholder="输入订单号" allowClear={true} />
+                  </Form.Item>
+                </Col>
+              )}
               <Col span={5}>
                 <Form.Item
                   label="交易时间"
                   name="createTime"
                   rules={[{ required: false, message: "请选择交易时间!" }]}
                 >
-                  <RangePicker style={{ width: '250px' }}/>
+                  <RangePicker style={{ width: "250px" }} />
                 </Form.Item>
               </Col>
               {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
-              <Col span={1}>
-                <Form.Item wrapperCol={{ offset: 10, span: 10 }} style={{ marginLeft: '20px' }}>
+              <Col span={1.5}>
+                <Form.Item
+                  style={{ marginLeft: "20px" }}
+                >
                   <Button type="primary" htmlType="submit">
                     搜索
                   </Button>
@@ -549,11 +663,11 @@ const ProxyOrder: React.FC = () => {
               </Col>
               {/* </JudgePemission> */}
               {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
-              <Col span={4}>
-                <Form.Item wrapperCol={{ offset: 4, span: 12 }}>
+              <Col span={1}>
+                <Form.Item>
                   <Button
                     type="primary"
-                    style={{ marginLeft: "13px" }}
+                    style={{ marginLeft: '10px' }}
                     onClick={() => resetParams()}
                   >
                     重置
@@ -570,7 +684,7 @@ const ProxyOrder: React.FC = () => {
             loading={loading}
             pagination={false}
             rowKey={(record) => record.platformOrderId}
-            scroll={{ x: 2960, y: "60vh" }}
+            scroll={{ x: 3360, y: "60vh" }}
           />
         </div>
         <div className={styles.bottom_Pag_area}>

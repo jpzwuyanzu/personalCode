@@ -88,7 +88,7 @@ const RoleList: React.FC = () => {
       dataIndex: "name",
       key: "name",
       align: 'center',
-      render: (text) => <a>{text}</a>,
+      render: (text) => <span>{text}</span>,
     },
     {
       title: "角色ID",

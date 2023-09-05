@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { v4 as uuidv4 } from 'uuid';
-import { useAppSelector } from '@/hooks/hooks'
+import { useAppSelector, useAppDispatch } from '@/hooks/hooks'
+import { switchUnreadNum } from '@/store/slices/message.slice'
 //避免重复连接
 let lockReconnect = false
 //心跳检测间隔时长
@@ -15,8 +16,8 @@ const useWebSocket = (url: string, info: any) => {
     const serverTimeoutObjRef: any = useRef(null)
     //websocket
     const wsRef: any = useRef(null)
+    const dispatch = useAppDispatch();
     const userInfo = useAppSelector((state: any) => state.user.userInfo);
-    console.log(userInfo)
 
     // 创建socket连接
     const createWebSocket = () => {
@@ -68,6 +69,7 @@ const useWebSocket = (url: string, info: any) => {
             let dt = new Date()
             let str = dt.getFullYear() + '-' + (dt.getMonth() + 1) + '-' + dt.getDate() + ' ' + dt.getHours() + ':' + dt.getMinutes() + ':' + dt.getSeconds()
             console.log('连接成功:' + str)
+            // dispatch(switchUnreadNum({ 'ac': 'equal', 'num': 0 } as any))
             //用户类型 userType 1:客服 2:玩家，3:游客
             //handType  1-心跳，2-鉴权,3-发送给指定用户 6:拉消息记录
             //msgType 0:文字，1：图片
@@ -105,11 +107,14 @@ const useWebSocket = (url: string, info: any) => {
         //接收消息
         wsRef.current.onmessage = function (evt: any) {
             // let data = JSON.parse(evt.data) // 接收消息string=>json
-            // if(evt.data)
-            console.log(evt)
              if(evt.data.indexOf('HEARTBEAT_RESPONSE') === -1 && evt.data.indexOf('CHAT_SEND_RESPONSE') === -1 && evt.data.indexOf('加藤代理欢迎你') === -1) {
                 let data = JSON.parse(evt.data)
                 setWsData(data)
+                if(location.hash.indexOf('/cusroom') === -1) {
+                    if(((data && data.msgId && data.type) || (data.code && data.code === 2))){
+                        dispatch(switchUnreadNum({ 'ac': 'add', 'num': 1 } as any))
+                    }
+                }
             }
             resetTimer()
             startTimer()

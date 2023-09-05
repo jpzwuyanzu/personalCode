@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Form, Modal, message } from "antd";
-import { createUser } from "@/api/index";
+import { changeHeadImg } from "@/api/index";
 import CusUpload from "./CusUpload";
 
 interface IProps {
@@ -23,7 +23,7 @@ const ChangeAvatorModal: any = ({ open, userInfo, closeModal }: IProps) => {
     const values = await passForm.validateFields();
     console.log(values);
     if (fastUrl) {
-      const res: any = await createUser({
+      const res: any = await changeHeadImg({
         id: userInfo.id,
         headImage: fastUrl ? fastUrl : (userInfo as any).headImage,
       });

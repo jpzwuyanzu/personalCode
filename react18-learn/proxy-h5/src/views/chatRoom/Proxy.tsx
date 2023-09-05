@@ -128,6 +128,10 @@ const Proxy = () => {
 
   useEffect(() => {
     loadOrderDetailInfo()
+  }, [activeKey])
+
+  useEffect(() => {
+    loadOrderDetailInfo()
   },[])
 
 

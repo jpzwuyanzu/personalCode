@@ -240,7 +240,7 @@ const ChatRoom = memo(() => {
                                 {item.playerName}
                               </span>
                               <span className={styles.concat_time}>
-                                {dayjs(item.chatTime).format("MM-DD HH:mm")}
+                                {dayjs(item.chatTime).format("MM-DD")}
                               </span>
                             </div>
                           </>
@@ -277,8 +277,8 @@ const ChatRoom = memo(() => {
                       title={<span>{item.playerName}</span>}
                       description={
                         <span>
-                          上次在线时间:{" "}
-                          {dayjs(item.chatTime).format("MM-DD HH:mm")}
+                          上次会话日期:{" "}
+                          {dayjs(item.chatTime).format("MM-DD")}
                         </span>
                       }
                     />

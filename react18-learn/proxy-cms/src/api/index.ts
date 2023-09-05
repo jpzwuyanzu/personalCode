@@ -244,3 +244,13 @@ export function loadChatRecordHistory (params? :any) {
 export function orderCallBack (params? :any) {
     return request.post('/api/agent/callback/OrderStatus', params)
 }
+
+//修改代理头像
+export function changeHeadImg (params? :any) {
+    return request.post('/api/sys/user/user/editHead', {'requestTimeStamp': (new Date()).getTime() , ...params})
+}
+
+//获取代理状态信息
+export function loadProxyDetailInfo(params? :any) {
+    return request.post('/api/sys/user/queryAgentById', params)
+}

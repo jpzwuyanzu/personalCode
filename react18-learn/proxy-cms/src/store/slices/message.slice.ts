@@ -1,0 +1,38 @@
+import { createSlice } from '@reduxjs/toolkit'
+import type { PayloadAction } from '@reduxjs/toolkit'
+import { setCookieItem, getCookieItem } from './../../utils/common'
+
+interface unreadNum {
+    unreadNum: number
+}
+
+//定义初始化数据
+const initialState: unreadNum = {
+    unreadNum: 0
+}
+
+//定义状态名称字符串常量
+export const UNREADNUM_FETURE_KEY: any = 'unreadNum'
+
+//action: 对象类型，用于存储action creator函数
+const { actions, reducer: UnreadNumReducer } = createSlice({
+    // name 将会作为action对象中type属性值的前缀
+    name: UNREADNUM_FETURE_KEY, 
+    //初始状态
+    initialState,
+    reducers: {
+        switchUnreadNum: (state: unreadNum, action: any) => {
+            console.log(action)
+            if(action.payload.ac === "equal") {
+                state.unreadNum  = Number(action.payload.num)
+            } else if(action.payload.ac === "add") {
+                state.unreadNum += Number(action.payload.num)
+            }
+            
+        }
+    }
+})
+
+export const { switchUnreadNum } = actions;
+
+export default UnreadNumReducer

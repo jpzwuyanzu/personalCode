@@ -35,3 +35,12 @@
 .site_form_item_icon {
     font-size: 17px;
 }
+.verifyCode {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    width: 120px;
+    z-index: 100;
+}

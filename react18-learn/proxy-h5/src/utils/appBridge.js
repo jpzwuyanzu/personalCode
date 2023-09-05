@@ -18,43 +18,43 @@
 
 
 export default {
-    // ios,android通讯
-    callApp (fnName, data, callback) {
-  
-      function run () {
-        if (callback) {
-          window[fnName + 'Callback'] = function (...args) {
-            window[fnName + 'Callback'] = null;
-            callback(args);
-          };
-        }
-  
-        // ios
-        if (window.webkit && window.webkit.messageHandlers) {
-          window.webkit.messageHandlers.QieZiJs.postMessage(
-            JSON.stringify(
-              Object.assign(
-                { action: fnName },
-                data || {},
-                callback ? { callback: `${fnName}Callback` } : {}
-              )
-            )
-          );
-        }
-        // android
-        if (JiaTengJs && JiaTengJs[fnName]) {
-          if (data) {
-            JiaTengJs[fnName](data);
-          } else {
-            JiaTengJs[fnName]();
-          }
-        }
+  // ios,android通讯
+  callApp (fnName, data, callback) {
+
+    function run () {
+      if (callback) {
+        window[fnName + 'Callback'] = function (...args) {
+          window[fnName + 'Callback'] = null;
+          callback(args);
+        };
       }
-  
-      try {
-        run();
-      } catch (e) {
-  
+
+      // ios
+      if (window.webkit && window.webkit.messageHandlers) {
+        window.webkit.messageHandlers.QieZiJs.postMessage(
+          JSON.stringify(
+            Object.assign(
+              { action: fnName },
+              data || {},
+              callback ? { callback: `${fnName}Callback` } : {}
+            )
+          )
+        );
+      }
+      // android
+      if (QieZiJs && QieZiJs[fnName]) {
+        if (data) {
+          QieZiJs[fnName](data);
+        } else {
+          QieZiJs[fnName]();
+        }
       }
     }
+
+    try {
+      run();
+    } catch (e) {
+
+    }
   }
+}

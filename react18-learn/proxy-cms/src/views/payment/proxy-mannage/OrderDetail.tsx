@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useNavigate } from 'react-router-dom'
 import {
   Space,
   Table,
@@ -31,6 +32,7 @@ import styles from "./OrderDetail.module.scss";
 const { RangePicker } = DatePicker;
 
 const OrderDetail: React.FC = () => {
+  const navigate = useNavigate()
   const [total, setTotal] = useState<number>(0);
   const [page, setpage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
@@ -140,8 +142,9 @@ const OrderDetail: React.FC = () => {
           | React.ReactFragment
           | React.ReactPortal
           | null
-          | undefined
-      ) => <span style={{ whiteSpace: 'nowrap' }}>{text ? text : "--"}</span>,
+          | undefined,
+          record: any
+      ) => <a onClick={() => navigate(`/payment/proxyorder?orderNo=${record.orderNo}`)} style={{ whiteSpace: 'nowrap' }}>{text ? text : "--"}</a>,
     },
     {
       title: "变动前店铺余额(¥)",
@@ -222,10 +225,10 @@ const OrderDetail: React.FC = () => {
     },
     {
       title: "创建时间",
-      dataIndex: "createTime",
+      dataIndex: "ms",
       align: "center",
-      key: "createTime",
-      width: 100,
+      key: "ms",
+      width: 200,
       render: (
         text: string | number | Date | dayjs.Dayjs | null | undefined
       ) => <>{text ? dayjs(text).format("YYYY-MM-DD hh:mm:ss") : "--"}</>,
@@ -352,7 +355,7 @@ const OrderDetail: React.FC = () => {
             loading={loading}
             pagination={false}
             rowKey={(record) => (String(record.id)+''+record.changeType+''+record.ms)}
-            scroll={{ x: 2000, y: "60vh" }}
+            scroll={{ x: 2100, y: "60vh" }}
           />
         </div>
         <div className={styles.bottom_Pag_area}>

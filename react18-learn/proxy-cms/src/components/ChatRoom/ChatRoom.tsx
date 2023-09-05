@@ -35,12 +35,13 @@ import {
 } from "@/api/index";
 import styles from "./ChatRoom.module.scss";
 import dayjs from "dayjs";
-import { useAppSelector } from "@/hooks/hooks";
+import { useAppSelector, useAppDispatch } from "@/hooks/hooks";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { setStorage, getStorage } from "@/utils/common";
 import WX_PAY from "@/assets/imgs/paytype/WX_PAY.png";
 import ALI_PAY from "@/assets/imgs/paytype/ALI_PAY.png";
 import UNION_PAY from "@/assets/imgs/paytype/UNION_PAY.png";
+import { switchUnreadNum } from "@/store/slices/message.slice";
 
 const { Meta } = Card;
 const { Countdown } = Statistic;
@@ -55,6 +56,7 @@ const ChatRoom = () => {
    *type : 1: 客服消息 2:用户消息 3:官方欢迎消息 4:充值方式消息 5:充值链接类型
    */
   const naviagte = useNavigate();
+  const dispatch = useAppDispatch();
   const userInfo = useAppSelector((state: any) => state.user.userInfo);
   const [createWebSocket, ws, wsData] = useWebSocket(`ws://172.28.113.248:10086/webSocket`,{});
   const [cusList, setCusList] = useState<any[]>([]); // 左侧联系人列表
@@ -331,6 +333,7 @@ const ChatRoom = () => {
       orderNumber: cusList[chatUserIndex]["orderNumber"],
       amount: cusOrderInfo.amount,
       msgId: uuidv4(),
+      msgType: 0,
       type: 4,
     };
     ws.send(
@@ -495,14 +498,7 @@ const ChatRoom = () => {
       //code: 1:代表聊天记录 2:代表新增的联系人
     } else if (wsData && wsData.code === 1) {
       console.log(wsData);
-      let temp = wsData.list;
-      temp.forEach((itm: any, inx: any) => {
-        if (itm.type === 4) {
-          itm.content = itm.content.split(".com/")[1];
-        }
-      });
-      // setMessageList(wsData.list);
-      setMessageList(temp);
+      setMessageList(wsData.list);
     } else if (wsData && wsData.code === 2) {
       console.log(cusList);
       console.log(wsData);
@@ -524,10 +520,12 @@ const ChatRoom = () => {
   }, [ws, cusList]);
 
   useEffect(() => {
+    dispatch(switchUnreadNum({ 'ac': 'equal', 'num': 0 } as any))
     loadLeftCusList();
     uploadMessageImg();
     loadQuickReplayList();
     return () => {
+      console.log(ws)
       ws && ws.close();
     };
   }, []);
@@ -574,7 +572,7 @@ const ChatRoom = () => {
                                 {item.fromUserName}
                               </span>
                               <span className={styles.concat_time}>
-                                {dayjs(item.time).format("MM-DD HH:mm")}
+                                {dayjs(item.time).format("MM-DD")}
                               </span>
                             </div>
                           </>
@@ -617,7 +615,7 @@ const ChatRoom = () => {
                                     {item.fromUserName}
                                   </span>
                                   <span className={styles.concat_time}>
-                                    {dayjs(item.time).format("MM-DD HH:mm")}
+                                    {dayjs(item.time).format("MM-DD")}
                                   </span>
                                 </div>
                               </>
@@ -757,7 +755,8 @@ const ChatRoom = () => {
                           </div>
                         );
                       case 4:
-                        console.log(JSON.parse(itm.content));
+                        console.log(itm)
+                        // console.log(JSON.parse(itm.content));
                         return (
                           <div
                             className={styles.messageList_item}
@@ -770,7 +769,7 @@ const ChatRoom = () => {
                               <div className={styles.recharge_info_label}>
                                 请选择您的支付方式
                               </div>
-                              {JSON.parse(itm.content).map((_: any, i: any) => (
+                              {itm.content && JSON.parse(itm.content).map((_: any, i: any) => (
                                 <div
                                   className={styles.recharge_type_list}
                                   key={_.id}
@@ -957,7 +956,7 @@ const ChatRoom = () => {
                         </div>
                         <div className={styles.detailInfo_item}>
                           <span>来源：</span>
-                          <span>章三</span>
+                          <span>{cusList[chatUserIndex].merchantName}</span>
                         </div>
                         <div className={styles.detailInfo_item}>
                           {/* <span>用户备注：</span>

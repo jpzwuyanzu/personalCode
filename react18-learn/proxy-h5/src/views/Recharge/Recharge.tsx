@@ -16,7 +16,7 @@ interface IProps {
 }
 
 
-const Recharge = ({reTypeP, accTypeP,reNameP, reAccountP, reBankNameP, amount}:any) => {
+const Recharge = ({reTypeP, accTypeP,reNameP, reAccountP, reBankNameP, amount, rePayImageP}:any) => {
   const navigate = useNavigate();
   console.log(reTypeP)
   const { pathname, search } = useLocation();
@@ -30,6 +30,7 @@ const Recharge = ({reTypeP, accTypeP,reNameP, reAccountP, reBankNameP, amount}:a
   const [reName, setReName] = useState<any>(reNameP ? reNameP : '');
   const [reAccount, setReAccount] = useState<any>(reAccountP ? reAccountP : '');
   const [reBankName, setReBankName] = useState<any>(reBankNameP ? reBankNameP : '');
+  const [rePayImage, setRePayImage] = useState<any>(rePayImageP ? rePayImageP : '');
 
   const handleCopy = () => {
     Toast.success('复制成功')
@@ -59,9 +60,7 @@ const Recharge = ({reTypeP, accTypeP,reNameP, reAccountP, reBankNameP, amount}:a
               </div>
               <div className={styles.re_qr_img}>
                 <Image
-                  src={
-                    "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60"
-                  }
+                  src={rePayImage}
                   width={"100%"}
                   height={"100%"}
                   onClick={() => setImgPreVisiable(true)}
@@ -76,10 +75,10 @@ const Recharge = ({reTypeP, accTypeP,reNameP, reAccountP, reBankNameP, amount}:a
                   }}
                 />
               </div>
-              <div className={styles.qr_account_name}>
+              {/* <div className={styles.qr_account_name}>
                 {reType === 0 ? "支付宝" : reType === 1 ? "微信" : "银行卡"}
-                名称: 十八汇
-              </div>
+                名称: {payName}
+              </div> */}
             </div>
           ) : (
             <div className={styles.re_account_type}>

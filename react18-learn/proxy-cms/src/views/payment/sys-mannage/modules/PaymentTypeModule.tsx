@@ -396,8 +396,8 @@ export default function PaymentTypeModule({
           <Col span={24}>
                 <Form.Item
                   name="amountList"
-                  label="支持金额"
-                  rules={[{ required: true, message: "请添加支持金额" }]}
+                  label="固定支持金额"
+                  // rules={[{ required: true, message: "请添加支持金额" }]}
                 >
                   <div className={styles.amountContainer}>
                     {/* <Space> */}
@@ -443,6 +443,7 @@ export default function PaymentTypeModule({
                 </Form.Item>
               </Col>
           </Row>
+          <p style={{ paddingLeft: '10px',paddingBottom: '10px',paddingTop: '5px', color: '#ee0a24' }}>不配置固定金额,默认支持所有金额</p>
           <Row>
             <Col span={24}>
               <Form.Item name="status" label="收款方式状态" valuePropName="checked">

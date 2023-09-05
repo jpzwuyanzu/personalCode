@@ -219,7 +219,7 @@ const UserList: React.FC = () => {
       dataIndex: "username",
       key: "username",
       align: "center",
-      render: (text: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined) => <a>{text}</a>,
+      render: (text: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined) => <span>{text}</span>,
     },
     {
       title: "用户类型",

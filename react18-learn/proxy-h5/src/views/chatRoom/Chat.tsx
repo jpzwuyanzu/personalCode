@@ -5,6 +5,9 @@ import {
   Image,
   ImageViewer,
   Dialog,
+  Toast,
+  DotLoading,
+  Mask
 } from "antd-mobile";
 import { List, Card, ActionSheet } from "react-vant";
 import { Arrow } from "@react-vant/icons";
@@ -98,6 +101,12 @@ const Chat = memo(() => {
       inputRef.current.addEventListener("change", function (event: any) {
         let $file = event.currentTarget;
         let file: any = $file?.files;
+        console.log(file)
+        if(Number(file.size) > 10240) {
+          Toast.show({ content: '图片最大上传10M', position: 'top' })
+          return
+        }
+        setVisibleMask(true)
         let URL: string | null = null;
         if ((window as any).createObjectURL != undefined) {
           URL = (window as any).createObjectURL(file[0]);
@@ -116,6 +125,7 @@ const Chat = memo(() => {
         uploadFastImg(imgFormData).then((res: any) => {
           if (res && res.code && res.code === 200) {
             setFastImgUrl(res.data.fastPath);
+            setVisibleMask(false)
             msgImgUrl = res.data.fastPath;
             if (URL) {
               Dialog.show({
@@ -161,6 +171,7 @@ const Chat = memo(() => {
       ? JSON.parse(getStorage("session", searchParams.get("orderNumber")))
       : [];
     console.log(temp);
+    setVisibleMask(false)
     let insertMsg = {
       fromUserId: searchParams.get("fromUserId"),
       fromUserName: searchParams.get("fromUserName"),
@@ -191,6 +202,16 @@ const Chat = memo(() => {
     setValue("");
   };
 
+  //发送消息校验
+  const judgeMessage = () => {
+    if(value) {
+      handleSendMessage(0)
+    } else {
+      Toast.show({ content: '请输入消息内容', position: 'top' })
+    }
+  }
+
+
   //监听聊天记录，触发滚动到底部操作
   useEffect(() => {
     scrollToBottom();
@@ -208,11 +229,11 @@ const Chat = memo(() => {
     } else if (wsData && wsData.code === 1 && (wsData as any).list.length) {
       console.log(wsData);
       let temlist = wsData.list;
-      temlist.forEach((itm:any, inx: any) => {
-        if(itm.type === 4) {
-          itm.content = itm.content.split('.com/')[1]
-        }
-      })  
+      // temlist.forEach((itm:any, inx: any) => {
+      //   if(itm.type === 4) {
+      //     itm.content = itm.content.split('.com/')[1]
+      //   }
+      // })  
       let temp = getStorage("session", searchParams.get("orderNumber"))
       ? JSON.parse(getStorage("session", searchParams.get("orderNumber")))
       : [];
@@ -455,6 +476,7 @@ const Chat = memo(() => {
             placeholder="请输入你想说的"
             className={styles.cusInput}
             value={value}
+            maxLength={200}
             onChange={(val) => {
               setValue(val);
             }}
@@ -462,7 +484,7 @@ const Chat = memo(() => {
         </div>
         <div
           className={styles.messageSend}
-          onClick={() => handleSendMessage(0)}
+          onClick={() => judgeMessage()}
         >
           发送
         </div>
@@ -481,14 +503,19 @@ const Chat = memo(() => {
           justifyContent: "center",
         }}
       >
-        <DotLoading color="primary" style={{ fontSize: "30px" }} />
+        
       </Mask> */}
+    {
+      visibleMask ?   <div className={ styles.cusMask }>
+      <DotLoading color="primary" style={{ fontSize: "30px" }} />
+      </div> : null
+    }
       <ActionSheet visible={actionSheetVisible} duration={300} onCancel={() => setActionSheetVisible(false)}>
        {
         actionSheetVisible ? <div style={{ padding: '70px 10px' }}>
         <RechargeCom amount={Number(
         searchParams.get("orderAmount")
-      )} reTypeP={regTypesList[checkPayType.payCode]} accTypeP={ checkPayType.payImage ? 0 : 1} reNameP={checkPayType.bankAccount} reAccountP={checkPayType.bankNo} reBankNameP={checkPayType.bankName}/>
+      )} reTypeP={regTypesList[checkPayType.payCode]} accTypeP={ checkPayType.payImage ? 0 : 1} reNameP={checkPayType.bankAccount} reAccountP={checkPayType.bankNo} reBankNameP={checkPayType.bankName} rePayImageP={checkPayType.payImage ? `${ossImgUrl}${checkPayType.payImage}` : ''} />
      </div> : null
        }
        

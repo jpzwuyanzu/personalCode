@@ -1,39 +1,68 @@
-import { useEffect, useState } from 'react'
-import { Layout, Button, theme, message, Dropdown, Space, Badge } from "antd";
-import { BellOutlined } from '@ant-design/icons'
-import { respMessage } from '@/utils/message'
+import { useEffect, useState, useRef } from "react";
+import { useLocation } from "react-router-dom";
+import {
+  Layout,
+  Button,
+  theme,
+  message,
+  Dropdown,
+  Space,
+  Badge,
+  Switch,
+} from "antd";
+import { BellOutlined, CheckOutlined, CloseOutlined } from "@ant-design/icons";
+import { respMessage } from "@/utils/message";
 import { useNavigate } from "react-router-dom";
 import { switchCollapsed } from "./../store/slices/collapse.slice";
 import { useAppDispatch, useAppSelector } from "./../hooks/hooks";
 import useWebSocket from "@/hooks/useWebSocket";
-import ResetPassModal from '@/components/ResetPassModal'
-import ChangeAvatorModal from '@/components/ChangeAvatorModal'
-import ChatRoomIndex from '@/components/ChatRoom/ChatRoomIndex'
-import CusColor from '@/components/CusColor';
+import ResetPassModal from "@/components/ResetPassModal";
+import ChangeAvatorModal from "@/components/ChangeAvatorModal";
+import ChatRoomIndex from "@/components/ChatRoom/ChatRoomIndex";
+import CusColor from "@/components/CusColor";
 import styles from "./TopHeader.module.scss";
 import {
   LoginOutlined,
   SettingOutlined,
-  MenuFoldOutlined, 
+  MenuFoldOutlined,
   MenuUnfoldOutlined,
-  GithubOutlined
+  GithubOutlined,
+  RedoOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { loginOut, loadCusList } from "./../api/index";
+import {
+  loginOut,
+  loadCusList,
+  loadTradeStatic,
+  loadProxyDetailInfo,
+  changeHeadImg,
+} from "./../api/index";
+import msgWaring from "@/assets/10759.mp3";
+import { switchUnreadNum } from "@/store/slices/message.slice";
+import dayjs from "dayjs";
 
 const { Header } = Layout;
 
 export default function TopHeader() {
-  const [createWebSocket, ws, wsData] = useWebSocket(`ws://172.28.113.248:10086/webSocket`,{});
+  const [createWebSocket, ws, wsData] = useWebSocket(
+    `ws://172.28.113.248:10086/webSocket`,
+    {}
+  );
+  const { pathname } = useLocation();
   const collapsed = useAppSelector((state) => state.collapse.status);
-  const userInfo = useAppSelector((state) => state.user.userInfo)
-  const cusColor = useAppSelector((state) => state.cusColor.color)
-  const {token: { colorBgContainer }} = theme.useToken();
-  const [unReadNum, setUnReadNum] = useState<any>(0);
+  const userInfo = useAppSelector((state) => state.user.userInfo);
+  const [proxyInfo, setproxyInfo] = useState<any>({});
+  const cusColor = useAppSelector((state) => state.cusColor.color);
+  const [proxyOrderStatic, setProxyorderStatic] = useState<any>({});
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
+  let unReadNum = useAppSelector((state) => state.unreadNum.unreadNum);
+  const warningRef = useRef(null);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   //重置密码
-  const [modalStatus, setModalStatus] = useState(false); 
+  const [modalStatus, setModalStatus] = useState(false);
   //聊天室
   const [chatRoomStatus, setChatRoomStatus] = useState(false);
   //修改用户头像
@@ -44,7 +73,7 @@ export default function TopHeader() {
     const resp: any = await loginOut();
     if (resp.code && resp.code === 200) {
       localStorage.clear();
-      sessionStorage.clear()
+      sessionStorage.clear();
       navigate("/login");
       message.open({
         type: "success",
@@ -59,22 +88,23 @@ export default function TopHeader() {
   };
   //关闭修改密码
   const closeModal = () => {
-    setModalStatus(false)
-  }
+    setModalStatus(false);
+  };
   //关闭修改头像
   const closeAvatorModal = () => {
-    setAvatorModalStatus(false)
-  }
+    setAvatorModalStatus(false);
+  };
   //打开聊天室
-  const openChatRoom = async() => {
-    const res: any = await loadCusList({})
-    console.log(res)
-    if(res && res.code === 200) {
-      if(res.data.chat.length) {
+  const openChatRoom = async () => {
+    const res: any = await loadCusList({});
+    console.log(res);
+    if (res && res.code === 200) {
+      // setUnReadNum(0)
+      dispatch(switchUnreadNum({ ac: "equal", num: 0 } as any));
+      if (res.data.chat.length) {
         // setChatRoomStatus(true)
         //直接跳转客服页面，同时将未读数字设置为0
-        setUnReadNum(0)
-        navigate('/payment/cusroom')
+        navigate("/payment/cusroom");
       } else {
         message.open({
           type: "success",
@@ -86,22 +116,35 @@ export default function TopHeader() {
           },
         });
       }
-      
-    } 
-  }
+    }
+  };
   //关闭聊天室
-  const closeChatRoom =async () => {
-    setChatRoomStatus(false)
-  }
+  const closeChatRoom = async () => {
+    setChatRoomStatus(false);
+  };
   const items: MenuProps["items"] = [
     {
       key: "1",
-      label: <div className={styles.dropDown_Items} onClick={ () => setAvatorModalStatus(true) }>修改头像</div>,
+      label: (
+        <div
+          className={styles.dropDown_Items}
+          onClick={() => setAvatorModalStatus(true)}
+        >
+          修改头像
+        </div>
+      ),
       icon: <GithubOutlined />,
     },
     {
       key: "2",
-      label: <div className={styles.dropDown_Items} onClick={() => setModalStatus(true)}>修改密码</div>,
+      label: (
+        <div
+          className={styles.dropDown_Items}
+          onClick={() => setModalStatus(true)}
+        >
+          修改密码
+        </div>
+      ),
       icon: <SettingOutlined />,
     },
     {
@@ -118,14 +161,66 @@ export default function TopHeader() {
     },
   ];
 
+  //获取当前代理的订单信息统计
+  const loadCurrentProxyStatic = async () => {
+    const res: any = await loadTradeStatic({
+      page: 1,
+      pageSize: 10,
+      startTime: dayjs(new Date()).format("YYYY-MM-DD") + " 00:00:00",
+      endTime: dayjs(new Date()).format("YYYY-MM-DD") + " 23:59:59",
+      agentId: userInfo.id,
+    });
+    console.log(res);
+    if (res && res.code === 200) {
+      setProxyorderStatic(res.page.list[0]);
+    }
+  };
+
+  console.log(userInfo);
+
+  //查询店铺状态
+  const loadProxyStatus = async () => {
+    console.log("查询状态");
+    const res: any = await loadProxyDetailInfo({});
+    console.log(res);
+    if (res && res.code === 200) {
+      setproxyInfo(res.data.agent);
+    }
+  };
+
+  //开启关闭店铺
+  const switchCurrentProxyInfo = async (checked: any) => {
+    console.log(checked);
+    const res: any = await changeHeadImg({
+      id: userInfo.id,
+      openStatus: Number(Boolean(checked) ? 1 : 2),
+    });
+    if (res && res.code === 200) {
+      message.open({ type: "success", content: "修改成功" });
+      loadProxyStatus();
+    }
+  };
 
   useEffect(() => {
-    if (wsData && wsData.msgId && wsData.type) {
-      console.log(wsData)
-      setUnReadNum(unReadNum+1)
+    if (
+      (wsData && wsData.msgId && wsData.type) ||
+      (wsData.code && wsData.code === 2)
+    ) {
+      console.log(wsData);
+      if (pathname !== "/payment/cusroom") {
+        // setUnReadNum(unReadNum+1)
+        // dispatch(switchUnreadNum({ 'ac': 'add', 'num': 1 } as any))
+      }
+      warningRef && (warningRef.current as any).play();
     }
-  }, [wsData])
+  }, [wsData]);
 
+  useEffect(() => {
+    if (userInfo.userType === 1) {
+      loadCurrentProxyStatic();
+      loadProxyStatus();
+    }
+  }, []);
 
   return (
     <>
@@ -139,17 +234,93 @@ export default function TopHeader() {
             fontSize: "16px",
             width: 64,
             height: 64,
-            color: `${cusColor}`
+            color: `${cusColor}`,
+            float: "left",
           }}
         />
+        {userInfo.userType === 1 ? (
+          <div className={styles.top_header_static}>
+            <div className={styles.static_item}>
+              <span className={styles.static_num}>
+                {proxyOrderStatic && proxyOrderStatic.chatPeople
+                  ? proxyOrderStatic.chatPeople
+                  : 0}
+              </span>
+              <span className={styles.static_label}>今日接待</span>
+            </div>
+            <div className={styles.static_item}>
+              <span className={styles.static_num}>
+                {proxyOrderStatic &&
+                proxyOrderStatic.totalRechargeCount &&
+                proxyOrderStatic.rechargePeople
+                  ? Number(proxyOrderStatic.totalRechargeCount) -
+                    Number(proxyOrderStatic.rechargePeople)
+                  : 0}
+              </span>
+              <span className={styles.static_label}>未付款</span>
+            </div>
+            <div className={styles.static_item}>
+              <span className={styles.static_num}>
+                {proxyOrderStatic && proxyOrderStatic.rechargeCount
+                  ? proxyOrderStatic.rechargeCount
+                  : 0}
+              </span>
+              <span className={styles.static_label}>已付款</span>
+            </div>
+          </div>
+        ) : null}
+        {userInfo.usertype === 1 ? (
+          <div
+            className={styles.reloadBtn}
+            onClick={() => loadCurrentProxyStatic()}
+          >
+            <RedoOutlined />
+          </div>
+        ) : null}
         <div className={styles.user_head_container}>
           <Space>
-            <CusColor/>
-            {
-              userInfo.userType === 1 ?  <div className={ styles.ring_container }  onClick={() => openChatRoom()}><Badge count={(unReadNum as any)}>
-              <BellOutlined  className={ styles.messageTips } style={{ color: 'white' }} />
-           </Badge> </div>: null
-            }
+            {userInfo.userType === 1 ? (
+              <>
+                <div className={styles.storeAmount}>
+                  <span className={styles.storeLabel}>店铺余额: </span>
+                  <span className={styles.storeAc}>
+                    {Number(Number(proxyInfo.amount) / 100).toFixed(2)}
+                  </span>
+                </div>
+                <div className={styles.storeStatus}>
+                  <span className={styles.storeStatuslabel}>店铺状态: </span>
+                  <Switch
+                    checkedChildren={<CheckOutlined />}
+                    unCheckedChildren={<CloseOutlined />}
+                    checked={Number(proxyInfo.openStatus) === 1 ? true : false}
+                    onClick={(checked: boolean) =>
+                      switchCurrentProxyInfo(checked)
+                    }
+                  />
+                </div>
+              </>
+            ) : null}
+            <CusColor />
+            {userInfo.userType === 1 ? (
+              <div
+                className={styles.ring_container}
+                onClick={() => openChatRoom()}
+              >
+                <Badge count={unReadNum as any}>
+                  <BellOutlined
+                    className={styles.messageTips}
+                    style={{ color: "white" }}
+                  />
+                  <audio
+                    className={styles.audio_player}
+                    ref={warningRef}
+                    controls
+                    src={msgWaring}
+                    preload="preload"
+                  />
+                </Badge>{" "}
+              </div>
+            ) : null}
           </Space>
           <Dropdown menu={{ items }} placement="bottom">
             <a onClick={(e) => e.preventDefault()}>
@@ -157,19 +328,28 @@ export default function TopHeader() {
                 <span className={styles.user_head}>
                   <img
                     className={styles.user_Img}
-                    src={ userInfo.fastUrl+ userInfo.headImage}
+                    src={userInfo.fastUrl + userInfo.headImage}
                     alt=""
-                    style={{ borderRadius: '50%' }}
+                    style={{ borderRadius: "50%" }}
                   />
-                  <span className={styles.user_Name}>{ userInfo.name }</span>
+                  <span className={styles.user_Name}>{userInfo.name}</span>
                 </span>
               </Space>
             </a>
           </Dropdown>
         </div>
-        <ResetPassModal open={modalStatus} userInfo={userInfo} closeModal={closeModal} isTop={true}/>
-        <ChatRoomIndex open={chatRoomStatus} closeChatRoom={closeChatRoom}  />
-        <ChangeAvatorModal open={ avatorModalStatus } userInfo={userInfo} closeModal={closeAvatorModal}/>
+        <ResetPassModal
+          open={modalStatus}
+          userInfo={userInfo}
+          closeModal={closeModal}
+          isTop={true}
+        />
+        <ChatRoomIndex open={chatRoomStatus} closeChatRoom={closeChatRoom} />
+        <ChangeAvatorModal
+          open={avatorModalStatus}
+          userInfo={userInfo}
+          closeModal={closeAvatorModal}
+        />
       </Header>
     </>
   );

@@ -110,12 +110,12 @@ const useWebSocket = (url: string, info: any) => {
              if(evt.data.indexOf('HEARTBEAT_RESPONSE') === -1 && evt.data.indexOf('CHAT_SEND_RESPONSE') === -1 && evt.data.indexOf('加藤代理欢迎你') === -1) {
                 let data = JSON.parse(evt.data)
                 setWsData(data)
-                if(location.hash.indexOf('/cusroom') === -1) {
+                if(location.hash.indexOf('/payment/cusroom') === -1) {
                     if(((data && data.msgId && data.type) || (data.code && data.code === 2))){
                         dispatch(switchUnreadNum({ 'ac': 'add', 'num': 1 } as any))
                     }
                 }else {
-                    if(((data && data.msgId && data.type) || (data.code && data.code === 2))){
+                    if(((data.code && data.code === 2))){
                         location.reload()
                     }
                 }

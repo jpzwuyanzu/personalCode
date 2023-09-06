@@ -297,7 +297,7 @@ export default function TopHeader() {
                 </div>
               </>
             ) : null}
-            <CusColor />
+            {/* <CusColor /> */}
             {userInfo.userType === 1 ? (
               <div
                 className={styles.ring_container}

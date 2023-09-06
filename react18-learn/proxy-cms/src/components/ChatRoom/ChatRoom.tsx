@@ -61,8 +61,8 @@ const ChatRoom = () => {
   const naviagte = useNavigate();
   const dispatch = useAppDispatch();
   const userInfo = useAppSelector((state: any) => state.user.userInfo);
-  // const [createWebSocket, ws, wsData] = useWebSocket(`ws://172.28.113.248:10086/webSocket`,{});
-  const [_createWebSocket, ws, wsData] = useWebSocket(`ws://34.92.25.18:10086/webSocket`,{});
+  const [_createWebSocket, ws, wsData] = useWebSocket(`ws://172.28.113.248:10086/webSocket`,{});
+  // const [_createWebSocket, ws, wsData] = useWebSocket(`ws://34.92.25.18:10086/webSocket`,{});
   const [cusList, setCusList] = useState<any[]>([]); // 左侧联系人列表
   const [chatUserIndex, setChatUserIndex] = useState<any>(); // 左侧用户列表选中项
   const [fastImgUrl, setFastImgUrl] = useState("");
@@ -138,7 +138,6 @@ const ChatRoom = () => {
           supportPayTypeList.push(itm);
         }
       });
-      console.log(supportPayTypeList);
       if (supportPayTypeList.length) {
         setExPayType(supportPayTypeList);
       }
@@ -158,7 +157,6 @@ const ChatRoom = () => {
   const handlePreImgModalOk = () => {
     setIsModalOpen(false);
     //在这里发送socket消息
-    console.log("在这里发送socket消息");
     handleMessageSend(1);
   };
   const handlePreImgModalCancel = () => {
@@ -168,11 +166,8 @@ const ChatRoom = () => {
   //上传图片
   const uploadMessageImg = () => {
     let imgFormData = null;
-    console.log("999999");
-    console.log(inputRef);
     if (inputRef && inputRef.current) {
       inputRef.current.addEventListener("change", function (event: any) {
-        console.log(909090909);
         let $file = event.currentTarget;
         let file: any = $file?.files;
         let URL: string | null = null;
@@ -191,7 +186,6 @@ const ChatRoom = () => {
           if (res && res.code && res.code === 200) {
             setFastImgUrl(res.data.fastPath);
             if (URL) {
-              console.log(URL);
               setPreviewImgUrl(URL);
               showPreImgModal();
             }
@@ -203,9 +197,7 @@ const ChatRoom = () => {
 
  //查询店铺信息
 const loadProxyStatus = async () => {
-  console.log("查询状态");
   const res: any = await loadProxyDetailInfo({});
-  console.log(res);
   if (res && res.code === 200) {
     dispatch(changeProxy(res.data.agent))
   }
@@ -220,7 +212,6 @@ const loadProxyStatus = async () => {
       endTime: dayjs(new Date()).format("YYYY-MM-DD") + " 23:59:59",
       agentId: userInfo.id,
     });
-    console.log(res);
     if (res && res.code === 200) {
       // setProxyorderStatic(res.page.list[0]);
       dispatch(changeStatic(res.page.list[0]))
@@ -242,7 +233,6 @@ const loadProxyStatus = async () => {
       payCode: receive,
       realAmount: Number(actAmount) * 100,
     });
-    console.log(res);
     if (res && res.code === 200) {
       setIsConfirmModalOpen(false);
       setIsShowCountDown(false);
@@ -305,7 +295,6 @@ const loadProxyStatus = async () => {
 
   //连接建立之后需要发送拉取聊天记录
   const handleMessageHistory = (orderNumber: any) => {
-    console.log(cusList)
     if (cusList && cusList.length) {
       let insertMsg: any = {
         fromUserId: `AGENT_${userInfo.id}`, //userInfo.id
@@ -320,7 +309,6 @@ const loadProxyStatus = async () => {
         createOrder: 0,
         msgId: uuidv4(),
       };
-      console.log(ws);
       ws &&
         ws.readyState === 1 &&
         ws.send(
@@ -334,7 +322,6 @@ const loadProxyStatus = async () => {
 
   //发送指定的支付方式类型给用户
   const sendPayTypeMessage = (itm: any) => {
-    console.log(itm);
     let temp: any = [...messageList];
     let insertMessage: any = {
       chatIndex: uuidv4(),
@@ -390,7 +377,6 @@ const loadProxyStatus = async () => {
 
   //enter发送消息
   const handleEnterKey = (e: any) => {
-    console.log(e);
     e.preventDefault();
     if (e.nativeEvent.keyCode === 13 && inputMessage) {
       handleMessageSend(0);
@@ -434,9 +420,7 @@ const loadProxyStatus = async () => {
 
   //加载当前客户的订单
   const getCusOrderDetail = async (fromUserId: any, orderNumber: any) => {
-    console.log(fromUserId);
     const res: any = await loadCusOrderDetail({ fromUserId, orderNumber });
-    console.log(res);
     if (res.code === 200 && res.data && res.data.order) {
       setCusOrderInfo(res.data.order);
       loadQuickPaytype(res.data.order);
@@ -451,7 +435,6 @@ const loadProxyStatus = async () => {
     // ws && ws.close()
     setMessageList([]);
     // createWebSocket()
-    console.log(cusList, chatUserIndex);
     let tempCus: any = [];
     cusList.map((itm, _index) => {
       if (itm.orderNumber === cusList[index].orderNumber) {
@@ -482,7 +465,6 @@ const loadProxyStatus = async () => {
   //修改订单状态
   const switchOrderStatus = async (merchantOrderId: any, payStatus: any) => {
     const res: any = await changeOrderStatus({ merchantOrderId, payStatus });
-    console.log(res);
     if (res.code === 200) {
       setIsShowCountDown(false);
       getCusOrderDetail(
@@ -495,10 +477,8 @@ const loadProxyStatus = async () => {
 
   //过滤左侧联系人
   const handleFilterCusList = (val: any) => {
-    console.log(val);
     let temp = [];
     temp = cusList.filter((itm: any) => itm.fromUserName.indexOf(val) !== -1);
-    console.log(temp);
     setFilterCusList([...temp]);
   };
 
@@ -508,8 +488,6 @@ const loadProxyStatus = async () => {
   }, [messageList]);
 
   useEffect(() => {
-    console.log(wsData);
-    console.log(messageList);
     if (wsData && wsData.msgId && wsData.type) {
       if (wsData.orderNumber === cusList[chatUserIndex]["orderNumber"]) {
         setMessageList([...messageList, wsData]);
@@ -526,21 +504,16 @@ const loadProxyStatus = async () => {
           }
           tempCus.push(itm);
         });
-        console.log(tempCus);
         setCusList(tempCus);
         setStorage("session", wsData.orderNumber, Number(unRead) + 1);
       }
       //code: 1:代表聊天记录 2:代表新增的联系人
     } else if (wsData && wsData.code === 1) {
-      console.log(wsData);
       setMessageList(wsData.list);
     } else if (wsData && wsData.code === 2) {
-      console.log(cusList);
-      console.log(wsData);
       let res: any = cusList.filter(
         (itm, _inx) => wsData.list[0]["fromUserId"] === itm["fromUserId"]
       );
-      console.log(res);
       if (!res.length) {
         setCusList([...cusList, ...wsData.list]);
       }
@@ -561,7 +534,6 @@ const loadProxyStatus = async () => {
     loadQuickReplayList();
     dispatch(switchUnreadNum({ 'ac': 'equal', 'num': 0 } as any))
     return () => {
-      console.log(ws)
       ws && ws.close();
     };
   }, []);
@@ -791,7 +763,6 @@ const loadProxyStatus = async () => {
                           </div>
                         );
                       case 4:
-                        console.log(itm)
                         // console.log(JSON.parse(itm.content));
                         return (
                           <div
@@ -924,7 +895,6 @@ const loadProxyStatus = async () => {
                     placeholder="请输入消息内容"
                     value={inputMessage}
                     onChange={(val: any) => {
-                      console.log(val);
                       setInputMessage(val.target.value);
                     }}
                     onPressEnter={handleEnterKey}

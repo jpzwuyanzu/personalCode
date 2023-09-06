@@ -45,7 +45,6 @@ const Proxy = () => {
   }
 
   const handleConfirmReport = async () => {
-    console.log(reportFactInfo)
     if(reportFactInfo) {
       let res: any = await addReport({
         playerId: searchParams.get("fromUserId"),
@@ -102,7 +101,6 @@ const Proxy = () => {
   //获取当前订单信息
   const loadOrderDetailInfo = async() => {
     const res: any = await loadCusOrderDetail({ fromUserId: searchParams.get('fromUserId'), orderNumber: searchParams.get('orderNumber')})
-    console.log(res)
     if(res.code === 200 && res.data && res.data.order) {
       setOrderInfo(res.data.order)
       setOrderStatus(res.data.order.payStatus)
@@ -113,14 +111,12 @@ const Proxy = () => {
 
 
   useEffect(() => {
-    console.log(search);
     setActiveKey(
       (pathname as any).slice(-1) === "/" ? pathname : pathname + "/"
     );
   }, [pathname]);
 
   useEffect(() => {
-   console.log(orderStateCache)
    if(orderStateCache) {
     loadOrderDetailInfo()
     dispatch(switchState({ status: false }))

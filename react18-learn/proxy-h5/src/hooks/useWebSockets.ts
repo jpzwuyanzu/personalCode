@@ -11,10 +11,6 @@ const useWebSocket = (url: string, info: any) => {
 
     const { search } = useLocation()
     const searchParams = new URLSearchParams(search);
-    
-    // console.log(decodeURIComponent(search.split("?")[1].split("&")))
-    console.log(search.split("?")[1].split("&"))
-    // console.log(search.split("?")[1].split("&")[3].split('='))
     //接收的消息
     const [wsData, setWsData] = useState({})
     //客户端定时器
@@ -143,7 +139,6 @@ const useWebSocket = (url: string, info: any) => {
         }
         //接收消息
         wsRef.current.onmessage = function (evt: any) {
-            console.log(evt)
             // let data = JSON.parse(evt.data) // 接收消息string=>json
             if(evt.data.indexOf('HEARTBEAT_RESPONSE') === -1 && evt.data.indexOf('CHAT_SEND_RESPONSE') === -1) {
                 let data = JSON.parse(evt.data)
@@ -156,7 +151,6 @@ const useWebSocket = (url: string, info: any) => {
 
     useEffect(() => {
         if (!url) return
-        console.log('0-0-0-0-')
         createWebSocket()
     }, [url])
 

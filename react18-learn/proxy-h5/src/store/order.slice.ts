@@ -18,7 +18,6 @@ const { actions, reducer: UpdateStateReducer } = createSlice({
     initialState: initialState,
     reducers: {
         switchState: (state: IsUpdateState, { payload }: any) => {
-            console.log(payload,'-=-=-=-=-')
             state.status = payload.status;
         }
     }

@@ -40,8 +40,6 @@ export default function PaymentTypeModule({
   open,
   closeDrawer,
 }: IProps) {
-  console.log(paymentTypeInfo);
-  console.log(fastHeadHost)
   const [paymentTypeForm] = Form.useForm();
   const [payCodeNow, setPayCodeNow] = useState('UNION_PAY'); //设置默认的收款方式
   const [isJumpOutSide, setIsJumpOutSide] = useState(1); //是否是外跳链接 1:内跳 2:外跳
@@ -57,7 +55,6 @@ export default function PaymentTypeModule({
   const fetchData = async () => {
     if (open) {
       if (paymentTypeForm) {
-        console.log(paymentTypeInfo);
         if (Object.keys(paymentTypeInfo).length) {
           let supAmountList:any = [];
           if((paymentTypeInfo as any).amountList && (paymentTypeInfo as any).amountList.length) {
@@ -103,7 +100,6 @@ export default function PaymentTypeModule({
           setIsJumpOutSide(1)
           setSupportAmount([]);
         }
-        console.log(paymentTypeForm.getFieldsValue())
       }
     }
   };
@@ -134,8 +130,6 @@ export default function PaymentTypeModule({
     paymentTypeForm
       ?.validateFields()
       .then(async (values) => {
-        console.log(values)
-        console.log(paymentTypeInfo)
         //这里将支持金额数据转换成分
         let supAmountList:any = [];
         if(values.amountList && values.amountList.length) {

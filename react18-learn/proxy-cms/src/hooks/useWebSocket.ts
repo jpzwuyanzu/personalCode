@@ -116,7 +116,7 @@ const useWebSocket = (url: string, _info: any) => {
                     }
                 }else {
                     if(((data.code && data.code === 2))){
-                        location.reload()
+                        // location.reload()
                     }
                 }
             }
@@ -127,7 +127,6 @@ const useWebSocket = (url: string, _info: any) => {
 
     useEffect(() => {
         if (!url) return
-        console.log('0-0-0-0-')
         if(userInfo.userType === 1) createWebSocket()
     }, [url])
 

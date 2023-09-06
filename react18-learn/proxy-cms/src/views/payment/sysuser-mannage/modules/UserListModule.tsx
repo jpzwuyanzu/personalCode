@@ -46,15 +46,12 @@ export default function UserListModule({
   open,
   closeDrawer,
 }: IProps) {
-  console.log(fastHeadHost)
-  console.log(userInfo)
   const [userForm] = Form.useForm();
   const [roleList, SetRoleList] = useState<any[]>([]);
   const [fastUrl, setFastUrl] = useState<string>('');
   const [choosedRole, setChoosedRole] = useState<any>('');
 
   const saveUploadImgUrl = (url: string) => {
-    console.log(url)
     setFastUrl(url)
   }
 
@@ -76,7 +73,6 @@ export default function UserListModule({
         });
       }
       if (userForm) {
-        console.log(userInfo)
         if (Object.keys(userInfo).length) {
           userForm.setFieldsValue({
             name: (userInfo as any).name,
@@ -114,11 +110,9 @@ export default function UserListModule({
   };
 
   const confirmEditUser = async () => {
-    console.log(fastUrl)
     userForm
       ?.validateFields()
       .then(async (values) => {
-        console.log(values)
         if (Object.keys(userInfo).length) {
           const res: any = await createUser({
             rolesList: values.roleid,

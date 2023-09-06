@@ -44,7 +44,6 @@ const ChatHistory: React.FC = () => {
   };
 
   const onFinish = (values: any) => {
-    console.log(values);
     if (values["createTime"] && values["createTime"].length) {
       values["startMs"] = new Date(dayjs(new Date(values["createTime"][0])).format('YYYY-MM-DD') + ' 00:00:00').getTime();
       values["endMs"] = new Date(dayjs(new Date(values["createTime"][1])).format('YYYY-MM-DD') + ' 23:59:59').getTime();
@@ -94,7 +93,6 @@ const ChatHistory: React.FC = () => {
     (page: number, pageSize: number) => {
       setpage(page);
       setPageSize(pageSize);
-      console.log(searchUserForm.getFieldsValue());
       let temp: any = searchUserForm.getFieldsValue()["createTime"];
       let params: any = {chatGroup: 1};
       if (temp && temp.length) {
@@ -108,7 +106,6 @@ const ChatHistory: React.FC = () => {
 
   const fetchData = async (params?: any) => {
     setLoading(true);
-    console.log({ page, pageSize, ...params })
     const data: any = await loadChatRecordHistory({ page, pageSize, ...params });
     setLoading(false);
     if (data && data.code && data.code === 200) {

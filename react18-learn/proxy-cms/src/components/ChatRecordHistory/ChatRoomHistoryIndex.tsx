@@ -18,12 +18,10 @@ const ChatRoomHistoryIndex: any = ({ open, closeChatRoom }:IProps) => {
 
 
   const handleOk = (e: React.MouseEvent<HTMLElement>) => {
-    console.log(e);
     closeChatRoom()
   };
 
   const handleCancel = (e: React.MouseEvent<HTMLElement>) => {
-    console.log(e);
     // setOpen(false);
     closeChatRoom()
   };

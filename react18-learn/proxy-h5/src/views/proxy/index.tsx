@@ -53,10 +53,6 @@ const ProxyIndex = () => {
     return temp
   }, [proxUserList])
 
-  //返回上一页
-  const back = () => {
-    console.log("909090");
-  };
   //跳转到代理通道
   const linkProxy = (proxyId: number,proxyName: string) => {
     navigate(`/chat/chatroom?toUserId=AGENT_${proxyId}&toUserName=${proxyName}&orderNumber=${searchParams.get('orderNumber')}&orderAmount=${searchParams.get('orderAmount')}&orderType=${searchParams.get('orderType')}&fromUserId=${searchParams.get('fromUserId')}&fromUserName=${searchParams.get('fromUserName')}`);
@@ -73,7 +69,6 @@ const ProxyIndex = () => {
   }
   //根据代理状态，处理逻辑
   const handleChooseProxy = (proxyInfo: any) => {
-      console.log(proxyInfo)
       if(proxyInfo['status']) {
         linkProxy(proxyInfo['id'], proxyInfo['proxyName'])
       } else {
@@ -82,12 +77,10 @@ const ProxyIndex = () => {
   }
 //加载在线代理列表
 const loadProxyList = async () => {
-  console.log(search)
   //["userName='%E5%BC%A0%E4%B8%89'", 'userId=12222222', 'orderNumber=11111111', 'orderAmount=100000', 'orderType=1']
   //orderType: 1:游戏充值 3:金币充值 2:会员充值
   let res: any = await getOnlineAgent({ orderNumber:searchParams.get('orderNumber'), orderAmount: searchParams.get('orderAmount'), orderType: searchParams.get('orderType')})
   if(res.code === 200) {
-    console.log(res.data)
     setProUserList(res.data ? res.data.agent : [])
     setHeadFastUrl(res.data ? res.data.fastUrl : '')
     setOnLineStatus(res.data.isOnline)
@@ -102,7 +95,6 @@ const loadProxyList = async () => {
 //获取代理公告
 const loadProxynotice = async () => {
   let res: any = await getAgentNotice({})
-  console.log(res)
   if(res.code === 200 && res.data) {
     setNoticeContent(res.data.notice ? res.data.notice : '')
     res.data.notice && setVisible(true)

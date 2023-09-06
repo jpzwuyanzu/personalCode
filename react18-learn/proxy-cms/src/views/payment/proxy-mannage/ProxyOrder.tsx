@@ -51,7 +51,6 @@ const ProxyOrder: React.FC = () => {
       searchUserForm?.setFieldsValue({platformOrderId: searchParams.get("orderNo")});
     }
     
-    console.log(dayjs(new Date(temp[0])).format("YYYY-MM-DD") + " 00:00:00");
     if (temp && temp.length) {
       params["startMs"] = new Date(
         dayjs(new Date(temp[0])).format("YYYY-MM-DD") + " 00:00:00"
@@ -65,7 +64,6 @@ const ProxyOrder: React.FC = () => {
   };
 
   const onFinish = (values: any) => {
-    console.log(values);
     if (values["createTime"] && values["createTime"].length) {
       values["startMs"] = new Date(
         dayjs(new Date(values["createTime"][0])).format("YYYY-MM-DD") +
@@ -119,7 +117,6 @@ const ProxyOrder: React.FC = () => {
     (page: number, pageSize: number) => {
       setpage(page);
       setPageSize(pageSize);
-      console.log(searchUserForm.getFieldsValue());
       let temp: any = searchUserForm.getFieldsValue()["createTime"];
       let params: any = {};
       if (temp && temp.length) {
@@ -137,7 +134,6 @@ const ProxyOrder: React.FC = () => {
 
   const fetchData = async (params?: any) => {
     setLoading(true);
-    console.log({ page, pageSize, ...params });
     const data: any = await proxyOrderList({ page, pageSize, ...params });
     setLoading(false);
     if (data && data.code && data.code === 200) {
@@ -171,7 +167,6 @@ const ProxyOrder: React.FC = () => {
       orderType,
       merchantId,
     });
-    console.log(res);
     if (res && res.code === 200) {
       message.open({
         type: "success",
@@ -511,7 +506,6 @@ const ProxyOrder: React.FC = () => {
   ];
 
   useEffect(() => {
-    console.log(searchParams.get("orderNo"));
     //判断是否是否带有参数
     initSearchDate();
     return () => {};

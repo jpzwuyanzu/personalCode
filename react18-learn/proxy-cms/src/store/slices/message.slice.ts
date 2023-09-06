@@ -20,7 +20,6 @@ const { actions, reducer: UnreadNumReducer } = createSlice({
     initialState,
     reducers: {
         switchUnreadNum: (state: unreadNum, action: any) => {
-            console.log(action)
             if(action.payload.ac === "equal") {
                 state.unreadNum  = Number(action.payload.num)
             } else if(action.payload.ac === "add") {

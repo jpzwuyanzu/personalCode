@@ -14,8 +14,6 @@ interface IProps {
 }
 
 const CusUpload: any = ({ uploadInfo, isAdd, saveUploadImgUrl, fastHeadHost }:IProps) => {
-  console.log(uploadInfo)
-  console.log(fastHeadHost)
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
@@ -28,11 +26,9 @@ const CusUpload: any = ({ uploadInfo, isAdd, saveUploadImgUrl, fastHeadHost }:IP
     },
   ]);
 
-  console.log(fileList)
 
 
   const onChange: UploadProps['onChange'] = async ({ fileList: newFileList }) => {
-    console.log(newFileList)
     setFileList(newFileList);
   };
 
@@ -42,8 +38,6 @@ const CusUpload: any = ({ uploadInfo, isAdd, saveUploadImgUrl, fastHeadHost }:IP
       formData.append('file', files.file)
       const res: any = await uploadFastImg(formData)
       if(res && res.code && res.code === 200) {
-        console.log(res.data)
-        console.log(fileList)
         setFileList([{...fileList[0],'status': 'done','thumbUrl': res.data.fastUrl+''+res.data.fastPath, url: res.data.fastUrl+''+res.data.fastPath}])
         saveUploadImgUrl(res.data.fastPath)
       } else {

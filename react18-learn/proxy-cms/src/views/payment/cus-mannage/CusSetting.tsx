@@ -35,7 +35,6 @@ const CusSetting: React.FC = () => {
     setLoading(true);
     const data: any = await quickFeedBack({ ...params });
     setLoading(false);
-    console.log(data);
     if (data && data.code && data.code === 200) {
       setTableList(data.data.list ? data.data.list : []);
     } else {

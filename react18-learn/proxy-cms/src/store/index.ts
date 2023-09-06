@@ -29,12 +29,12 @@ const persistStaticReducer = persistReducer(persistConfig, StaticReducer)
 const store = configureStore({
     //reducer选项用于替换原有的combineReducer方法，用于合并应用中的多个reducer函数，组成最终的store
     reducer: {
-        [COLLAPSE_FATURE_KEY]: persistCollapseReducer,
         [USER_FEATURE_KEY]: persistUserReducer,
+        [COLLAPSE_FATURE_KEY]: persistCollapseReducer,
         [CUSCOLOR_FETURE_KEY]: persistCusolorReducer,
         [UNREADNUM_FETURE_KEY]: persistUnreadNumReducer,
         [PROXY_FETURE_KEY]: persistProxyReducer,
-        [STATIC_FETURE_KEY]: persistStaticReducer
+        [STATIC_FETURE_KEY]: persistStaticReducer,
     },
     // 配置中间件
     middleware: (getDefaultMiddleware) => [

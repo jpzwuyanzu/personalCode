@@ -20,7 +20,6 @@ const { actions, reducer: ProxyReducer } = createSlice({
     initialState,
     reducers: {
         changeProxy: (state: IProxy, action: any) => {
-            console.log(action)
             state.proxy = action.payload
             
         }

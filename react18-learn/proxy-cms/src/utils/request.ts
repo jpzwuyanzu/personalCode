@@ -36,6 +36,7 @@ service.interceptors.response.use(
                 sessionStorage.clear();
                 localStorage.clear();
                 window.location.href = window.location.origin+'/#/login'
+                debugger
             }
             message.open({
                 type: 'error',

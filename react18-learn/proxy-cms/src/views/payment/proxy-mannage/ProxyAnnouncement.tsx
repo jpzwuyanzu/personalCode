@@ -177,7 +177,6 @@ const ProxyAnnouncement: React.FC = () => {
 
   //新增/编辑用户
   const openDrawer = (moduleWidth: string, anoceMentInfo: any) => {
-    console.log(anoceMentInfo)
     setModuleWidth(moduleWidth);
     setAnoceMentInfo(anoceMentInfo);
     setOpen(true);

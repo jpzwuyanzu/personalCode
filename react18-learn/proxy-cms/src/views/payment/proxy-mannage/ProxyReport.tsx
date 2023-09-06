@@ -46,7 +46,6 @@ const ProxyReport: React.FC = () => {
   };
 
   const onFinish = (values: any) => {
-    console.log(values);
     if (values["createTime"] && values["createTime"].length) {
       values["startTime"] = dayjs(
         new Date(values["createTime"][0]).getTime()
@@ -91,7 +90,6 @@ const ProxyReport: React.FC = () => {
     (page: number, pageSize: number) => {
       setpage(page);
       setPageSize(pageSize);
-      console.log(searchUserForm.getFieldsValue());
       let temp: any = searchUserForm.getFieldsValue()["createTime"];
       let params: any = {};
       if (temp && temp.length) {

@@ -45,8 +45,8 @@ import { changeStatic } from "@/store/slices/static.slice";
 const { Header } = Layout;
 
 export default function TopHeader() {
-  // const [createWebSocket, ws, wsData] = useWebSocket(`ws://172.28.113.248:10086/webSocket`,{}); //本地
-  const [_createWebSocket, _ws, wsData] = useWebSocket(`ws://34.92.25.18:10086/webSocket`,{}); //测试
+  const [_createWebSocket, _ws, wsData] = useWebSocket(`ws://172.28.113.248:10086/webSocket`,{}); //本地
+  // const [_createWebSocket, _ws, wsData] = useWebSocket(`ws://34.92.25.18:10086/webSocket`,{}); //测试
   const { pathname } = useLocation();
   const collapsed = useAppSelector((state) => state.collapse.status);
   const userInfo = useAppSelector((state) => state.user.userInfo);
@@ -95,7 +95,6 @@ export default function TopHeader() {
   //打开聊天室
   const openChatRoom = async () => {
     const res: any = await loadCusList({});
-    console.log(res);
     if (res && res.code === 200) {
       // setUnReadNum(0)
       dispatch(switchUnreadNum({ ac: "equal", num: 0 } as any));
@@ -168,20 +167,16 @@ export default function TopHeader() {
       endTime: dayjs(new Date()).format("YYYY-MM-DD") + " 23:59:59",
       agentId: userInfo.id,
     });
-    console.log(res);
     if (res && res.code === 200) {
       // setProxyorderStatic(res.page.list[0]);
       dispatch(changeStatic(res.page.list[0]))
     }
   };
 
-  console.log(userInfo);
 
   //查询店铺状态
   const loadProxyStatus = async () => {
-    console.log("查询状态");
     const res: any = await loadProxyDetailInfo({});
-    console.log(res);
     if (res && res.code === 200) {
       dispatch(changeProxy(res.data.agent))
     }
@@ -189,7 +184,6 @@ export default function TopHeader() {
 
   //开启关闭店铺
   const switchCurrentProxyInfo = async (checked: any) => {
-    console.log(checked);
     const res: any = await changeHeadImg({
       id: userInfo.id,
       openStatus: Number(Boolean(checked) ? 1 : 2),
@@ -202,7 +196,6 @@ export default function TopHeader() {
 
   useEffect(() => {
     if ((wsData && wsData.msgId && wsData.type) || (wsData.code && wsData.code === 2)) {
-      console.log(wsData);
       if (pathname === "/payment/cusroom") {
         // setUnReadNum(unReadNum+1)
         // dispatch(switchUnreadNum({ 'ac': 'add', 'num': 1 } as any))

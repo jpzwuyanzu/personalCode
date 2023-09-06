@@ -19,7 +19,6 @@ interface IProps {
 
 const Recharge = ({reTypeP, accTypeP,reNameP, reAccountP, reBankNameP, amount, rePayImageP}:any) => {
   const navigate = useNavigate();
-  console.log(reTypeP)
   const { pathname, search } = useLocation();
   const searchParams = new URLSearchParams(search);
   const [imgPreVisiable, setImgPreVisiable] = useState(false);

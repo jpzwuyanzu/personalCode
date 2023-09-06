@@ -11,13 +11,10 @@ const  Home = () => {
   const dispatch = useAppDispatch();
   const userInfo = useAppSelector((state) => state.user.userInfo);
   let proxyInfo = useAppSelector((state) => state.proxy.proxy)
-  console.log(userInfo)
 
 //查询店铺状态
 const loadProxyStatus = async () => {
-  console.log("查询状态");
   const res: any = await loadProxyDetailInfo({});
-  console.log(res);
   if (res && res.code === 200) {
     dispatch(changeProxy(res.data.agent))
   }
@@ -25,7 +22,6 @@ const loadProxyStatus = async () => {
 
 //开启关闭店铺
   const switchCurrentProxyInfo = async(checked:any) => {
-    console.log(checked)
     const res:any = await changeHeadImg({ id: userInfo.id, openStatus: Number(Boolean(checked) ? 1 : 2) });
     if(res && res.code === 200){
       message.open({ type: 'success', content: '修改成功' })
@@ -39,7 +35,6 @@ const loadProxyStatus = async () => {
 
 
 
-  console.log(userInfo)
   return (
     <>
     {

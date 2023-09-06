@@ -35,13 +35,11 @@ export default function CusSettingModule({
   open,
   closeDrawer,
 }: IProps) {
-  console.log(quickFeedBackInfo);
   const [userForm] = Form.useForm();
 
   const fetchData = async () => {
     if (open) {
       if (userForm) {
-        console.log(quickFeedBackInfo);
         if (Object.keys(quickFeedBackInfo).length) {
           userForm.setFieldsValue({
             content: (quickFeedBackInfo as any).content,

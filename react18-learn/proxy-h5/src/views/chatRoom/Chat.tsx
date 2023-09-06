@@ -35,8 +35,8 @@ const ossImgUrl = "https://hk-jmcy.oss-cn-hongkong.aliyuncs.com/";
 let checkPayType:any = {};
 
 const Chat = memo(() => {
-  // const [ws, wsData] = useWebSocket("ws://172.28.113.248:10086/webSocket", {}); //本地
-  const [ws, wsData] = useWebSocket("ws://34.92.25.18:10086/webSocket", {}); //测试环境
+  const [ws, wsData] = useWebSocket("ws://172.28.113.248:10086/webSocket", {}); //本地
+  // const [ws, wsData] = useWebSocket("ws://34.92.25.18:10086/webSocket", {}); //测试环境
   const [value, setValue] = useState("");
   const [actionSheetVisible, setActionSheetVisible] = useState(false)
   const navigate = useNavigate();
@@ -60,7 +60,6 @@ const Chat = memo(() => {
 
   //聊天记录滚动到底部
   const scrollToBottom = () => {
-    console.log(listEndRef);
     if (listEndRef && listEndRef.current) {
       listEndRef.current.scrollIntoView({ behavior: "auto" });
     }
@@ -68,7 +67,6 @@ const Chat = memo(() => {
 
   //点击充值方式事件处理
   const handleRechargeTypeClick = (item: any) => {
-    console.log(item);
     checkPayType = {}
     //jumpType 1:非外跳 2:外跳
     if (item.jumpType == 2) {
@@ -103,7 +101,6 @@ const Chat = memo(() => {
       inputRef.current.addEventListener("change", function (event: any) {
         let $file = event.currentTarget;
         let file: any = $file?.files;
-        console.log(file)
         if(Number(file.size) > 10240) {
           Toast.show({ content: '图片最大上传10M', position: 'top' })
           return
@@ -122,8 +119,6 @@ const Chat = memo(() => {
         imgFormData.append("fileSize", file[0].size);
         // imgFormData.append('file', element.file)
         // 获取上传图片的本地URL，用于上传前的本地预览
-        console.log(messageList);
-        console.log(URL);
         uploadFastImg(imgFormData).then((res: any) => {
           if (res && res.code && res.code === 200) {
             setFastImgUrl(res.data.fastPath);
@@ -151,7 +146,6 @@ const Chat = memo(() => {
                       style: { color: "#1677ff" },
                       onClick: () => {
                         //在这里将图片发送塞到websocket中
-                        console.log("确认发送图片");
                         handleSendMessage(1);
                       },
                     },
@@ -167,12 +161,9 @@ const Chat = memo(() => {
 
   //发送消息
   const handleSendMessage = (msgType: any) => {
-    console.log(ws);
-    console.log(fastImgUrl);
     let temp = getStorage("session", searchParams.get("orderNumber"))
       ? JSON.parse(getStorage("session", searchParams.get("orderNumber")))
       : [];
-    console.log(temp);
     setVisibleMask(false)
     let insertMsg = {
       fromUserId: searchParams.get("fromUserId"),
@@ -221,7 +212,6 @@ const Chat = memo(() => {
 
   //监听收到的消息
   useEffect(() => {
-    console.log(wsData);
     if (wsData && wsData.msgId && wsData.type) {
       setStorage("session", searchParams.get("orderNumber"), [
         ...messageList,
@@ -229,7 +219,6 @@ const Chat = memo(() => {
       ]);
       setMessageList([...messageList, wsData]);
     } else if (wsData && wsData.code === 1 && (wsData as any).list.length) {
-      console.log(wsData);
       let temlist = wsData.list;
       // temlist.forEach((itm:any, inx: any) => {
       //   if(itm.type === 4) {
@@ -253,7 +242,6 @@ const Chat = memo(() => {
 
   //页面初始化
   useEffect(() => {
-    console.log(ws);
     if (ws) {
       uploadMessageImg();
     }
@@ -384,8 +372,7 @@ const Chat = memo(() => {
                 );
                 break;
               case 4:
-                console.log(messageList);
-                console.log(JSON.parse(_.content));
+                // console.log(JSON.parse(_.content));
                 return (
                   <div className={styles.rechartype_message} key={_.msgId}>
                     <div className={styles.rechartype_title}>

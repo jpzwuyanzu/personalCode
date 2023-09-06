@@ -20,7 +20,6 @@ const { actions, reducer: StaticReducer } = createSlice({
     initialState,
     reducers: {
         changeStatic: (state: IStatic, action: any) => {
-            console.log(action)
             state.static = action.payload
             
         }

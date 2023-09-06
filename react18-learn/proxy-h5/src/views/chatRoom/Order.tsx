@@ -16,8 +16,6 @@ interface IProp {
 
 const Order = memo(({orderStatusP, orderInfoP}: IProp)=>  {
 
-  console.log(orderStatusP)
-  console.log(orderInfoP)
   const orderStateCache = useAppSelector((state: any) => state.updateState.status)
   const { pathname, search } = useLocation();
   const searchParams = new URLSearchParams(search);
@@ -29,7 +27,6 @@ const Order = memo(({orderStatusP, orderInfoP}: IProp)=>  {
 
   const loadOrderDetail = async() => {
     const res:any = await loadCusOrderDetail({ fromUserId: searchParams.get('fromUserId'), orderNumber: searchParams.get('orderNumber') })
-    console.log(res)
     if(res.code === 200 && res.data && res.data.order) {
       setOrderInfo(res.data.order)
       setOrderStatus(res.data.order.payStatus)
@@ -50,7 +47,6 @@ const Order = memo(({orderStatusP, orderInfoP}: IProp)=>  {
       })
       if (result) {
         const res: any = await changeOrderStatus({merchantOrderId: orderInfoP.merchantOrderId, payStatus: 4})
-        console.log(res)
         if(res && res.code === 200) {
           dispatch(switchState({status: true}))
           // setOrderStatus(4)

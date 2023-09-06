@@ -49,7 +49,6 @@ const OrderDetail: React.FC = () => {
   };
 
   const onFinish = (values: any) => {
-    console.log(values);
     if (values["createTime"] && values["createTime"].length) {
       values["startMs"] = new Date(dayjs(new Date(values["createTime"][0])).format('YYYY-MM-DD') + ' 00:00:00').getTime();
       values["endMs"] = new Date(dayjs(new Date(values["createTime"][1])).format('YYYY-MM-DD') + ' 23:59:59').getTime();
@@ -94,7 +93,6 @@ const OrderDetail: React.FC = () => {
     (page: number, pageSize: number) => {
       setpage(page);
       setPageSize(pageSize);
-      console.log(searchUserForm.getFieldsValue());
       let temp: any = searchUserForm.getFieldsValue()["createTime"];
       let params: any = {};
       if (temp && temp.length) {

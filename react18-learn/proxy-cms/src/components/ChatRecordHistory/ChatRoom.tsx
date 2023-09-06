@@ -65,7 +65,6 @@ const ChatRoom = memo(() => {
 
   //加载联系人列表
   const loadLeftCusList = async () => {
-    console.log(dayjs(new Date()).format("YYYY-MM-DD"));
     const res: any = await loadChatRecordHistory({
       chatGroup: 1,
       startMs: new Date(
@@ -106,7 +105,6 @@ const ChatRoom = memo(() => {
       page: 1,
       pageSize: 500,
     });
-    console.log(res);
     if (res.code === 200) {
       if (res.page.list.length) {
         setMessageList(res.page.list);
@@ -119,8 +117,6 @@ const ChatRoom = memo(() => {
     playerId: any,
     content: any
   ) => {
-    console.log(activeTab, content)
-    console.log(messageResult)
     if ((activeTab === 0 && content) || activeTab === 1 && !content) {
       const initDate: any = getRecentThreeMounth();
       const res: any = await loadChatRecordHistory({
@@ -160,7 +156,6 @@ const ChatRoom = memo(() => {
               })
               imgMsgArr.push({ "msgKey": item, "list": list})
             })
-            console.log(imgMsgArr)
             setMessageResult([...imgMsgArr])
           } else {
             setMessageResult(temp);
@@ -174,7 +169,6 @@ const ChatRoom = memo(() => {
 
   //切换联系人
   const switchCusSocket = (index: any) => {
-    console.log(cusList[index]["playerId"]);
     navigate(
       `/payment/chathistory?playerId=${
         cusList[index]["playerId"]
@@ -197,10 +191,8 @@ const ChatRoom = memo(() => {
 
     //过滤左侧联系人
     const handleFilterCusList = (val: any) => {
-      console.log(val);
       let temp = [];
       temp = cusList.filter((itm: any) => itm.playerName.indexOf(val) !== -1);
-      console.log(temp);
       setFilterCusList([...temp]);
     };
 

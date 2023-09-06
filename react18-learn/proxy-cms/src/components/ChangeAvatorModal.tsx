@@ -15,19 +15,16 @@ const ChangeAvatorModal: any = ({ open, userInfo, closeModal }: IProps) => {
   const [fastUrl, setFastUrl] = useState<string>("");
 
   const saveUploadImgUrl = (url: string) => {
-    console.log(url);
     setFastUrl(url);
   };
 
   const handleOk = async () => {
-    const values = await passForm.validateFields();
-    console.log(values);
+    await passForm.validateFields();
     if (fastUrl) {
       const res: any = await changeHeadImg({
         id: userInfo.id,
         headImage: fastUrl ? fastUrl : (userInfo as any).headImage,
       });
-      console.log(res);
       handleCancel();
       if (res && res.code === 200) {
         message.open({

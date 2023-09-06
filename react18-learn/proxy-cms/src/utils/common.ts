@@ -80,9 +80,7 @@ export function getQueryString(name: string) {
 export function getLocationStr(name: string) {
     const search = window.location.search; // 获取 URL 中的查询字符串，如 "?foo=bar"
     const params = new URLSearchParams(search); // 使用 URLSearchParams 解析查询字符串
-    console.log(params)
     const str = params.get(name); // 获取参数 "foo" 的值
-    console.log(str)
     return str
 }
 

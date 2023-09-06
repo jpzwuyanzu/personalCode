@@ -105,23 +105,17 @@ export default function PayTypeModule({
   const [targetKeys, setTargetKeys] = useState<any[]>([]); //右边已经选择的渠道数据key值数组
   const [leftTransferData, setLeftTransferData] = useState<any>([]); //左边可选渠道数据
 
-  // console.log(payTypeInfo);
 
   const onChange = (nextTargetKeys: string[]) => {
-    // console.log(nextTargetKeys);
     setTargetKeys(nextTargetKeys);
   };
   const changeChannelRadio = (e: any, item: any) => {
-    // console.log(e);
     let originData: any = [...leftTransferData];
-    // console.log(e);
-    // console.log(item);
     originData.forEach((itm: any) => {
       if (itm.id === item.id) {
         itm["ratio"] = Number(e.target.value.split("%")[0]);
       }
     });
-    // console.log(originData);
     setLeftTransferData([...originData]);
   };
 
@@ -229,7 +223,6 @@ export default function PayTypeModule({
             itm["ratio"] = 0;
           });
         }
-        // console.log(allChannelList);
         combineChannelData(allChannelList, payTypeInfo.channelList);
       } else {
         message.open({
@@ -307,7 +300,6 @@ export default function PayTypeModule({
         }
       }
     }
-    // console.log(channelList);
   };
 
   useEffect(() => {

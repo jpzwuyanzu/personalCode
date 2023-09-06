@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from 'react-router-dom'
 import {
-  Space,
   Table,
   Button,
   Form,
@@ -9,10 +8,8 @@ import {
   Col,
   Row,
   message,
-  Popconfirm,
   Select,
   Tag,
-  Image,
   DatePicker,
 } from "antd";
 import { respMessage } from "@/utils/message";
@@ -24,7 +21,6 @@ import {
 import PagiNation from "@/components/PagiNation";
 import { loadTradeRecord } from "@/api/index";
 import dayjs from "dayjs";
-import JudgePemission from "@/components/JudgePemission";
 import { getRecentMounth } from "@/utils/common";
 import { useAppSelector } from "@/hooks/hooks";
 import styles from "./OrderDetail.module.scss";

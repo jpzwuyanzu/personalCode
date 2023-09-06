@@ -1,9 +1,9 @@
+/* eslint-disable */
 import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate, useLocation,useParams } from "react-router-dom";
 import { NavBar, List, Image, Dialog, Modal, Toast } from "antd-mobile";
 import styles from "./index.module.scss";
 import { getOnlineAgent, getAgentNotice } from './../../api/index'
-import appBridge from "../../utils/appBridge";
 
 const proxyStatusMsg = {
   close: "该商家代理已停止营业，为了不影响您的充值体验，请换一个店铺",

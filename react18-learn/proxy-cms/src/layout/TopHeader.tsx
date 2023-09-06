@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import {
   Layout,
   Button,
-  theme,
+  // theme,
   message,
   Dropdown,
   Space,
@@ -19,7 +19,7 @@ import useWebSocket from "@/hooks/useWebSocket";
 import ResetPassModal from "@/components/ResetPassModal";
 import ChangeAvatorModal from "@/components/ChangeAvatorModal";
 import ChatRoomIndex from "@/components/ChatRoom/ChatRoomIndex";
-import CusColor from "@/components/CusColor";
+// import CusColor from "@/components/CusColor";
 import styles from "./TopHeader.module.scss";
 import {
   LoginOutlined,
@@ -27,7 +27,6 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   GithubOutlined,
-  RedoOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import {
@@ -46,14 +45,15 @@ import { changeStatic } from "@/store/slices/static.slice";
 const { Header } = Layout;
 
 export default function TopHeader() {
-  const [createWebSocket, ws, wsData] = useWebSocket(`ws://172.28.113.248:10086/webSocket`,{});
+  // const [createWebSocket, ws, wsData] = useWebSocket(`ws://172.28.113.248:10086/webSocket`,{}); //本地
+  const [_createWebSocket, _ws, wsData] = useWebSocket(`ws://34.92.25.18:10086/webSocket`,{}); //测试
   const { pathname } = useLocation();
   const collapsed = useAppSelector((state) => state.collapse.status);
   const userInfo = useAppSelector((state) => state.user.userInfo);
   const cusColor = useAppSelector((state) => state.cusColor.color);
   // const [proxyOrderStatic, setProxyorderStatic] = useState<any>({});
   let proxyOrderStatic = useAppSelector((state) => state.static.static)
-  const {token: { colorBgContainer }} = theme.useToken();
+  // const {token: { colorBgContainer }} = theme.useToken();
   let unReadNum = useAppSelector((state) => state.unreadNum.unreadNum);
   let proxyInfo = useAppSelector((state) => state.proxy.proxy)
   const warningRef = useRef(null);

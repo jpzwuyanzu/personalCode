@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkmaizuo=self.webpackChunkmaizuo||[]).push([[505],{505:function(u,n,e){e.r(n),e.d(n,{default:function(){return t}});e(2791);var i=e(184);function t(){return(0,i.jsx)("div",{children:"Detail"})}}}]);
-//# sourceMappingURL=505.0048aa60.chunk.js.map

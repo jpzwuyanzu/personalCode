@@ -2,8 +2,6 @@ import React, {
   useState,
   useEffect,
   useCallback,
-  useRef,
-  useContext,
 } from "react";
 import {
   Space,
@@ -17,7 +15,6 @@ import {
   Switch,
   Popconfirm,
   Select,
-  Tag,
   Image,
 } from "antd";
 import { respMessage } from "@/utils/message";
@@ -272,32 +269,6 @@ const UserList: React.FC = () => {
     },
   ];
 
-  const handleSave = async (row: any) => {
-    const newData = [...tableList];
-    const index = newData.findIndex((item) => row.id === item.id);
-    const item = newData[index];
-    newData.splice(index, 1, {
-      ...item,
-      ...row,
-    });
-    setTableList(newData);
-    const res: any = await updateAgentReciveType({
-      id: row.id,
-      seq: Number(row.seq),
-    });
-    if (res && res.code && res.code === 200) {
-      message.open({
-        type: "success",
-        content: "修改成功",
-      });
-      fetchData({});
-    } else {
-      message.open({
-        type: "error",
-        content: respMessage[String(res.code)],
-      });
-    }
-  };
 
   //新增/编辑用户
   const openDrawer = (moduleWidth: string, paymentTypeInfo: any) => {

@@ -1,7 +1,5 @@
 import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { Form, Input, Modal, message, InputNumber } from "antd";
-import MD5 from "md5";
 import { updateAgentAmount} from "@/api/index";
 
 interface IProps {
@@ -11,7 +9,7 @@ interface IProps {
   isTop?: boolean
 }
 
-const UserRechargeModule: any = ({ open, proxyInfo, isTop, closeModal }: IProps) => {
+const UserRechargeModule: any = ({ open, proxyInfo, closeModal }: IProps) => {
 
   const [rechargeForm] = Form.useForm();
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   Button,
@@ -16,7 +16,6 @@ import { respMessage } from "@/utils/message";
 import PagiNation from "@/components/PagiNation";
 import { laodActiveUserList } from "@/api/index";
 import dayjs from "dayjs";
-import PreUserListModule from "./modules/PreUserListModule";
 import styles from "./PreUserList.module.scss";
 
 

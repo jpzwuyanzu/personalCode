@@ -11,7 +11,6 @@ import {
   Switch,
   Popconfirm,
   Select,
-  Tag,
   Image,
 } from "antd";
 import { respMessage } from "@/utils/message";
@@ -20,8 +19,6 @@ import type { FormInstance } from "antd/es/form";
 import {
   CheckOutlined,
   CloseOutlined,
-  CheckCircleOutlined,
-  CloseCircleOutlined,
 } from "@ant-design/icons";
 import PagiNation from "@/components/PagiNation";
 import { userList, createUser, delUser } from "@/api/index";

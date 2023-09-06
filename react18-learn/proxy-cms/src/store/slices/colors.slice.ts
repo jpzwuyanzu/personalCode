@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { setCookieItem, getCookieItem } from './../../utils/common'
+import { getCookieItem } from './../../utils/common'
 
 interface cusColor {
     color: string

@@ -5,7 +5,6 @@ import { SearchOutlined } from "@ant-design/icons";
 import styles from "./ChatRoom.module.scss";
 import dayjs from "dayjs";
 import { useAppSelector } from "@/hooks/hooks";
-import { setStorage, getStorage } from "@/utils/common";
 import Mark from "@/components/MarkText";
 import { loadChatRecordHistory } from "@/api/index";
 import { getRecentThreeMounth } from "@/utils/common";
@@ -287,7 +286,7 @@ const ChatRoom = memo(() => {
                     style={{ cursor: "pointer" }}
                     itemLayout="horizontal"
                     dataSource={filterCusList}
-                    renderItem={(item, index) => (
+                    renderItem={(item, _index) => (
                       <List.Item
                         className={styles.normalConcat}
                         style={{ position: "relative" }}
@@ -333,7 +332,7 @@ const ChatRoom = memo(() => {
                 size="small"
                 itemLayout="horizontal"
                 dataSource={[cusList[chatUserIndex]]}
-                renderItem={(item, index) => (
+                renderItem={(item, _index) => (
                   <List.Item>
                     <List.Item.Meta
                       avatar={
@@ -356,7 +355,7 @@ const ChatRoom = memo(() => {
             <div className={styles.message_wrapper}>
               <div className={styles.message_content}>
                 {messageList &&
-                  messageList.map((itm: any, inx) => {
+                  messageList.map((itm: any, _inx) => {
                     switch (itm.type) {
                       case 1:
                         return (
@@ -473,7 +472,7 @@ const ChatRoom = memo(() => {
                               <div className={styles.recharge_info_label}>
                                 请选择您的支付方式
                               </div>
-                              {JSON.parse(itm.content).map((_: any, i: any) => (
+                              {JSON.parse(itm.content).map((_: any, _i: any) => (
                                 <div
                                   className={styles.recharge_type_list}
                                   key={_.id}
@@ -545,7 +544,7 @@ const ChatRoom = memo(() => {
                 </div>
                 <div className={styles.message_result_container}>
                   {messageResult &&
-                    messageResult.map((itm: any, inx: any) => (
+                    messageResult.map((itm: any, _inx: any) => (
                       <div
                         id={itm.msgId}
                         className={styles.message_result_item}
@@ -580,7 +579,7 @@ const ChatRoom = memo(() => {
             ) : (
               <div className={styles.img_text_result}>
                 {
-                  messageResult && messageResult.map((itm: any,inx:any) => (
+                  messageResult && messageResult.map((itm: any,_inx:any) => (
                   <div className={styles.img_text_item} key={itm.msgKey}>
                     <div className={styles.his_img_time}>
                       <div className={styles.his_img_time_bg}>{itm['msgKey']}</div>

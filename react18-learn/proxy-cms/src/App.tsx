@@ -1,5 +1,4 @@
-import { useEffect } from 'react'
-import { ConfigProvider, theme } from "antd";
+import { ConfigProvider } from "antd";
 import zhCN from "antd/locale/zh_CN";
 import { HashRouter } from "react-router-dom";
 import MRouter from "./router/index";

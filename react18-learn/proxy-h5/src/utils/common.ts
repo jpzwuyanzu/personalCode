@@ -6,11 +6,12 @@
 * name  缓存数据name名
 */
 export function getStorage(type: string, name: any) {
-    var type = type || 'local';
-    if (type == 'local') {
-        var result: any = localStorage.getItem(name) ? localStorage.getItem(name) : "";
-    } else if (type == 'session') {
-        var result: any = sessionStorage.getItem(name) ? sessionStorage.getItem(name) : "";
+    let types = type || 'local';
+    var result:any = "";
+    if (types === 'local') {
+         result = localStorage.getItem(name) ? localStorage.getItem(name) : "";
+    } else if (types === 'session') {
+        result = sessionStorage.getItem(name) ? sessionStorage.getItem(name) : "";
     }
     return result;
 }
@@ -21,23 +22,23 @@ export function getStorage(type: string, name: any) {
 *content  缓存的数据内容
 */
 export function setStorage(type: string, name: any, content: any) {
-    var type = type || 'local';
+    let types = type || 'local';
     var data = content;
-    if (typeof (data) == 'object') {
+    if (typeof (data) === 'object') {
         data = JSON.stringify(content)
     };
-    if (type == 'local') {
+    if (types === 'local') {
         localStorage.setItem(name, data);
-    } else if (type == 'session') {
+    } else if (types === 'session') {
         sessionStorage.setItem(name, data);
     }
 }
 
 export function removeStorage(type?: any) {
-    var type = type || 'local';
-    if (type == 'local') {
+    let types = type || 'local';
+    if (types === 'local') {
         localStorage.clear()
-    } else if (type == 'session') {
+    } else if (types === 'session') {
         sessionStorage.clear()
     }
 }
@@ -45,7 +46,7 @@ export function removeStorage(type?: any) {
 //封装获取url参数
 export function getQueryString(name: string) {
     var search = '?' + window.location.href.split('?')[1];
-    var pattern = new RegExp("[?&]" + name + "\=([^&]+)", "g");
+    var pattern = new RegExp("[?&]" + name + "=([^&]+)", "g");
     var matcher = pattern.exec(search);
     var items = null;
     if (null != matcher) {

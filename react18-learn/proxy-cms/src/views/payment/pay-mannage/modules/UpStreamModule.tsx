@@ -14,7 +14,6 @@ import {
 import { respMessage } from '@/utils/message'
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { upDateUpStreamMerchant } from "@/api/index";
-import styles from './UpStreamModule.module.scss'
 
 interface IProps {
   moduleWidth?: any;

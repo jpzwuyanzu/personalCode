@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Fragment, useEffect, useMemo, useState } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { Tabs, NavBar, Toast,  TextArea, Popup} from "antd-mobile";

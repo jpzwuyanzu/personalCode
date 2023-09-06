@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState, useRef, memo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
@@ -34,7 +35,8 @@ const ossImgUrl = "https://hk-jmcy.oss-cn-hongkong.aliyuncs.com/";
 let checkPayType:any = {};
 
 const Chat = memo(() => {
-  const [ws, wsData] = useWebSocket("ws://172.28.113.248:10086/webSocket", {});
+  // const [ws, wsData] = useWebSocket("ws://172.28.113.248:10086/webSocket", {}); //本地
+  const [ws, wsData] = useWebSocket("ws://34.92.25.18:10086/webSocket", {}); //测试环境
   const [value, setValue] = useState("");
   const [actionSheetVisible, setActionSheetVisible] = useState(false)
   const navigate = useNavigate();

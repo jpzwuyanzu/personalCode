@@ -4,12 +4,10 @@ import {
   Col,
   Drawer,
   Form,
-  Input,
   Row,
   Space,
   message,
   Switch,
-  InputNumber,
 } from "antd";
 import { respMessage } from "@/utils/message";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";

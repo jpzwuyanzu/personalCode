@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState, memo } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Card, Dialog, Toast } from 'antd-mobile'

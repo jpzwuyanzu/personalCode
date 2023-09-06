@@ -1,6 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
-import { setCookieItem, getCookieItem } from './../../utils/common'
 
 interface IStatic {
     static: any

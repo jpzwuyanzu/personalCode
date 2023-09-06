@@ -4,21 +4,18 @@ import {
   Table,
   Button,
   Form,
-  Input,
   Col,
   Row,
   message,
   Switch,
-  Popconfirm,
   Select,
 } from "antd";
 import { respMessage } from "@/utils/message";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import PagiNation from "@/components/PagiNation";
-import { loadAnoceMentList, editAnoceMent, delGamePkg } from "@/api/index";
+import { loadAnoceMentList, editAnoceMent } from "@/api/index";
 import dayjs from "dayjs";
 import ProxyAnnocementModule from "./modules/ProxyAnnocementModule";
-import JudgePemission from "@/components/JudgePemission";
 import styles from "./ProxyAnnouncement.module.scss";
 
 const ProxyAnnouncement: React.FC = () => {
@@ -88,17 +85,6 @@ const ProxyAnnouncement: React.FC = () => {
     }
   };
 
-  const confirmDelGamepkg = async (id: any) => {
-    const resp: any = await delGamePkg({ id });
-    if (resp && resp.code && resp.code === 200) {
-      fetchData({});
-    } else {
-      message.open({
-        type: "error",
-        content: respMessage[String(resp.code)],
-      });
-    }
-  };
 
   const columns: any = [
     {

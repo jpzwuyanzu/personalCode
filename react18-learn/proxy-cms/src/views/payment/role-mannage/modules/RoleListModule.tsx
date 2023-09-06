@@ -34,7 +34,7 @@ export default function RoleListModule({ moduleWidth,roleInfo, open, closeDrawer
     setHalfCheckedKeys(halfCheckedKeys)
   };
 
-  const onSelect = (selectedKeysValue: React.Key[], info: any) => {
+  const onSelect = (selectedKeysValue: React.Key[], _info: any) => {
     setSelectedKeys(selectedKeysValue);
   };
 

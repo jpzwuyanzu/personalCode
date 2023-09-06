@@ -3,7 +3,7 @@ import ImgCrop from 'antd-img-crop';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import { uploadFastImg } from '@/api/index'
 import { respMessage } from '@/utils/message'
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from './CusUpload.module.scss'
 
 interface IProps {

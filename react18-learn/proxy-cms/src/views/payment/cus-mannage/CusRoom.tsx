@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Empty } from 'antd'
 import ChatRoom from '@/components/ChatRoom/ChatRoom'
 import { loadCusList } from '@/api/index'

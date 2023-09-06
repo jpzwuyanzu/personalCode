@@ -9,19 +9,15 @@ import {
   Col,
   Row,
   message,
-  Popconfirm,
   Select,
   Tag,
-  Image,
   DatePicker,
   Statistic,
 } from "antd";
 import { respMessage } from "@/utils/message";
 import {
   CheckCircleOutlined,
-  ClockCircleOutlined,
   CloseCircleOutlined,
-  ExclamationCircleOutlined,
   MinusCircleOutlined,
   SyncOutlined,
 } from "@ant-design/icons";
@@ -36,7 +32,7 @@ const { RangePicker } = DatePicker;
 const { Countdown } = Statistic;
 
 const ProxyOrder: React.FC = () => {
-  const { pathname, search } = useLocation();
+  const { search } = useLocation();
   const searchParams = new URLSearchParams(search);
   const [total, setTotal] = useState<number>(0);
   const [page, setpage] = useState<number>(1);
@@ -312,7 +308,7 @@ const ProxyOrder: React.FC = () => {
       align: "center",
       key: "callbackStatus",
       with: 200,
-      render: (text: any, record: any) => {
+      render: (text: any, _record: any) => {
         //payStatus:0:待支付，显示倒计时 1:已支付 2:未支付，订单超时可以关闭 3:已关闭
         let res: any = "";
         switch (text) {

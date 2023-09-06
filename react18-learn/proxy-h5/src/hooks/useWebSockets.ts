@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { useEffect, useState, useRef } from 'react'
 import { v4 as uuidv4 } from 'uuid';
 import { useLocation } from 'react-router-dom'
@@ -8,7 +9,7 @@ const heartCheckSecond = 30 * 1000
 
 const useWebSocket = (url: string, info: any) => {
 
-    const { pathname, search } = useLocation()
+    const { search } = useLocation()
     const searchParams = new URLSearchParams(search);
     
     // console.log(decodeURIComponent(search.split("?")[1].split("&")))

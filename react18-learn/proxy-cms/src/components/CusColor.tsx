@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Col, ColorPicker, Row, Space } from "antd";
-import type { Color, ColorPickerProps } from "antd/es/color-picker";
+import type { Color } from "antd/es/color-picker";
 import { switchCusColor } from "./../store/slices/colors.slice";
 import { useAppDispatch } from "./../hooks/hooks";
 import { setCookieItem, getCookieItem } from "./../utils/common";

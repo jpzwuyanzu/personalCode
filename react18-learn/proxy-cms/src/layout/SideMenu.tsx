@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom'
-import { AppstoreOutlined } from '@ant-design/icons';
 import Icon from '@/components/Icon'
 import type { MenuProps } from 'antd';
-import { Menu, Layout, theme } from 'antd';
+import { Menu, Layout } from 'antd';
 import { useAppSelector } from "@/hooks/hooks";
 import styles from './SideMenu.module.scss'
 import LogoImg from './../assets/logo.png'

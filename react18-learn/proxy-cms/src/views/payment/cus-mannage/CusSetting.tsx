@@ -10,15 +10,12 @@ import {
   Popconfirm,
 } from "antd";
 import { respMessage } from "@/utils/message";
-import { quickFeedBack, createUser, delQuickFeedBack } from "@/api/index";
+import { quickFeedBack, delQuickFeedBack } from "@/api/index";
 import dayjs from "dayjs";
 import CusSettingModule from "./modules/CusSettingModule";
-import JudgePemission from "@/components/JudgePemission";
 import styles from "./CusSetting.module.scss";
 
 const CusSetting: React.FC = () => {
-  const [page, setpage] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(10);
   const [tableList, setTableList] = useState<any[]>([]);
   const [open, setOpen] = useState(false);
   const [moduleWidth, setModuleWidth] = useState("");
@@ -26,26 +23,13 @@ const CusSetting: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [searchUserForm] = Form.useForm();
 
-  const onFinish = (values: any) => {
+  const onFinish = (_values: any) => {
     // fetchData(values);
   };
 
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
   };
-
-  const resetParams = () => {
-    searchUserForm?.setFieldsValue({ username: "", status: 0, userType: "" });
-    fetchData({});
-  };
-  const loadData = useCallback(
-    (page: number, pageSize: number) => {
-      setpage(page);
-      setPageSize(pageSize);
-      fetchData({});
-    },
-    [page, pageSize]
-  );
 
   const fetchData = async (params?: any) => {
     setLoading(true);
@@ -58,27 +42,6 @@ const CusSetting: React.FC = () => {
       message.open({
         type: "error",
         content: respMessage[String(data.code)],
-      });
-    }
-  };
-
-  const switchUserStatus = async (checked: boolean, userId: any) => {
-    setLoading(true);
-    const resp: any = await createUser({
-      id: userId,
-      status: Number(Boolean(checked) ? 1 : 2),
-    });
-    setLoading(false);
-    if (resp && resp.code && resp.code === 200) {
-      message.open({
-        type: "success",
-        content: "修改成功",
-      });
-      fetchData({});
-    } else {
-      message.open({
-        type: "error",
-        content: respMessage[String(resp.code)],
       });
     }
   };

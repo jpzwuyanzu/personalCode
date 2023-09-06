@@ -3,15 +3,8 @@ import {
   Space,
   Table,
   Button,
-  Form,
-  Input,
-  Col,
-  Row,
   message,
   Switch,
-  Select,
-  Tag,
-  Statistic,
   Watermark,
   Tabs
 } from "antd";
@@ -50,7 +43,7 @@ const PayType: React.FC = () => {
   const [moduleWidth, setModuleWidth] = useState("");
   const [payTypeInfo, setPayTypeInfo] = useState({});
   const [selectTab, setSelectTab] = useState('1');
-  const [loading, setLoading] = useState<boolean>(false);
+  const [_loading, setLoading] = useState<boolean>(false);
   /**
    * 根据moduleType区分 1:"IOS" 2:"ANDROID" 3:"WINPHONE" 4: "website" 5: "Applets" 6:"OFFCIAL WEBSITE"
    *

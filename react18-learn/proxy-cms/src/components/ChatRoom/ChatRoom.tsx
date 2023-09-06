@@ -52,7 +52,6 @@ const { Countdown } = Statistic;
 
 //图片资源桶地址
 const ossImgUrl = "https://hk-jmcy.oss-cn-hongkong.aliyuncs.com/";
-const style: React.CSSProperties = { background: "#0092ff", padding: "8px 0" };
 const { TextArea } = Input;
 const ChatRoom = () => {
   //消息列表
@@ -62,7 +61,8 @@ const ChatRoom = () => {
   const naviagte = useNavigate();
   const dispatch = useAppDispatch();
   const userInfo = useAppSelector((state: any) => state.user.userInfo);
-  const [createWebSocket, ws, wsData] = useWebSocket(`ws://172.28.113.248:10086/webSocket`,{});
+  // const [createWebSocket, ws, wsData] = useWebSocket(`ws://172.28.113.248:10086/webSocket`,{});
+  const [_createWebSocket, ws, wsData] = useWebSocket(`ws://34.92.25.18:10086/webSocket`,{});
   const [cusList, setCusList] = useState<any[]>([]); // 左侧联系人列表
   const [chatUserIndex, setChatUserIndex] = useState<any>(); // 左侧用户列表选中项
   const [fastImgUrl, setFastImgUrl] = useState("");
@@ -130,7 +130,7 @@ const ChatRoom = () => {
     let supportPayTypeList: any = [];
     if (res && res.code && res.code === 200 && res.page.list.length) {
       let typeArr = res.page.list;
-      typeArr.forEach((itm: any, inx: any) => {
+      typeArr.forEach((itm: any, _inx: any) => {
         if (
           itm.amountList.length &&
           itm.amountList.indexOf(orderInfo.amount) !== -1
@@ -412,7 +412,7 @@ const loadProxyStatus = async () => {
     if (res.code === 200) {
       if (res.data.chat.length) {
         //这里去判断是否存在未读
-        res.data.chat.forEach((itm: any, inx: any) => {
+        res.data.chat.forEach((itm: any, _inx: any) => {
           if (
             getStorage("session", itm.orderNumber) &&
             Number(getStorage("session", itm.orderNumber))
@@ -632,7 +632,7 @@ const loadProxyStatus = async () => {
                       style={{ cursor: "pointer" }}
                       itemLayout="horizontal"
                       dataSource={filterCusList}
-                      renderItem={(item, index) => (
+                      renderItem={(item, _index) => (
                         <List.Item
                           className={styles.normalConcat}
                           style={{ position: "relative" }}
@@ -680,7 +680,7 @@ const loadProxyStatus = async () => {
                 size="small"
                 itemLayout="horizontal"
                 dataSource={[cusList[chatUserIndex]]}
-                renderItem={(item, index) => (
+                renderItem={(item, _index) => (
                   <List.Item>
                     <List.Item.Meta
                       avatar={
@@ -703,7 +703,7 @@ const loadProxyStatus = async () => {
             <div className={styles.message_wrapper}>
               <div className={styles.message_content}>
                 {messageList &&
-                  messageList.map((itm: any, inx) => {
+                  messageList.map((itm: any, _inx) => {
                     switch (itm.type) {
                       case 1:
                         return (
@@ -805,7 +805,7 @@ const loadProxyStatus = async () => {
                               <div className={styles.recharge_info_label}>
                                 请选择您的支付方式
                               </div>
-                              {itm.content && JSON.parse(itm.content).map((_: any, i: any) => (
+                              {itm.content && JSON.parse(itm.content).map((_: any, _i: any) => (
                                 <div
                                   className={styles.recharge_type_list}
                                   key={_.id}

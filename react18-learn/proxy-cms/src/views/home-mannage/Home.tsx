@@ -1,8 +1,8 @@
-import React, { useEffect,useState } from 'react';
+import { useEffect } from 'react';
 import { CheckOutlined,  CloseOutlined, SettingOutlined, EditOutlined, EllipsisOutlined } from '@ant-design/icons';
 import { Avatar, Card, Switch, message } from 'antd';
 import { useAppSelector, useAppDispatch } from '@/hooks/hooks'
-import { userList, createUser, changeHeadImg ,loadProxyDetailInfo} from '@/api/index'
+import {  changeHeadImg ,loadProxyDetailInfo} from '@/api/index'
 import { changeProxy } from '@/store/slices/proxy.slice';
 
 const { Meta } = Card

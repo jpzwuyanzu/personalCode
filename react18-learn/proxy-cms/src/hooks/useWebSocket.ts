@@ -7,7 +7,7 @@ let lockReconnect = false
 //心跳检测间隔时长
 const heartCheckSecond = 30 * 1000
 
-const useWebSocket = (url: string, info: any) => {
+const useWebSocket = (url: string, _info: any) => {
     //接收的消息
     const [wsData, setWsData] = useState({})
     //客户端定时器

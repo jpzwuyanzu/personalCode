@@ -20,7 +20,6 @@ import {
   CloseOutlined,
   PlusCircleOutlined,
 } from "@ant-design/icons";
-import MD5 from "md5";
 import { upDateUpStreamChannel, upStreamMerchant } from "@/api/index";
 import styles from "./ChannelModule.module.scss";
 

@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkmaizuo=self.webpackChunkmaizuo||[]).push([[627],{8627:function(n,u,e){e.r(u),e.d(u,{default:function(){return t}});e(2791);var r=e(184);function t(){return(0,r.jsx)("div",{children:"Center"})}}}]);
-//# sourceMappingURL=627.202c6417.chunk.js.map

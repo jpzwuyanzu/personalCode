@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import {
   Button,
   Drawer,
-  Form,
   Space,
   message,
   Table,
@@ -101,8 +100,8 @@ export default function PayTypeModule({
   open,
   closeDrawer,
 }: IProps) {
-  const [page, setpage] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(100);
+  const [page, _setpage] = useState<number>(1);
+  const [pageSize, _setPageSize] = useState<number>(100);
   const [targetKeys, setTargetKeys] = useState<any[]>([]); //右边已经选择的渠道数据key值数组
   const [leftTransferData, setLeftTransferData] = useState<any>([]); //左边可选渠道数据
 

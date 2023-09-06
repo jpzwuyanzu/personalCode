@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { NavBar, Image, ImageViewer } from "antd-mobile";

@@ -11,7 +11,8 @@ const Home = React.lazy(() => import('@/views/home-mannage/Home'));
 
 //后管路由
 const RoleList = React.lazy(() => import('@/views/payment/role-mannage/RoleList'));
-const PayMentUserList = React.lazy(() => import('@/views/payment/sysuser-mannage/UserList'));
+const PayMentUserList = React.lazy(() => import('@/views/payment/sysuser-mannage/UserList')); //成员列表
+const ProxyUserList = React.lazy(() => import('@/views/payment/proxyuser-mannage/UserList')); //代理列表
 const NotFound = React.lazy(() => import('@/views/404/NotFound'))
 
 
@@ -58,6 +59,10 @@ const MRouter = () => {
                     {
                         path: 'userlist',
                         element: <Suspense fallback={ <Loading/> }><AuthComponent><PayMentUserList/></AuthComponent></Suspense>
+                    },
+                    {
+                        path: 'proxyuserlist',
+                        element: <Suspense fallback={ <Loading/> }><AuthComponent><ProxyUserList/></AuthComponent></Suspense>
                     },
                     //代理支付模块
                     {

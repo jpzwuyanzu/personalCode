@@ -5,7 +5,6 @@ import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import type { ColumnsType } from "antd/es/table";
 import PagiNation from "@/components/PagiNation";
 import { loadRoleList, editRole, delRole } from '@/api/index'
-import JudgePemission from "@/components/JudgePemission";
 import dayjs from "dayjs";
 import RoleListModule from "./modules/RoleListModule";
 import styles from "./RoleList.module.scss";
@@ -133,11 +132,9 @@ const RoleList: React.FC = () => {
       align: 'center',
       render: (_, record: any) => (
         <Space size="middle">
-          <JudgePemission pageUrl={'/payment/rolelist_123'}>
           <Button type="primary" onClick={() => openDrawer('378px', record)}>编辑角色</Button>
-          </JudgePemission>
-          <JudgePemission pageUrl={'/payment/rolelist_124'}>
-          <Popconfirm
+          {
+            (record.id === 1 || record.id === 3) ? null : <Popconfirm
             title="删除"
             description="你确认要删除该角色, 以及属于该角色的所有用户吗?"
             onConfirm={ () => confirmDelRole(record.id) }
@@ -147,7 +144,7 @@ const RoleList: React.FC = () => {
           >
             <Button type="primary" danger>删除角色</Button>
           </Popconfirm>
-          </JudgePemission>
+          }
         </Space>
       ),
     },

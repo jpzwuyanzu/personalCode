@@ -292,7 +292,7 @@ const ChatHistory: React.FC = () => {
             dataSource={tableList}
             loading={loading}
             pagination={false}
-            rowKey={(record) => record.playerId + '_' + record.playerName + '_' + record.chatTime}
+            rowKey={(record) => record.playerId + '_' + record.playerName + '_' + record.chatTime + '_' + record.agentId}
           />
         </div>
         <div className={styles.bottom_Pag_area}>

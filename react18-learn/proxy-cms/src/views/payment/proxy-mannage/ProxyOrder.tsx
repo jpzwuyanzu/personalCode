@@ -48,7 +48,7 @@ const ProxyOrder: React.FC = () => {
     let params: any = {};
     if (searchParams.get("orderNo")) {
       params.merchantOrderId = searchParams.get("orderNo");
-      searchUserForm?.setFieldsValue({platformOrderId: searchParams.get("orderNo")});
+      searchUserForm?.setFieldsValue({merchantOrderId: searchParams.get("orderNo")});
     }
     
     if (temp && temp.length) {

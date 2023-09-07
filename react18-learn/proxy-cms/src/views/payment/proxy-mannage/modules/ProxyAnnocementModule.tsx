@@ -149,7 +149,7 @@ export default function ProxyAnnocementModule({
       placement="right"
       onClose={closeDrawer}
       open={open}
-      extra={
+      footer={
         <div
           style={{
             textAlign: "right",

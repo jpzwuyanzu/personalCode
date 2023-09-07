@@ -10,7 +10,7 @@ import {
   Select,
   message,
   Switch,
-  // InputNumber
+  InputNumber
 } from "antd";
 import { respMessage } from '@/utils/message'
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
@@ -33,23 +33,22 @@ interface IProps {
 }
 
 /**支持的平台列表 支持平台id 1：加藤 2：挖洞  多个平台英文逗号,拼接 manageId*/
-// const proxyPlatList = [{ label: '加藤平台', value: '1' }, { label: '挖洞平台', value: '2' }]
+const proxyPlatList = [{ label: 'JT', value: '1' }, { label: 'WD', value: '2' }]
 
 /**支持的商品类型 1:游戏 2:会员3:金币 多个逗号分隔 payType*/
-// const proxyMetList = [{ label: '游戏', value: '1' }, { label: '会员', value: '2' },{ label: '金币', value: '3' }]
+const proxyMetList = [{ label: '游戏', value: '1' }, { label: '会员', value: '2' },{ label: '金币', value: '3' }]
 
 
 export default function UserListModule({
-  // moduleWidth,
   userInfo,
   fastHeadHost,
   open,
   closeDrawer,
 }: IProps) {
   const [userForm] = Form.useForm();
-  const [roleList, SetRoleList] = useState<any[]>([]);
+  // const [roleList, SetRoleList] = useState<any[]>([]);
   const [fastUrl, setFastUrl] = useState<string>('');
-  const [_choosedRole, setChoosedRole] = useState<any>('');
+  const [choosedRole, setChoosedRole] = useState<any>('');
 
   const saveUploadImgUrl = (url: string) => {
     setFastUrl(url)
@@ -62,10 +61,10 @@ export default function UserListModule({
         let filterRoleList: any[] = [];
         if (data.page.list && data.page.list.length) {
           data.page.list.forEach((itm: any) => {
-            if(itm.id !== 3) filterRoleList.push({ value: itm.id, label: itm.name });
+            filterRoleList.push({ value: itm.id, label: itm.name });
           });
         }
-        SetRoleList(filterRoleList);
+        // SetRoleList(filterRoleList);
       } else {
         message.open({
           type: "error",
@@ -83,8 +82,8 @@ export default function UserListModule({
             sayStatus:(userInfo as any).sayStatus === 1 ? true : false,
             seq: (userInfo as any).seq,
             fakeOrderCount: (userInfo as any).fakeOrderCount,
-            manageId: (userInfo as any).manageId.length ? (userInfo as any).manageId.split(',') : '',
-            payType: (userInfo as any).payType.length ? (userInfo as any).payType.split(',') : '',
+            manageId: (userInfo as any).manageId.length ? (userInfo as any).manageId.split(',') : undefined,
+            payType: (userInfo as any).payType.length ? (userInfo as any).payType.split(',') : undefined,
             headImage: (userInfo as any).headImage ? fastHeadHost+''+(userInfo as any).headImage : ''
           });
           setChoosedRole(userInfo.rolesList)
@@ -99,8 +98,8 @@ export default function UserListModule({
             sayStatus: true,
             seq: 0,
             fakeOrderCount: 0,
-            manageId: '1',
-            payType: 1,
+            manageId: [],
+            payType: [],
             headImage: '',
             confirmPassword: ''
           });
@@ -115,8 +114,8 @@ export default function UserListModule({
       .then(async (values) => {
         if (Object.keys(userInfo).length) {
           const res: any = await createUser({
-            rolesList: values.roleid,
-            // rolesList: 1,
+            // rolesList: values.roleid,
+            rolesList:3,
             username: values.username,
             status: Boolean(values.status) ? 1 : 2,
             name: values.name,
@@ -150,18 +149,18 @@ export default function UserListModule({
             });
           } else {
             const res: any = await createUser({
-              rolesList: values.roleid,
-              // rolesList: 1,
+              // rolesList: values.roleid,
+              rolesList:3,
               username: values.username,
               status: Boolean(values.status) ? 1 : 2,
-              openStatus: 1,
-              sayStatus: 1,
+              openStatus: Boolean(values.openStatus) ? 1 : 2,
+              sayStatus: Boolean(values.sayStatus) ? 1 : 2,
               password: MD5(values.password),
               name: values.name,
-              seq: 0,
-              fakeOrderCount: 0,
-              manageId: "",
-              payType: "",
+              seq: values.seq,
+              fakeOrderCount: values.fakeOrderCount,
+              manageId: values.manageId ? values.manageId.join(',') : '',
+              payType: values.payType ? values.payType.join(',') : '',
               headImage: fastUrl ? fastUrl : ''
             });
             if (res && res.code && res.code === 200) {
@@ -185,13 +184,13 @@ export default function UserListModule({
       });
   };
 
-  // const handleManageIdChange = (value: any) => {
-  //   console.log(value)
-  // }
+  const handleManageIdChange = (value: any) => {
+    console.log(value)
+  }
 
-  // const handlePayTypeChange = (value: any) => {
-  //   console.log(value)
-  // }
+  const handlePayTypeChange = (value: any) => {
+    console.log(value)
+  }
 
   useEffect(() => {
     fetchData();
@@ -246,30 +245,31 @@ export default function UserListModule({
             </Form.Item>
             </Col>
           </Row>
-          <Row>
+          {/* <Row>
           <Col span={24}>
               <Form.Item
                 name="roleid"
-                label="成员角色"
-                rules={[{ required: true, message: "请输入成员密码" }]}
+                label="代理角色"
+                rules={[{ required: true, message: "请输入代理密码" }]}
               >
                 <Select
                   style={{ width: "100%" }}
                   onChange={() => {setChoosedRole(userForm.getFieldValue('roleid'))}}
-                  placeholder="请选择成员角色"
+                  placeholder="请选择代理角色"
                   options={[...roleList]}
+                  disabled={Object.keys(userInfo).length ? true : false}
                 />
               </Form.Item>
             </Col>
-          </Row>
+          </Row> */}
           <Row>
             <Col span={24}>
               <Form.Item
                 name="name"
-                label="成员名称"
-                rules={[{ required: true, message: "请输入名称" }]}
+                label="代理名称"
+                rules={[{ required: true, message: "请输入代理名称" }]}
               >
-                <Input placeholder="请输入名称" />
+                <Input placeholder="请输入代理名称" />
               </Form.Item>
             </Col>
           </Row>
@@ -277,7 +277,7 @@ export default function UserListModule({
             <Col span={24}>
               <Form.Item
                 name="username"
-                label="成员账号"
+                label="代理账号"
                 rules={[
                   {
                     required: true,
@@ -286,7 +286,7 @@ export default function UserListModule({
                   },
                 ]}
               >
-                <Input placeholder="请输入账号" disabled={Object.keys(userInfo).length ? true : false} />
+                <Input placeholder="请输入代理账号" disabled={Object.keys(userInfo).length ? true : false} />
               </Form.Item>
             </Col>
           </Row>
@@ -304,7 +304,7 @@ export default function UserListModule({
                     },
                   ]}
                 >
-                  <Input.Password placeholder="请输入密码" />
+                  <Input.Password placeholder="请输入代理密码" />
                 </Form.Item>
               </Col>
             </Row><Row>
@@ -320,12 +320,12 @@ export default function UserListModule({
                       },
                     ]}
                   >
-                    <Input.Password placeholder="请输入密码" />
+                    <Input.Password placeholder="请输入代理密码" />
                   </Form.Item>
                 </Col>
               </Row></>) : null
           }
-          {/* {
+          {
             choosedRole === 3 ?  (<><Row>
               <Col span={24}>
                 <Form.Item name="manageId" label="支持平台" rules={[{ required: true, message: "请选择平台" }]}>
@@ -352,8 +352,8 @@ export default function UserListModule({
                 </Form.Item>
               </Col>
             </Row></>) : null
-          } */}
-           {/* <Row>
+          }
+           <Row>
             <Col span={24}>
               <Form.Item name="fakeOrderCount" label="虚拟订单量">
               <InputNumber min={0} />
@@ -362,14 +362,14 @@ export default function UserListModule({
           </Row>
            <Row>
             <Col span={24}>
-              <Form.Item name="seq" label="排序">
+              <Form.Item name="seq" label="代理排序">
               <InputNumber min={0} />
               </Form.Item>
             </Col>
-          </Row> */}
+          </Row>
           <Row>
             <Col span={24}>
-              <Form.Item name="status" label="成员状态" valuePropName="checked">
+              <Form.Item name="status" label="用户状态" valuePropName="checked">
                 <Switch
                   checkedChildren={<CheckOutlined />}
                   unCheckedChildren={<CloseOutlined />}
@@ -377,7 +377,7 @@ export default function UserListModule({
               </Form.Item>
             </Col>
           </Row>
-          {/* <Row>
+          <Row>
             <Col span={24}>
               <Form.Item name="openStatus" label="营业状态" valuePropName="checked">
                 <Switch
@@ -389,14 +389,14 @@ export default function UserListModule({
           </Row>
           <Row>
             <Col span={24}>
-              <Form.Item name="sayStatus" label="代理聊天功能" valuePropName="checked">
+              <Form.Item name="sayStatus" label="聊天功能" valuePropName="checked">
                 <Switch
                   checkedChildren={<CheckOutlined />}
                   unCheckedChildren={<CloseOutlined />}
                 />
               </Form.Item>
             </Col>
-          </Row> */}
+          </Row>
         </Form>
       ) : null}
     </Drawer>

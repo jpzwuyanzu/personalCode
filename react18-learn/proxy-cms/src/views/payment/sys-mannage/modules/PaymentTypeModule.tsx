@@ -34,7 +34,7 @@ interface IProps {
 }
 
 export default function PaymentTypeModule({
-  moduleWidth,
+  // moduleWidth,
   paymentTypeInfo,
   fastHeadHost,
   open,
@@ -217,11 +217,12 @@ export default function PaymentTypeModule({
     <Drawer
       getContainer={false}
       title={Object.keys(paymentTypeInfo).length === 0 ? "新增" : "编辑"}
-      size={moduleWidth}
+      // size={moduleWidth}
+      width={"450px"}
       placement="right"
       onClose={closeDrawer}
       open={open}
-      extra={
+      footer={
         <div
           style={{
             textAlign: "right",

@@ -135,7 +135,7 @@ const UserList: React.FC = () => {
   };
 
   const resetParams = () => {
-    searchUserForm?.setFieldsValue({ username: "", status: 0});
+    searchUserForm?.setFieldsValue({ username: "", status: 0, userType: '' });
     fetchData({});
   };
   const loadData = useCallback(
@@ -149,7 +149,7 @@ const UserList: React.FC = () => {
 
   const fetchData = async (params?: any) => {
     setLoading(true);
-    const data: any = await userList({ page, pageSize, ...params,userType:0 });
+    const data: any = await userList({ page, pageSize, ...params,userType:1 });
     setLoading(false);
     if (data && data.code && data.code === 200) {
       setTableList(data.page.list ? data.page.list : []);
@@ -205,7 +205,7 @@ const UserList: React.FC = () => {
 
   const defaultColumns: any= [
     {
-      title: "名称",
+      title: "代理名称",
       dataIndex: "name",
       key: "name",
       align: 'center',
@@ -217,12 +217,13 @@ const UserList: React.FC = () => {
       align: "center",
       render: (text: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined) => <span>{text}</span>,
     },
-    {
-      title: "角色",
-      dataIndex: "roleName",
-      align: "center",
-      key: "roleName"
-    },
+    // {
+    //   title: "用户类型",
+    //   dataIndex: "userType",
+    //   align: "center",
+    //   key: "userType",
+    //   render: (text: number) => <span>{ text === 0 ? '管理账户' : '代理账户' }</span>
+    // },
     {
       title: "头像",
       dataIndex: "headImage",
@@ -237,41 +238,41 @@ const UserList: React.FC = () => {
         />
       ),
     },
-    // {
-    //   title: "店铺余额(¥)",
-    //   dataIndex: "amount",
-    //   align: "center",
-    //   key: "amount",
-    //   render: (text: any) => (
-    //     <span>{text ? (Number(text) / 100).toFixed(2) : "0.00"}</span>
-    //   ),
-    // },
-    // {
-    //   title: "营业状态",
-    //   dataIndex: "openStatus",
-    //   align: "center",
-    //   key: "openStatus",
-    //   // render: (text: number) =>
-    //   //   text === 1 ? (
-    //   //     <Tag icon={<CheckCircleOutlined />} color="success">
-    //   //       营业中
-    //   //     </Tag>
-    //   //   ) : (
-    //   //     <Tag icon={<CloseCircleOutlined />} color="error">
-    //   //       已停业
-    //   //     </Tag>
-    //   //   ),
-    //   render: (text: any, record: any) => (
-    //     <>
-    //       <Switch
-    //         checkedChildren={<CheckOutlined />}
-    //         unCheckedChildren={<CloseOutlined />}
-    //         checked={Number(text) === 1 ? true : false}
-    //         onClick={(checked: boolean) => switchUserStatus(checked, record.id, 'openStatus')}
-    //       />
-    //     </>
-    //   ),
-    // },
+    {
+      title: "店铺余额(¥)",
+      dataIndex: "amount",
+      align: "center",
+      key: "amount",
+      render: (text: any) => (
+        <span>{text ? (Number(text) / 100).toFixed(2) : "0.00"}</span>
+      ),
+    },
+    {
+      title: "营业状态",
+      dataIndex: "openStatus",
+      align: "center",
+      key: "openStatus",
+      // render: (text: number) =>
+      //   text === 1 ? (
+      //     <Tag icon={<CheckCircleOutlined />} color="success">
+      //       营业中
+      //     </Tag>
+      //   ) : (
+      //     <Tag icon={<CloseCircleOutlined />} color="error">
+      //       已停业
+      //     </Tag>
+      //   ),
+      render: (text: any, record: any) => (
+        <>
+          <Switch
+            checkedChildren={<CheckOutlined />}
+            unCheckedChildren={<CloseOutlined />}
+            checked={Number(text) === 1 ? true : false}
+            onClick={(checked: boolean) => switchUserStatus(checked, record.id, 'openStatus')}
+          />
+        </>
+      ),
+    },
     {
       title: "账号状态",
       dataIndex: "status",
@@ -288,14 +289,14 @@ const UserList: React.FC = () => {
         </>
       ),
     },
-    // {
-    //   title: "排序",
-    //   dataIndex: "seq",
-    //   align: "center",
-    //   key: "seq",
-    //   width: 88,
-    //   editable: true,
-    // },
+    {
+      title: "排序",
+      dataIndex: "seq",
+      align: "center",
+      key: "seq",
+      width: 88,
+      editable: true,
+    },
     {
       title: "创建时间",
       dataIndex: "createTime",
@@ -530,9 +531,9 @@ const UserList: React.FC = () => {
                     <Button
                       type="primary"
                       style={{ marginLeft: "19px" }}
-                      onClick={() => openDrawer("500px", {})}
+                      onClick={() => openDrawer("378px", {})}
                     >
-                      新增成员
+                      新增代理
                     </Button>
                   </Form.Item>
                 </Col>

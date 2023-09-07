@@ -30,13 +30,14 @@ const regTypesList: any = {
   ALI_PAY: 0,
 };
 
-//图片资源桶地址
-const ossImgUrl = "https://hk-jmcy.oss-cn-hongkong.aliyuncs.com/";
-let checkPayType:any = {};
+const wssUrl = (process.env as any).REACT_APP_WSS_HOST
 
+//图片资源桶地址
+const ossImgUrl = (process.env as any).REACT_APP_OSS_HOST;
+let checkPayType:any = {};
 const Chat = memo(() => {
-  const [ws, wsData] = useWebSocket("ws://172.28.113.248:10086/webSocket", {}); //本地
-  // const [ws, wsData] = useWebSocket("ws://34.92.25.18:10086/webSocket", {}); //测试环境
+  // const [ws, wsData] = useWebSocket("ws://172.28.113.248:10086/webSocket", {}); //本地
+  const [ws, wsData] = useWebSocket(wssUrl , {}); //测试环境
   const [value, setValue] = useState("");
   const [actionSheetVisible, setActionSheetVisible] = useState(false)
   const navigate = useNavigate();

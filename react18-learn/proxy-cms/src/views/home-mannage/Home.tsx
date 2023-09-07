@@ -3,20 +3,21 @@ import { CheckOutlined,  CloseOutlined, SettingOutlined, EditOutlined, EllipsisO
 import { Avatar, Card, Switch, message } from 'antd';
 import { useAppSelector, useAppDispatch } from '@/hooks/hooks'
 import {  changeHeadImg ,loadProxyDetailInfo} from '@/api/index'
-import { changeProxy } from '@/store/slices/proxy.slice';
+import { switchAmountNum } from '@/store/slices/proxy.slice';
 
 const { Meta } = Card
 
 const  Home = () => {
   const dispatch = useAppDispatch();
   const userInfo = useAppSelector((state) => state.user.userInfo);
-  let proxyInfo = useAppSelector((state) => state.proxy.proxy)
+  let proxyStatus = useAppSelector((state) => state.amountNum.openStatus);
 
 //查询店铺状态
 const loadProxyStatus = async () => {
   const res: any = await loadProxyDetailInfo({});
   if (res && res.code === 200) {
-    dispatch(changeProxy(res.data.agent))
+    // dispatch(changeProxy({'ac': 'changeProxy', 'proxy': res.data.agent} as any))
+    dispatch(switchAmountNum(res.data.agent))
   }
 };
 
@@ -54,7 +55,7 @@ const loadProxyStatus = async () => {
         <div><Switch
         checkedChildren={<CheckOutlined />}
         unCheckedChildren={<CloseOutlined />}
-        checked={Number(proxyInfo.openStatus) === 1 ? true : false}
+        checked={Number(proxyStatus) === 1 ? true : false}
         onClick={(checked: boolean) => switchCurrentProxyInfo(checked)}
       /></div>
       ]}

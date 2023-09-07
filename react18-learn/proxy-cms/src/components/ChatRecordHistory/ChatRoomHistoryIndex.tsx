@@ -17,11 +17,11 @@ const ChatRoomHistoryIndex: any = ({ open, closeChatRoom }:IProps) => {
   const nodeRef =useRef<HTMLDivElement>(null);
 
 
-  const handleOk = (e: React.MouseEvent<HTMLElement>) => {
+  const handleOk = (_e: React.MouseEvent<HTMLElement>) => {
     closeChatRoom()
   };
 
-  const handleCancel = (e: React.MouseEvent<HTMLElement>) => {
+  const handleCancel = (_e: React.MouseEvent<HTMLElement>) => {
     // setOpen(false);
     closeChatRoom()
   };

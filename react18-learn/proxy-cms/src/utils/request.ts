@@ -3,19 +3,17 @@ import Nprogress from 'nprogress'
 import 'nprogress/nprogress'
 import { message } from 'antd'
 import { respMessage } from '@/utils/message'
-
-
+console.log()
 //创建axios实例
 const service = axios.create({
-    // baseURL: process.env.REACT_APP_API,
-    // baseURL: 'http://172.28.113.248:8066',
+    baseURL: (import.meta.env.MODE === 'test' || import.meta.env.MODE === 'production') ? import.meta.env.VITE_APP_BASE_URL : '',
+    // baseURL: 'http://api.agentfff.xyz',
     timeout: 5000
 })
 
 //请求拦截
 service.interceptors.request.use(
     (config: any) => {
-        //模拟请求令牌
         config.headers['satoken'] = sessionStorage.getItem('token') ? sessionStorage.getItem('token') : ''
         Nprogress.start()
         return config;

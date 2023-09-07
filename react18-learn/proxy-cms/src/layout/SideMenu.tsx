@@ -69,7 +69,7 @@ const formMenuData = (menuData: any) => {
 
 const SideMenu = () => {
   // const {token: { colorBgContainer }} = theme.useToken();
-  const MenuInfo = useAppSelector((state) => state.user.menuList);
+  const MenuInfo = useAppSelector((state) => state.user.userInfo.menuList);
   const collapsed = useAppSelector((state) => state.collapse.status);
   const [openKeys, setOpenKeys] = useState<any>([]);
   const naviagte = useNavigate();

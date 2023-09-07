@@ -116,7 +116,7 @@ const useWebSocket = (url: string, _info: any) => {
                     }
                 }else {
                     if(((data.code && data.code === 2))){
-                        // location.reload()
+                        location.reload()
                     }
                 }
             }

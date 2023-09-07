@@ -101,7 +101,7 @@ const MRouter = () => {
             },
             {
                 path: '/',
-                element:String(import.meta.env.VITE_APP_ROUTE) === 'payment' ? <Redirect to="/payment" /> : <Redirect to="/merchant" /> 
+                element:<Redirect to="/payment" />
                 // element: pathHost.indexOf('payment') !== -1 ? <Redirect to="/payment" /> : <Redirect to="https://www.baidu.com" /> 
             },
             {
@@ -115,7 +115,7 @@ const MRouter = () => {
 
 //路由鉴权
 const AuthComponent = ({ children }: any) => {
-    const userToken = useAppSelector((state) => state.user.token)
+    const userToken = useAppSelector((state) => state.user.userInfo.tokenInfo)
     return userToken ? children : <Redirect to="/login"/>
 }
 export default MRouter

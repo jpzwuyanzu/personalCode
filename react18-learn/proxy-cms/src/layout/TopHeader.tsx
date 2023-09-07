@@ -39,23 +39,20 @@ import {
 import msgWaring from "@/assets/10759.mp3";
 import { switchUnreadNum } from "@/store/slices/message.slice";
 import dayjs from "dayjs";
-import { changeProxy } from "@/store/slices/proxy.slice";
-import { changeStatic } from "@/store/slices/static.slice";
+import { switchAmountNum } from "@/store/slices/proxy.slice";
+import { switchChatPeopleNum } from "@/store/slices/static.slice";
 
 const { Header } = Layout;
-
 export default function TopHeader() {
-  const [_createWebSocket, _ws, wsData] = useWebSocket(`ws://172.28.113.248:10086/webSocket`,{}); //本地
-  // const [_createWebSocket, _ws, wsData] = useWebSocket(`ws://34.92.25.18:10086/webSocket`,{}); //测试
+  const [_createWebSocket, _ws, wsData] = useWebSocket(import.meta.env.VITE_APP_WS_URL,{});
   const { pathname } = useLocation();
-  const collapsed = useAppSelector((state) => state.collapse.status);
   const userInfo = useAppSelector((state) => state.user.userInfo);
+  const collapsed = useAppSelector((state) => state.collapse.status);
   const cusColor = useAppSelector((state) => state.cusColor.color);
-  // const [proxyOrderStatic, setProxyorderStatic] = useState<any>({});
-  let proxyOrderStatic = useAppSelector((state) => state.static.static)
-  // const {token: { colorBgContainer }} = theme.useToken();
-  let unReadNum = useAppSelector((state) => state.unreadNum.unreadNum);
-  let proxyInfo = useAppSelector((state) => state.proxy.proxy)
+  const proxyOrderStatic = useAppSelector((state) => state.chatPeople)
+  const unReadNum = useAppSelector((state) => state.unreadNum.unreadNum);
+  const amoutNum = useAppSelector((state) => state.amountNum.amountNum);
+  const proxyStatus = useAppSelector((state) => state.amountNum.openStatus);
   const warningRef = useRef(null);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -169,7 +166,7 @@ export default function TopHeader() {
     });
     if (res && res.code === 200) {
       // setProxyorderStatic(res.page.list[0]);
-      dispatch(changeStatic(res.page.list[0]))
+      dispatch(switchChatPeopleNum(res.page.list.length ? res.page.list[0] : {'chatPeople':0, 'totalRechargeCount': 0,'rechargePeople': 0,'rechargeCount': 0}))
     }
   };
 
@@ -178,7 +175,7 @@ export default function TopHeader() {
   const loadProxyStatus = async () => {
     const res: any = await loadProxyDetailInfo({});
     if (res && res.code === 200) {
-      dispatch(changeProxy(res.data.agent))
+      dispatch(switchAmountNum(res.data.agent))
     }
   };
 
@@ -206,11 +203,11 @@ export default function TopHeader() {
   }, [wsData]);
 
   useEffect(() => {
-    if (userInfo.userType === 1) {
+    if (userInfo && userInfo.userType === 1) {
       loadCurrentProxyStatic();
       loadProxyStatus();
     }
-  }, []);
+  }, [userInfo]);
 
   return (
     <>
@@ -274,7 +271,7 @@ export default function TopHeader() {
                 <div className={styles.storeAmount}>
                   <span className={styles.storeLabel}>店铺余额: </span>
                   <span className={styles.storeAc}>
-                    {proxyInfo && proxyInfo.amount ? Number(Number(proxyInfo.amount) / 100).toFixed(2) : 0.00}
+                    {Number(Number(amoutNum) / 100).toFixed(2)}
                   </span>
                 </div>
                 <div className={styles.storeStatus}>
@@ -282,7 +279,7 @@ export default function TopHeader() {
                   <Switch
                     checkedChildren={<CheckOutlined />}
                     unCheckedChildren={<CloseOutlined />}
-                    checked={proxyInfo && proxyInfo.openStatus ? (Number(proxyInfo.openStatus) === 1 ? true : false) : false}
+                    checked={(Number(proxyStatus) === 1 ? true : false)}
                     onClick={(checked: boolean) =>
                       switchCurrentProxyInfo(checked)
                     }

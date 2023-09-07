@@ -12,7 +12,6 @@ export function removeCookieItem(key: string) {
     Cookie.remove(key)
 }
 
-
 //封装storage
 
 /*获取 storage 缓存数据

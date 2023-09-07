@@ -31,7 +31,7 @@ const OrderDetail: React.FC = () => {
   const [searchUserForm] = Form.useForm();
 
   const cusColor = useAppSelector((state) => state.cusColor.color);
-  const userType = useAppSelector((state) => state.user.userType);
+  const userType = useAppSelector((state) => state.user.userInfo.userType);
 
 
 

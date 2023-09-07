@@ -24,6 +24,8 @@ const Login: React.FC = () => {
       const resp: any = await dispatch(loginSys({username: values.username, password: MD5(values.password), code: values.code}))
       if(resp && resp.payload && resp.payload.code) {
         if(resp.payload.code === 200) {
+          localStorage.setItem('currentUserInfo', JSON.stringify(resp.payload.data))
+          // debugger
           // 登录成功
           message.open({
             type: 'success',
@@ -43,7 +45,7 @@ const Login: React.FC = () => {
 
   const changeMsgCode = () => {
     let temp = Math.ceil(Math.random()*10);
-    setImgCode(`/api/sys/user/check/code?${temp}`)
+    setImgCode(`${import.meta.env.VITE_APP_BASE_URL}/api/sys/user/check/code?${temp}`)
   }
 
   useEffect(() => {

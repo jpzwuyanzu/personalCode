@@ -40,7 +40,7 @@ const ProxyOrder: React.FC = () => {
   const [tableList, setTableList] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [searchUserForm] = Form.useForm();
-  const userType = useAppSelector((state) => state.user.userType);
+  const userType = useAppSelector((state) => state.user.userInfo.userType);
 
   //初始化查询时间
   const initSearchDate = () => {

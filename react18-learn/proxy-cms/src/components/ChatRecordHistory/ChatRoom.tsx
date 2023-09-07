@@ -13,7 +13,7 @@ import ALI_PAY from "@/assets/imgs/paytype/ALI_PAY.png";
 import UNION_PAY from "@/assets/imgs/paytype/UNION_PAY.png";
 
 //图片资源桶地址
-const ossImgUrl = "https://hk-jmcy.oss-cn-hongkong.aliyuncs.com/";
+const ossImgUrl = import.meta.env.VITE_APP_OSS_URL;
 
 const rightTabList: any = [
   {

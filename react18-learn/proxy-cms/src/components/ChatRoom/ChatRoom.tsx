@@ -44,14 +44,14 @@ import WX_PAY from "@/assets/imgs/paytype/WX_PAY.png";
 import ALI_PAY from "@/assets/imgs/paytype/ALI_PAY.png";
 import UNION_PAY from "@/assets/imgs/paytype/UNION_PAY.png";
 import { switchUnreadNum } from "@/store/slices/message.slice";
-import { changeProxy } from "@/store/slices/proxy.slice";
-import { changeStatic } from "@/store/slices/static.slice";
+import { switchAmountNum } from "@/store/slices/proxy.slice";
+import { switchChatPeopleNum } from "@/store/slices/static.slice";
 
 const { Meta } = Card;
 const { Countdown } = Statistic;
 
 //图片资源桶地址
-const ossImgUrl = "https://hk-jmcy.oss-cn-hongkong.aliyuncs.com/";
+const ossImgUrl = import.meta.env.VITE_APP_OSS_URL;
 const { TextArea } = Input;
 const ChatRoom = () => {
   //消息列表
@@ -61,8 +61,7 @@ const ChatRoom = () => {
   const naviagte = useNavigate();
   const dispatch = useAppDispatch();
   const userInfo = useAppSelector((state: any) => state.user.userInfo);
-  const [_createWebSocket, ws, wsData] = useWebSocket(`ws://172.28.113.248:10086/webSocket`,{});
-  // const [_createWebSocket, ws, wsData] = useWebSocket(`ws://34.92.25.18:10086/webSocket`,{});
+  const [_createWebSocket, ws, wsData] = useWebSocket(import.meta.env.VITE_APP_WS_URL,{});
   const [cusList, setCusList] = useState<any[]>([]); // 左侧联系人列表
   const [chatUserIndex, setChatUserIndex] = useState<any>(); // 左侧用户列表选中项
   const [fastImgUrl, setFastImgUrl] = useState("");
@@ -199,7 +198,7 @@ const ChatRoom = () => {
 const loadProxyStatus = async () => {
   const res: any = await loadProxyDetailInfo({});
   if (res && res.code === 200) {
-    dispatch(changeProxy(res.data.agent))
+    dispatch(switchAmountNum(res.data.agent))
   }
 };
 
@@ -214,7 +213,7 @@ const loadProxyStatus = async () => {
     });
     if (res && res.code === 200) {
       // setProxyorderStatic(res.page.list[0]);
-      dispatch(changeStatic(res.page.list[0]))
+      dispatch(switchChatPeopleNum(res.page.list.length ? res.page.list[0] : {'chatPeople':0, 'totalRechargeCount': 0,'rechargePeople': 0,'rechargeCount': 0}))
     }
   };
 

@@ -1,31 +1,39 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-interface IStatic {
-    static: any
+interface chatPeople {
+    chatPeople: number
+    totalRechargeCount: number
+    rechargePeople: number
+    rechargeCount: number
 }
 
 //定义初始化数据
-const initialState: IStatic = {
-    static: {}
+const initialState: chatPeople = {
+    chatPeople: 0,
+    totalRechargeCount: 0,
+    rechargePeople: 0,
+    rechargeCount: 0
 }
 
 //定义状态名称字符串常量
-export const STATIC_FETURE_KEY: any = 'static'
+export const CHATPEOPLE_FETURE_KEY: any = 'chatPeople'
 
 //action: 对象类型，用于存储action creator函数
-const { actions, reducer: StaticReducer } = createSlice({
+const { actions, reducer: ChatPeopleReducer } = createSlice({
     // name 将会作为action对象中type属性值的前缀
-    name: STATIC_FETURE_KEY, 
+    name: CHATPEOPLE_FETURE_KEY,
     //初始状态
     initialState,
     reducers: {
-        changeStatic: (state: IStatic, action: any) => {
-            state.static = action.payload
-            
+        switchChatPeopleNum: (state: chatPeople, action: any) => {
+            state.chatPeople = Number(action.payload.chatPeople)
+            state.totalRechargeCount = Number(action.payload.totalRechargeCount)
+            state.rechargePeople = Number(action.payload.rechargePeople)
+            state.rechargeCount = Number(action.payload.rechargeCount)
         }
     }
 })
 
-export const { changeStatic } = actions;
+export const { switchChatPeopleNum } = actions;
 
-export default StaticReducer
+export default ChatPeopleReducer

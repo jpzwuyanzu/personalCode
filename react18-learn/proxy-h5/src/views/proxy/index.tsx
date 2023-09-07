@@ -4,7 +4,6 @@ import { useNavigate, useLocation,useParams } from "react-router-dom";
 import { NavBar, List, Image, Dialog, Modal, Toast } from "antd-mobile";
 import styles from "./index.module.scss";
 import { getOnlineAgent, getAgentNotice } from './../../api/index'
-
 const proxyStatusMsg = {
   close: "该商家代理已停止营业，为了不影响您的充值体验，请换一个店铺",
   offLine: "该商家代理已离线，为了不影响您的充值体验，请换一个店铺",

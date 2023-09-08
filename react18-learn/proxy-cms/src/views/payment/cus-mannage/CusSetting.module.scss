@@ -3,11 +3,31 @@
     overflow: hidden;
     .Table_ContentArea {
         height: 100%;
+        .welcome_tips {
+            height: 180px;
+            padding-left: 19px;
+            display: flex;
+            flex-direction: column;
+            .welcom_label {
+                font-size: 18px;
+                margin-bottom: 10px;
+            }
+            .welcome_input {
+                width: 50%;
+            }
+            .saveWel_btn {
+                width: 50%;
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-end;
+
+            }
+        }
         .table_search {
             height: 60px;
         }
         .table_content {
-            height: calc(100% - 105px);
+            height: calc(100% - 285px);
         }
         .bottom_Pag_area {
             height: 45px;

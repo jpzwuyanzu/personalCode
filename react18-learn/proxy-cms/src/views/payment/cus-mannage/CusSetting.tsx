@@ -8,12 +8,15 @@ import {
   Row,
   message,
   Popconfirm,
+  Input
 } from "antd";
 import { respMessage } from "@/utils/message";
-import { quickFeedBack, delQuickFeedBack } from "@/api/index";
+import { quickFeedBack, delQuickFeedBack, updateQuickFeedBack } from "@/api/index";
 import dayjs from "dayjs";
 import CusSettingModule from "./modules/CusSettingModule";
 import styles from "./CusSetting.module.scss";
+
+const { TextArea } = Input;
 
 const CusSetting: React.FC = () => {
   const [tableList, setTableList] = useState<any[]>([]);
@@ -21,6 +24,8 @@ const CusSetting: React.FC = () => {
   const [moduleWidth, setModuleWidth] = useState("");
   const [quickFeedBackInfo, setUserInfo] = useState({});
   const [loading, setLoading] = useState<boolean>(false);
+  const [welcomeContent, setWelcomeContent] = useState('');
+  const [welComeInfo, setWelcomeInfo] = useState<any>('');
   const [searchUserForm] = Form.useForm();
 
   const onFinish = (_values: any) => {
@@ -31,9 +36,50 @@ const CusSetting: React.FC = () => {
     console.log("Failed:", errorInfo);
   };
 
+  //查询欢迎语
+  const loadWelComeMsg = async() => {
+    const data: any = await quickFeedBack({ type: 1});
+    if (data && data.code && data.code === 200) {
+      console.log(data)
+      setWelcomeContent(data.data.list && data.data.list.length ? data.data.list[0]['content'] : '');
+      setWelcomeInfo(data.data.list && data.data.list.length ? data.data.list[0] : '')
+    } else {
+      message.open({
+        type: "error",
+        content: respMessage[String(data.code)],
+      });
+    }
+  }
+
+  //编辑店铺欢迎语
+  const editWelcome = async() => {
+    let params: any = {};
+    if(welComeInfo){
+      params.id = welComeInfo.id
+    }
+    const res: any = await updateQuickFeedBack({
+      content: welcomeContent,
+      status: 1,
+      type:1,
+      ...params
+    });
+    if (res && res.code && res.code === 200) {
+      message.open({
+        type: "success",
+        content: "编辑成功",
+      });
+      loadWelComeMsg()
+    } else {
+      message.open({
+        type: "error",
+        content: respMessage[String(res.code)],
+      });
+    }
+  }
+
   const fetchData = async (params?: any) => {
     setLoading(true);
-    const data: any = await quickFeedBack({ ...params });
+    const data: any = await quickFeedBack({ ...params, type: 0});
     setLoading(false);
     if (data && data.code && data.code === 200) {
       setTableList(data.data.list ? data.data.list : []);
@@ -150,11 +196,33 @@ const CusSetting: React.FC = () => {
 
   useEffect(() => {
     fetchData({});
+    loadWelComeMsg()
   }, []);
 
   return (
     <div className={styles.TableCom_Container}>
       <div className={styles.Table_ContentArea}>
+        <div className={ styles.welcome_tips }>
+          <div className={ styles.welcom_label }>店铺欢迎语：</div>
+          <TextArea
+              className={ styles.welcome_input }
+              value={welcomeContent}
+              onChange={(val) => setWelcomeContent(val.target.value)}
+              rows={4}
+              placeholder="请输入店铺欢迎语"
+              maxLength={500}
+              onBlur={() => editWelcome()}
+            />
+             <div className={styles.saveWel_btn}>
+             <Button
+                    type="primary"
+                    style={{ marginTop: "19px" }}
+                    onClick={() => editWelcome()}
+                  >
+                    保存
+                  </Button>
+             </div>
+        </div>
         <div className={styles.table_search}>
           <Form
             form={searchUserForm}

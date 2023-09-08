@@ -221,22 +221,14 @@ const Chat = memo(() => {
       setMessageList([...messageList, wsData]);
     } else if (wsData && wsData.code === 1 && (wsData as any).list.length) {
       let temlist = wsData.list;
-      // temlist.forEach((itm:any, inx: any) => {
-      //   if(itm.type === 4) {
-      //     itm.content = itm.content.split('.com/')[1]
-      //   }
-      // })  
       let temp = getStorage("session", searchParams.get("orderNumber"))
       ? JSON.parse(getStorage("session", searchParams.get("orderNumber")))
       : [];
       if(temp) {
-        // setStorage("session", searchParams.get("orderNumber"),[...temp, ...wsData.list]);
         setStorage("session", searchParams.get("orderNumber"),[...temp, ...temlist]);
       }  else {
-        // setStorage("session", searchParams.get("orderNumber"),[...wsData.list]);
         setStorage("session", searchParams.get("orderNumber"),[...temlist]);
       }
-      // setMessageList([...temp, ...wsData.list]);
       setMessageList([...temp, ...temlist]);
     }
   }, [wsData]);
@@ -365,9 +357,9 @@ const Chat = memo(() => {
                 return (
                   <div className={styles.common_message} key={_.msgId}>
                     {/* 官方欢迎消息 */}
-                    <div className="message_in">{_.message.content}</div>
+                    <div className="message_in">{_.content}</div>
                     <span className={styles.common_message_right_time}>
-                      2023-08-10
+                    {dayjs(_.time).format("MM-DD HH:mm:ss")}
                     </span>
                   </div>
                 );

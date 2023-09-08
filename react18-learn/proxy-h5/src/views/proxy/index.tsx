@@ -4,6 +4,7 @@ import { useNavigate, useLocation,useParams } from "react-router-dom";
 import { NavBar, List, Image, Dialog, Modal, Toast } from "antd-mobile";
 import styles from "./index.module.scss";
 import { getOnlineAgent, getAgentNotice } from './../../api/index'
+import { judgeMobile } from './../../utils/common'
 const proxyStatusMsg = {
   close: "该商家代理已停止营业，为了不影响您的充值体验，请换一个店铺",
   offLine: "该商家代理已离线，为了不影响您的充值体验，请换一个店铺",
@@ -118,10 +119,10 @@ const handleback = () => {
 
   return (
     <div className={styles.proxy_container}>
-      <div className={styles.top_nav_bar}>
+      <div className={(judgeMobile as any)() === 'ios' ? styles.top_nav_bar : styles.top_nav_bar_android}>
         <NavBar onBack={() => handleback()}>全部代理</NavBar>
       </div>
-      <div className={styles.all_proxy_list}>
+      <div className={(judgeMobile as any)() === 'ios' ? styles.all_proxy_list : styles.all_proxy_list_android}>
         <List>
           {factUser.map(
             (user: {

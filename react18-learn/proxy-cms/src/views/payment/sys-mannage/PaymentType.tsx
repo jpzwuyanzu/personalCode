@@ -250,7 +250,6 @@ const UserList: React.FC = () => {
           {/* <Button type="dashed" danger onClick={() => openModal(record)}>
             重置密码
           </Button> */}
-          <JudgePemission pageUrl={"/payment/userlist_134"}>
             <Popconfirm
               title="删除"
               description="你确认删除该收款方式吗?"
@@ -263,7 +262,6 @@ const UserList: React.FC = () => {
                 删除
               </Button>
             </Popconfirm>
-          </JudgePemission>
         </Space>
       ),
     },

@@ -12,6 +12,23 @@
             color: #fff;
         }
     }
+    .navbar_container_android {
+        height: 120px;
+        padding-top: 30px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        .reportNow {
+            padding: 5px;
+            background: linear-gradient(to right, #ff6034, #ee0a24);
+            width: 70px;
+            float: right;
+            text-align: center;
+            border-radius: 20px;
+            color: #fff;
+        }
+    }
     .tabs_container {
         height: 86px;
         // overflow: hidden;
@@ -50,6 +67,43 @@
     }
     .proxy_content {
         height: calc(100% - 286px);
+        overflow: hidden;
+        position: relative;
+        .showChatRoom {
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+        }
+        .hideChatRoom {
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            position: absolute;
+            z-index: 0;
+        }
+        .showOrderDetail {
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+        }
+        .hideOrderDetail {
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            position: absolute;
+            z-index: 0;
+        }
+    }
+    .proxy_content_android {
+        height: calc(100% - 316px);
         overflow: hidden;
         position: relative;
         .showChatRoom {

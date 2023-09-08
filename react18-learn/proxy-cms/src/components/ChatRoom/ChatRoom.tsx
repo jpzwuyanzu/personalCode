@@ -116,7 +116,7 @@ const ChatRoom = () => {
 
   //获取快捷回复列表
   const loadQuickReplayList = async () => {
-    const res: any = await quickFeedBack({});
+    const res: any = await quickFeedBack({type: 0});
     if (res && res.code === 200) {
       setQuickList(res.data.list ? res.data.list : []);
     }

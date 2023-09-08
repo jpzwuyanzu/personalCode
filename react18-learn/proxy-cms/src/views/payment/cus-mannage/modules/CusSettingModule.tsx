@@ -86,6 +86,7 @@ export default function CusSettingModule({
             content: values.content,
             status: 1,
             seq: values.seq,
+            type: 0
           });
           if (res && res.code && res.code === 200) {
             (closeDrawer as any)();

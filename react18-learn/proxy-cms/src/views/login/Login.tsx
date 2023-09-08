@@ -19,6 +19,14 @@ const Login: React.FC = () => {
   //     navigate(-1)
   //   }
   // }, [pathname])
+
+
+  const changeMsgCode = () => {
+    let temp = Math.ceil(Math.random()*10);
+    setImgCode(`${import.meta.env.VITE_APP_BASE_URL}/api/sys/user/check/code?${temp}`)
+  }
+
+
   const onFinish = async (values: any) => {
     if(values) {
       const resp: any = await dispatch(loginSys({username: values.username, password: MD5(values.password), code: values.code}))
@@ -33,6 +41,9 @@ const Login: React.FC = () => {
           });
           navigate('/')
         } else {
+          if(resp.payload.code === 10039){
+            changeMsgCode()
+          }
           message.open({
             type: 'error',
             content: respMessage[String(resp.payload.code)]
@@ -42,11 +53,6 @@ const Login: React.FC = () => {
       }
     }
   };
-
-  const changeMsgCode = () => {
-    let temp = Math.ceil(Math.random()*10);
-    setImgCode(`${import.meta.env.VITE_APP_BASE_URL}/api/sys/user/check/code?${temp}`)
-  }
 
   useEffect(() => {
     changeMsgCode()

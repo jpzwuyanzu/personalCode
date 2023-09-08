@@ -310,7 +310,7 @@ export default function PaymentTypeModule({
           {
             (payCodeNow === 'ALI_PAY' || payCodeNow === 'WX_PAY') ? <> <Row>
             <Col span={24}>
-              <Form.Item name="payImage" label="收款码">
+              <Form.Item name="payImage" label={payCodeNow === 'ALI_PAY' ? '支付宝收款码' : '微信收款码'}>
                 <CusUpload
                   saveUploadImgUrl={saveUploadImgUrl}
                   uploadInfo={paymentTypeInfo}
@@ -342,15 +342,15 @@ export default function PaymentTypeModule({
             <Col span={24}>
               <Form.Item
                 name="bankAccount"
-                label={ payCodeNow === 'UNION_PAY' ? '银行卡名称' : "支付宝名称" }
+                label={ payCodeNow === 'UNION_PAY' ? '账户姓名' : "支付宝姓名" }
                 rules={[
                   {
                     required: true,
-                    message:  payCodeNow === 'UNION_PAY' ? '' +'请输入银行卡名称' : "请输入支付宝名称",
+                    message:  payCodeNow === 'UNION_PAY' ? '' +'请输入账户姓名' : "请输入支付宝姓名",
                   },
                 ]}
               >
-                <Input placeholder={payCodeNow === 'UNION_PAY' ? '' +'请输入银行卡名称' : "请输入支付宝名称"} />
+                <Input placeholder={payCodeNow === 'UNION_PAY' ? '' +'请输入账户姓名' : "请输入支付宝姓名"} />
               </Form.Item>
             </Col>
           </Row></>  : null

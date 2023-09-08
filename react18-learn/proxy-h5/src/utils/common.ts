@@ -123,3 +123,14 @@ export function getRecentMounth() {
     }
     return  [dateObj.start,  dateObj.end]
 }
+
+//判断是安卓还是ios
+export function judgeMobile() {
+    let plat = ''
+    if(!!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)){
+        plat = 'ios'
+    } else {
+        plat='android'
+    }
+    return plat
+}

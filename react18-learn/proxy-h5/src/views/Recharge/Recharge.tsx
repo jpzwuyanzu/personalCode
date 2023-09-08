@@ -18,6 +18,7 @@ interface IProps {
 
 
 const Recharge = ({reTypeP, accTypeP,reNameP, reAccountP, reBankNameP, amount, rePayImageP}:any) => {
+  console.log(reNameP, reAccountP, reBankNameP)
   const navigate = useNavigate();
   const { pathname, search } = useLocation();
   const searchParams = new URLSearchParams(search);
@@ -75,10 +76,9 @@ const Recharge = ({reTypeP, accTypeP,reNameP, reAccountP, reBankNameP, amount, r
                   }}
                 />
               </div>
-              {/* <div className={styles.qr_account_name}>
-                {reType === 0 ? "支付宝" : reType === 1 ? "微信" : "银行卡"}
-                名称: {payName}
-              </div> */}
+              {
+                reType === 0 &&  <div className={styles.qr_account_name}>支付宝姓名：{reName}</div>
+              }
             </div>
           ) : (
             <div className={styles.re_account_type}>
@@ -90,8 +90,7 @@ const Recharge = ({reTypeP, accTypeP,reNameP, reAccountP, reBankNameP, amount, r
               <div className={styles.re_account_area}>
                 <div className={styles.account_item}>
                   <div className={styles.acc_label}>
-                    {reType === 0 ? "支付宝" : reType === 1 ? "微信" : "持卡人"}
-                    名称:
+                    {reType === 0 ? "支付宝姓名:" : reType === 1 ? "微信" : "账户姓名:"}
                   </div>
                   <div className={styles.acc_num}>{reName}</div>
                   <CopyToClipboard text={reName} onCopy={handleCopy}>
@@ -100,8 +99,8 @@ const Recharge = ({reTypeP, accTypeP,reNameP, reAccountP, reBankNameP, amount, r
                 </div>
                 <div className={styles.account_item}>
                   <div className={styles.acc_label}>
-                    {reType === 0 ? "支付宝" : reType === 1 ? "微信" : "银行卡"}
-                    账号:
+                    {reType === 0 ? "支付宝账" : reType === 1 ? "微信" : "银行卡"}
+                    号:
                   </div>
                   <div className={styles.acc_num}>{reAccount}</div>
                   <CopyToClipboard text={reAccount} onCopy={handleCopy}>

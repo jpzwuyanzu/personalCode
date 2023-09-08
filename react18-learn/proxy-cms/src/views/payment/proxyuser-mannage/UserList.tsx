@@ -488,9 +488,9 @@ const UserList: React.FC = () => {
               </Col> */}
               <Col span={4}>
                 <Form.Item
-                  label="用户状态"
+                  label="状态"
                   name="status"
-                  rules={[{ required: false, message: "请选择用户状态!" }]}
+                  rules={[{ required: false, message: "请选择状态!" }]}
                 >
                   <Select
                     style={{ width: "100%" }}
@@ -504,8 +504,8 @@ const UserList: React.FC = () => {
                 </Form.Item>
               </Col>
               {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
-              <Col span={1}>
-                <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
+              <Col span={1.5}>
+                <Form.Item wrapperCol={{ offset: 0, span: 10 }}>
                   <Button type="primary" htmlType="submit">
                     搜索
                   </Button>
@@ -513,12 +513,12 @@ const UserList: React.FC = () => {
               </Col>
               {/* </JudgePemission> */}
               {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
-              <Col span={1}>
-                <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
+              <Col span={1.5}>
+                <Form.Item wrapperCol={{ offset: 0, span: 10 }}>
                   <Button
                     type="primary"
-                    style={{ marginLeft: "13px" }}
                     onClick={() => resetParams()}
+                    style={{ marginLeft: '10px', marginRight: '10px' }}
                   >
                     重置
                   </Button>
@@ -526,11 +526,10 @@ const UserList: React.FC = () => {
               </Col>
               {/* </JudgePemission> */}
               <JudgePemission pageUrl={"/payment/userlist_132"}>
-                <Col span={1}>
-                  <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
+                <Col span={1.5}>
+                  <Form.Item wrapperCol={{ offset: 0, span: 10 }}>
                     <Button
                       type="primary"
-                      style={{ marginLeft: "19px" }}
                       onClick={() => openDrawer("378px", {})}
                     >
                       新增代理

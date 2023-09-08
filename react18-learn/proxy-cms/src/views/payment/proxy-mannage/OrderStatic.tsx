@@ -265,12 +265,12 @@ const OrderDetail: React.FC = () => {
                   name="createTime"
                   rules={[{ required: false, message: "请选择时间!" }]}
                 >
-                  <RangePicker />
+                  <RangePicker style={{width: '250px' }}/>
                 </Form.Item>
               </Col>
               {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
               <Col span={1}>
-                <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
+                <Form.Item wrapperCol={{ offset: 2, span: 16 }}>
                   <Button type="primary" htmlType="submit">
                     搜索
                   </Button>
@@ -279,10 +279,9 @@ const OrderDetail: React.FC = () => {
               {/* </JudgePemission> */}
               {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
               <Col span={1}>
-                <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
+                <Form.Item wrapperCol={{ offset: 10, span: 16 }}>
                   <Button
                     type="primary"
-                    style={{ marginLeft: "13px" }}
                     onClick={() => resetParams()}
                   >
                     重置

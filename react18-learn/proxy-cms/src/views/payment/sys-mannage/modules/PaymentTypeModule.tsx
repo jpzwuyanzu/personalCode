@@ -137,6 +137,11 @@ export default function PaymentTypeModule({
          
         }
         if (Object.keys(paymentTypeInfo).length) {
+
+          let tempImg = ''
+          if(values.payImage.indexOf('http') !== -1) {
+            tempImg = 'agent' + values.payImage.split('agent')[1]
+          }
           const res: any = await updateAgentReciveType({
             payName: values.payName,
             payCode: values.payCode,
@@ -146,7 +151,7 @@ export default function PaymentTypeModule({
             bankAccount: values.bankAccount,
             bankNo: values.bankNo,
             jumpType: values.jumpType,
-            payImage: values.jumpType === 1 && fastUrl ? fastUrl :  values.payImage,
+            payImage: values.jumpType === 1 && fastUrl ? fastUrl :  tempImg,
             amountList: supAmountList
           });
           if (res && res.code && res.code === 200) {
@@ -177,6 +182,7 @@ export default function PaymentTypeModule({
                 id: paymentTypeInfo.id,
                 bankAccount: values.bankAccount,
                 jumpType: values.jumpType,
+                bankNo: values.bankNo,
                 payImage: values.jumpType === 1 && fastUrl ? fastUrl :  values.payImage,
                 amountList: supAmountList
             });

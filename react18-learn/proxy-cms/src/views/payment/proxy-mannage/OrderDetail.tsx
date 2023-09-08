@@ -244,12 +244,12 @@ const OrderDetail: React.FC = () => {
   return (
     <div className={styles.TableCom_Container}>
       <div className={styles.Table_ContentArea}>
-        <div className={styles.table_search}>
+        <div className={ userType === 0 ? styles.table_two_line :  styles.table_search}>
           <Form
             form={searchUserForm}
             name="basic"
             labelCol={{ span: 6 }}
-            wrapperCol={{ span: 18 }}
+            wrapperCol={{ span: 16 }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             autoComplete="off"
@@ -264,18 +264,18 @@ const OrderDetail: React.FC = () => {
           >
             <Row justify="start">
               {userType !== 1 && (
-                <Col span={4}>
+                <Col span={6}>
                   <Form.Item
                     label="代理昵称"
                     name="agentName"
                     rules={[{ required: false, message: "请输入代理昵称!" }]}
                   >
-                    <Input placeholder="代理昵称" allowClear={true} />
+                    <Input placeholder="代理昵称" allowClear={true} style={{ width: '250px' }}/>
                   </Form.Item>
                 </Col>
               )}
               {userType !== 1 && (
-                <Col span={4}>
+                <Col span={5}>
                   <Form.Item
                     label="代理ID"
                     name="agentId"
@@ -285,19 +285,20 @@ const OrderDetail: React.FC = () => {
                   </Form.Item>
                 </Col>
               )}
-              <Col span={4}>
+              {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
+              <Col span={6}>
                 <Form.Item
                   label="订单号"
                   name="platformOrderId"
                   rules={[{ required: false, message: "请输入订单编号!" }]}
                 >
-                  <Input placeholder="请输入订单编号" allowClear={true} />
+                  <Input placeholder="请输入订单编号" allowClear={true} style={{ width: '250px' }}/>
                 </Form.Item>
               </Col>
 
-              <Col span={4}>
+              <Col span={6}>
                 <Form.Item
-                  label="类型"
+                  label="订单类型"
                   name="changeType"
                   rules={[{ required: false, message: "请选择订单类型!" }]}
                 >
@@ -313,36 +314,63 @@ const OrderDetail: React.FC = () => {
                   />
                 </Form.Item>
               </Col>
-              <Col span={5}>
+              {
+                userType === 1 ? <>
+                 <Col span={6}>
                 <Form.Item
                   label="交易时间"
                   name="createTime"
                   rules={[{ required: false, message: "请选择交易时间!" }]}
                 >
-                  <RangePicker />
+                  <RangePicker style={{ width: '250px' }} />
                 </Form.Item>
               </Col>
-              {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
               <Col span={1}>
-                <Form.Item wrapperCol={{ offset: 2, span: 16 }}>
+                <Form.Item wrapperCol={{ offset: 8 }}>
                   <Button type="primary" htmlType="submit">
                     搜索
                   </Button>
                 </Form.Item>
               </Col>
-              {/* </JudgePemission> */}
-              {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
               <Col span={1}>
-                <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
+                <Form.Item wrapperCol={{ offset: 15 }}>
+                  <Button type="primary" onClick={() => resetParams()}>
+                    重置
+                  </Button>
+                </Form.Item>
+              </Col></> : null
+              }
+            </Row>
+            {
+              userType === 0 ? <Row justify="start">
+              <Col span={6}>
+                <Form.Item
+                  label="交易时间"
+                  name="createTime"
+                  rules={[{ required: false, message: "请选择交易时间!" }]}
+                >
+                  <RangePicker style={{ width: '250px' }} />
+                </Form.Item>
+              </Col>
+              <Col span={1}>
+                <Form.Item wrapperCol={{ offset: 8, span: 8 }}>
+                  <Button type="primary" htmlType="submit">
+                    搜索
+                  </Button>
+                </Form.Item>
+              </Col>
+              <Col span={1}>
+                <Form.Item wrapperCol={{ offset: 20, span:8 }}>
                   <Button type="primary" onClick={() => resetParams()}>
                     重置
                   </Button>
                 </Form.Item>
               </Col>
-            </Row>
+              </Row> : null
+            }
           </Form>
         </div>
-        <div className={styles.table_content}>
+        <div className={userType === 0 ? styles.table_content_two_line :  styles.table_content}>
           <Table
             columns={columns}
             dataSource={tableList}

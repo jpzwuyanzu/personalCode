@@ -26,7 +26,6 @@ import PagiNation from "@/components/PagiNation";
 import { agentReciveType, updateAgentReciveType, delAgentReciveType } from "@/api/index";
 import dayjs from "dayjs";
 import PaymentTypeModule from "./modules/PaymentTypeModule";
-import JudgePemission from "@/components/JudgePemission";
 import styles from "./Paymenttype.module.scss";
 
 const UserList: React.FC = () => {
@@ -149,7 +148,7 @@ const UserList: React.FC = () => {
       ),
     },
     {
-      title: "收款地址",
+      title: "收款二维码",
       dataIndex: "payImage",
       align: "center",
       key: "payImage",
@@ -291,7 +290,7 @@ const UserList: React.FC = () => {
           <Form
             form={searchUserForm}
             name="basic"
-            labelCol={{ span: 6 }}
+            labelCol={{ span: 7 }}
             wrapperCol={{ span: 16 }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
@@ -349,7 +348,7 @@ const UserList: React.FC = () => {
               </Col> */}
               {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
               <Col span={1}>
-                <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
+                <Form.Item wrapperCol={{ offset: 2, span: 16 }}>
                   <Button type="primary" htmlType="submit">
                     搜索
                   </Button>
@@ -357,12 +356,12 @@ const UserList: React.FC = () => {
               </Col>
               {/* </JudgePemission> */}
               {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
-              <Col span={1}>
-                <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
+              <Col span={1.5}>
+                <Form.Item wrapperCol={{ offset: 0, span: 24 }}>
                   <Button
                     type="primary"
-                    style={{ marginLeft: "13px" }}
                     onClick={() => resetParams()}
+                    style={{ marginLeft: '10px', marginRight: '10px' }}
                   >
                     重置
                   </Button>
@@ -370,11 +369,10 @@ const UserList: React.FC = () => {
               </Col>
               {/* </JudgePemission> */}
               {/* <JudgePemission pageUrl={"/payment/userlist_132"}> */}
-                <Col span={1}>
-                  <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
+                <Col span={1.5}>
+                  <Form.Item wrapperCol={{ offset: 0, span: 24 }}>
                     <Button
                       type="primary"
-                      style={{ marginLeft: "19px" }}
                       onClick={() => openDrawer("378px", {})}
                     >
                       新增收款方式
@@ -404,13 +402,16 @@ const UserList: React.FC = () => {
           />
         </div>
       </div>
-      <PaymentTypeModule
+      {
+        open && <PaymentTypeModule
         moduleWidth={moduleWidth}
         paymentTypeInfo={paymentTypeInfo}
         fastHeadHost={fastHeadHost}
         open={open}
         closeDrawer={closeDrawer}
       />
+      }
+      
     </div>
   );
 };

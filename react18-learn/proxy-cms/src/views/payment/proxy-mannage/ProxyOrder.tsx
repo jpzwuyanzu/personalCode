@@ -50,6 +50,10 @@ const ProxyOrder: React.FC = () => {
       params.merchantOrderId = searchParams.get("orderNo");
       searchUserForm?.setFieldsValue({merchantOrderId: searchParams.get("orderNo")});
     }
+    if(searchParams.get('hisUserId')){
+      params.playerId = searchParams.get("hisUserId");
+      searchUserForm?.setFieldsValue({playerId: searchParams.get("hisUserId")});
+    }
     
     if (temp && temp.length) {
       params["startMs"] = new Date(
@@ -186,14 +190,14 @@ const ProxyOrder: React.FC = () => {
         <span style={{ whiteSpace: "nowrap" }}>{text}</span>
       ),
     },
-    {
-      title: "订单来源",
-      dataIndex: "merchantName",
-      align: "center",
-      width: 100,
-      // fixed: "left",
-      key: "merchantName",
-    },
+    // {
+    //   title: "用户来源",
+    //   dataIndex: "merchantName",
+    //   align: "center",
+    //   width: 100,
+    //   // fixed: "left",
+    //   key: "merchantName",
+    // },
     {
       title: "平台订单号",
       dataIndex: "platformOrderId",
@@ -380,6 +384,13 @@ const ProxyOrder: React.FC = () => {
       with: 200,
     },
     {
+      title: "用户来源",
+      dataIndex: "merchantName",
+      align: "center",
+      key: "merchantName",
+      with: 200,
+    },
+    {
       title: "代理ID",
       dataIndex: "agentId",
       align: "center",
@@ -392,14 +403,6 @@ const ProxyOrder: React.FC = () => {
       align: "center",
       with: 200,
       key: "agentName",
-    },
-    {
-      title: "用户来源",
-      dataIndex: "merchantName",
-      align: "center",
-      key: "merchantName",
-      with: 200,
-      render: (text: any) => (text === "WD" ? "挖洞" : "加藤"),
     },
     {
       title: "订单类型",
@@ -642,9 +645,9 @@ const ProxyOrder: React.FC = () => {
                 </Form.Item>
               </Col>
               {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
-              <Col span={1.5}>
+              <Col span={2}>
                 <Form.Item
-                  style={{ marginLeft: "20px" }}
+                  wrapperCol={{ offset: 18}}
                 >
                   <Button type="primary" htmlType="submit">
                     搜索
@@ -653,11 +656,10 @@ const ProxyOrder: React.FC = () => {
               </Col>
               {/* </JudgePemission> */}
               {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
-              <Col span={1}>
-                <Form.Item>
+              <Col span={2}>
+                <Form.Item wrapperCol={{ offset: 10}}>
                   <Button
                     type="primary"
-                    style={{ marginLeft: '10px' }}
                     onClick={() => resetParams()}
                   >
                     重置

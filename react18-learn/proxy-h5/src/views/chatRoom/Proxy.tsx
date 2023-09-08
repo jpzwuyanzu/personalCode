@@ -9,7 +9,6 @@ import { useAppSelector, useAppDispatch } from './../../hooks/redux-hook'
 import { switchState } from './../../store/order.slice'
 import ChatRoom from './Chat'
 import OrderDetail from './Order'
-import { judgeMobile } from './../../utils/common'
 
 const Proxy = () => {
   const navigate = useNavigate();
@@ -118,9 +117,9 @@ const Proxy = () => {
   }, [pathname]);
 
   useEffect(() => {
-   if(orderStateCache) {
+   if(Boolean(orderStateCache)) {
     loadOrderDetailInfo()
-    dispatch(switchState({ status: false }))
+    // dispatch(switchState({ status: false }))
    }
   }, [orderStateCache])
 
@@ -135,7 +134,7 @@ const Proxy = () => {
 
   return (
     <div className={styles.proxy_container}>
-      <div className={(judgeMobile as any)() === 'ios' ? styles.navbar_container : styles.navbar_container_android}>
+      <div className={styles.navbar_container}>
         <NavBar
           onBack={() => navigate(`/proxy/allproxy?orderNumber=${searchParams.get('orderNumber')}&orderAmount=${searchParams.get('orderAmount')}&orderType=${searchParams.get('orderType')}&fromUserId=${searchParams.get("fromUserId")}&fromUserName=${searchParams.get("fromUserName")}`)}
           right={
@@ -183,7 +182,7 @@ const Proxy = () => {
       </div> : null
       }
       
-      <div className={(judgeMobile as any)() === 'ios' ? styles.proxy_content : styles.proxy_content_android}>
+      <div className={styles.proxy_content}>
         {/* <Outlet /> */}
         <div className={ activeKey === '/chat/chatroom/' ? styles.showChatRoom : styles.hideChatRoom }>
           <ChatRoom/>

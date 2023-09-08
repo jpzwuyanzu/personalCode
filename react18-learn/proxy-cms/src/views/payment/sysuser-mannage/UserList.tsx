@@ -26,7 +26,6 @@ import dayjs from "dayjs";
 import UserListModule from "./modules/UserListModule";
 import ResetPassModal from "../../../components/ResetPassModal";
 import UserRechargeModule from './modules/UserRechargeModule'
-import JudgePemission from "@/components/JudgePemission";
 import styles from "./UserList.module.scss";
 
 
@@ -324,15 +323,12 @@ const UserList: React.FC = () => {
             充值
           </Button> : null
           }
-          <JudgePemission pageUrl={"/payment/userlist_133"}>
             <Button type="primary" onClick={() => openDrawer("378px", record)}>
               编辑
             </Button>
-          </JudgePemission>
           <Button type="dashed" danger onClick={() => openModal(record)}>
             重置密码
           </Button>
-          <JudgePemission pageUrl={"/payment/userlist_134"}>
             <Popconfirm
               title="删除"
               description="你确认删除该用户吗?"
@@ -345,7 +341,6 @@ const UserList: React.FC = () => {
                 删除
               </Button>
             </Popconfirm>
-          </JudgePemission>
         </Space>
       ),
     },
@@ -458,7 +453,7 @@ const UserList: React.FC = () => {
             }}
           >
             <Row justify="start">
-              <Col span={4}>
+              <Col span={5}>
                 <Form.Item
                   label="账号"
                   name="username"
@@ -485,7 +480,7 @@ const UserList: React.FC = () => {
                   />
                 </Form.Item>
               </Col> */}
-              <Col span={4}>
+              <Col span={5}>
                 <Form.Item
                   label="用户状态"
                   name="status"
@@ -504,7 +499,7 @@ const UserList: React.FC = () => {
               </Col>
               {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
               <Col span={1}>
-                <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
+                <Form.Item wrapperCol={{ offset: 5, span: 16 }}>
                   <Button type="primary" htmlType="submit">
                     搜索
                   </Button>
@@ -513,10 +508,9 @@ const UserList: React.FC = () => {
               {/* </JudgePemission> */}
               {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
               <Col span={1}>
-                <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
+                <Form.Item wrapperCol={{ offset: 10, span: 16 }}>
                   <Button
                     type="primary"
-                    style={{ marginLeft: "13px" }}
                     onClick={() => resetParams()}
                   >
                     重置
@@ -524,9 +518,8 @@ const UserList: React.FC = () => {
                 </Form.Item>
               </Col>
               {/* </JudgePemission> */}
-              <JudgePemission pageUrl={"/payment/userlist_132"}>
                 <Col span={1}>
-                  <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
+                  <Form.Item wrapperCol={{ offset: 10, span: 16 }}>
                     <Button
                       type="primary"
                       style={{ marginLeft: "19px" }}
@@ -536,7 +529,6 @@ const UserList: React.FC = () => {
                     </Button>
                   </Form.Item>
                 </Col>
-              </JudgePemission>
             </Row>
           </Form>
         </div>

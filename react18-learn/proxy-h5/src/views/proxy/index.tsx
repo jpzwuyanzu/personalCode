@@ -4,7 +4,6 @@ import { useNavigate, useLocation,useParams } from "react-router-dom";
 import { NavBar, List, Image, Dialog, Modal, Toast } from "antd-mobile";
 import styles from "./index.module.scss";
 import { getOnlineAgent, getAgentNotice } from './../../api/index'
-import { judgeMobile } from './../../utils/common'
 const proxyStatusMsg = {
   close: "该商家代理已停止营业，为了不影响您的充值体验，请换一个店铺",
   offLine: "该商家代理已离线，为了不影响您的充值体验，请换一个店铺",
@@ -79,7 +78,7 @@ const ProxyIndex = () => {
 const loadProxyList = async () => {
   //["userName='%E5%BC%A0%E4%B8%89'", 'userId=12222222', 'orderNumber=11111111', 'orderAmount=100000', 'orderType=1']
   //orderType: 1:游戏充值 3:金币充值 2:会员充值
-  let res: any = await getOnlineAgent({ orderNumber:searchParams.get('orderNumber'), orderAmount: searchParams.get('orderAmount'), orderType: searchParams.get('orderType')})
+  let res: any = await getOnlineAgent({ orderNumber:searchParams.get('orderNumber'), orderAmount: searchParams.get('orderAmount'), orderType: searchParams.get('orderType'), fromUserId: searchParams.get('fromUserId')})
   if(res.code === 200) {
     setProUserList(res.data ? res.data.agent : [])
     setHeadFastUrl(res.data ? res.data.fastUrl : '')
@@ -119,10 +118,10 @@ const handleback = () => {
 
   return (
     <div className={styles.proxy_container}>
-      <div className={(judgeMobile as any)() === 'ios' ? styles.top_nav_bar : styles.top_nav_bar_android}>
+      <div className={styles.top_nav_bar}>
         <NavBar onBack={() => handleback()}>全部代理</NavBar>
       </div>
-      <div className={(judgeMobile as any)() === 'ios' ? styles.all_proxy_list : styles.all_proxy_list_android}>
+      <div className={styles.all_proxy_list}>
         <List>
           {factUser.map(
             (user: {

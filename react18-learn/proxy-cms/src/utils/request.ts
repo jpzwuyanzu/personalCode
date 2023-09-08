@@ -34,14 +34,13 @@ service.interceptors.response.use(
                 sessionStorage.clear();
                 localStorage.clear();
                 window.location.href = window.location.origin+'/#/login'
-                debugger
             }
             message.open({
                 type: 'error',
                 content: `错误提示：${respMessage[String(res.code)]}!`,
                 className: 'custom-class',
                 style: {
-                    marginTop: '20vh',
+                    // marginTop: '20vh',
                     fontSize: '20px'
                 }
               })

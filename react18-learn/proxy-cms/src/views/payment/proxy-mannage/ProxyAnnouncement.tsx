@@ -276,7 +276,7 @@ const ProxyAnnouncement: React.FC = () => {
               </Col>
               {/* </JudgePemission> */}
               <Col span={1}>
-                <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
+                <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
                   <Button
                     type="primary"
                     style={{ marginLeft: "19px" }}

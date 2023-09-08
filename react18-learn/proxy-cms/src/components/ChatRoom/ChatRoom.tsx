@@ -20,9 +20,7 @@ import {
 } from "antd";
 import {
   SearchOutlined,
-  CameraOutlined,
   CopyOutlined,
-  AlipayCircleOutlined,
 } from "@ant-design/icons";
 import {
   uploadFastImg,
@@ -33,7 +31,7 @@ import {
   confirmReceiveMoney,
   quickFeedBack,
   loadProxyDetailInfo,
-  loadTradeStatic
+  loadTradeStatic,
 } from "@/api/index";
 import styles from "./ChatRoom.module.scss";
 import dayjs from "dayjs";
@@ -46,6 +44,9 @@ import UNION_PAY from "@/assets/imgs/paytype/UNION_PAY.png";
 import { switchUnreadNum } from "@/store/slices/message.slice";
 import { switchAmountNum } from "@/store/slices/proxy.slice";
 import { switchChatPeopleNum } from "@/store/slices/static.slice";
+import quickImg from "@/assets/imgs/messageIcon/quick.svg";
+import wallateImg from "@/assets/imgs/messageIcon/wallate.svg";
+import imageImg from "@/assets/imgs/messageIcon/image.svg";
 
 const { Meta } = Card;
 const { Countdown } = Statistic;
@@ -61,7 +62,10 @@ const ChatRoom = () => {
   const naviagte = useNavigate();
   const dispatch = useAppDispatch();
   const userInfo = useAppSelector((state: any) => state.user.userInfo);
-  const [_createWebSocket, ws, wsData] = useWebSocket(import.meta.env.VITE_APP_WS_URL,{});
+  const [_createWebSocket, ws, wsData] = useWebSocket(
+    import.meta.env.VITE_APP_WS_URL,
+    {}
+  );
   const [cusList, setCusList] = useState<any[]>([]); // 左侧联系人列表
   const [chatUserIndex, setChatUserIndex] = useState<any>(); // 左侧用户列表选中项
   const [fastImgUrl, setFastImgUrl] = useState("");
@@ -116,7 +120,7 @@ const ChatRoom = () => {
 
   //获取快捷回复列表
   const loadQuickReplayList = async () => {
-    const res: any = await quickFeedBack({type: 0});
+    const res: any = await quickFeedBack({ type: 0 });
     if (res && res.code === 200) {
       setQuickList(res.data.list ? res.data.list : []);
     }
@@ -130,7 +134,9 @@ const ChatRoom = () => {
     if (res && res.code && res.code === 200 && res.page.list.length) {
       let typeArr = res.page.list;
       typeArr.forEach((itm: any, _inx: any) => {
-        if (
+        if (itm.amountList.length === 0) {
+          supportPayTypeList.push(itm);
+        } else if (
           itm.amountList.length &&
           itm.amountList.indexOf(orderInfo.amount) !== -1
         ) {
@@ -194,13 +200,13 @@ const ChatRoom = () => {
     }
   };
 
- //查询店铺信息
-const loadProxyStatus = async () => {
-  const res: any = await loadProxyDetailInfo({});
-  if (res && res.code === 200) {
-    dispatch(switchAmountNum(res.data.agent))
-  }
-};
+  //查询店铺信息
+  const loadProxyStatus = async () => {
+    const res: any = await loadProxyDetailInfo({});
+    if (res && res.code === 200) {
+      dispatch(switchAmountNum(res.data.agent));
+    }
+  };
 
   //获取当前代理的订单信息统计
   const loadCurrentProxyStatic = async () => {
@@ -213,7 +219,18 @@ const loadProxyStatus = async () => {
     });
     if (res && res.code === 200) {
       // setProxyorderStatic(res.page.list[0]);
-      dispatch(switchChatPeopleNum(res.page.list.length ? res.page.list[0] : {'chatPeople':0, 'totalRechargeCount': 0,'rechargePeople': 0,'rechargeCount': 0}))
+      dispatch(
+        switchChatPeopleNum(
+          res.page.list.length
+            ? res.page.list[0]
+            : {
+                chatPeople: 0,
+                totalRechargeCount: 0,
+                rechargePeople: 0,
+                rechargeCount: 0,
+              }
+        )
+      );
     }
   };
 
@@ -239,8 +256,8 @@ const loadProxyStatus = async () => {
         cusList[chatUserIndex]["fromUserId"],
         cusList[chatUserIndex]["orderNumber"]
       );
-      loadProxyStatus()
-      loadCurrentProxyStatic()
+      loadProxyStatus();
+      loadCurrentProxyStatic();
       message.open({
         type: "success",
         content: "确认收款成功",
@@ -384,12 +401,12 @@ const loadProxyStatus = async () => {
 
   //点击发送按钮发送消息
   const sendMsgNow = () => {
-    if(inputMessage){
-      handleMessageSend(0)
+    if (inputMessage) {
+      handleMessageSend(0);
     } else {
-      message.open({ type: 'warning', content: '请输入消息内容' })
+      message.open({ type: "warning", content: "请输入消息内容" });
     }
-  }
+  };
 
   //加载联系人列表
   const loadLeftCusList = async () => {
@@ -412,7 +429,7 @@ const loadProxyStatus = async () => {
           res.data.chat[0]["fromUserId"],
           res.data.chat[0]["orderNumber"]
         );
-        loadCurrentProxyStatic()
+        loadCurrentProxyStatic();
       }
     }
   };
@@ -450,16 +467,16 @@ const loadProxyStatus = async () => {
     );
   };
 
-  const chooseFilterCus = (item:any) => {
+  const chooseFilterCus = (item: any) => {
     cusList.forEach((itm, inx) => {
-      if(item.fromUserId === itm.fromUserId) {
-        setFilterCusKey('')
-        setFilterCusList([])
-        setChatUserIndex(inx)
-        switchCusSocket(inx)
+      if (item.fromUserId === itm.fromUserId) {
+        setFilterCusKey("");
+        setFilterCusList([]);
+        setChatUserIndex(inx);
+        switchCusSocket(inx);
       }
-    })
-  }
+    });
+  };
 
   //修改订单状态
   const switchOrderStatus = async (merchantOrderId: any, payStatus: any) => {
@@ -470,7 +487,7 @@ const loadProxyStatus = async () => {
         cusList[chatUserIndex]["fromUserId"],
         cusList[chatUserIndex]["orderNumber"]
       );
-      loadCurrentProxyStatic()
+      loadCurrentProxyStatic();
     }
   };
 
@@ -516,7 +533,7 @@ const loadProxyStatus = async () => {
       if (!res.length) {
         setCusList([...cusList, ...wsData.list]);
       }
-      loadCurrentProxyStatic()
+      loadCurrentProxyStatic();
     }
   }, [wsData]);
 
@@ -531,7 +548,7 @@ const loadProxyStatus = async () => {
     loadLeftCusList();
     uploadMessageImg();
     loadQuickReplayList();
-    dispatch(switchUnreadNum({ 'ac': 'equal', 'num': 0 } as any))
+    dispatch(switchUnreadNum({ ac: "equal", num: 0 } as any));
     return () => {
       ws && ws.close();
     };
@@ -551,6 +568,7 @@ const loadProxyStatus = async () => {
                   onKeyUp={(val: any) => handleFilterCusList(val.target.value)}
                   onChange={(val) => setFilterCusKey(val.target.value)}
                   value={filterCusKey}
+                  style={{ height: '40px', borderRadius: '20px' }}
                 />
               </div>
               <div className={styles.concat_list}>
@@ -561,7 +579,9 @@ const loadProxyStatus = async () => {
                   renderItem={(item, index) => (
                     <List.Item
                       className={
-                        chatUserIndex === index ? styles.activeConcat : styles.normalConcat
+                        chatUserIndex === index
+                          ? styles.activeConcat
+                          : styles.normalConcat
                       }
                       style={{ position: "relative" }}
                       onClick={() => switchCusSocket(index)}
@@ -638,7 +658,7 @@ const loadProxyStatus = async () => {
                         </List.Item>
                       )}
                     />
-                    <div className={ styles.noMore_Data }>暂无更多数据</div>
+                    <div className={styles.noMore_Data}>暂无更多数据</div>
                   </div>
                 </>
               ) : null}
@@ -671,7 +691,7 @@ const loadProxyStatus = async () => {
                 )}
               />
             </div>
-            <div className={styles.message_wrapper}>
+            <div className={ userInfo.sayStatus === 1 ? styles.message_wrapper  : styles.message_wrapper_hidden}>
               <div className={styles.message_content}>
                 {messageList &&
                   messageList.map((itm: any, _inx) => {
@@ -775,29 +795,34 @@ const loadProxyStatus = async () => {
                               <div className={styles.recharge_info_label}>
                                 请选择您的支付方式
                               </div>
-                              {itm.content && JSON.parse(itm.content).map((_: any, _i: any) => (
-                                <div
-                                  className={styles.recharge_type_list}
-                                  key={_.id}
-                                >
-                                  <div className={styles.type_item}>
-                                    <img
-                                      className={styles.recharge_type_img}
-                                      src={
-                                        _.payCode === "WX_PAY"
-                                          ? WX_PAY
-                                          : _.payCode === "ALI_PAY"
-                                          ? ALI_PAY
-                                          : UNION_PAY
-                                      }
-                                      alt=""
-                                    />
-                                    <div className={styles.recharge_type_name}>
-                                      {_.payName}
+                              {itm.content &&
+                                JSON.parse(itm.content).map(
+                                  (_: any, _i: any) => (
+                                    <div
+                                      className={styles.recharge_type_list}
+                                      key={_.id}
+                                    >
+                                      <div className={styles.type_item}>
+                                        <img
+                                          className={styles.recharge_type_img}
+                                          src={
+                                            _.payCode === "WX_PAY"
+                                              ? WX_PAY
+                                              : _.payCode === "ALI_PAY"
+                                              ? ALI_PAY
+                                              : UNION_PAY
+                                          }
+                                          alt=""
+                                        />
+                                        <div
+                                          className={styles.recharge_type_name}
+                                        >
+                                          {_.payName}
+                                        </div>
+                                      </div>
                                     </div>
-                                  </div>
-                                </div>
-                              ))}
+                                  )
+                                )}
                               <div className={styles.type_message_time}>
                                 {dayjs(itm.time).format("MM-DD HH:mm:ss")}
                               </div>
@@ -815,31 +840,40 @@ const loadProxyStatus = async () => {
                 ref={listEndRef}
               ></div>
             </div>
-            <div className={styles.send_message}>
+            <div className={ userInfo.sayStatus === 1 ?  styles.send_message  : styles.send_message_hidden}>
               <div className={styles.top_message_input}>
-                <Popover
-                  content={
-                    <>
-                      {quickList &&
-                        quickList.length &&
-                        quickList.map((itm: any) => (
-                          <div
-                            onClick={() => handleQuickMessage(itm.content)}
-                            key={itm.id}
-                            className={ styles.quickBack_Pop }
-                          >
-                            {itm.content}
-                          </div>
-                        ))}
-                    </>
-                  }
-                  placement="topLeft"
-                  arrow
-                >
-                  <div className={styles.fastMessage}></div>
-                </Popover>
+                {quickList.length && (
+                  <Popover
+                    content={
+                      <>
+                        {quickList &&
+                          quickList.length &&
+                          quickList.map((itm: any) => (
+                            <div
+                              onClick={() => handleQuickMessage(itm.content)}
+                              key={itm.id}
+                              className={styles.quickBack_Pop}
+                            >
+                              {itm.content}
+                            </div>
+                          ))}
+                      </>
+                    }
+                    placement="topLeft"
+                    arrow
+                  >
+                    <img src={quickImg} alt="" className={styles.fastMessage} />
+                    {/* <UnorderedListOutlined className={styles.fastMessage} /> */}
+                  </Popover>
+                )}
                 <div className={styles.uploadMessageImg}>
-                  <CameraOutlined style={{ cursor: "pointer" }} />
+                  <img
+                    src={imageImg}
+                    alt=""
+                    className={styles.imageBtn}
+                    style={{ cursor: "pointer" }}
+                  />
+                  {/* <CameraOutlined style={{ cursor: "pointer" }} /> */}
                   <input
                     type="file"
                     accept="image/*"
@@ -881,16 +915,17 @@ const loadProxyStatus = async () => {
                   placement="topLeft"
                   arrow
                 >
-                  <AlipayCircleOutlined className={styles.quickPaytype} />
+                  {/* <WalletOutlined className={styles.quickPaytype} /> */}
+                  <img className={styles.quickPaytype} src={wallateImg} />
                 </Popover>
               </div>
-              <div className={styles.bottom_message_input}>
+              <div className={userInfo.sayStatus === 1 ?  styles.bottom_message_input : styles.bottom_message_input_hidden}>
                 <div className={styles.messageInput}>
                   <TextArea
                     ref={inputMessageRef}
                     size="large"
                     className={styles.message_insert}
-                    rows={4}
+                    rows={6}
                     placeholder="请输入消息内容"
                     value={inputMessage}
                     onChange={(val: any) => {
@@ -924,51 +959,54 @@ const loadProxyStatus = async () => {
                 // ]}
               >
                 <Meta
-                  avatar={
-                    <Avatar
-                      src={`${ossImgUrl}/agent/20230831/ff151b8e0d0143a28af70413afce72cd.abc`}
-                    />
-                  }
+                  // avatar={
+                  //   <Avatar
+                  //     src={`${ossImgUrl}/agent/20230831/ff151b8e0d0143a28af70413afce72cd.abc`}
+                  //   />
+                  // }
                   title="用户信息"
-                  description={
-                    <>
-                      <div className={styles.userInfo_detail}>
-                        <div className={styles.detailInfo_item}>
-                          <span>昵称：</span>
-                          <span>{cusList[chatUserIndex].fromUserName}</span>
-                        </div>
-                        <div className={styles.detailInfo_item}>
-                          <span style={{ whiteSpace: "nowrap" }}>ID：</span>
-                          <span>{cusList[chatUserIndex].fromUserId}</span>
-                          <CopyToClipboard
-                            text={cusList[chatUserIndex].fromUserId}
-                            onCopy={() =>
-                              message.open({
-                                type: "success",
-                                content: "复制成功",
-                                className: "custom-class",
-                                style: {
-                                  marginTop: "20vh",
-                                  fontSize: "20px",
-                                },
-                              })
-                            }
-                          >
-                            <span style={{ marginLeft: "10px",cursor:'pointer' }}>
-                              <CopyOutlined />
-                            </span>
-                          </CopyToClipboard>
-                        </div>
-                        <div className={styles.detailInfo_item}>
-                          <span>来源：</span>
-                          <span>{(cusList[chatUserIndex].fromUserId).split('_')[0]}</span>
-                        </div>
-                        <div className={styles.detailInfo_item}>
-                          {/* <span>用户备注：</span>
+                  description={null}
+                />
+                <>
+                  <div className={styles.userInfo_detail}>
+                    <div className={styles.detailInfo_item}>
+                      <span>昵称：</span>
+                      <span>{cusList[chatUserIndex].fromUserName}</span>
+                    </div>
+                    <div className={styles.detailInfo_item}>
+                      <span style={{ whiteSpace: "nowrap" }}>ID：</span>
+                      <span>{cusList[chatUserIndex].fromUserId}</span>
+                      <CopyToClipboard
+                        text={cusList[chatUserIndex].fromUserId}
+                        onCopy={() =>
+                          message.open({
+                            type: "success",
+                            content: "复制成功",
+                            className: "custom-class",
+                            style: {
+                              marginTop: "20vh",
+                              fontSize: "20px",
+                            },
+                          })
+                        }
+                      >
+                        <span style={{ marginLeft: "10px", cursor: "pointer" }}>
+                          <CopyOutlined />
+                        </span>
+                      </CopyToClipboard>
+                    </div>
+                    <div className={styles.detailInfo_item}>
+                      <span>来源：</span>
+                      <span>
+                        {cusList[chatUserIndex].fromUserId.split("_")[0]}
+                      </span>
+                    </div>
+                    <div className={styles.detailInfo_item}>
+                      {/* <span>用户备注：</span>
                       <span>章三</span> */}
-                        </div>
-                      </div>
-                      {/* <div className={styles.userRemark}>
+                    </div>
+                  </div>
+                  {/* <div className={styles.userRemark}>
                     <span>备注：</span>
                     {isEditRemark ? (
                       <Input
@@ -1003,9 +1041,7 @@ const loadProxyStatus = async () => {
                       )}
                     </div>
                   </div> */}
-                    </>
-                  }
-                />
+                </>
               </Card>
             </div>
             {/* <div className={styles.user_info_item}>
@@ -1108,7 +1144,7 @@ const loadProxyStatus = async () => {
                     ) : null}
                     <Button
                       type="primary"
-                      onClick={() => naviagte("/payment/proxyorder")}
+                      onClick={() => naviagte(`/payment/proxyorder?hisUserId=${cusList[chatUserIndex].fromUserId.split("_")[1]}`)}
                     >
                       查看历史订单
                     </Button>

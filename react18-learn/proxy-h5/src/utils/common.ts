@@ -128,9 +128,15 @@ export function getRecentMounth() {
 export function judgeMobile() {
     let plat = ''
     if(!!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)){
-        plat = 'ios'
+        if(((/iphone/gi.test(navigator.userAgent) && window.screen.height === 812 && window.screen.width === 375) || (/iphone/gi.test(navigator.userAgent) && window.screen.height === 896 && window.screen.width === 414) || (/iphone/gi.test(navigator.userAgent) && Math.floor((window.screen.height / window.screen.width) * 100) === 216))) {
+            plat = 'iosX'
+        } else {
+            plat = 'ios'
+        }
     } else {
         plat='android'
     }
     return plat
 }
+
+//判断是否是

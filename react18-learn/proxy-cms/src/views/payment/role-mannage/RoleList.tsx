@@ -214,7 +214,7 @@ const RoleList: React.FC = () => {
             </Col>
             {/* <JudgePemission pageUrl={'/payment/rolelist_121'}> */}
             <Col span={1}>
-              <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
+              <Form.Item wrapperCol={{ offset: 5, span: 16 }}>
                 <Button type="primary" htmlType="submit">
                   搜索
                 </Button>
@@ -223,8 +223,8 @@ const RoleList: React.FC = () => {
             {/* </JudgePemission> */}
             {/* <JudgePemission pageUrl={'/payment/rolelist_122'}> */}
             <Col span={1}>
-              <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
-                <Button type="primary" style={{ marginLeft: '13px' }} onClick={() => openDrawer('378px', {})}>
+              <Form.Item wrapperCol={{ offset: 15, span: 16 }}>
+                <Button type="primary"  onClick={() => openDrawer('378px', {})}>
                   新增角色
                 </Button>
               </Form.Item>

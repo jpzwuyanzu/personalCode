@@ -4,12 +4,15 @@
     align-items: center;
     width: 100%;
     box-sizing: border-box;
-    border: 1px solid #e7e2e2;
-    height: 700px;
+    border: 1px solid #f3f3f3;
+    // height: 700px;
+    height: 100%;
 
     .chatRoom_left_contact {
-        width: 15%;
-        height: 700px;
+        // width: 15%;
+        width: 250px;
+        // height: 700px;
+        height: 100%;
 
         // height: 80%;
         .concat_container {
@@ -22,8 +25,8 @@
                 height: 64px;
                 padding: 5px;
                 box-sizing: border-box;
-                border-top: 1px solid #e7e2e2;
-                border-bottom: 1px solid #e7e2e2;
+                border-top: 1px solid #f3f3f3;
+                border-bottom: 1px solid #f3f3f3;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
@@ -74,15 +77,18 @@
                         }
                     }
                 }
+
                 .normalConcat {
-                    border-bottom: 1px solid #e7e2e2;
+                    border-bottom: 1px solid #f3f3f3;
                 }
+
                 .normalConcat:hover {
                     background: #ececec;
                 }
+
                 .activeConcat {
                     background: #00B96B;
-                    border-bottom: 1px solid #e7e2e2;
+                    border-bottom: 1px solid #f3f3f3;
                 }
 
                 .concat_title_info {
@@ -107,6 +113,7 @@
                     }
                 }
             }
+
             .filterConcat_list {
                 height: calc(100% - 64px);
                 overflow-y: scroll;
@@ -148,11 +155,12 @@
                 }
 
                 .normalConcat {
-                    border-bottom: 1px solid #e7e2e2;
+                    border-bottom: 1px solid #f3f3f3;
                 }
+
                 .activeConcat {
                     background: #00B96B;
-                    border-bottom: 1px solid #e7e2e2;
+                    border-bottom: 1px solid #f3f3f3;
                 }
 
                 .concat_title_info {
@@ -176,6 +184,7 @@
                         font-size: 13px;
                     }
                 }
+
                 .noMore_Data {
                     text-align: center;
                     color: #ccc;
@@ -187,28 +196,30 @@
     }
 
     .chatRoom_right_content {
-        width: 55%;
-        height: 700px;
+        // width: 55%;
+        width: calc(100% - 650px);
+        // height: 700px;
+        height: 100%;
         // height: 80%;
         box-sizing: border-box;
         background-color: #f6f7fb;
         // padding: 10px;
         box-sizing: border-box;
-        border-left: 1px solid #e7e2e2;
-        border-right: 1px solid #e7e2e2;
+        border-left: 1px solid #f3f3f3;
+        border-right: 1px solid #f3f3f3;
         box-sizing: border-box;
 
         .chatting_item_header {
             background-color: #fff;
             padding: 0 10px;
             height: 64px;
-            border-bottom: 1px solid #e7e2e2;
-            border-top: 1px solid #e7e2e2;
+            border-bottom: 1px solid #f3f3f3;
+            border-top: 1px solid #f3f3f3;
             box-sizing: border-box;
         }
 
         .message_wrapper {
-            height: calc(100% - 234px);
+            height: calc(100% - 293px);
             overflow-y: scroll;
             // overflow: hidden;
             padding: 10px 10px;
@@ -336,27 +347,32 @@
                             }
                         }
                     }
+
                     .recharge_type_message {
                         width: 40%;
                         margin: 0 auto;
-                        background: #ececec;;
+                        background: #ececec;
+                        ;
                         padding: 20px 20px;
                         box-sizing: border-box;
                         display: flex;
                         flex-direction: column;
                         align-items: center;
                         border-radius: 10px;
+
                         .recharge_info_line {
                             font-size: 16px;
                             margin-bottom: 20px;
                             font-size: 15px;
                             color: #b3a4a4;
                         }
+
                         .recharge_info_label {
                             font-size: 16px;
                             margin-bottom: 20px;
                             color: #b3a4a4;
                         }
+
                         .recharge_type_list {
                             display: flex;
                             flex-direction: row;
@@ -366,18 +382,21 @@
                             width: 100%;
                             padding-bottom: 10px;
                             box-sizing: border-box;
+
                             .type_item {
                                 margin: 5px;
                                 display: flex;
                                 flex-direction: column;
                                 justify-content: center;
                                 align-items: center;
+
                                 .recharge_type_img {
                                     width: 50px;
                                     height: 50px;
                                     border-radius: 3px;
                                     margin-bottom: 5px;
                                 }
+
                                 .recharge_type_name {
                                     width: 80px;
                                     overflow: hidden;
@@ -386,6 +405,204 @@
                                 }
                             }
                         }
+
+                        .type_message_time {
+                            text-align: right;
+                            padding: 0 10px;
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+        }
+        .message_wrapper_hidden  {
+            height: calc(100% - 124px);
+            overflow-y: scroll;
+            // overflow: hidden;
+            padding: 10px 10px;
+            box-sizing: border-box;
+
+            .message_content {
+                .messageList_item {
+                    // height: 40px;
+                    // min-height: 40px;
+                    padding-top: 10px;
+                    padding-bottom: 10px;
+
+                    .cusMessage_container {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: flex-end;
+
+                        .cusMessage_item {
+                            width: 60%;
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            justify-content: flex-end;
+
+                            .cus_msgIcon {
+                                width: 40px;
+                                height: 40px;
+                                border-radius: 50%;
+                            }
+
+                            .cus_textMessage {
+                                padding: 8px 10px 25px 10px;
+                                background: #fff;
+                                border-radius: 15px;
+                                margin-right: 15px;
+                                line-height: 20px;
+                                min-width: 200px;
+                                max-width: calc(100% - 200px);
+                                box-sizing: border-box;
+                                position: relative;
+
+                                .cusMessage_time {
+                                    position: absolute;
+                                    right: 5px;
+                                    bottom: 5px;
+                                    color: #ccc;
+                                    font-size: 13px;
+                                }
+                            }
+
+                            .cus_imgMessage {
+                                padding: 8px 10px 25px 10px;
+                                background: #fff;
+                                border-radius: 15px;
+                                margin-right: 15px;
+                                width: calc(100% - 325px);
+                                box-sizing: border-box;
+                                position: relative;
+
+                                .cusMessage_time {
+                                    position: absolute;
+                                    right: 5px;
+                                    bottom: 5px;
+                                    color: #ccc;
+                                    font-size: 13px;
+                                }
+                            }
+                        }
+                    }
+
+                    .userMessage_container {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: flex-start;
+
+                        .userMessage_item {
+                            width: 60%;
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            justify-content: flex-start;
+
+                            .user_msgIcon {
+                                width: 40px;
+                                height: 40px;
+                                border-radius: 50%;
+                            }
+
+                            .user_textMessage {
+                                padding: 8px 10px 25px 10px;
+                                background: #fff;
+                                border-radius: 15px;
+                                margin-left: 15px;
+                                line-height: 20px;
+                                position: relative;
+                                box-sizing: border-box;
+                                min-width: 200px;
+                                max-width: calc(100% - 200px);
+
+                                .userMessage_time {
+                                    position: absolute;
+                                    right: 5px;
+                                    bottom: 5px;
+                                    color: #ccc;
+                                    font-size: 13px;
+                                }
+                            }
+
+                            .user_imgMessage {
+                                padding: 10px 10px 25px 10px;
+                                background: #fff;
+                                border-radius: 15px;
+                                margin-left: 15px;
+                                box-sizing: border-box;
+                                width: calc(100% - 325px);
+                                position: relative;
+
+                                .userMessage_time {
+                                    position: absolute;
+                                    right: 5px;
+                                    bottom: 5px;
+                                    color: #ccc;
+                                    font-size: 13px;
+                                }
+                            }
+                        }
+                    }
+
+                    .recharge_type_message {
+                        width: 40%;
+                        margin: 0 auto;
+                        background: #ececec;
+                        ;
+                        padding: 20px 20px;
+                        box-sizing: border-box;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        border-radius: 10px;
+
+                        .recharge_info_line {
+                            font-size: 16px;
+                            margin-bottom: 20px;
+                            font-size: 15px;
+                            color: #b3a4a4;
+                        }
+
+                        .recharge_info_label {
+                            font-size: 16px;
+                            margin-bottom: 20px;
+                            color: #b3a4a4;
+                        }
+
+                        .recharge_type_list {
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            justify-content: flex-start;
+                            flex-wrap: wrap;
+                            width: 100%;
+                            padding-bottom: 10px;
+                            box-sizing: border-box;
+
+                            .type_item {
+                                margin: 5px;
+                                display: flex;
+                                flex-direction: column;
+                                justify-content: center;
+                                align-items: center;
+
+                                .recharge_type_img {
+                                    width: 50px;
+                                    height: 50px;
+                                    border-radius: 3px;
+                                    margin-bottom: 5px;
+                                }
+
+                                .recharge_type_name {
+                                    width: 80px;
+                                    overflow: hidden;
+                                    white-space: nowrap;
+                                    text-overflow: ellipsis;
+                                }
+                            }
+                        }
+
                         .type_message_time {
                             text-align: right;
                             padding: 0 10px;
@@ -403,9 +620,10 @@
             align-items: center;
             justify-content: flex-start;
             // padding: 0 20px;
-            border-top: 1px solid #e7e2e2;
+            border-top: 1px solid #f3f3f3;
             box-sizing: border-box;
-            border-bottom: 1px solid #e7e2e2;
+            border-bottom: 1px solid #f3f3f3;
+            // background: #fff;
             padding-top: 3px;
 
             .top_message_input {
@@ -414,15 +632,19 @@
                 flex-direction: row;
                 align-items: center;
                 justify-content: flex-end;
-                height: 40px;
+                height: 50px;
                 padding: 0 20px;
                 box-sizing: border-box;
+                background: #fff;
+                padding-top: 10px;
+
                 .fastMessage {
                     width: 40px;
                     height: 40px;
-                    background: url('../../assets/imgs/fastMessage.png') no-repeat center;
+                    // background: url('../../assets/imgs/fastMessage.png') no-repeat center;
                     background-size: cover;
                     cursor: pointer;
+                    font-size: 40px;
                 }
 
                 .quickPaytype {
@@ -433,19 +655,27 @@
                     flex-direction: row;
                     align-items: center;
                     justify-content: center;
-                    color: #b3b9c8;
+                    // color: #b3b9c8;
                     margin: 0 10px;
                     cursor: pointer;
                 }
 
                 .uploadMessageImg {
-                    font-size: 38px;
-                    color: #b3b9b8;
+                    // font-size: 38px;
+                    // color: #b3b9b8;
+                    width: 40px;
+                    height: 40px;
                     font-weight: bold;
                     margin: 0px 18px;
                     margin-left: 25px;
                     cursor: pointer;
                     position: relative;
+
+                    .imageBtn {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: contain;
+                    }
 
                     .uploader_file {
                         width: 100%;
@@ -466,8 +696,10 @@
                 display: flex;
                 position: relative;
                 padding-top: 10px;
+                background: #fff;
+
                 .messageInput {
-                   width: 100%;
+                    width: 100%;
 
                     .message_insert {
                         width: 100%;
@@ -491,15 +723,101 @@
                 }
             }
         }
+        .send_message_hidden {
+            display: flex;
+            height: 60px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            // padding: 0 20px;
+            border-top: 1px solid #f3f3f3;
+            box-sizing: border-box;
+            border-bottom: 1px solid #f3f3f3;
+            // background: #fff;
+            padding-top: 3px;
+
+            .top_message_input {
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-end;
+                height: 50px;
+                padding: 0 20px;
+                box-sizing: border-box;
+                background: #fff;
+                padding-top: 10px;
+
+                .fastMessage {
+                    width: 40px;
+                    height: 40px;
+                    // background: url('../../assets/imgs/fastMessage.png') no-repeat center;
+                    background-size: cover;
+                    cursor: pointer;
+                    font-size: 40px;
+                }
+
+                .quickPaytype {
+                    width: 40px;
+                    height: 40px;
+                    font-size: 35px;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: center;
+                    // color: #b3b9c8;
+                    margin: 0 10px;
+                    cursor: pointer;
+                }
+
+                .uploadMessageImg {
+                    // font-size: 38px;
+                    // color: #b3b9b8;
+                    width: 40px;
+                    height: 40px;
+                    font-weight: bold;
+                    margin: 0px 18px;
+                    margin-left: 25px;
+                    cursor: pointer;
+                    position: relative;
+
+                    .imageBtn {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: contain;
+                    }
+
+                    .uploader_file {
+                        width: 100%;
+                        height: 100%;
+                        display: block;
+                        opacity: 0;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        padding: 0;
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            .bottom_message_input_hidden {
+               display: none;
+            }
+        }
+        
     }
 
     .chatRoom_right_info {
-        width: 30%;
-        height: 700px;
+        // width: 30%;
+        width: 400px;
+        // height: 700px;
+        height: 100%;
         // height: 80%;
         box-sizing: border-box;
-        padding: 30px 10px 0px;
+        // padding: 30px 10px 0px;
         // overflow-y: scroll;
+        padding: 3px;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
@@ -508,18 +826,22 @@
             height: 28%;
             display: flex;
             flex-direction: row;
+            overflow: hidden;
 
             .userInfo_detail {
                 display: flex;
-                flex-direction: row;
+                flex-direction: column;
                 flex-wrap: wrap;
+                padding-top: 10px;
 
                 .detailInfo_item {
-                    width: 50%;
+                    width: 100%;
                     display: flex;
                     flex-direction: row;
-                    align-items: center;
+                    align-items: flex-start;
                     flex-wrap: nowrap;
+                    padding: 4px 5px;
+                    box-sizing: border-box;
                 }
             }
 
@@ -542,8 +864,8 @@
         }
 
         .userOrder_item {
-            height: 46%;
-            margin-top: 30px;
+            height: 80%;
+            margin-top: 10px;
 
             .order_info_part {
                 padding-top: 10px;
@@ -634,6 +956,7 @@
         overflow: hidden;
     }
 }
+
 .payType_line:hover {
     background: #ececec;
 }
@@ -645,6 +968,7 @@
     margin-bottom: 4px;
     border-radius: 10px;
 }
+
 .quickBack_Pop:hover {
     background: #ececec;
 }

@@ -25,3 +25,11 @@
   .ql-container {
     min-height: 200px !important;
   }
+  :where(.css-dev-only-do-not-override-1w0xtfq).ant-list .ant-list-item .ant-list-item-meta {
+    align-items: center !important;
+  }
+
+  ant-input-affix-wrapper .ant-input:focus {
+    border: none !important;
+    box-shadow: none !important;
+}

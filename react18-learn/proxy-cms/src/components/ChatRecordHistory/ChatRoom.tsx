@@ -227,6 +227,7 @@ const ChatRoom = memo(() => {
                   onKeyUp={(val: any) => handleFilterCusList(val.target.value)}
                   onChange={(val) => setFilterCusKey(val.target.value)}
                   value={filterCusKey}
+                  style={{ height: '40px', borderRadius: '20px' }}
                 />
               </div>
               <div className={styles.concat_list}>
@@ -360,7 +361,8 @@ const ChatRoom = memo(() => {
                               <div className={styles.cusMessage_item}>
                                 {itm.msgType === 0 ? (
                                   <div className={styles.cus_textMessage}>
-                                    {itm.content}
+                                    {/* {itm.content} */}
+                                    <Mark text={itm.content} keyword={contentKey} />
                                     <span className={styles.cusMessage_time}>
                                       {dayjs(itm.createTime).format(
                                         "MM-DD HH:mm:ss"
@@ -421,7 +423,8 @@ const ChatRoom = memo(() => {
                                 />
                                 {itm.msgType === 0 ? (
                                   <div className={styles.user_textMessage}>
-                                    {itm.content}
+                                    {/* {itm.content} */}
+                                    <Mark text={itm.content} keyword={contentKey} />
                                     <span className={styles.userMessage_time}>
                                       {dayjs(itm.createTime).format(
                                         "MM-DD HH:mm:ss"

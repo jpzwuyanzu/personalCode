@@ -11,7 +11,7 @@ import {
   Mask
 } from "antd-mobile";
 import { List, Card, ActionSheet } from "react-vant";
-import { Arrow } from "@react-vant/icons";
+import { Arrow, Close } from "@react-vant/icons";
 import { PicturesOutline } from "antd-mobile-icons";
 import styles from "./Chat.module.scss";
 import { uploadFastImg } from "./../../api/index";
@@ -20,6 +20,7 @@ import RechargeCom from './../Recharge/Recharge'
 import { v4 as uuidv4 } from "uuid";
 import dayjs from "dayjs";
 import { getStorage, setStorage } from "./../../utils/common";
+import { useAppSelector } from './../../hooks/redux-hook'
 import wxPay from "./../../assets/payType/WX_PAY.png";
 import aliPay from "./../../assets/payType/ALI_PAY.png";
 import unionPay from "./../../assets/payType/UNION_PAY.png";
@@ -46,6 +47,7 @@ const Chat = memo(() => {
   const [imgPreVisiable, setImgPreVisiable] = useState(false); //用户消息图片预览
   const [imgPreVisiable1, setImgPreVisiable1] = useState(false); //客服消息图片预览
   const [visibleMask, setVisibleMask] = useState(false);
+  const orderStateCache = useAppSelector((state: any) => state.updateState.status)
   const listEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [fastImgUrl, setFastImgUrl] = useState("");
@@ -69,24 +71,27 @@ const Chat = memo(() => {
   //点击充值方式事件处理
   const handleRechargeTypeClick = (item: any) => {
     checkPayType = {}
-    //jumpType 1:非外跳 2:外跳
-    if (item.jumpType == 2) {
-      //跳转外部
-      window.open(item.payImage, "_blank");
+    if(orderStateCache) {
+      Toast.show({ content: <div style={{ whiteSpace: 'nowrap' }}>订单已关闭，请重新提交订单</div>, position: 'top' })
     } else {
-      
-      checkPayType = item
-      setActionSheetVisible(true)
-      
-      // navigate(
-      //   `/recharge/recharge?amount=${Number(
-      //     searchParams.get("orderAmount")
-      //   )}&reTypeP=${regTypesList[item.payCode]}&accTypeP=${
-      //     item.payImage ? 0 : 1
-      //   }&reNameP=${item.bankAccount}&reAccountP=${item.bankNo}&reBankNameP=${
-      //     item.bankName
-      //   }`
-      // );
+       //jumpType 1:非外跳 2:外跳
+      if (item.jumpType == 2) {
+        //跳转外部
+        window.open(item.payImage, "_blank");
+      } else {
+        checkPayType = item
+        setActionSheetVisible(true)
+        
+        // navigate(
+        //   `/recharge/recharge?amount=${Number(
+        //     searchParams.get("orderAmount")
+        //   )}&reTypeP=${regTypesList[item.payCode]}&accTypeP=${
+        //     item.payImage ? 0 : 1
+        //   }&reNameP=${item.bankAccount}&reAccountP=${item.bankNo}&reBankNameP=${
+        //     item.bankName
+        //   }`
+        // );
+      }
     }
   };
 
@@ -239,6 +244,7 @@ const Chat = memo(() => {
       uploadMessageImg();
     }
   }, [ws]);
+
 
   useEffect(() => {
     onLoad();
@@ -492,12 +498,13 @@ const Chat = memo(() => {
       <DotLoading color="primary" style={{ fontSize: "30px" }} />
       </div> : null
     }
-      <ActionSheet visible={actionSheetVisible} duration={300} onCancel={() => setActionSheetVisible(false)}>
+      <ActionSheet visible={actionSheetVisible} duration={300} onCancel={() => setActionSheetVisible(false)} style={{ height: '690px' }}>
        {
-        actionSheetVisible ? <div style={{ padding: '70px 10px' }}>
+        actionSheetVisible ? <div className={ styles.recharge_page_container }>
+          <Close className={ styles.close_action } onClick={() => setActionSheetVisible(false)}/>
         <RechargeCom amount={Number(
         searchParams.get("orderAmount")
-      )} reTypeP={regTypesList[checkPayType.payCode]} accTypeP={ checkPayType.payImage ? 0 : 1} reNameP={checkPayType.bankAccount} reAccountP={checkPayType.bankNo} reBankNameP={checkPayType.bankName} rePayImageP={checkPayType.payImage ? `${ossImgUrl}${checkPayType.payImage}` : ''} />
+      )} reTypeP={regTypesList[checkPayType.payCode]} accTypeP={ checkPayType.payImage ? 0 : 1} reNameP={checkPayType.bankAccount} reAccountP={checkPayType.bankNo} reBankNameP={checkPayType.bankName} rePayImageP={checkPayType.payImage ? `${checkPayType.payImage}` : ''} />
      </div> : null
        }
        

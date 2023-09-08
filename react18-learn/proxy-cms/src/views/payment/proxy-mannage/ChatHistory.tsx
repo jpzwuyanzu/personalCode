@@ -190,7 +190,7 @@ const ChatHistory: React.FC = () => {
           <Form
             form={searchUserForm}
             name="basic"
-            labelCol={{ span: 8 }}
+            labelCol={{ span:6 }}
             wrapperCol={{ span: 15 }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
@@ -206,7 +206,7 @@ const ChatHistory: React.FC = () => {
             }}
           >
             <Row justify="start">
-            <Col span={3}>
+            <Col span={6}>
                 <Form.Item
                   label="代理昵称"
                   name="agentName"
@@ -215,10 +215,11 @@ const ChatHistory: React.FC = () => {
                   <Input
                     placeholder="输入代理昵称"
                     allowClear={true}
+                    style={{ width: '250px'}}
                   />
                 </Form.Item>
               </Col>
-              <Col span={3.5}>
+              <Col span={5}>
                 <Form.Item
                   label="代理ID"
                   name="agentId"
@@ -230,7 +231,7 @@ const ChatHistory: React.FC = () => {
                   />
                 </Form.Item>
               </Col>
-              <Col span={3.5}>
+              <Col span={5}>
                 <Form.Item
                   label="用户昵称"
                   name="playerName"
@@ -242,7 +243,7 @@ const ChatHistory: React.FC = () => {
                   />
                 </Form.Item>
               </Col>
-              <Col span={3}>
+              <Col span={5}>
                 <Form.Item
                   label="用户ID"
                   name="playerId"
@@ -254,17 +255,19 @@ const ChatHistory: React.FC = () => {
                   />
                 </Form.Item>
               </Col>
-              <Col span={3}>
+            </Row>
+            <Row justify="start">
+            <Col span={6}>
                 <Form.Item
-                  label="时间"
+                  label="记录时间"
                   name="createTime"
-                  rules={[{ required: false, message: "请选择时间!" }]}
+                  rules={[{ required: false, message: "请选择记录时间!" }]}
                 >
                   <RangePicker style={{ width: '250px' }}/>
                 </Form.Item>
               </Col>
-              <Col span={3}>
-                <Form.Item wrapperCol={{ offset: 17, span: 10 }} style={{ marginLeft: '20px' }}>
+              <Col span={1}>
+                <Form.Item wrapperCol={{ offset: 6, span: 10 }}>
                   <Button type="primary" htmlType="submit">
                     搜索
                   </Button>
@@ -273,7 +276,7 @@ const ChatHistory: React.FC = () => {
               {/* </JudgePemission> */}
               {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
               <Col span={1}>
-                <Form.Item wrapperCol={{ offset: 2, span: 8 }}>
+                <Form.Item wrapperCol={{ offset: 10, span: 8 }}>
                   <Button
                     type="primary"
                     style={{ marginLeft: "13px" }}

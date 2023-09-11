@@ -80,7 +80,7 @@ const Chat = memo(() => {
         window.open(item.payImage, "_blank");
       } else {
         checkPayType = item
-       if(checkPayType.payImage &&  checkPayType.payImage.indexof('http') === -1) {
+       if(checkPayType.payImage &&  checkPayType.payImage.indexOf('http') === -1) {
           checkPayType.payImage = ossImgUrl+''+checkPayType.payImage
        }
         setActionSheetVisible(true)

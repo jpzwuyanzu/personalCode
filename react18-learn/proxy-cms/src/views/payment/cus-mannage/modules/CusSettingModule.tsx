@@ -119,7 +119,7 @@ export default function CusSettingModule({
       placement="right"
       onClose={closeDrawer}
       open={open}
-      extra={
+      footer={
         <div
           style={{
             textAlign: "right",

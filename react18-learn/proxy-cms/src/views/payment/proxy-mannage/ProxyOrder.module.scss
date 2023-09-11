@@ -24,3 +24,21 @@
     }
     
 }
+
+
+.confirm_item {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 8px 80px;
+
+    .conLabel {
+        margin-right: 10px;
+        // width: 10px;
+    }
+
+    .ordContent {
+        color: red;
+    }
+}

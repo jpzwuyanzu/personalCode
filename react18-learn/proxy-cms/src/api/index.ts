@@ -12,10 +12,12 @@ export function postDemo (params: any) {
 
 //登录接口
 export function LoginNow (params: any) {
+    console.log('调用登录')
     return request.post('/api/sys/user/login', {'requestTimeStamp': (new Date()).getTime() , ...params})
 }
 // 退出登录
 export function loginOut (params?: any) {
+    console.log('调用退出登录')
     return request.post('/api/sys/user/logout', {'requestTimeStamp': (new Date()).getTime() , ...params})
 }
 // 获取角色列表
@@ -176,6 +178,10 @@ export function loadReportList(params? :any) {
 //公告列表
 export function loadAnoceMentList(params? :any) {
     return request.post('/api/agent/notice/listPage', {'requestTimeStamp': (new Date()).getTime() , ...params})
+}
+//删除公告
+export function deleAnoceMent(params? : any) {
+    return request.post('/api/agent/notice/deleteById', {'requestTimeStamp': (new Date()).getTime() , ...params})
 }
 //编辑公告
 export function editAnoceMent(params? :any) {

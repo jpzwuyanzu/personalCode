@@ -9,11 +9,12 @@ import {
   message,
   Switch,
   Select,
+  Popconfirm
 } from "antd";
 import { respMessage } from "@/utils/message";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import PagiNation from "@/components/PagiNation";
-import { loadAnoceMentList, editAnoceMent } from "@/api/index";
+import { loadAnoceMentList, editAnoceMent, deleAnoceMent } from "@/api/index";
 import dayjs from "dayjs";
 import ProxyAnnocementModule from "./modules/ProxyAnnocementModule";
 import styles from "./ProxyAnnouncement.module.scss";
@@ -84,6 +85,22 @@ const ProxyAnnouncement: React.FC = () => {
       });
     }
   };
+
+  const delAnoceMentList = async(id: any) => {
+    const resp: any = await deleAnoceMent({ id })
+    if (resp && resp.code && resp.code === 200) {
+      message.open({
+        type: "success",
+        content: "删除成功",
+      });
+      fetchData({});
+    } else {
+      message.open({
+        type: "error",
+        content: respMessage[String(resp.code)],
+      });
+    }
+  }
 
 
   const columns: any = [
@@ -156,11 +173,10 @@ const ProxyAnnouncement: React.FC = () => {
             编辑公告
           </Button>
           {/* </JudgePemission> */}
-          {/* <JudgePemission pageUrl={"/payment/gamepackage_384"}>
             <Popconfirm
               title="删除"
-              description="你确认删除该套餐吗?"
-              onConfirm={() => confirmDelGamepkg(record.id)}
+              description="你确认删除该公告吗?"
+              onConfirm={() => delAnoceMentList(record.id)}
               onCancel={() => {}}
               okText="是"
               cancelText="否"
@@ -169,7 +185,6 @@ const ProxyAnnouncement: React.FC = () => {
                 删除套餐
               </Button>
             </Popconfirm>
-          </JudgePemission> */}
         </Space>
       ),
     },

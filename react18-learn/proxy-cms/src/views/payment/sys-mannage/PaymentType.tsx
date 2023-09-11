@@ -158,7 +158,7 @@ const UserList: React.FC = () => {
           res = _text
         } else {
           if(record.payCode === 'UNION_PAY') {
-            res = '暂无收款码'
+            res = '--'
           } else {
             res = <><Image
             width={80}

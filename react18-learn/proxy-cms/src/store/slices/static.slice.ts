@@ -25,7 +25,7 @@ const { actions, reducer: ChatPeopleReducer } = createSlice({
     //初始状态
     initialState,
     reducers: {
-        switchChatPeopleNum: (state: chatPeople, action: any) => {
+        switchChatPeopleNum: (state: any, action: any) => {
             state.chatPeople = Number(action.payload.chatPeople)
             state.totalRechargeCount = Number(action.payload.totalRechargeCount)
             state.rechargePeople = Number(action.payload.rechargePeople)

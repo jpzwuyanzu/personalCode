@@ -309,7 +309,7 @@ const OrderDetail: React.FC = () => {
                       { value: "", label: "全部" },
                       { value: 1, label: "预付款缴纳" },
                       { value: 2, label: "追分" },
-                      { value: 3, label: "下单" },
+                      { value: 5, label: "代理充值上分" },
                     ]}
                   />
                 </Form.Item>
@@ -325,15 +325,15 @@ const OrderDetail: React.FC = () => {
                   <RangePicker style={{ width: '250px' }} />
                 </Form.Item>
               </Col>
-              <Col span={1}>
-                <Form.Item wrapperCol={{ offset: 8 }}>
+              <Col span={3}>
+                <Form.Item wrapperCol={{ offset: 16 }}>
                   <Button type="primary" htmlType="submit">
                     搜索
                   </Button>
                 </Form.Item>
               </Col>
               <Col span={1}>
-                <Form.Item wrapperCol={{ offset: 15 }}>
+                <Form.Item wrapperCol={{ offset: 10 }}>
                   <Button type="primary" onClick={() => resetParams()}>
                     重置
                   </Button>
@@ -352,16 +352,16 @@ const OrderDetail: React.FC = () => {
                   <RangePicker style={{ width: '250px' }} />
                 </Form.Item>
               </Col>
-              <Col span={1}>
-                <Form.Item wrapperCol={{ offset: 8, span: 8 }}>
+              <Col span={1.5}>
+                <Form.Item>
                   <Button type="primary" htmlType="submit">
                     搜索
                   </Button>
                 </Form.Item>
               </Col>
-              <Col span={1}>
-                <Form.Item wrapperCol={{ offset: 20, span:8 }}>
-                  <Button type="primary" onClick={() => resetParams()}>
+              <Col span={1.5}>
+                <Form.Item>
+                  <Button type="primary" onClick={() => resetParams()} style={{ marginLeft: '20px' }}>
                     重置
                   </Button>
                 </Form.Item>

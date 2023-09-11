@@ -564,7 +564,7 @@ const ChatRoom = () => {
               <div className={styles.concat_search}>
                 <Input
                   prefix={<SearchOutlined className="site-form-item-icon" />}
-                  placeholder="请输入联系人名称"
+                  placeholder="请输入用户昵称"
                   onKeyUp={(val: any) => handleFilterCusList(val.target.value)}
                   onChange={(val) => setFilterCusKey(val.target.value)}
                   value={filterCusKey}

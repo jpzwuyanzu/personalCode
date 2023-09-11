@@ -185,8 +185,8 @@ export default function ProxyAnnocementModule({
               <Col span={24}>
                 <Form.Item
                   name="noticeContent"
-                  label="套餐名称"
-                  rules={[{ required: true, message: "请输入套餐名称" }]}
+                  label="公告描述"
+                  rules={[{ required: true, message: "请输入公告描述" }]}
                 >
                   <ReactQuill
                     theme="snow"

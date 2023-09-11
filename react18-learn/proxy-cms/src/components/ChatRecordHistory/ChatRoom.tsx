@@ -68,10 +68,10 @@ const ChatRoom = memo(() => {
     const res: any = await loadChatRecordHistory({
       chatGroup: 1,
       startMs: new Date(
-        String(dayjs(new Date()).format("YYYY-MM-DD")) + " 00:00:00"
+        String(dayjs(new Date(searchParams.get("date") as any)).format("YYYY-MM-DD")) + " 00:00:00"
       ).getTime(),
       endMs: new Date(
-        String(dayjs(new Date()).format("YYYY-MM-DD")) + " 23:59:59"
+        String(dayjs(new Date(searchParams.get("date") as any)).format("YYYY-MM-DD")) + " 23:59:59"
       ).getTime(),
       agentId: searchParams.get("agentId"),
       page: 1,
@@ -176,6 +176,8 @@ const ChatRoom = memo(() => {
     );
     setChatUserIndex(index);
     loadChatHistory(searchParams.get("agentId"), cusList[index]["playerId"]);
+    setMessageResult([])
+    setActiveTab(0)
   };
 
   const chooseFilterCus = (item:any) => {
@@ -223,7 +225,7 @@ const ChatRoom = memo(() => {
               <div className={styles.concat_search}>
               <Input
                   prefix={<SearchOutlined className="site-form-item-icon" />}
-                  placeholder="请输入联系人名称"
+                  placeholder="请输入用户昵称"
                   onKeyUp={(val: any) => handleFilterCusList(val.target.value)}
                   onChange={(val) => setFilterCusKey(val.target.value)}
                   value={filterCusKey}

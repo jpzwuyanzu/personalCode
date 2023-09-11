@@ -13,6 +13,9 @@ import {
   Tag,
   DatePicker,
   Statistic,
+  Popconfirm,
+  Modal,
+  InputNumber,
 } from "antd";
 import { respMessage } from "@/utils/message";
 import {
@@ -22,25 +25,40 @@ import {
   SyncOutlined,
 } from "@ant-design/icons";
 import PagiNation from "@/components/PagiNation";
-import { proxyOrderList, orderCallBack } from "@/api/index";
+import {
+  proxyOrderList,
+  orderCallBack,
+  changeOrderStatus,
+  loadTradeStatic,
+  confirmReceiveMoney
+} from "@/api/index";
 import dayjs from "dayjs";
 import { getRecentMounth } from "@/utils/common";
 import { useAppSelector } from "@/hooks/hooks";
 import styles from "./ProxyOrder.module.scss";
+import { useAppDispatch } from "@/hooks/hooks";
+import { switchChatPeopleNum } from "@/store/slices/static.slice";
 
 const { RangePicker } = DatePicker;
 const { Countdown } = Statistic;
 
 const ProxyOrder: React.FC = () => {
   const { search } = useLocation();
+  const dispatch = useAppDispatch();
+  const userInfo = useAppSelector((state: any) => state.user.userInfo);
   const searchParams = new URLSearchParams(search);
   const [total, setTotal] = useState<number>(0);
   const [page, setpage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
   const [tableList, setTableList] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [receive, setReceive] = useState<any>("");
+  const [actAmount, setActAmount] = useState<any>(0);
+  const [cusOrderInfo, setCusOrderInfo] = useState<any>({})
   const [searchUserForm] = Form.useForm();
   const userType = useAppSelector((state) => state.user.userInfo.userType);
+  
 
   //初始化查询时间
   const initSearchDate = () => {
@@ -48,13 +66,17 @@ const ProxyOrder: React.FC = () => {
     let params: any = {};
     if (searchParams.get("orderNo")) {
       params.merchantOrderId = searchParams.get("orderNo");
-      searchUserForm?.setFieldsValue({merchantOrderId: searchParams.get("orderNo")});
+      searchUserForm?.setFieldsValue({
+        merchantOrderId: searchParams.get("orderNo"),
+      });
     }
-    if(searchParams.get('hisUserId')){
+    if (searchParams.get("hisUserId")) {
       params.playerId = searchParams.get("hisUserId");
-      searchUserForm?.setFieldsValue({playerId: searchParams.get("hisUserId")});
+      searchUserForm?.setFieldsValue({
+        playerId: searchParams.get("hisUserId"),
+      });
     }
-    
+
     if (temp && temp.length) {
       params["startMs"] = new Date(
         dayjs(new Date(temp[0])).format("YYYY-MM-DD") + " 00:00:00"
@@ -63,7 +85,7 @@ const ProxyOrder: React.FC = () => {
         dayjs(new Date(temp[1])).format("YYYY-MM-DD") + " 23:59:59"
       ).getTime();
     }
-    
+
     fetchData(params);
   };
 
@@ -179,6 +201,90 @@ const ProxyOrder: React.FC = () => {
     }
   };
 
+  //获取当前代理的订单信息统计
+  const loadCurrentProxyStatic = async () => {
+    const res: any = await loadTradeStatic({
+      page: 1,
+      pageSize: 10,
+      startTime: dayjs(new Date()).format("YYYY-MM-DD") + " 00:00:00",
+      endTime: dayjs(new Date()).format("YYYY-MM-DD") + " 23:59:59",
+      agentId: userInfo.id,
+    });
+    if (res && res.code === 200) {
+      // setProxyorderStatic(res.page.list[0]);
+      dispatch(
+        switchChatPeopleNum(
+          res.page.list.length
+            ? res.page.list[0]
+            : {
+                chatPeople: 0,
+                totalRechargeCount: 0,
+                rechargePeople: 0,
+                rechargeCount: 0,
+              }
+        )
+      );
+    }
+  };
+
+  //修改订单状态,确认订单或者关闭订单
+  const switchOrderStatus = async (merchantOrderId: any, payStatus: any) => {
+    const res: any = await changeOrderStatus({ merchantOrderId, payStatus });
+    if (res.code === 200) {
+      initSearchDate();
+      loadCurrentProxyStatic();
+    }
+  };
+
+  //打开确认收款弹框
+  const handleOpenConfirm = (item: any) => {
+    setCusOrderInfo(item)
+    //把订单信息赋值给支付类型和实际付款金额
+    setReceive(item.payCode);
+    setActAmount(Number(item.amount) / 100);
+    setIsConfirmModalOpen(true);
+  };
+
+  //代理确认收款
+  const handleConfirmOrder = async () => {
+    console.log(cusOrderInfo)
+    const res: any = await confirmReceiveMoney({
+      orderNo: cusOrderInfo.merchantOrderId,
+      payCode: receive,
+      realAmount: Number(actAmount) * 100,
+    });
+    if (res && res.code === 200) {
+      setIsConfirmModalOpen(false);
+      // setIsShowCountDown(false);
+      // getCusOrderDetail(
+      //   cusList[chatUserIndex]["fromUserId"],
+      //   cusList[chatUserIndex]["orderNumber"]
+      // );
+      // loadProxyStatus();
+      loadCurrentProxyStatic();
+      message.open({
+        type: "success",
+        content: "确认收款成功",
+        className: "custom-class",
+        style: {
+          marginTop: "20vh",
+          fontSize: "20px",
+        },
+      });
+    }
+    // switchOrderStatus(cusOrderInfo.merchantOrderId, 1);
+  };
+
+  //取消确认订单
+  const handleCancelOrder = () => {
+    setIsConfirmModalOpen(false);
+  };
+
+  const handleCloseOrder = (item: any) => {
+    setCusOrderInfo(item)
+    switchOrderStatus(item.merchantOrderId, 4);
+  };
+
   const columns: any = [
     {
       title: "来源订单号",
@@ -220,13 +326,13 @@ const ProxyOrder: React.FC = () => {
         let res: any = "";
         switch (text) {
           case 1:
-               res = (
-                <div style={{ whiteSpace: "nowrap" }}>
-                   <Tag icon={<CheckCircleOutlined />} color="success">
-                    已支付
-                  </Tag>
-                </div>
-              );
+            res = (
+              <div style={{ whiteSpace: "nowrap" }}>
+                <Tag icon={<CheckCircleOutlined />} color="success">
+                  已支付
+                </Tag>
+              </div>
+            );
             // if (record.callbackStatus === 0) {
             //   res = (
             //     <div style={{ whiteSpace: "nowrap" }}>
@@ -271,6 +377,10 @@ const ProxyOrder: React.FC = () => {
                     value={new Date(record.ms).getTime() + 1000 * 30 * 60}
                     format="mm:ss"
                     valueStyle={{ fontSize: "15px", color: "#52C41A" }}
+                    onChange={(val) =>
+                      Number(val) === 0 &&
+                      switchOrderStatus(record.merchantOrderId, 4)
+                    }
                   />
                   )
                 </div>
@@ -312,13 +422,13 @@ const ProxyOrder: React.FC = () => {
         let res: any = "";
         switch (text) {
           case 1:
-               res = (
-                <div style={{ whiteSpace: "nowrap" }}>
-                   <Tag icon={<CheckCircleOutlined />} color="success">
-                    已回调
-                  </Tag>
-                </div>
-              );
+            res = (
+              <div style={{ whiteSpace: "nowrap" }}>
+                <Tag icon={<CheckCircleOutlined />} color="success">
+                  已回调
+                </Tag>
+              </div>
+            );
             // if (record.callbackStatus === 0) {
             //   res = (
             //     <div style={{ whiteSpace: "nowrap" }}>
@@ -346,22 +456,22 @@ const ProxyOrder: React.FC = () => {
             // }
             break;
           case 2:
-               res = (
-                <div style={{ whiteSpace: "nowrap" }}>
-                  <Tag icon={<SyncOutlined spin />} color="processing">
-                    未回调
-                  </Tag>
-                </div>
-              );
+            res = (
+              <div style={{ whiteSpace: "nowrap" }}>
+                <Tag icon={<SyncOutlined spin />} color="processing">
+                  未回调
+                </Tag>
+              </div>
+            );
             break;
           case 3:
-               res = (
-                <div style={{ whiteSpace: "nowrap" }}>
-                  <Tag icon={<CloseCircleOutlined />} color="error">
-                    回调失败
-                  </Tag>
-                </div>
-              );
+            res = (
+              <div style={{ whiteSpace: "nowrap" }}>
+                <Tag icon={<CloseCircleOutlined />} color="error">
+                  回调失败
+                </Tag>
+              </div>
+            );
             break;
           default:
             break;
@@ -442,8 +552,7 @@ const ProxyOrder: React.FC = () => {
       align: "center",
       key: "payCode",
       with: 200,
-      render: (text: any) =>
-        text === "UNION_PAY" ? "银联" : text === "ALI_PAY" ? "支付宝" : "微信",
+      render: (text: any, record: any) =>  record.payStatus === 1 ? <span>{ text === "UNION_PAY" ? "银联" : text === "ALI_PAY" ? "支付宝" : "微信"}</span> : '----' ,
     },
     {
       title: "创建时间",
@@ -469,7 +578,7 @@ const ProxyOrder: React.FC = () => {
       title: "操作",
       key: "action",
       align: "center",
-      width: 120,
+      width: 250,
       fixed: "right",
       render: (_: any, record: any) => (
         <Space size="middle">
@@ -477,14 +586,33 @@ const ProxyOrder: React.FC = () => {
             充值
           </Button> */}
           {/* <JudgePemission pageUrl={"/payment/userlist_133"}> */}
-          {record.payStatus === 1 && (record.callbackStatus === 2 || record.callbackStatus === 3) ? (
+
+          {record.payStatus === 1 &&
+            (record.callbackStatus === 2 || record.callbackStatus === 3) ?  (
+              <>
+                <Button type="primary" onClick={() => handleCallback(record)}>
+                  手动回调
+                </Button>
+              </>
+            ) : (record.payStatus !== 2 && '---')}
+          {record.payStatus === 2 && userInfo.userType === 1 && (
             <>
-              <Button type="primary" onClick={() => handleCallback(record)}>
-                手动回调
+              <Button type="primary" onClick={() => handleOpenConfirm(record)}>
+                确认收款
               </Button>
+              <Popconfirm
+                title="关闭订单"
+                description="确认关闭该订单吗?"
+                onConfirm={() => handleCloseOrder(record)}
+                onCancel={() => {}}
+                okText="Yes"
+                cancelText="No"
+              >
+                <Button type="primary" style={{ margin: "0 10px" }}>
+                  关闭订单
+                </Button>
+              </Popconfirm>
             </>
-          ) : (
-            "---"
           )}
 
           {/* </JudgePemission> */}
@@ -646,9 +774,7 @@ const ProxyOrder: React.FC = () => {
               </Col>
               {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
               <Col span={2}>
-                <Form.Item
-                  wrapperCol={{ offset: 18}}
-                >
+                <Form.Item wrapperCol={{ offset: 10 }}>
                   <Button type="primary" htmlType="submit">
                     搜索
                   </Button>
@@ -657,11 +783,8 @@ const ProxyOrder: React.FC = () => {
               {/* </JudgePemission> */}
               {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
               <Col span={2}>
-                <Form.Item wrapperCol={{ offset: 10}}>
-                  <Button
-                    type="primary"
-                    onClick={() => resetParams()}
-                  >
+                <Form.Item wrapperCol={{ offset: 2 }}>
+                  <Button type="primary" onClick={() => resetParams()}>
                     重置
                   </Button>
                 </Form.Item>
@@ -688,6 +811,61 @@ const ProxyOrder: React.FC = () => {
           />
         </div>
       </div>
+      {/* 确认订单 */}
+      <Modal
+        width="450px"
+        style={{ top: "300px" }}
+        title="确认订单"
+        open={isConfirmModalOpen}
+        onOk={handleConfirmOrder}
+        onCancel={handleCancelOrder}
+      >
+        <div className={styles.confirm_item}>
+          <div className={styles.conLabel}>订单类型:</div>
+          <div className={styles.ordContent}>
+            {cusOrderInfo.orderType === 1
+              ? "游戏充值"
+              : cusOrderInfo.orderType === 2
+              ? "会员充值"
+              : "金币充值"}
+          </div>
+        </div>
+        <div className={styles.confirm_item}>
+          <div className={styles.conLabel}>订单金额:</div>
+          <div className={styles.ordContent}>
+            ¥{(Number(cusOrderInfo.amount) / 100).toFixed(2)}
+          </div>
+        </div>
+        <div className={styles.confirm_item}>
+          <div className={styles.conLabel}>支付方式:</div>
+          <div className={styles.ordContent}>
+            <Select
+              placeholder="请选择支付方式"
+              style={{ width: 150 }}
+              onChange={(val) => setReceive(val)}
+              value={receive}
+              options={[
+                { value: "WX_PAY", label: "微信支付" },
+                { value: "ALI_PAY", label: "支付宝" },
+                { value: "UNION_PAY", label: "银联支付" },
+              ]}
+            />
+          </div>
+        </div>
+        <div className={styles.confirm_item}>
+          <div className={styles.conLabel}>实付金额:</div>
+          <div className={styles.ordContent}>
+            <InputNumber
+              prefix="¥"
+              value={actAmount}
+              style={{ width: "150px" }}
+              min={0}
+              placeholder="请输入实收金额"
+              onChange={(val) => setActAmount(val)}
+            />
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };

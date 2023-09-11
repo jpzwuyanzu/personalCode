@@ -122,18 +122,6 @@ const ProxyReport: React.FC = () => {
 
   const columns: any = [
     {
-      title: "代理昵称",
-      dataIndex: "agentName",
-      align: "center",
-      key: "agentName",
-    },
-    {
-      title: "代理ID",
-      dataIndex: "agentId",
-      align: "center",
-      key: "agentId",
-    },
-    {
       title: "用户昵称",
       dataIndex: "playerName",
       align: "center",
@@ -144,6 +132,18 @@ const ProxyReport: React.FC = () => {
       dataIndex: "playerId",
       align: "center",
       key: "playerId",
+    },
+    {
+      title: "被举报代理昵称",
+      dataIndex: "agentName",
+      align: "center",
+      key: "agentName",
+    },
+    {
+      title: "被举报代理ID",
+      dataIndex: "agentId",
+      align: "center",
+      key: "agentId",
     },
     {
       title: "举报类容",

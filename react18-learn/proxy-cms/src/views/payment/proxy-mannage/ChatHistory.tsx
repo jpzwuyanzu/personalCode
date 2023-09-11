@@ -77,14 +77,10 @@ const ChatHistory: React.FC = () => {
       chatGroup: 1
     });
     let temp: any = searchUserForm.getFieldsValue()["createTime"];
-    let params: any = {};
+    let params: any = {chatGroup : 1, page: 1, pageSize: 10};
     if (temp && temp.length) {
-      params["startTime"] = dayjs(new Date(temp[0]).getTime()).format(
-        "YYYY-MM-DD"
-      );
-      params["endTime"] = dayjs(new Date(temp[1]).getTime()).format(
-        "YYYY-MM-DD"
-      );
+      params["startMs"] = new Date(dayjs(new Date(temp[0]).getTime()).format("YYYY-MM-DD") + ' 00:00:00').getTime();
+      params["endMs"] = new Date(dayjs(new Date(temp[1]).getTime()).format("YYYY-MM-DD") + ' 23:59:59').getTime();
     }
     fetchData(params);
   };
@@ -121,8 +117,10 @@ const ChatHistory: React.FC = () => {
 
    //打开聊天记录
    const openChatHistory = (item:any) => {
-    Navigte(`/payment/chathistory?playerId=${item.playerId}&agentId=${item.agentId}`)
-    setChatHistoryStatus(true)
+    Navigte(`/payment/chathistory?playerId=${item.playerId}&agentId=${item.agentId}&date=${item.chatTime}`)
+    setTimeout(() => {
+      setChatHistoryStatus(true)
+    },0)
   }
 
   //关闭聊天记录

@@ -41,6 +41,7 @@ import { switchUnreadNum } from "@/store/slices/message.slice";
 import dayjs from "dayjs";
 import { switchAmountNum } from "@/store/slices/proxy.slice";
 import { switchChatPeopleNum } from "@/store/slices/static.slice";
+import { clearAllCookie } from '@/utils/common'
 
 const { Header } = Layout;
 export default function TopHeader() {
@@ -69,6 +70,7 @@ export default function TopHeader() {
     if (resp.code && resp.code === 200) {
       localStorage.clear();
       sessionStorage.clear();
+      clearAllCookie()
       navigate("/login");
       message.open({
         type: "success",

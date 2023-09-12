@@ -303,10 +303,10 @@ export default function PaymentTypeModule({
             <Col span={24}>
               <Form.Item
                 name="payName"
-                label="收款账户名称"
-                rules={[{ required: true, message: "请输入收款账户名称" }]}
+                label="收款账号名称"
+                rules={[{ required: true, message: "请输入收款账号名称" }]}
               >
-                <Input placeholder="请输入收款账户名称" />
+                <Input placeholder="请输入收款账号名称" />
               </Form.Item>
             </Col>
           </Row>
@@ -314,19 +314,22 @@ export default function PaymentTypeModule({
           isJumpOutSide === 1 ? <>
           {/* 微信支付宝有二维码，银行卡没有 */}
           {
-            (payCodeNow === 'ALI_PAY' || payCodeNow === 'WX_PAY') ? <> <Row>
+            (payCodeNow === 'ALI_PAY' ||  payCodeNow === 'UNION_PAY') ? <><Row>
             <Col span={24}>
-              <Form.Item name="payImage" label={payCodeNow === 'ALI_PAY' ? '支付宝收款码' : '微信收款码'}>
-                <CusUpload
-                  saveUploadImgUrl={saveUploadImgUrl}
-                  uploadInfo={paymentTypeInfo}
-                  fastHeadHost={fastHeadHost}
-                  isAdd={Object.keys(paymentTypeInfo).length === 0 ? true : false}
-                />
+              <Form.Item
+                name="bankAccount"
+                label={ payCodeNow === 'UNION_PAY' ? '账户姓名' : "支付宝姓名" }
+                rules={[
+                  {
+                    required: true,
+                    message:  payCodeNow === 'UNION_PAY' ? '' +'请输入账户姓名' : "请输入支付宝姓名",
+                  },
+                ]}
+              >
+                <Input placeholder={payCodeNow === 'UNION_PAY' ? '' +'请输入账户姓名' : "请输入支付宝姓名"} />
               </Form.Item>
             </Col>
-          </Row></> : null
-          }
+          </Row>
           {
             payCodeNow === 'UNION_PAY' ? <><Row>
             <Col span={24}>
@@ -345,8 +348,7 @@ export default function PaymentTypeModule({
             </Col>
           </Row></> : null
           }
-          {
-            (payCodeNow === 'ALI_PAY' ||  payCodeNow === 'UNION_PAY') ? <><Row>
+          <Row>
             <Col span={24}>
               <Form.Item
                 name="bankNo"
@@ -362,22 +364,7 @@ export default function PaymentTypeModule({
               </Form.Item>
             </Col>
           </Row>
-          <Row>
-            <Col span={24}>
-              <Form.Item
-                name="bankAccount"
-                label={ payCodeNow === 'UNION_PAY' ? '账户姓名' : "支付宝姓名" }
-                rules={[
-                  {
-                    required: true,
-                    message:  payCodeNow === 'UNION_PAY' ? '' +'请输入账户姓名' : "请输入支付宝姓名",
-                  },
-                ]}
-              >
-                <Input placeholder={payCodeNow === 'UNION_PAY' ? '' +'请输入账户姓名' : "请输入支付宝姓名"} />
-              </Form.Item>
-            </Col>
-          </Row></>  : null
+          </>  : null
           }
           </> : <>
           <Row>
@@ -393,6 +380,20 @@ export default function PaymentTypeModule({
           </Row>
           </>
          }
+          {
+            isJumpOutSide === 1 && (payCodeNow === 'ALI_PAY' || payCodeNow === 'WX_PAY') ? <> <Row>
+            <Col span={24}>
+              <Form.Item name="payImage" label={payCodeNow === 'ALI_PAY' ? '支付宝收款码' : '微信收款码'}>
+                <CusUpload
+                  saveUploadImgUrl={saveUploadImgUrl}
+                  uploadInfo={paymentTypeInfo}
+                  fastHeadHost={fastHeadHost}
+                  isAdd={Object.keys(paymentTypeInfo).length === 0 ? true : false}
+                />
+              </Form.Item>
+            </Col>
+          </Row></> : null
+          }
           <Row>
           <Col span={24}>
                 <Form.Item

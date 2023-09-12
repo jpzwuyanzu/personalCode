@@ -41,7 +41,7 @@ service.interceptors.response.use(
                 className: 'custom-class',
                 style: {
                     // marginTop: '20vh',
-                    fontSize: '20px'
+                    // fontSize: '20px'
                 }
               })
               Nprogress.done()

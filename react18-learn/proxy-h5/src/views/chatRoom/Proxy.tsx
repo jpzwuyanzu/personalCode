@@ -104,6 +104,7 @@ const Proxy = () => {
     if(res.code === 200 && res.data && res.data.order) {
       setOrderInfo(res.data.order)
       setOrderStatus(res.data.order.payStatus)
+      dispatch(switchState({ status: (res.data.order.payStatus === 3 || res.data.order.payStatus === 4) ? false : true}))
     } else {
       setOrderInfo({})
     }
@@ -117,10 +118,8 @@ const Proxy = () => {
   }, [pathname]);
 
   useEffect(() => {
-   if(Boolean(orderStateCache)) {
     loadOrderDetailInfo()
     // dispatch(switchState({ status: false }))
-   }
   }, [orderStateCache])
 
   useEffect(() => {

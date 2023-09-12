@@ -103,7 +103,7 @@ const UserRechargeModule: any = ({ open, proxyInfo, closeModal }: IProps) => {
           >
             <InputNumber prefix="￥" placeholder="" style={{ width: '200px' }} />
           </Form.Item>
-          <p style={{ paddingLeft: '30px', color: 'red' }}>正数为充值，负数为追分</p>
+          <p style={{ paddingLeft: '99px', color: 'red' }}>正数为充值，负数为追分</p>
         </Form>
       </Modal>
     </>

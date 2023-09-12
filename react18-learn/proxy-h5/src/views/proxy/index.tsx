@@ -2,8 +2,10 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate, useLocation,useParams } from "react-router-dom";
 import { NavBar, List, Image, Dialog, Modal, Toast } from "antd-mobile";
+import { useAppDispatch } from './../../hooks/redux-hook'
 import styles from "./index.module.scss";
 import { getOnlineAgent, getAgentNotice } from './../../api/index'
+import { switchState } from './../../store/order.slice'
 const proxyStatusMsg = {
   close: "该商家代理已停止营业，为了不影响您的充值体验，请换一个店铺",
   offLine: "该商家代理已离线，为了不影响您的充值体验，请换一个店铺",
@@ -19,6 +21,7 @@ const ProxyIndex = () => {
   const { pathname, search } = useLocation()
   const searchParams = new URLSearchParams(search);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch()
 
   const factUser = useMemo(() => {
     let temp: any = [];
@@ -80,6 +83,7 @@ const loadProxyList = async () => {
   //orderType: 1:游戏充值 3:金币充值 2:会员充值
   let res: any = await getOnlineAgent({ orderNumber:searchParams.get('orderNumber'), orderAmount: searchParams.get('orderAmount'), orderType: searchParams.get('orderType'), fromUserId: searchParams.get('fromUserId')})
   if(res.code === 200) {
+    dispatch(switchState({ status: true }))
     setProUserList(res.data ? res.data.agent : [])
     setHeadFastUrl(res.data ? res.data.fastUrl : '')
     setOnLineStatus(res.data.isOnline)

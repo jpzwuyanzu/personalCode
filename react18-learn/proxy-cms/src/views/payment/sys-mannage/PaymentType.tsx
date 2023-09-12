@@ -290,8 +290,8 @@ const UserList: React.FC = () => {
           <Form
             form={searchUserForm}
             name="basic"
-            labelCol={{ span: 7 }}
-            wrapperCol={{ span: 16 }}
+            labelCol={{ span: 9 }}
+            wrapperCol={{ span: 15 }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             autoComplete="off"
@@ -301,7 +301,7 @@ const UserList: React.FC = () => {
             }}
           >
             <Row justify="start">
-              <Col span={6}>
+              <Col span={7}>
                 <Form.Item
                   label="收款账号名称"
                   name="payName"
@@ -310,7 +310,7 @@ const UserList: React.FC = () => {
                   <Input placeholder="请输入收款账号名称" allowClear={true} />
                 </Form.Item>
               </Col>
-              <Col span={4}>
+              <Col span={5}>
                 <Form.Item
                   label="收款方式"
                   name="payCode"
@@ -347,9 +347,9 @@ const UserList: React.FC = () => {
                 </Form.Item>
               </Col> */}
               {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
-              <Col span={1}>
+              <Col span={1.5}>
                 <Form.Item wrapperCol={{ offset: 2, span: 16 }}>
-                  <Button type="primary" htmlType="submit">
+                  <Button type="primary" htmlType="submit" style={{ marginRight: '10px' }}>
                     搜索
                   </Button>
                 </Form.Item>

@@ -75,7 +75,7 @@ const Chat = memo(() => {
   //点击充值方式事件处理
   const handleRechargeTypeClick = (item: any) => {
     checkPayType = {};
-    if (orderStateCache) {
+    if (!orderStateCache) {
       Toast.show({
         content: (
           <div style={{ whiteSpace: "nowrap" }}>订单已关闭，请重新提交订单</div>

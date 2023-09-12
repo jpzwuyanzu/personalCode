@@ -262,6 +262,7 @@ const ProxyOrder: React.FC = () => {
       // );
       // loadProxyStatus();
       loadCurrentProxyStatic();
+      initSearchDate();
       message.open({
         type: "success",
         content: "确认收款成功",

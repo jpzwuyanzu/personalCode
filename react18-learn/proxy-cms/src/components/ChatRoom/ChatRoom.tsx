@@ -122,7 +122,8 @@ const ChatRoom = () => {
   const loadQuickReplayList = async () => {
     const res: any = await quickFeedBack({ type: 0 });
     if (res && res.code === 200) {
-      setQuickList(res.data.list ? res.data.list : []);
+      console.log(res)
+      setQuickList(res.data.list && res.data.list.length ? res.data.list : []);
     }
   };
 
@@ -842,30 +843,30 @@ const ChatRoom = () => {
             </div>
             <div className={ userInfo.sayStatus === 1 ?  styles.send_message  : styles.send_message_hidden}>
               <div className={styles.top_message_input}>
-                {quickList.length && (
-                  <Popover
-                    content={
-                      <>
-                        {quickList &&
-                          quickList.length &&
-                          quickList.map((itm: any) => (
-                            <div
-                              onClick={() => handleQuickMessage(itm.content)}
-                              key={itm.id}
-                              className={styles.quickBack_Pop}
-                            >
-                              {itm.content}
-                            </div>
-                          ))}
-                      </>
-                    }
-                    placement="topLeft"
-                    arrow
-                  >
-                    <img src={quickImg} alt="" className={styles.fastMessage} />
-                    {/* <UnorderedListOutlined className={styles.fastMessage} /> */}
-                  </Popover>
-                )}
+                {quickList && quickList.length  ?  (
+                  <><Popover
+                  content={
+                    <>
+                      {quickList &&
+                        quickList.length &&
+                        quickList.map((itm: any) => (
+                          <div
+                            onClick={() => handleQuickMessage(itm.content)}
+                            key={itm.id}
+                            className={styles.quickBack_Pop}
+                          >
+                            {itm.content}
+                          </div>
+                        ))}
+                    </>
+                  }
+                  placement="topLeft"
+                  arrow
+                >
+                  <img src={quickImg} alt="" className={styles.fastMessage} />
+                  {/* <UnorderedListOutlined className={styles.fastMessage} /> */}
+                </Popover></>
+                ) : null}
                 <div className={styles.uploadMessageImg}>
                   <img
                     src={imageImg}

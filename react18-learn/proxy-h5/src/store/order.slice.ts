@@ -7,7 +7,7 @@ interface IsUpdateState {
 
 // 定义初始状态
 const initialState: IsUpdateState = {
-    status: false
+    status: true
 }
 
 //定义常量名称
@@ -18,6 +18,7 @@ const { actions, reducer: UpdateStateReducer } = createSlice({
     initialState: initialState,
     reducers: {
         switchState: (state: IsUpdateState, { payload }: any) => {
+            console.log(payload)
             state.status = payload.status;
         }
     }

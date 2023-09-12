@@ -46,9 +46,9 @@ const Order = memo(({orderStatusP, orderInfoP}: IProp)=>  {
         content: '确定【取消订单】吗?',
       })
       if (result) {
-        const res: any = await changeOrderStatus({merchantOrderId: orderInfoP.merchantOrderId, payStatus: 4})
+        const res: any = await changeOrderStatus({merchantOrderId: searchParams.get('orderNumber'), payStatus: 4})
         if(res && res.code === 200) {
-          dispatch(switchState({status: true}))
+          dispatch(switchState({status: false}))
           // setOrderStatus(4)
         }
         //在这里做取消订单的操作

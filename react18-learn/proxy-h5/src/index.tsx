@@ -8,6 +8,8 @@ import { Provider } from 'react-redux'
 import { persistor } from './store/index';
 import { PersistGate } from 'redux-persist/integration/react'
 import reportWebVitals from './reportWebVitals';
+import VConsole from 'vconsole';
+const vConsole = new VConsole({ theme: 'dark' });
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

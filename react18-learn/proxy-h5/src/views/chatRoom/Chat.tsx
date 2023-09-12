@@ -8,7 +8,7 @@ import {
   Dialog,
   Toast,
   DotLoading,
-  Mask
+  Mask,
 } from "antd-mobile";
 import { List, Card, ActionSheet } from "react-vant";
 import { Arrow, Close } from "@react-vant/icons";
@@ -16,15 +16,15 @@ import { PicturesOutline } from "antd-mobile-icons";
 import styles from "./Chat.module.scss";
 import { uploadFastImg } from "./../../api/index";
 import useWebSocket from "./../../hooks/useWebSockets";
-import RechargeCom from './../Recharge/Recharge'
+import RechargeCom from "./../Recharge/Recharge";
 import { v4 as uuidv4 } from "uuid";
 import dayjs from "dayjs";
 import { getStorage, setStorage } from "./../../utils/common";
-import { useAppSelector } from './../../hooks/redux-hook'
+import { useAppSelector } from "./../../hooks/redux-hook";
 import wxPay from "./../../assets/payType/WX_PAY.png";
 import aliPay from "./../../assets/payType/ALI_PAY.png";
 import unionPay from "./../../assets/payType/UNION_PAY.png";
-import riseInput from './../../utils/riseUp'
+// import riseInput from './../../utils/riseUp'
 
 const regTypesList: any = {
   UNION_PAY: 2,
@@ -32,32 +32,33 @@ const regTypesList: any = {
   ALI_PAY: 0,
 };
 
-const wssUrl = (process.env as any).REACT_APP_WSS_HOST
+const wssUrl = (process.env as any).REACT_APP_WSS_HOST;
 
 //图片资源桶地址
 const ossImgUrl = (process.env as any).REACT_APP_OSS_HOST;
-let checkPayType:any = {};
+let checkPayType: any = {};
 const Chat = memo(() => {
   // const [ws, wsData] = useWebSocket("ws://172.28.113.248:10086/webSocket", {}); //本地
-  const [ws, wsData] = useWebSocket(wssUrl , {}); //测试环境
+  const [ws, wsData] = useWebSocket(wssUrl, {}); //测试环境
   const [value, setValue] = useState("");
-  const [actionSheetVisible, setActionSheetVisible] = useState(false)
+  const [actionSheetVisible, setActionSheetVisible] = useState(false);
   const navigate = useNavigate();
   const [messageList, setMessageList] = useState<any[]>([]);
   const [finished, setFinished] = useState<boolean>(true);
   const [imgPreVisiable, setImgPreVisiable] = useState(false); //用户消息图片预览
   const [imgPreVisiable1, setImgPreVisiable1] = useState(false); //客服消息图片预览
   const [visibleMask, setVisibleMask] = useState(false);
-  const orderStateCache = useAppSelector((state: any) => state.updateState.status)
+  const orderStateCache = useAppSelector(
+    (state: any) => state.updateState.status
+  );
   const listEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const msgInputRef = useRef<any>(null);
-  const containerRef = useRef<any>(null)
+  const containerRef = useRef<any>(null);
   const [fastImgUrl, setFastImgUrl] = useState("");
   const { pathname, search } = useLocation();
   const searchParams = new URLSearchParams(search);
   let msgImgUrl = "";
-  
 
   /**
    *type : 1: 客服消息 2:用户消息 3:官方欢迎消息 4:充值方式消息 5:充值链接类型
@@ -73,21 +74,29 @@ const Chat = memo(() => {
 
   //点击充值方式事件处理
   const handleRechargeTypeClick = (item: any) => {
-    checkPayType = {}
-    if(orderStateCache) {
-      Toast.show({ content: <div style={{ whiteSpace: 'nowrap' }}>订单已关闭，请重新提交订单</div>, position: 'top' })
+    checkPayType = {};
+    if (orderStateCache) {
+      Toast.show({
+        content: (
+          <div style={{ whiteSpace: "nowrap" }}>订单已关闭，请重新提交订单</div>
+        ),
+        position: "top",
+      });
     } else {
-       //jumpType 1:非外跳 2:外跳
+      //jumpType 1:非外跳 2:外跳
       if (item.jumpType == 2) {
         //跳转外部
         window.open(item.payImage, "_blank");
       } else {
-        checkPayType = item
-       if(checkPayType.payImage &&  checkPayType.payImage.indexOf('http') === -1) {
-          checkPayType.payImage = ossImgUrl+''+checkPayType.payImage
-       }
-        setActionSheetVisible(true)
-        
+        checkPayType = item;
+        if (
+          checkPayType.payImage &&
+          checkPayType.payImage.indexOf("http") === -1
+        ) {
+          checkPayType.payImage = ossImgUrl + "" + checkPayType.payImage;
+        }
+        setActionSheetVisible(true);
+
         // navigate(
         //   `/recharge/recharge?amount=${Number(
         //     searchParams.get("orderAmount")
@@ -113,11 +122,11 @@ const Chat = memo(() => {
       inputRef.current.addEventListener("change", function (event: any) {
         let $file = event.currentTarget;
         let file: any = $file?.files;
-        if(Number(file.size) > 10240) {
-          Toast.show({ content: '图片最大上传10M', position: 'top' })
-          return
+        if (Number(file.size) > 10240) {
+          Toast.show({ content: "图片最大上传10M", position: "top" });
+          return;
         }
-        setVisibleMask(true)
+        setVisibleMask(true);
         let URL: string | null = null;
         if ((window as any).createObjectURL != undefined) {
           URL = (window as any).createObjectURL(file[0]);
@@ -134,7 +143,7 @@ const Chat = memo(() => {
         uploadFastImg(imgFormData).then((res: any) => {
           if (res && res.code && res.code === 200) {
             setFastImgUrl(res.data.fastPath);
-            setVisibleMask(false)
+            setVisibleMask(false);
             msgImgUrl = res.data.fastPath;
             if (URL) {
               Dialog.show({
@@ -176,7 +185,7 @@ const Chat = memo(() => {
     let temp = getStorage("session", searchParams.get("orderNumber"))
       ? JSON.parse(getStorage("session", searchParams.get("orderNumber")))
       : [];
-    setVisibleMask(false)
+    setVisibleMask(false);
     let insertMsg = {
       fromUserId: searchParams.get("fromUserId"),
       fromUserName: searchParams.get("fromUserName"),
@@ -209,13 +218,12 @@ const Chat = memo(() => {
 
   //发送消息校验
   const judgeMessage = () => {
-    if(value) {
-      handleSendMessage(0)
+    if (value) {
+      handleSendMessage(0);
     } else {
-      Toast.show({ content: '请输入消息内容', position: 'top' })
+      Toast.show({ content: "请输入消息内容", position: "top" });
     }
-  }
-
+  };
 
   //监听聊天记录，触发滚动到底部操作
   useEffect(() => {
@@ -233,12 +241,15 @@ const Chat = memo(() => {
     } else if (wsData && wsData.code === 1 && (wsData as any).list.length) {
       let temlist = wsData.list;
       let temp = getStorage("session", searchParams.get("orderNumber"))
-      ? JSON.parse(getStorage("session", searchParams.get("orderNumber")))
-      : [];
-      if(temp) {
-        setStorage("session", searchParams.get("orderNumber"),[...temp, ...temlist]);
-      }  else {
-        setStorage("session", searchParams.get("orderNumber"),[...temlist]);
+        ? JSON.parse(getStorage("session", searchParams.get("orderNumber")))
+        : [];
+      if (temp) {
+        setStorage("session", searchParams.get("orderNumber"), [
+          ...temp,
+          ...temlist,
+        ]);
+      } else {
+        setStorage("session", searchParams.get("orderNumber"), [...temlist]);
       }
       setMessageList([...temp, ...temlist]);
     }
@@ -249,12 +260,11 @@ const Chat = memo(() => {
     if (ws) {
       uploadMessageImg();
     }
-    if(msgInputRef && msgInputRef.current && containerRef && containerRef.current){
-      console.log(msgInputRef)
-      riseInput(msgInputRef.current, containerRef.current)
-    }
+    // if(msgInputRef && msgInputRef.current && containerRef && containerRef.current){
+    //   console.log(msgInputRef)
+    //   riseInput(msgInputRef.current, containerRef.current)
+    // }
   }, [ws]);
-
 
   useEffect(() => {
     onLoad();
@@ -264,7 +274,8 @@ const Chat = memo(() => {
   }, []);
 
   return (
-    <div className={styles.chat_container} ref={ containerRef }>
+    // <div className={styles.chat_container} ref={ containerRef }>
+    <div className={styles.chat_container}>
       <div className={styles.message_content}>
         <List finished={finished} onLoad={onLoad}>
           {messageList.map((_, i) => {
@@ -375,7 +386,7 @@ const Chat = memo(() => {
                     {/* 官方欢迎消息 */}
                     <div className="message_in">{_.content}</div>
                     <span className={styles.common_message_right_time}>
-                    {dayjs(_.time).format("MM-DD HH:mm:ss")}
+                      {dayjs(_.time).format("MM-DD HH:mm:ss")}
                     </span>
                   </div>
                 );
@@ -470,22 +481,19 @@ const Chat = memo(() => {
           ></input>
         </div>
         <div className={styles.message_input}>
-          <input
-            ref={msgInputRef}
+          <Input
+            // ref={msgInputRef}
             placeholder="请输入你想说的"
             className={styles.cusInput}
             value={value}
             maxLength={200}
             onChange={(val) => {
-              setValue(val.target.value);
-              // setValue(val)
+              // setValue(val.target.value);
+              setValue(val);
             }}
           />
         </div>
-        <div
-          className={styles.messageSend}
-          onClick={() => judgeMessage()}
-        >
+        <div className={styles.messageSend} onClick={() => judgeMessage()}>
           发送
         </div>
       </div>
@@ -505,21 +513,36 @@ const Chat = memo(() => {
       >
         
       </Mask> */}
-    {
-      visibleMask ?   <div className={ styles.cusMask }>
-      <DotLoading color="primary" style={{ fontSize: "30px" }} />
-      </div> : null
-    }
-      <ActionSheet visible={actionSheetVisible} duration={300} onCancel={() => setActionSheetVisible(false)} style={{ height: '690px' }}>
-       {
-        actionSheetVisible ? <div className={ styles.recharge_page_container }>
-          <Close className={ styles.close_action } onClick={() => setActionSheetVisible(false)}/>
-        <RechargeCom amount={Number(
-        searchParams.get("orderAmount")
-      )} reTypeP={regTypesList[checkPayType.payCode]} accTypeP={ checkPayType.payImage ? 0 : 1} reNameP={checkPayType.bankAccount} reAccountP={checkPayType.bankNo} reBankNameP={checkPayType.bankName} rePayImageP={checkPayType.payImage ? `${checkPayType.payImage}` : ''} />
-     </div> : null
-       }
-       
+      {visibleMask ? (
+        <div className={styles.cusMask}>
+          <DotLoading color="primary" style={{ fontSize: "30px" }} />
+        </div>
+      ) : null}
+      <ActionSheet
+        visible={actionSheetVisible}
+        duration={300}
+        onCancel={() => setActionSheetVisible(false)}
+        style={{ height: "690px" }}
+      >
+        {actionSheetVisible ? (
+          <div className={styles.recharge_page_container}>
+            <Close
+              className={styles.close_action}
+              onClick={() => setActionSheetVisible(false)}
+            />
+            <RechargeCom
+              amount={Number(searchParams.get("orderAmount"))}
+              reTypeP={regTypesList[checkPayType.payCode]}
+              accTypeP={checkPayType.payImage ? 0 : 1}
+              reNameP={checkPayType.bankAccount}
+              reAccountP={checkPayType.bankNo}
+              reBankNameP={checkPayType.bankName}
+              rePayImageP={
+                checkPayType.payImage ? `${checkPayType.payImage}` : ""
+              }
+            />
+          </div>
+        ) : null}
       </ActionSheet>
     </div>
   );

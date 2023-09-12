@@ -164,7 +164,7 @@ const Proxy = () => {
       >
         {orderStatus === 2 ? (
           <>
-            <span>订单进行中，剩余时间:</span>&nbsp;
+            <span className={ styles.countDownNowLabel }>订单进行中，剩余时间:</span>&nbsp;
             <CountDown
               time={orderInfo && orderInfo.ms ? 30*60*1000 - (Number(new Date().getTime()) - Number(new Date(orderInfo.ms).getTime())) : 30*60*1000}
               // time={times}

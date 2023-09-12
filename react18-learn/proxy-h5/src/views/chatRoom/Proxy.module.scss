@@ -1,7 +1,9 @@
 .proxy_container {
     height: 100%;
+    width: 100%;
     .navbar_container {
         height: 90px;
+        overflow: hi;
         .reportNow {
             padding: 5px;
             background: linear-gradient(to right, #ff6034, #ee0a24);
@@ -46,8 +48,11 @@
         margin-bottom: 15px;
         border-radius: 10px;
         color: #0bc226;
+        .countDownNowLabel {
+            font-size: 25px;
+        }
         .countDownNow {
-            font-size: 15px;
+            font-size: 25px;
             color: #0bc226;
         }
     }

@@ -24,6 +24,7 @@ import { useAppSelector } from './../../hooks/redux-hook'
 import wxPay from "./../../assets/payType/WX_PAY.png";
 import aliPay from "./../../assets/payType/ALI_PAY.png";
 import unionPay from "./../../assets/payType/UNION_PAY.png";
+import riseInput from './../../utils/riseUp'
 
 const regTypesList: any = {
   UNION_PAY: 2,
@@ -50,6 +51,8 @@ const Chat = memo(() => {
   const orderStateCache = useAppSelector((state: any) => state.updateState.status)
   const listEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const msgInputRef = useRef<any>(null);
+  const containerRef = useRef<any>(null)
   const [fastImgUrl, setFastImgUrl] = useState("");
   const { pathname, search } = useLocation();
   const searchParams = new URLSearchParams(search);
@@ -246,6 +249,10 @@ const Chat = memo(() => {
     if (ws) {
       uploadMessageImg();
     }
+    if(msgInputRef && msgInputRef.current && containerRef && containerRef.current){
+      console.log(msgInputRef)
+      riseInput(msgInputRef.current, containerRef.current)
+    }
   }, [ws]);
 
 
@@ -257,7 +264,7 @@ const Chat = memo(() => {
   }, []);
 
   return (
-    <div className={styles.chat_container}>
+    <div className={styles.chat_container} ref={ containerRef }>
       <div className={styles.message_content}>
         <List finished={finished} onLoad={onLoad}>
           {messageList.map((_, i) => {
@@ -463,13 +470,15 @@ const Chat = memo(() => {
           ></input>
         </div>
         <div className={styles.message_input}>
-          <Input
+          <input
+            ref={msgInputRef}
             placeholder="请输入你想说的"
             className={styles.cusInput}
             value={value}
             maxLength={200}
             onChange={(val) => {
-              setValue(val);
+              setValue(val.target.value);
+              // setValue(val)
             }}
           />
         </div>

@@ -328,6 +328,24 @@ export default function PaymentTypeModule({
           </Row></> : null
           }
           {
+            payCodeNow === 'UNION_PAY' ? <><Row>
+            <Col span={24}>
+              <Form.Item
+                name="bankName"
+                label="银行名称"
+                rules={[
+                  {
+                    required: true,
+                    message: "请输入银行名称",
+                  },
+                ]}
+              >
+                <Input placeholder="请输入银行名称" />
+              </Form.Item>
+            </Col>
+          </Row></> : null
+          }
+          {
             (payCodeNow === 'ALI_PAY' ||  payCodeNow === 'UNION_PAY') ? <><Row>
             <Col span={24}>
               <Form.Item
@@ -360,24 +378,6 @@ export default function PaymentTypeModule({
               </Form.Item>
             </Col>
           </Row></>  : null
-          }
-          {
-            payCodeNow === 'UNION_PAY' ? <><Row>
-            <Col span={24}>
-              <Form.Item
-                name="bankName"
-                label="银行名称"
-                rules={[
-                  {
-                    required: true,
-                    message: "请输入银行名称",
-                  },
-                ]}
-              >
-                <Input placeholder="请输入银行名称" />
-              </Form.Item>
-            </Col>
-          </Row></> : null
           }
           </> : <>
           <Row>
@@ -444,7 +444,7 @@ export default function PaymentTypeModule({
                 </Form.Item>
               </Col>
           </Row>
-          <p style={{ paddingLeft: '10px',paddingBottom: '10px',paddingTop: '5px', color: '#ee0a24' }}>不配置固定金额,默认支持所有金额</p>
+          <p style={{ paddingLeft: '134px',paddingBottom: '10px',paddingTop: '5px', color: '#ee0a24' }}>不配置固定金额,默认支持所有金额</p>
           <Row>
             <Col span={24}>
               <Form.Item name="status" label="收款方式状态" valuePropName="checked">

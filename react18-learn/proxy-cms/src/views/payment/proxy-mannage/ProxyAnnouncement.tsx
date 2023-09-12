@@ -182,7 +182,7 @@ const ProxyAnnouncement: React.FC = () => {
               cancelText="否"
             >
               <Button type="primary" danger>
-                删除套餐
+                删除公告
               </Button>
             </Popconfirm>
         </Space>

@@ -1,0 +1,74 @@
+.proxy_plat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 0px;
+    .plat_title {
+        font-size: 50px;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    .status_img {
+        width: 200px;
+        height: 200px;
+        object-fit:contain;
+    }
+    .store_label {
+        font-size: 20px;
+        margin-top: 50px;
+    }
+    .store_card {
+        margin-top: 60px;
+        border: 1px solid #00B96B;
+        padding: 70px 80px;
+        border-radius: 10px;
+        .store_status_lable {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            .store_status_label_name {
+                font-size: 20px;
+            }
+            .store_status_text {
+                color: #00B96B;
+                font-size: 20px;
+                margin-left: 10px;
+            }
+        }
+        .btn_container {
+            display: flex;
+            padding-top: 40px;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+    .store_card_close {
+        margin-top: 60px;
+        border: 1px solid #ff4d4f;
+        padding: 70px 80px;
+        border-radius: 10px;
+        .store_status_lable {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            .store_status_label_name {
+                font-size: 20px;
+            }
+            .store_status_text {
+                color: #ff4d4f;
+                font-size: 20px;
+                margin-left: 10px;
+            }
+        }
+        .btn_container {
+            display: flex;
+            padding-top: 40px;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}

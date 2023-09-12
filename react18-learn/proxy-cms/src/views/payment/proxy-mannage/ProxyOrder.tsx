@@ -587,7 +587,7 @@ const ProxyOrder: React.FC = () => {
           </Button> */}
           {/* <JudgePemission pageUrl={"/payment/userlist_133"}> */}
 
-          {record.payStatus === 1 &&
+          {userInfo.userType === 1 && record.payStatus === 1 &&
             (record.callbackStatus === 2 || record.callbackStatus === 3) ?  (
               <>
                 <Button type="primary" onClick={() => handleCallback(record)}>

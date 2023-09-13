@@ -98,6 +98,14 @@ const Proxy = () => {
     });
   };
 
+  const handleback = () => {
+    if ((window as any).WebLocalBridge) {
+      (window as any).WebLocalBridge.rechargeBack();
+    } else if ((window as any).webkit?.messageHandlers) {
+      (window as any).webkit.messageHandlers.JsToOc.postMessage('rechargeBack');
+    }
+  }
+
   //获取当前订单信息
   const loadOrderDetailInfo = async() => {
     const res: any = await loadCusOrderDetail({ fromUserId: searchParams.get('fromUserId'), orderNumber: searchParams.get('orderNumber')})
@@ -135,7 +143,8 @@ const Proxy = () => {
     <div className={styles.proxy_container}>
       <div className={styles.navbar_container}>
         <NavBar
-          onBack={() => navigate(`/proxy/allproxy?orderNumber=${searchParams.get('orderNumber')}&orderAmount=${searchParams.get('orderAmount')}&orderType=${searchParams.get('orderType')}&fromUserId=${searchParams.get("fromUserId")}&fromUserName=${searchParams.get("fromUserName")}`)}
+          onBack={() => handleback()}
+          // onBack={() => navigate(`/proxy/allproxy?orderNumber=${searchParams.get('orderNumber')}&orderAmount=${searchParams.get('orderAmount')}&orderType=${searchParams.get('orderType')}&fromUserId=${searchParams.get("fromUserId")}&fromUserName=${searchParams.get("fromUserName")}`)}
           right={
             <>
               <div className={styles.reportNow} onClick={reportProxy}>

@@ -314,3 +314,27 @@
         left: calc(50% - 35px);
     }
 }
+
+//全部代理公告弹框
+.annoceMent_container {
+    .title {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+    .content {
+        height: 200px;
+        overflow-y: scroll;
+        .insert_element {
+            height: 100%;
+            padding-top: 15px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            // text-indent: 40px;
+        }
+    }
+}

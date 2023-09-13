@@ -4,7 +4,7 @@ import { useNavigate, useLocation,useParams } from "react-router-dom";
 import { NavBar, List, Image, Dialog, Modal, Toast } from "antd-mobile";
 import { useAppDispatch } from './../../hooks/redux-hook'
 import styles from "./index.module.scss";
-import { getOnlineAgent, getAgentNotice } from './../../api/index'
+import { getOnlineAgent, getAgentNotice, loadCusOrderDetail, changeOrderStatus } from './../../api/index'
 import { switchState } from './../../store/order.slice'
 const proxyStatusMsg = {
   close: "该商家代理已停止营业，为了不影响您的充值体验，请换一个店铺",
@@ -14,6 +14,7 @@ const proxyStatusMsg = {
 
 const ProxyIndex = () => {
   const [visible, setVisible] = useState<boolean>(false);
+  const [noAgentVisiable, setNoAgentVisiable] = useState<boolean>(false)
   const [noticeContent, setNoticeContent] = useState('');
   const [proxUserList, setProUserList] = useState([]);
   const [headFastUrl,setHeadFastUrl] = useState('');
@@ -88,10 +89,10 @@ const loadProxyList = async () => {
     setHeadFastUrl(res.data ? res.data.fastUrl : '')
     setOnLineStatus(res.data.isOnline)
   } else {
-    Toast.show({
-      icon: 'fail',
-      content: res.msg
-    })
+    // Toast.show({
+    //   icon: 'fail',
+    //   content: res.msg
+    // })
   }
 }
 
@@ -100,22 +101,51 @@ const loadProxynotice = async () => {
   let res: any = await getAgentNotice({})
   if(res.code === 200 && res.data) {
     setNoticeContent(res.data.notice ? res.data.notice : '')
-    res.data.notice && setVisible(true)
+    res.data.notice && !noAgentVisiable && setVisible(true)
   }
 }
 
 const handleback = () => {
   if ((window as any).WebLocalBridge) {
     (window as any).WebLocalBridge.rechargeBack();
-  } else if ((window as any).webkit.messageHandlers) {
+  } else if ((window as any).webkit?.messageHandlers) {
     (window as any).webkit.messageHandlers.JsToOc.postMessage('rechargeBack');
   }
 }
 
+//查询当前订单是否匹配过代理
+const regOrderDetail = async() => {
+  const resp:any = await loadCusOrderDetail({orderNumber: searchParams.get('orderNumber')})
+  const res: any = await getOnlineAgent({ orderNumber:searchParams.get('orderNumber'), orderAmount: searchParams.get('orderAmount'), orderType: searchParams.get('orderType'), fromUserId: searchParams.get('fromUserId')})
+  let tempArr: any = [];
+  if(resp && resp.code === 200 && resp.data.order) {
+    //在这里比对代理列表
+    if(res && res.code === 200 && res.data && res.data.agent && res.data.agent.length) {
+      res.data.agent.forEach((itm: any, inx: any) => {
+        tempArr.push(Number(itm.id))
+      })
+    }
+    if(tempArr.indexOf(Number(resp.data.order['agentId'])) !== -1) {
+      navigate(`/chat/chatroom?toUserId=AGENT_${Number(resp.data.order['agentId'])}&toUserName=${resp.data.order['agentName']}&orderNumber=${searchParams.get('orderNumber')}&orderAmount=${searchParams.get('orderAmount')}&orderType=${searchParams.get('orderType')}&fromUserId=${searchParams.get('fromUserId')}&fromUserName=${searchParams.get('fromUserName')}`);
+    } else {
+      setNoAgentVisiable(true)
+    }
+  }
+  loadProxynotice()
+}
+
+//关闭当前待支付订单
+const cancelOrder = async() => {
+  await changeOrderStatus({merchantOrderId: searchParams.get('orderNumber'), payStatus: 4})
+  setVisible(false)
+  setNoAgentVisiable(false);
+  handleback()
+}
 
 
   useEffect(() => {
-    loadProxynotice()
+    regOrderDetail()
+    // loadProxynotice()
     loadProxyList()
   }, []);
 
@@ -207,6 +237,31 @@ const handleback = () => {
         ]}
       />
       {/* 系统公告 */}
+      {/* 提示进行中订单没有找到代理 */}
+      <Modal
+        visible={noAgentVisiable}
+        content={
+          <>
+            <div className={styles.annoceMent_container}>
+              <div className={styles.title}>提示</div>
+              <div className={styles.content}>
+                <div className={styles.insert_element}>
+                商家代理已暂停营业，将自动关闭订单，请重新下单
+                </div>
+              </div>
+            </div>
+          </>
+        }
+        closeOnAction
+        actions={[
+          {
+            key: "confirm",
+            text: "重新下单",
+            onClick: () => cancelOrder()
+          },
+        ]}
+      />
+      {/* 提示进行中订单没有找到代理 */}
     </div>
   );
 };

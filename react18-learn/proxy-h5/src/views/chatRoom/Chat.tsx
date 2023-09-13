@@ -9,12 +9,13 @@ import {
   Toast,
   DotLoading,
   Mask,
+  Modal
 } from "antd-mobile";
 import { List, Card, ActionSheet } from "react-vant";
 import { Arrow, Close } from "@react-vant/icons";
 import { PicturesOutline } from "antd-mobile-icons";
 import styles from "./Chat.module.scss";
-import { uploadFastImg } from "./../../api/index";
+import { uploadFastImg, changeOrderStatus } from "./../../api/index";
 import useWebSocket from "./../../hooks/useWebSockets";
 import RechargeCom from "./../Recharge/Recharge";
 import { v4 as uuidv4 } from "uuid";
@@ -48,9 +49,8 @@ const Chat = memo(() => {
   const [imgPreVisiable, setImgPreVisiable] = useState(false); //用户消息图片预览
   const [imgPreVisiable1, setImgPreVisiable1] = useState(false); //客服消息图片预览
   const [visibleMask, setVisibleMask] = useState(false);
-  const orderStateCache = useAppSelector(
-    (state: any) => state.updateState.status
-  );
+  const orderStateCache = useAppSelector((state: any) => state.updateState.status);
+  const [noAgentVisiable, setNoAgentVisiable] = useState<boolean>(false);
   const listEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const msgInputRef = useRef<any>(null);
@@ -216,6 +216,21 @@ const Chat = memo(() => {
     setValue("");
   };
 
+  const handleback = () => {
+    if ((window as any).WebLocalBridge) {
+      (window as any).WebLocalBridge.rechargeBack();
+    } else if ((window as any).webkit?.messageHandlers) {
+      (window as any).webkit.messageHandlers.JsToOc.postMessage('rechargeBack');
+    }
+  }
+
+  //关闭当前待支付订单
+const cancelOrder = async() => {
+  await changeOrderStatus({merchantOrderId: searchParams.get('orderNumber'), payStatus: 4})
+  setNoAgentVisiable(false);
+  handleback()
+}
+
   //发送消息校验
   const judgeMessage = () => {
     if (value) {
@@ -232,26 +247,30 @@ const Chat = memo(() => {
 
   //监听收到的消息
   useEffect(() => {
-    if (wsData && wsData.msgId && wsData.type) {
-      setStorage("session", searchParams.get("orderNumber"), [
-        ...messageList,
-        wsData,
-      ]);
-      setMessageList([...messageList, wsData]);
-    } else if (wsData && wsData.code === 1 && (wsData as any).list.length) {
-      let temlist = wsData.list;
-      let temp = getStorage("session", searchParams.get("orderNumber"))
-        ? JSON.parse(getStorage("session", searchParams.get("orderNumber")))
-        : [];
-      if (temp) {
+    if(JSON.stringify(wsData).indexOf('AGENT_STATUS_RESPONSE') !== -1) {
+      setNoAgentVisiable(true)
+    } else {
+      if (wsData && wsData.msgId && wsData.type) {
         setStorage("session", searchParams.get("orderNumber"), [
-          ...temp,
-          ...temlist,
+          ...messageList,
+          wsData,
         ]);
-      } else {
-        setStorage("session", searchParams.get("orderNumber"), [...temlist]);
+        setMessageList([...messageList, wsData]);
+      }else if (wsData && wsData.code === 1 && (wsData as any).list.length) {
+        let temlist = wsData.list;
+        let temp = getStorage("session", searchParams.get("orderNumber"))
+          ? JSON.parse(getStorage("session", searchParams.get("orderNumber")))
+          : [];
+        if (temp) {
+          setStorage("session", searchParams.get("orderNumber"), [
+            ...temp,
+            ...temlist,
+          ]);
+        } else {
+          setStorage("session", searchParams.get("orderNumber"), [...temlist]);
+        }
+        setMessageList([...temp, ...temlist]);
       }
-      setMessageList([...temp, ...temlist]);
     }
   }, [wsData]);
 
@@ -544,6 +563,29 @@ const Chat = memo(() => {
           </div>
         ) : null}
       </ActionSheet>
+      <Modal
+        visible={noAgentVisiable}
+        content={
+          <>
+            <div className={styles.annoceMent_container}>
+              <div className={styles.title}>提示</div>
+              <div className={styles.content}>
+                <div className={styles.insert_element}>
+                商家代理已暂停营业，将自动关闭订单，请重新下单
+                </div>
+              </div>
+            </div>
+          </>
+        }
+        closeOnAction
+        actions={[
+          {
+            key: "confirm",
+            text: "重新下单",
+            onClick: () => cancelOrder()
+          },
+        ]}
+      />
     </div>
   );
 });

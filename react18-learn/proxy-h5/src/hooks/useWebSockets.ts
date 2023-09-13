@@ -141,8 +141,13 @@ const useWebSocket = (url: string, info: any) => {
         wsRef.current.onmessage = function (evt: any) {
             // let data = JSON.parse(evt.data) // 接收消息string=>json
             if(evt.data.indexOf('HEARTBEAT_RESPONSE') === -1 && evt.data.indexOf('CHAT_SEND_RESPONSE') === -1) {
-                let data = JSON.parse(evt.data)
-                setWsData(data)
+                if(evt.data.indexOf('AGENT_STATUS_RESPONSE') !== -1) {
+                    let data = JSON.parse(JSON.stringify(evt.data))
+                    setWsData(data)
+                } else {
+                    let data = JSON.parse(evt.data)
+                    setWsData(data)
+                }
             }
             resetTimer()
             startTimer()

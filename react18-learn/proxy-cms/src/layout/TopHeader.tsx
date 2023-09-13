@@ -45,7 +45,7 @@ import { clearAllCookie } from '@/utils/common'
 
 const { Header } = Layout;
 export default function TopHeader() {
-  const [_createWebSocket, _ws, wsData] = useWebSocket(import.meta.env.VITE_APP_WS_URL,{});
+  const [_createWebSocket, ws, wsData] = useWebSocket(import.meta.env.VITE_APP_WS_URL,{});
   const { pathname } = useLocation();
   const userInfo = useAppSelector((state) => state.user.userInfo);
   const collapsed = useAppSelector((state) => state.collapse.status);
@@ -71,7 +71,9 @@ export default function TopHeader() {
       localStorage.clear();
       sessionStorage.clear();
       clearAllCookie()
-      navigate("/login");
+      ws && ws.close()
+      // navigate("/login");
+      location.href = '/login'
       message.open({
         type: "success",
         content: "退出登录",
@@ -210,6 +212,12 @@ export default function TopHeader() {
       loadProxyStatus();
     }
   }, [userInfo]);
+
+  useEffect(() => {
+    return () => {
+      ws && ws.close()
+    }
+  }, [])
 
   return (
     <>

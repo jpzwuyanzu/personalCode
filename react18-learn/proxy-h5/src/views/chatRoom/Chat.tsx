@@ -25,6 +25,7 @@ import { useAppSelector } from "./../../hooks/redux-hook";
 import wxPay from "./../../assets/payType/WX_PAY.png";
 import aliPay from "./../../assets/payType/ALI_PAY.png";
 import unionPay from "./../../assets/payType/UNION_PAY.png";
+
 // import riseInput from './../../utils/riseUp'
 
 const regTypesList: any = {
@@ -37,6 +38,10 @@ const wssUrl = (process.env as any).REACT_APP_WSS_HOST;
 
 //图片资源桶地址
 const ossImgUrl = (process.env as any).REACT_APP_OSS_HOST;
+//聊天头像
+const userImgUrl = (process.env as any).REACT_APP_AVATOR;
+
+
 let checkPayType: any = {};
 const Chat = memo(() => {
   // const [ws, wsData] = useWebSocket("ws://172.28.113.248:10086/webSocket", {}); //本地
@@ -191,7 +196,7 @@ const Chat = memo(() => {
       fromUserName: searchParams.get("fromUserName"),
       toUserName: searchParams.get("toUserName"),
       toUserId: searchParams.get("toUserId"),
-      icon: `agent/20230831/ff151b8e0d0143a28af70413afce72cd.abc`,
+      icon: userImgUrl,
       content: msgType === 0 ? value : msgImgUrl,
       msgType: msgType,
       type: 2,
@@ -346,7 +351,7 @@ const cancelOrder = async() => {
               case 2:
                 return (
                   <div className={styles.user_message} key={_.msgId}>
-                    {/* 客服人员消息放在右边，同时要区分文字消息和图片消息 */}
+                    {/* 用户人员消息放在右边，同时要区分文字消息和图片消息 */}
                     {_.msgType === 0 ? (
                       <div className={styles.userTextMessage}>
                         {_.content}
@@ -387,7 +392,7 @@ const cancelOrder = async() => {
                     <div className={styles.message_avator}>
                       <Image
                         src={
-                          _.icon.indexOf("http") !== -1
+                         _.icon && _.icon.indexOf("http") !== -1
                             ? _.icon
                             : ossImgUrl + _.icon
                         }

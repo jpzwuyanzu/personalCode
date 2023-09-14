@@ -60,6 +60,10 @@ export function delUser (params? :any) {
 export function resetUser (params? :any) {
     return request.post('/api/sys/user/user/resetpwd', {'requestTimeStamp': (new Date()).getTime() , ...params})
 }
+//管理员重置密码
+export function resetUserPass (params? :any) {
+    return request.post('/api/sys/user/user/password', {'requestTimeStamp': (new Date()).getTime() , ...params})
+}
 //上游支付渠道列表
 export function upStreamChannelList (params? :any) {
     return request.post('/api/channel/pay/listPage', {'requestTimeStamp': (new Date()).getTime() , ...params})

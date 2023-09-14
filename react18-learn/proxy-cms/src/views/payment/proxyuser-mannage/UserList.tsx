@@ -24,7 +24,7 @@ import PagiNation from "@/components/PagiNation";
 import { userList, createUser, delUser } from "@/api/index";
 import dayjs from "dayjs";
 import UserListModule from "./modules/UserListModule";
-import ResetPassModal from "../../../components/ResetPassModal";
+import ResetPassModal from "../../../components/ResetPassModals";
 import UserRechargeModule from './modules/UserRechargeModule'
 import JudgePemission from "@/components/JudgePemission";
 import styles from "./UserList.module.scss";

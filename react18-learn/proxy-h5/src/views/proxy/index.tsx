@@ -130,6 +130,8 @@ const regOrderDetail = async() => {
     } else {
       setNoAgentVisiable(true)
     }
+  } else {
+    if(!(res && res.code === 200 && res.data && res.data.agent && res.data.agent.length)) setNoAgentVisiable(true)
   }
   loadProxynotice()
 }

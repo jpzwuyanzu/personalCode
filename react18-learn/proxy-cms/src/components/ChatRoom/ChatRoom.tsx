@@ -53,6 +53,7 @@ const { Countdown } = Statistic;
 
 //图片资源桶地址
 const ossImgUrl = import.meta.env.VITE_APP_OSS_URL;
+const h5UserImg = import.meta.env.VITE_APP_IMG_URL;
 const { TextArea } = Input;
 const ChatRoom = () => {
   //消息列表
@@ -590,7 +591,7 @@ const ChatRoom = () => {
                       <List.Item.Meta
                         avatar={
                           <Avatar
-                            src={`${ossImgUrl}agent/20230831/ff151b8e0d0143a28af70413afce72cd.abc`}
+                            src={`${ossImgUrl}${h5UserImg}`}
                           />
                         }
                         title={
@@ -633,7 +634,7 @@ const ChatRoom = () => {
                           <List.Item.Meta
                             avatar={
                               <Avatar
-                                src={`${ossImgUrl}agent/20230831/ff151b8e0d0143a28af70413afce72cd.abc`}
+                                src={`${ossImgUrl}${h5UserImg}`}
                               />
                             }
                             title={
@@ -677,7 +678,7 @@ const ChatRoom = () => {
                     <List.Item.Meta
                       avatar={
                         <Avatar
-                          src={`${ossImgUrl}agent/20230831/ff151b8e0d0143a28af70413afce72cd.abc`}
+                          src={`${ossImgUrl}${h5UserImg}`}
                           style={{ width: "40px", height: "40px" }}
                         />
                       }

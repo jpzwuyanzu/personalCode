@@ -52,8 +52,10 @@ const ProxyOrder: React.FC = () => {
   const [pageSize, setPageSize] = useState<number>(10);
   const [tableList, setTableList] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-  const [receive, setReceive] = useState<any>("");
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false); //确认订单
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false); //修改订单
+  const [editPlatOrderNum, setEditPlatOrderNum] = useState<any>(''); //平台订单号
+  const [receive, setReceive] = useState<any>(undefined);
   const [actAmount, setActAmount] = useState<any>(0);
   const [cusOrderInfo, setCusOrderInfo] = useState<any>({})
   const [searchUserForm] = Form.useForm();
@@ -278,8 +280,51 @@ const ProxyOrder: React.FC = () => {
 
   //取消确认订单
   const handleCancelOrder = () => {
+    setActAmount(0)
+    setReceive(undefined)
     setIsConfirmModalOpen(false);
   };
+
+  //打开修改订单弹框
+  const handleOpenEdit = () => {
+    setActAmount(0)
+    setReceive(undefined)
+    setEditPlatOrderNum('')
+    setIsEditModalOpen(true)
+  }
+
+  //确认修改订单
+  const handleEditOrder = async() => {
+    const res: any = await confirmReceiveMoney({
+      orderNo: editPlatOrderNum,
+      payCode: receive,
+      realAmount: Number(actAmount) * 100,
+    });
+    if (res && res.code === 200) {
+      setIsEditModalOpen(false);
+      // setIsShowCountDown(false);
+      // getCusOrderDetail(
+      //   cusList[chatUserIndex]["fromUserId"],
+      //   cusList[chatUserIndex]["orderNumber"]
+      // );
+      // loadProxyStatus();
+      loadCurrentProxyStatic();
+      initSearchDate();
+      message.open({
+        type: "success",
+        content: "确认收款成功"
+      });
+    }
+  }
+
+  //取消修改订单
+  const handleCancelEdit = () => {
+    setActAmount(0)
+    setReceive(undefined)
+    setEditPlatOrderNum('')
+    setIsEditModalOpen(false)
+  }
+
 
   const handleCloseOrder = (item: any) => {
     setCusOrderInfo(item)
@@ -783,13 +828,22 @@ const ProxyOrder: React.FC = () => {
               </Col>
               {/* </JudgePemission> */}
               {/* <JudgePemission pageUrl={'/payment/userlist_131'}> */}
-              <Col span={2}>
+              <Col span={1}>
                 <Form.Item wrapperCol={{ offset: 2 }}>
                   <Button type="primary" onClick={() => resetParams()}>
                     重置
                   </Button>
                 </Form.Item>
               </Col>
+              {
+                userInfo.userType === 1 && <Col span={2}>
+                <Form.Item wrapperCol={{ offset: 3 }}>
+                  <Button type="primary" onClick={() => handleOpenEdit()}>
+                    修改订单
+                  </Button>
+                </Form.Item>
+              </Col>
+              }
             </Row>
           </Form>
         </div>
@@ -866,6 +920,61 @@ const ProxyOrder: React.FC = () => {
             />
           </div>
         </div>
+      </Modal>
+      {/* 修改订单 */}
+      <Modal
+        width="550px"
+        style={{ top: "300px" }}
+        title="修改订单"
+        open={isEditModalOpen}
+        onOk={handleEditOrder}
+        onCancel={handleCancelEdit}
+      >
+        <p style={{ color: 'red',marginBottom: '10px' }}>说明：修改订单状态：是指将订单状态为【已关闭】但实际已支付的订单激活修改，订单状态修改为【已支付】并且重新上分</p>
+        <div className={styles.confirm_item}>
+          <div className={styles.conLabel}>来源订单号:</div>
+          <div className={styles.ordContent}>
+            {/* ¥{(Number(cusOrderInfo.amount) / 100).toFixed(2)} */}
+            <Input
+              value={editPlatOrderNum}
+              style={{ width: "280px" }}
+              placeholder="请输入来源订单号"
+              onChange={(val) => setEditPlatOrderNum(val.target.value)}
+              // onChange={(val) => console.log(val.target.value)}
+            />
+          </div>
+        </div>
+        <p style={{ color: 'red',marginBottom: '10px', paddingLeft: '140px', marginTop: '10px' }}>请选择【已关闭】状态的订单进行修改</p>
+        <div className={styles.confirm_item}>
+          <div className={styles.conLabel}>支付方式:</div>
+          <div className={styles.ordContent}>
+            <Select
+              placeholder="请选择支付方式"
+              style={{ width: 180 }}
+              onChange={(val) => setReceive(val)}
+              value={receive}
+              options={[
+                { value: "WX_PAY", label: "微信支付" },
+                { value: "ALI_PAY", label: "支付宝" },
+                { value: "UNION_PAY", label: "银联支付" },
+              ]}
+            />
+          </div>
+        </div>
+        <div className={styles.confirm_item}>
+          <div className={styles.conLabel}>实付金额:</div>
+          <div className={styles.ordContent}>
+            <InputNumber
+              prefix="¥"
+              value={actAmount}
+              style={{ width: "180px" }}
+              min={0}
+              placeholder="请输入实收金额"
+              onChange={(val) => setActAmount(val)}
+            />
+          </div>
+        </div>
+        <p style={{ color: 'red',marginBottom: '10px', paddingLeft: '140px', marginTop: '10px' }}>确定收款前，请确保已经收到款项</p>
       </Modal>
     </div>
   );

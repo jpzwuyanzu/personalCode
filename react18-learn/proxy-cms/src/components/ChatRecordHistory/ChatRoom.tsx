@@ -14,6 +14,7 @@ import UNION_PAY from "@/assets/imgs/paytype/UNION_PAY.png";
 
 //图片资源桶地址
 const ossImgUrl = import.meta.env.VITE_APP_OSS_URL;
+const h5UserImg = import.meta.env.VITE_APP_IMG_URL;
 
 const rightTabList: any = [
   {
@@ -248,7 +249,7 @@ const ChatRoom = memo(() => {
                       <List.Item.Meta
                         avatar={
                           <Avatar
-                            src={`${ossImgUrl}agent/20230831/ff151b8e0d0143a28af70413afce72cd.abc`}
+                            src={`${ossImgUrl}${h5UserImg}`}
                           />
                         }
                         title={
@@ -290,7 +291,7 @@ const ChatRoom = memo(() => {
                         <List.Item.Meta
                           avatar={
                             <Avatar
-                              src={`${ossImgUrl}agent/20230831/ff151b8e0d0143a28af70413afce72cd.abc`}
+                              src={`${ossImgUrl}${h5UserImg}`}
                             />
                           }
                           title={
@@ -332,7 +333,7 @@ const ChatRoom = memo(() => {
                     <List.Item.Meta
                       avatar={
                         <Avatar
-                          src={`${ossImgUrl}agent/20230831/ff151b8e0d0143a28af70413afce72cd.abc`}
+                          src={`${ossImgUrl}${h5UserImg}`}
                         />
                       }
                       title={<span>{item.playerName}</span>}

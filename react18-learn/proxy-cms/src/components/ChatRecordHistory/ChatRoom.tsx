@@ -45,11 +45,13 @@ const ChatRoom = memo(() => {
   const [filterCusKey, setFilterCusKey] = useState<any>("");
   const [contentKey, setContentKey] = useState<any>("");
   const [activeTab, setActiveTab] = useState<any>(0);
+  const [activeMsgIndex, setActiveMsgIndex] = useState<any>('');
   const listEndRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
   const scrollToAnchor = (anchorName: any) => {
     if (anchorName) {
+      setActiveMsgIndex(anchorName)
       let anchorElement = document.getElementById(anchorName);
       if (anchorElement) {
         anchorElement.scrollIntoView();
@@ -179,12 +181,14 @@ const ChatRoom = memo(() => {
     loadChatHistory(searchParams.get("agentId"), cusList[index]["playerId"]);
     setMessageResult([])
     setActiveTab(0)
+    setActiveMsgIndex('')
   };
 
   const chooseFilterCus = (item:any) => {
     cusList.forEach((itm, inx) => {
       if(item.playerId === itm.playerId) {
         setFilterCusKey('')
+        setActiveMsgIndex('')
         setFilterCusList([])
         setChatUserIndex(inx)
         switchCusSocket(inx)
@@ -201,6 +205,7 @@ const ChatRoom = memo(() => {
 
   useEffect(() => {
     setContentKey('')
+    setActiveMsgIndex('')
     if(activeTab === 1) {
       searchChatHistory(searchParams.get("agentId"), searchParams.get("playerId"), '')
     }
@@ -359,6 +364,7 @@ const ChatRoom = memo(() => {
                             className={styles.messageList_item}
                             key={itm.msgId}
                             id={itm.msgId}
+                            style={{ background: activeMsgIndex && String(activeMsgIndex) === String(itm.msgId) ? '#ececec' : 'none'}}
                           >
                             <div className={styles.cusMessage_container}>
                               <div className={styles.cusMessage_item}>
@@ -411,6 +417,7 @@ const ChatRoom = memo(() => {
                             className={styles.messageList_item}
                             key={itm.msgId}
                             id={itm.msgId}
+                            style={{ background: activeMsgIndex && String(activeMsgIndex) === String(itm.msgId) ? '#ececec' : 'none'}}
                           >
                             <div className={styles.userMessage_container}>
                               <div className={styles.userMessage_item}>

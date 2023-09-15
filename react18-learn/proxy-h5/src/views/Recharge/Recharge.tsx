@@ -87,7 +87,7 @@ const Recharge = ({reTypeP, accTypeP,reNameP, reAccountP, reBankNameP, amount, r
                 reType === 0 &&  <div className={ styles.ali_pay_info_container }>
                 <div className={styles.qr_account_name}>
                   <span className={ styles.ali_pay_label }>支付宝姓名：</span>
-                  <span className="ali_pay_info">{reName}</span>
+                  <span className={ styles.ali_pay_info }>{reName}</span>
                   <CopyToClipboard text={reName} onCopy={handleCopy}>
                     <div className={styles.copyOrderNow}>
                       <img src={ copyImg } className={ styles.copyNowImg } alt="" />
@@ -96,7 +96,7 @@ const Recharge = ({reTypeP, accTypeP,reNameP, reAccountP, reBankNameP, amount, r
                 </div>
                 <div className={styles.qr_account_name} style={{ marginTop: '10px' }}>
                   <span className={ styles.ali_pay_label }>支付宝账号：</span>
-                  <span className="ali_pay_info">{reAccountP}</span>
+                  <span className={ styles.ali_pay_info }>{reAccountP}</span>
                   <CopyToClipboard text={reAccountP} onCopy={handleCopy}>
                     <div className={styles.copyOrderNow}>
                       <img src={ copyImg } className={ styles.copyNowImg } alt="" />

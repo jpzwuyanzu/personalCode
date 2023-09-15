@@ -56,6 +56,14 @@
                         box-sizing: border-box;
                         .ali_pay_label {
                             color: #b0a4a4;
+                            width: 150px;
+                            white-space: nowrap;
+                        }
+                        .ali_pay_info {
+                            width: calc(100% - 215px);
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
                         }
                         .copyOrderNow {
                             padding: 0px 20px;

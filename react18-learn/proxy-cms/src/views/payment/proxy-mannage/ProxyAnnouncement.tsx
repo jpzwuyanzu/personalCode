@@ -148,7 +148,7 @@ const ProxyAnnouncement: React.FC = () => {
       align: "center",
       key: "createTime",
       render: (text: any) => (
-        <>{text ? dayjs(text).format("YYYY-MM-DD hh:mm:ss") : "--"}</>
+        <>{text ? dayjs(text).format("YYYY-MM-DD HH:mm:ss") : "--"}</>
       ),
     },
     {
@@ -157,7 +157,7 @@ const ProxyAnnouncement: React.FC = () => {
       align: "center",
       key: "updateTime",
       render: (text: any) => (
-        <>{text ? dayjs(text).format("YYYY-MM-DD hh:mm:ss") : "--"}</>
+        <>{text ? dayjs(text).format("YYYY-MM-DD HH:mm:ss") : "--"}</>
       ),
     },
     {

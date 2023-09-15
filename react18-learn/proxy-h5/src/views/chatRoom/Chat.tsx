@@ -550,6 +550,7 @@ const cancelOrder = async() => {
       >
         {actionSheetVisible ? (
           <div className={styles.recharge_page_container}>
+            <div className={styles.actionTopTitle}>付款</div>
             <Close
               className={styles.close_action}
               onClick={() => setActionSheetVisible(false)}

@@ -608,7 +608,7 @@ const ProxyOrder: React.FC = () => {
       width: 180,
       render: (
         text: string | number | Date | dayjs.Dayjs | null | undefined
-      ) => <>{text ? dayjs(text).format("YYYY-MM-DD hh:mm:ss") : "--"}</>,
+      ) => <>{text ? dayjs(text).format("YYYY-MM-DD HH:mm:ss") : "--"}</>,
     },
     {
       title: "更新时间",
@@ -618,7 +618,7 @@ const ProxyOrder: React.FC = () => {
       width: 180,
       render: (
         text: string | number | Date | dayjs.Dayjs | null | undefined
-      ) => <>{dayjs(text).format("YYYY-MM-DD hh:mm:ss")}</>,
+      ) => <>{dayjs(text).format("YYYY-MM-DD HH:mm:ss")}</>,
     },
     {
       title: "操作",

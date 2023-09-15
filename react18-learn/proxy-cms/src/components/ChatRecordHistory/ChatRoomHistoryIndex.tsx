@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom'
 import { Modal } from 'antd';
 import Draggable from 'react-draggable';
 import ChatRoom from './ChatRoom'
@@ -11,6 +12,8 @@ interface IProps {
 
 const ChatRoomHistoryIndex: any = ({ open, closeChatRoom }:IProps) => {
   // const [open, setOpen] = useState(false);
+  const { search } = useLocation();
+  const searchParams = new URLSearchParams(search);
   const [disabled, setDisabled] = useState(true);
   const [bounds, setBounds] = useState({ left: 0, top: 0, bottom: 0, right: 0 });
   // const draggleRef = useRef<HTMLDivElement>(null);
@@ -66,7 +69,9 @@ const ChatRoomHistoryIndex: any = ({ open, closeChatRoom }:IProps) => {
               onBlur={() => {}}
               // end
             >
-              聊天记录
+              <span>聊天记录</span>
+              &nbsp;&nbsp;&nbsp;<span style={{ color: 'rgba(0, 0, 0, 0.4509803922)' }}>代理昵称：{searchParams.get('agentName')}</span>
+              &nbsp;&nbsp;&nbsp;<span style={{ color: 'rgba(0, 0, 0, 0.4509803922)' }}>代理ID：{searchParams.get('agentId')}</span>
             </div>
           }
           footer={ null }
@@ -85,6 +90,7 @@ const ChatRoomHistoryIndex: any = ({ open, closeChatRoom }:IProps) => {
             </Draggable>
           )}
         >
+          {/* <p><span>代理昵称：232323</span><span>代理ID：9090909090909</span></p> */}
           <ChatRoom/>
         </Modal> : null
       }

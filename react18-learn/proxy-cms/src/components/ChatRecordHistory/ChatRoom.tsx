@@ -173,7 +173,7 @@ const ChatRoom = memo(() => {
     navigate(
       `/payment/chathistory?playerId=${
         cusList[index]["playerId"]
-      }&agentId=${searchParams.get("agentId")}`
+      }&agentId=${searchParams.get("agentId")}&agentName=${searchParams.get('agentName')}`
     );
     setChatUserIndex(index);
     loadChatHistory(searchParams.get("agentId"), cusList[index]["playerId"]);

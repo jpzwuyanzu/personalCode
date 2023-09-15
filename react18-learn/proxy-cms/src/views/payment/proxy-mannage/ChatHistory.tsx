@@ -117,7 +117,7 @@ const ChatHistory: React.FC = () => {
 
    //打开聊天记录
    const openChatHistory = (item:any) => {
-    Navigte(`/payment/chathistory?playerId=${item.playerId}&agentId=${item.agentId}&date=${item.chatTime}`)
+    Navigte(`/payment/chathistory?playerId=${item.playerId}&agentId=${item.agentId}&agentName=${item.agentName}&date=${item.chatTime}`)
     setTimeout(() => {
       setChatHistoryStatus(true)
     },0)

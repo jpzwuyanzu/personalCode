@@ -69,6 +69,7 @@ const formMenuData = (menuData: any) => {
 
 const SideMenu = () => {
   // const {token: { colorBgContainer }} = theme.useToken();
+  const userInfo = useAppSelector((state) => state.user.userInfo);
   const MenuInfo = useAppSelector((state) => state.user.userInfo.menuList);
   const collapsed = useAppSelector((state) => state.collapse.status);
   const [openKeys, setOpenKeys] = useState<any>([]);
@@ -102,7 +103,7 @@ const SideMenu = () => {
     <Sider trigger={null} collapsible collapsed={collapsed}>
       <div className={ styles.logo }>
         <img className={ styles.logoImg } src={ LogoImg } alt="" />
-        { !collapsed ? '代理充值系统' : '' }
+        { !collapsed ? <>{ userInfo.userType === 0 ?  '运营后台': '代理后台'}</> : '' }
       </div>
          <Menu
       mode="inline"

@@ -117,14 +117,14 @@ const RoleList: React.FC = () => {
       dataIndex: "createTime",
       align: 'center',
       key: "createTime",
-      render: (text) => <>{dayjs(text).format('YYYY-MM-DD hh:mm:ss')}</>
+      render: (text) => <>{dayjs(text).format('YYYY-MM-DD HH:mm:ss')}</>
     },
     {
       title: "更新时间",
       key: "updateTime",
       align: 'center',
       dataIndex: "updateTime",
-      render: (text) => <>{dayjs(text).format('YYYY-MM-DD hh:mm:ss')}</>
+      render: (text) => <>{dayjs(text).format('YYYY-MM-DD HH:mm:ss')}</>
     },
     {
       title: "操作",

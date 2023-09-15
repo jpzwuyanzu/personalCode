@@ -5,6 +5,7 @@ import { NavBar, Image, ImageViewer } from "antd-mobile";
 import { Toast } from 'react-vant'
 import CopyToClipboard from "react-copy-to-clipboard";
 import styles from "./Recharge.module.scss";
+import copyImg from './../../assets/copy.png'
 
 
 interface IProps {
@@ -37,6 +38,14 @@ const Recharge = ({reTypeP, accTypeP,reNameP, reAccountP, reBankNameP, amount, r
     Toast.success('复制成功')
   };
 
+  const handleLinkCus = () => {
+    if ((window as any).WebLocalBridge) {
+      (window as any).WebLocalBridge.cusTomerLink();
+    } else if ((window as any).webkit?.messageHandlers) {
+      (window as any).webkit.messageHandlers.JsToOc.postMessage('cusTomerLink');
+    }
+  }
+
   return (
     <div className={styles.recharge_container}>
       {/* <div className={styles.re_nav_container}>
@@ -55,7 +64,7 @@ const Recharge = ({reTypeP, accTypeP,reNameP, reAccountP, reBankNameP, amount, r
           {accType === 0 ? (
             <div className={styles.re_qr_type}>
               <div className={styles.re_tips}>
-                保存图片到相册，
+                截图保存图片到相册，
                 {reType === 0 ? "支付宝" : reType === 1 ? "微信" : "银行卡"}
                 扫码付款
               </div>
@@ -67,9 +76,7 @@ const Recharge = ({reTypeP, accTypeP,reNameP, reAccountP, reBankNameP, amount, r
                   onClick={() => setImgPreVisiable(true)}
                 />
                 <ImageViewer
-                  image={
-                    "https://images.unsplash.com/photo-1567945716310-4745a6b7844b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60"
-                  }
+                  image={rePayImage}
                   visible={imgPreVisiable}
                   onClose={() => {
                     setImgPreVisiable(false);
@@ -77,7 +84,10 @@ const Recharge = ({reTypeP, accTypeP,reNameP, reAccountP, reBankNameP, amount, r
                 />
               </div>
               {
-                reType === 0 &&  <div className={styles.qr_account_name}>支付宝姓名：{reName}</div>
+                reType === 0 &&  <>
+                <div className={styles.qr_account_name}>支付宝姓名：{reName}</div>
+                <div className={styles.qr_account_name} style={{ marginTop: '10px' }}>支付宝账号：{reAccountP}</div>
+                </>
               }
             </div>
           ) : (
@@ -94,7 +104,9 @@ const Recharge = ({reTypeP, accTypeP,reNameP, reAccountP, reBankNameP, amount, r
                   </div>
                   <div className={styles.acc_num}>{reName}</div>
                   <CopyToClipboard text={reName} onCopy={handleCopy}>
-                    <div className={styles.copyOrderNow}>复制</div>
+                    <div className={styles.copyOrderNow}>
+                      <img src={ copyImg } className={ styles.copyNowImg } alt="" />
+                    </div>
                   </CopyToClipboard>
                 </div>
                 <div className={styles.account_item}>
@@ -104,7 +116,9 @@ const Recharge = ({reTypeP, accTypeP,reNameP, reAccountP, reBankNameP, amount, r
                   </div>
                   <div className={styles.acc_num}>{reAccount}</div>
                   <CopyToClipboard text={reAccount} onCopy={handleCopy}>
-                    <div className={styles.copyOrderNow}>复制</div>
+                    <div className={styles.copyOrderNow}>
+                    <img src={ copyImg } className={ styles.copyNowImg } alt="" />
+                    </div>
                   </CopyToClipboard>
                 </div>
                 {reType === 2 ? (
@@ -112,7 +126,9 @@ const Recharge = ({reTypeP, accTypeP,reNameP, reAccountP, reBankNameP, amount, r
                     <div className={styles.acc_label}>银行名称:</div>
                     <div className={styles.acc_num}>{reBankName}</div>
                     <CopyToClipboard text={reBankName} onCopy={handleCopy}>
-                      <div className={styles.copyOrderNow}>复制</div>
+                      <div className={styles.copyOrderNow}>
+                      <img src={ copyImg } className={ styles.copyNowImg } alt="" />
+                      </div>
                     </CopyToClipboard>
                   </div>
                 ) : null}
@@ -134,7 +150,7 @@ const Recharge = ({reTypeP, accTypeP,reNameP, reAccountP, reBankNameP, amount, r
           </div>
           <div className={styles.tips_item}>
             3.支付如遇问题，请及时联系代理或者{" "}
-            <span style={{ color: "#1677ff" }}>官方客服</span>
+            <span style={{ color: "#1677ff" }} onClick={() => handleLinkCus()} >官方客服</span>
           </div>
         </div>
         {/* 温馨提示 */}

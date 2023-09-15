@@ -8,6 +8,7 @@ import dayjs from "dayjs";
 import { useAppDispatch, useAppSelector } from './../../hooks/redux-hook'
 import { switchState } from './../../store/order.slice'
 import styles from './Order.module.scss'
+import copyImg from './../../assets/copy.png'
 
 interface IProp {
   orderStatusP: any
@@ -75,7 +76,9 @@ const Order = memo(({orderStatusP, orderInfoP}: IProp)=>  {
               <span className={ styles.label }>订单编号:</span>
               <span className={ styles.info }>{ orderNum }</span>
               <CopyToClipboard text={orderNum} onCopy={handleCopyOrderNum}>
-               <div className={ styles.copyOrderNow }>复制</div>
+               <div className={ styles.copyOrderNow }>
+                <img className={ styles.copyNowImg } src={copyImg} alt="" />
+               </div>
               </CopyToClipboard>
             </div>
             <div className={ styles.detail_item }>

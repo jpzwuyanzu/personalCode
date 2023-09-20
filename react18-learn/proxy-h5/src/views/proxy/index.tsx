@@ -14,7 +14,8 @@ const proxyStatusMsg = {
 
 const ProxyIndex = () => {
   const [visible, setVisible] = useState<boolean>(false);
-  const [noAgentVisiable, setNoAgentVisiable] = useState<boolean>(false)
+  const [noAgentVisiable, setNoAgentVisiable] = useState<boolean>(false);
+  const [noOrderAndAgent, setNoOrderAndAgent] = useState<boolean>(false);
   const [noticeContent, setNoticeContent] = useState('');
   const [proxUserList, setProUserList] = useState([]);
   const [headFastUrl,setHeadFastUrl] = useState('');
@@ -124,21 +125,31 @@ const regOrderDetail = async() => {
       res.data.agent.forEach((itm: any, inx: any) => {
         tempArr.push(Number(itm.id))
       })
-    }
+    } 
     if(tempArr.indexOf(Number(resp.data.order['agentId'])) !== -1) {
       navigate(`/chat/chatroom?toUserId=AGENT_${Number(resp.data.order['agentId'])}&toUserName=${resp.data.order['agentName']}&orderNumber=${searchParams.get('orderNumber')}&orderAmount=${searchParams.get('orderAmount')}&orderType=${searchParams.get('orderType')}&fromUserId=${searchParams.get('fromUserId')}&fromUserName=${searchParams.get('fromUserName')}`);
     } else {
       setNoAgentVisiable(true)
     }
   } else {
-    if(!(res && res.code === 200 && res.data && res.data.agent && res.data.agent.length)) setNoAgentVisiable(true)
+    if(!(res && res.code === 200 && res.data && res.data.agent && res.data.agent.length)) {
+      // setNoAgentVisiable(true)
+      //没有订单，并且没有代理
+      setNoOrderAndAgent(true)
+    } else {
+      loadProxyList()
+      loadProxynotice()
+    }
   }
-  loadProxynotice()
+  
 }
 
 //关闭当前待支付订单
 const cancelOrder = async() => {
-  await changeOrderStatus({merchantOrderId: searchParams.get('orderNumber'), payStatus: 4})
+  if(noAgentVisiable) {
+   await changeOrderStatus({merchantOrderId: searchParams.get('orderNumber'), payStatus: 4})
+  }
+  setNoOrderAndAgent(false)
   setVisible(false)
   setNoAgentVisiable(false);
   handleback()
@@ -148,7 +159,6 @@ const cancelOrder = async() => {
   useEffect(() => {
     regOrderDetail()
     // loadProxynotice()
-    loadProxyList()
   }, []);
 
 
@@ -264,6 +274,31 @@ const cancelOrder = async() => {
         ]}
       />
       {/* 提示进行中订单没有找到代理 */}
+      {/* 没有匹配到订单，也没有代理在线，提示用户选择其他支付方式 */}
+        <Modal
+          visible={noOrderAndAgent}
+          content={
+            <>
+              <div className={styles.annoceMent_container}>
+                <div className={styles.title}>提示</div>
+                <div className={styles.content}>
+                  <div className={styles.insert_element}>
+                  当前暂无代理接单，请重新选择其他支付方式!
+                  </div>
+                </div>
+              </div>
+            </>
+          }
+          closeOnAction
+          actions={[
+            {
+              key: "confirm",
+              text: "关闭",
+              onClick: () => cancelOrder()
+            },
+          ]}
+        />
+      {/* 没有匹配到订单，也没有代理在线，提示用户选择其他支付方式 */}
     </div>
   );
 };

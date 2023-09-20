@@ -60,6 +60,8 @@ const ProxyOrder: React.FC = () => {
   const [cusOrderInfo, setCusOrderInfo] = useState<any>({})
   const [searchUserForm] = Form.useForm();
   const userType = useAppSelector((state) => state.user.userInfo.userType);
+  let isConfirmOrderStatus = false;
+
   
 
   //初始化查询时间
@@ -250,30 +252,29 @@ const ProxyOrder: React.FC = () => {
   //代理确认收款
   const handleConfirmOrder = async () => {
     console.log(cusOrderInfo)
-    const res: any = await confirmReceiveMoney({
-      orderNo: cusOrderInfo.merchantOrderId,
-      payCode: receive,
-      realAmount: Number(actAmount) * 100,
-    });
-    if (res && res.code === 200) {
-      setIsConfirmModalOpen(false);
-      // setIsShowCountDown(false);
-      // getCusOrderDetail(
-      //   cusList[chatUserIndex]["fromUserId"],
-      //   cusList[chatUserIndex]["orderNumber"]
-      // );
-      // loadProxyStatus();
-      loadCurrentProxyStatic();
-      initSearchDate();
-      message.open({
-        type: "success",
-        content: "确认收款成功",
-        className: "custom-class",
-        style: {
-          marginTop: "20vh",
-          fontSize: "20px",
-        },
+    isConfirmOrderStatus = !isConfirmOrderStatus
+    if(isConfirmOrderStatus) {
+      const res: any = await confirmReceiveMoney({
+        orderNo: cusOrderInfo.merchantOrderId,
+        payCode: receive,
+        realAmount: Number(actAmount) * 100,
       });
+      if (res && res.code === 200) {
+        setIsConfirmModalOpen(false);
+        // setIsShowCountDown(false);
+        // getCusOrderDetail(
+        //   cusList[chatUserIndex]["fromUserId"],
+        //   cusList[chatUserIndex]["orderNumber"]
+        // );
+        // loadProxyStatus();
+        loadCurrentProxyStatic();
+        initSearchDate();
+        message.open({
+          type: "success",
+          content: "确认收款成功",
+          className: "custom-class"
+        });
+      }
     }
     // switchOrderStatus(cusOrderInfo.merchantOrderId, 1);
   };

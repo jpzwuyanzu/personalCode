@@ -42,6 +42,7 @@ export default function RoleListModule({ moduleWidth,roleInfo, open, closeDrawer
     let level_F: any = []; //所有权限项
     let permissChecked: any = []; //被选中的选项ID
     let allExpend: any = []; //所有被展开的一级菜单ID
+    let halfKeyArr: any = []; //半选ID
     if(permissList && permissList.length) {
         permissList.forEach((item: any) => {
             let level_one: any = {
@@ -62,6 +63,8 @@ export default function RoleListModule({ moduleWidth,roleInfo, open, closeDrawer
                     }
                     if(Number(itm.checkStatus) === 1) {
                         permissChecked.push(itm.id)
+                        halfKeyArr.push(item.id)
+                        setHalfCheckedKeys([...halfKeyArr])
                     }
                     if(itm.list && itm.list.length) {
                         itm.list.forEach((button_item: any) => {
@@ -72,6 +75,8 @@ export default function RoleListModule({ moduleWidth,roleInfo, open, closeDrawer
                             }
                             if(Number(button_item.checkStatus) === 1) {
                                 permissChecked.push(button_item.id)
+                                halfKeyArr.push(itm.id)
+                                setHalfCheckedKeys([...halfKeyArr])
                             }
                             level_two['children'].push(level_three)
                         })
@@ -93,6 +98,7 @@ export default function RoleListModule({ moduleWidth,roleInfo, open, closeDrawer
     if(open) {
       const data: any = await roleDetail({ id: info.id ? info.id : '' })
     if(data.code && data.code === 200) {
+      console.log(data.role)
         formPermissionData(data.role)
     } else {
       message.open({
@@ -112,10 +118,14 @@ export default function RoleListModule({ moduleWidth,roleInfo, open, closeDrawer
     }
   }
 
+  const unique =  (arr: any) =>  {
+    return Array.from(new Set(arr))
+  }
+
   const confirmEditRole = async() => {
     roleForm.validateFields().then(async(values) => {
         if(Object.keys(roleInfo).length) {
-           const res: any = await editRole({ id: roleInfo.id ,name: values.name, resourceIdList: checkedKeys.concat(halfCheckedKeys),  status: Number(roleInfo.status) })
+           const res: any = await editRole({ id: roleInfo.id ,name: values.name, resourceIdList: unique(checkedKeys.concat(unique(halfCheckedKeys) as any)),  status: Number(roleInfo.status) })
            if(res.code === 200) {
             (closeDrawer as any)()
             message.open({
@@ -129,7 +139,7 @@ export default function RoleListModule({ moduleWidth,roleInfo, open, closeDrawer
               })
         }
         } else {
-            const res: any = await addRole({ name: values.name, resourceIdList: checkedKeys.concat(halfCheckedKeys), status: 1 })
+            const res: any = await addRole({ name: values.name, resourceIdList: unique(checkedKeys.concat(unique(halfCheckedKeys) as any)), status: 1 })
             if(res.code === 200) {
                 (closeDrawer as any)()
                 message.open({

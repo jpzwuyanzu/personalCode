@@ -2,11 +2,13 @@ import { createSlice } from '@reduxjs/toolkit'
 
 interface unreadNum {
     unreadNum: number
+    isRefreshCus: boolean
 }
 
 //定义初始化数据
 const initialState: unreadNum = {
-    unreadNum: 0
+    unreadNum: 0,
+    isRefreshCus: false //false代表不用刷新, true代表要刷新
 }
 
 //定义状态名称字符串常量
@@ -19,13 +21,15 @@ const { actions, reducer: UnreadNumReducer } = createSlice({
     //初始状态
     initialState,
     reducers: {
-        switchUnreadNum: (state: unreadNum, action: any) => {
+        switchUnreadNum: (state: unreadNum, action?: any) => {
             if(action.payload.ac === "equal") {
                 state.unreadNum  = Number(action.payload.num)
             } else if(action.payload.ac === "add") {
                 state.unreadNum += Number(action.payload.num)
+            } else if(action.payload.ac === 'fresh') {
+                console.log(!state.isRefreshCus)
+                state.isRefreshCus = action.payload.value
             }
-            
         }
     }
 })

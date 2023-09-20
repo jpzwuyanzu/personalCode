@@ -67,6 +67,7 @@ const ChatRoom = () => {
     import.meta.env.VITE_APP_WS_URL,
     {}
   );
+  const refreshNow = useAppSelector((state) => state.unreadNum.isRefreshCus);
   const [cusList, setCusList] = useState<any[]>([]); // 左侧联系人列表
   const [chatUserIndex, setChatUserIndex] = useState<any>(); // 左侧用户列表选中项
   const [fastImgUrl, setFastImgUrl] = useState("");
@@ -86,6 +87,7 @@ const ChatRoom = () => {
   const listEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const inputMessageRef = useRef<any>(null);
+  let isConfirmOrderStatus = false;
 
   //快捷回复事件
   const handleQuickMessage = (msg: string) => {
@@ -246,30 +248,34 @@ const ChatRoom = () => {
 
   //代理确认收款
   const handleConfirmOrder = async () => {
-    const res: any = await confirmReceiveMoney({
-      orderNo: cusOrderInfo.merchantOrderId,
-      payCode: receive,
-      realAmount: Number(actAmount) * 100,
-    });
-    if (res && res.code === 200) {
-      setIsConfirmModalOpen(false);
-      setIsShowCountDown(false);
-      getCusOrderDetail(
-        cusList[chatUserIndex]["fromUserId"],
-        cusList[chatUserIndex]["orderNumber"]
-      );
-      loadProxyStatus();
-      loadCurrentProxyStatic();
-      message.open({
-        type: "success",
-        content: "确认收款成功",
-        className: "custom-class",
-        style: {
-          marginTop: "20vh",
-          fontSize: "20px",
-        },
+    isConfirmOrderStatus = !isConfirmOrderStatus
+    if(isConfirmOrderStatus) {
+      const res: any = await confirmReceiveMoney({
+        orderNo: cusOrderInfo.merchantOrderId,
+        payCode: receive,
+        realAmount: Number(actAmount) * 100,
       });
+      if (res && res.code === 200) {
+        setIsConfirmModalOpen(false);
+        setIsShowCountDown(false);
+        getCusOrderDetail(
+          cusList[chatUserIndex]["fromUserId"],
+          cusList[chatUserIndex]["orderNumber"]
+        );
+        loadProxyStatus();
+        loadCurrentProxyStatic();
+        message.open({
+          type: "success",
+          content: "确认收款成功",
+          className: "custom-class",
+          style: {
+            marginTop: "20vh",
+            fontSize: "20px",
+          },
+        });
+      }
     }
+    
     // switchOrderStatus(cusOrderInfo.merchantOrderId, 1);
   };
   //取消确认订单
@@ -313,6 +319,7 @@ const ChatRoom = () => {
 
   //连接建立之后需要发送拉取聊天记录
   const handleMessageHistory = (orderNumber: any) => {
+    console.log('拉聊天记录')
     if (cusList && cusList.length) {
       let insertMsg: any = {
         fromUserId: `AGENT_${userInfo.id}`, //userInfo.id
@@ -327,9 +334,7 @@ const ChatRoom = () => {
         createOrder: 0,
         msgId: uuidv4(),
       };
-      ws &&
-        ws.readyState === 1 &&
-        ws.send(
+      ws && ws.readyState === 1 && ws.send(
           JSON.stringify({
             handType: "6",
             message: insertMsg,
@@ -547,6 +552,14 @@ const ChatRoom = () => {
   }, [ws, cusList]);
 
   useEffect(() => {
+    console.log(refreshNow)
+    if(Boolean(refreshNow)) {
+      loadLeftCusList();
+    }
+  }, [refreshNow])
+
+  useEffect(() => {
+    ws && ws.close()
     loadLeftCusList();
     uploadMessageImg();
     loadQuickReplayList();

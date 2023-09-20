@@ -26,7 +26,7 @@ import wxPay from "./../../assets/payType/WX_PAY.png";
 import aliPay from "./../../assets/payType/ALI_PAY.png";
 import unionPay from "./../../assets/payType/UNION_PAY.png";
 
-// import riseInput from './../../utils/riseUp'
+import riseInput from './../../utils/riseUp'
 
 const regTypesList: any = {
   UNION_PAY: 2,
@@ -57,6 +57,7 @@ const Chat = memo(() => {
   const orderStateCache = useAppSelector((state: any) => state.updateState.status);
   const [noAgentVisiable, setNoAgentVisiable] = useState<boolean>(false);
   const listEndRef = useRef<HTMLDivElement>(null);
+  const inputEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const msgInputRef = useRef<any>(null);
   const containerRef = useRef<any>(null);
@@ -75,7 +76,12 @@ const Chat = memo(() => {
     if (listEndRef && listEndRef.current) {
       listEndRef.current.scrollIntoView({ behavior: "auto" });
     }
+    if(inputEndRef && inputEndRef.current) {
+      inputEndRef.current.scrollIntoView({ behavior: "auto" });
+    }
   };
+
+  //
 
   //点击充值方式事件处理
   const handleRechargeTypeClick = (item: any) => {
@@ -238,6 +244,8 @@ const cancelOrder = async() => {
 
   //发送消息校验
   const judgeMessage = () => {
+    msgInputRef.current?.focus()
+    scrollToBottom()
     if (value) {
       handleSendMessage(0);
     } else {
@@ -298,8 +306,8 @@ const cancelOrder = async() => {
   }, []);
 
   return (
-    // <div className={styles.chat_container} ref={ containerRef }>
-    <div className={styles.chat_container}>
+    <div className={styles.chat_container} ref={ containerRef }>
+    {/* // <div className={styles.chat_container}> */}
       <div className={styles.message_content}>
         <List finished={finished} onLoad={onLoad}>
           {messageList.map((_, i) => {
@@ -368,7 +376,7 @@ const cancelOrder = async() => {
                           src={
                             _.content.indexOf("http") !== -1
                               ? _.content
-                              : ossImgUrl + _.content
+                              : ossImgUrl + '/'+_.content
                           }
                           width={"100%"}
                           height={"80%"}
@@ -394,7 +402,7 @@ const cancelOrder = async() => {
                         src={
                          _.icon && _.icon.indexOf("http") !== -1
                             ? _.icon
-                            : ossImgUrl + _.icon
+                            : ossImgUrl +'/'+ _.icon
                         }
                         width={"100%"}
                         height={"100%"}
@@ -506,7 +514,7 @@ const cancelOrder = async() => {
         </div>
         <div className={styles.message_input}>
           <Input
-            // ref={msgInputRef}
+            ref={msgInputRef}
             placeholder="请输入你想说的"
             className={styles.cusInput}
             value={value}
@@ -520,6 +528,7 @@ const cancelOrder = async() => {
         <div className={styles.messageSend} onClick={() => judgeMessage()}>
           发送
         </div>
+        <div style={{ float: "left", clear: "both" }} ref={inputEndRef}></div>
       </div>
       {/* 上传图片的预览弹框 */}
 

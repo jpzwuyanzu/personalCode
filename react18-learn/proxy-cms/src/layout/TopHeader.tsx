@@ -52,6 +52,7 @@ export default function TopHeader() {
   const cusColor = useAppSelector((state) => state.cusColor.color);
   const proxyOrderStatic = useAppSelector((state) => state.chatPeople)
   const unReadNum = useAppSelector((state) => state.unreadNum.unreadNum);
+  const refreshNow = useAppSelector((state) => state.unreadNum.isRefreshCus);
   const amoutNum = useAppSelector((state) => state.amountNum.amountNum);
   const proxyStatus = useAppSelector((state) => state.amountNum.openStatus);
   const warningRef = useRef(null);
@@ -63,6 +64,7 @@ export default function TopHeader() {
   const [chatRoomStatus, setChatRoomStatus] = useState(false);
   //修改用户头像
   const [avatorModalStatus, setAvatorModalStatus] = useState(false);
+  console.log(refreshNow)
 
   // 退出登录
   const loginOutNow = async () => {
@@ -106,12 +108,8 @@ export default function TopHeader() {
       } else {
         message.open({
           type: "success",
-          content: "暂无联系人",
-          className: "custom-class",
-          style: {
-            marginTop: "20vh",
-            fontSize: "20px",
-          },
+          content: "订单已关闭，暂无待处理订单",
+          className: "custom-class"
         });
       }
     }
@@ -200,7 +198,9 @@ export default function TopHeader() {
       if (pathname === "/payment/cusroom") {
         // setUnReadNum(unReadNum+1)
         // dispatch(switchUnreadNum({ 'ac': 'add', 'num': 1 } as any))
-        location.reload()
+        // location.reload()
+        dispatch(switchUnreadNum({ 'ac': 'fresh', value: true} as any))
+        console.log('9090909090')
       }
       warningRef && (warningRef.current as any).play();
     }
@@ -281,7 +281,7 @@ export default function TopHeader() {
                 <div className={styles.storeAmount}>
                   <span className={styles.storeLabel}>店铺余额: </span>
                   <span className={styles.storeAc}>
-                    {Number(Number(amoutNum) / 100).toFixed(2)}
+                    ¥{Number(Number(amoutNum) / 100).toFixed(2)}
                   </span>
                 </div>
                 <div className={styles.storeStatus}>

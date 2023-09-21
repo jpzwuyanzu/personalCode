@@ -17,6 +17,7 @@ export default defineConfig({
         target: 'http://172.28.113.248:8066', //本地
         // target: 'http://api.agentfff.xyz', //测试
         // target: 'http://172.28.113.232:8066',
+        // target: 'http://fuxqis.wrrtxr.xyz', //生产环境
         changeOrigin: true,
         // rewrite: (path) => path.replace(/^\/api/, '')
       },

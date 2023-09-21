@@ -30,6 +30,7 @@ service.interceptors.response.use(
      (response: any) => {
         const res = response.data
         if(res.code !== 200) {
+            Nprogress.done()
             if(res.code === 11012 || res.code === 11015 || res.code === 11016 || res.code === 11014) {
                 sessionStorage.clear();
                 localStorage.clear();
@@ -44,7 +45,11 @@ service.interceptors.response.use(
                     // fontSize: '20px'
                 }
               })
-              Nprogress.done()
+              if(res.code === 10039) {
+                setTimeout(() => {
+                   window.location.href = window.location.origin+`/#/login?_t=${(new Date).getTime()}`
+                }, 1000)
+            }
         } else {
             Nprogress.done()
             return res

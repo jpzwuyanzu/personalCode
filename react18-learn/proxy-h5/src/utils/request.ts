@@ -8,7 +8,7 @@ import { Toast } from 'antd-mobile'
 const service = axios.create({
     // baseURL: 'http://172.28.113.248:8067',
     baseURL: (process.env.NODE_ENV === 'production' ||  process.env.NODE_ENV === 'test') ? process.env.REACT_APP_BASE_URL : '',
-    timeout: 5000
+    timeout: 10000
 })
 
 //请求拦截

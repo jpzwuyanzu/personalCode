@@ -27,6 +27,8 @@ import aliPay from "./../../assets/payType/ALI_PAY.png";
 import unionPay from "./../../assets/payType/UNION_PAY.png";
 
 import riseInput from './../../utils/riseUp'
+import { compressImg } from './../../utils/common'
+
 
 const regTypesList: any = {
   UNION_PAY: 2,
@@ -128,7 +130,7 @@ const Chat = memo(() => {
 
   //上传图片
   const uploadMessageImg = () => {
-    let imgFormData = null;
+    let imgFormData:any = null;
     if (inputRef && inputRef.current) {
       inputRef.current.addEventListener("change", function (event: any) {
         let $file = event.currentTarget;
@@ -137,6 +139,7 @@ const Chat = memo(() => {
           Toast.show({ content: "图片最大上传10M", position: "top" });
           return;
         }
+
         setVisibleMask(true);
         let URL: string | null = null;
         if ((window as any).createObjectURL != undefined) {
@@ -146,47 +149,49 @@ const Chat = memo(() => {
         } else if (window.webkitURL != undefined) {
           URL = window.webkitURL.createObjectURL(file[0]);
         }
-        imgFormData = new FormData();
-        (imgFormData as any).append("file", (file as any)[0]);
-        imgFormData.append("fileSize", file[0].size);
-        // imgFormData.append('file', element.file)
-        // 获取上传图片的本地URL，用于上传前的本地预览
-        uploadFastImg(imgFormData).then((res: any) => {
-          if (res && res.code && res.code === 200) {
-            setFastImgUrl(res.data.fastPath);
-            setVisibleMask(false);
-            msgImgUrl = res.data.fastPath;
-            if (URL) {
-              Dialog.show({
-                image: URL,
-                content: "",
-                closeOnAction: true,
-                actions: [
-                  [
-                    {
-                      key: "cancel",
-                      text: "取消",
-                      onClick: () => {
-                        console.log("取消发送图片");
+
+        compressImg(file[0], 0.6).then((imgRes:any) => {
+          imgFormData = new FormData();
+          imgFormData.append("file", imgRes.file);
+          imgFormData.append("fileSize", imgRes.file.size);
+          uploadFastImg(imgFormData).then((res: any) => {
+            if (res && res.code && res.code === 200) {
+              setFastImgUrl(res.data.fastPath);
+              setVisibleMask(false);
+              msgImgUrl = res.data.fastPath;
+              Dialog.clear()
+              if (URL) {
+                Dialog.show({
+                  image: URL,
+                  content: "",
+                  closeOnAction: true,
+                  actions: [
+                    [
+                      {
+                        key: "cancel",
+                        text: "取消",
+                        onClick: () => {
+                          console.log("取消发送图片");
+                        },
                       },
-                    },
-                    {
-                      key: "confirm",
-                      text: "发送",
-                      // bold: true,
-                      danger: true,
-                      style: { color: "#1677ff" },
-                      onClick: () => {
-                        //在这里将图片发送塞到websocket中
-                        handleSendMessage(1);
+                      {
+                        key: "confirm",
+                        text: "发送",
+                        // bold: true,
+                        danger: true,
+                        style: { color: "#1677ff" },
+                        onClick: () => {
+                          //在这里将图片发送塞到websocket中
+                          handleSendMessage(1);
+                        },
                       },
-                    },
+                    ],
                   ],
-                ],
-              });
+                });
+              }
             }
-          }
-        });
+          });
+        })
       });
     }
   };
@@ -388,7 +393,7 @@ const cancelOrder = async() => {
                           image={
                             _.content.indexOf("http") !== -1
                               ? _.content
-                              : ossImgUrl + _.content
+                              : ossImgUrl + '/' +_.content
                           }
                           visible={imgPreVisiable1}
                           onClose={() => {

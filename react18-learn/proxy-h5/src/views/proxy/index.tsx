@@ -132,7 +132,7 @@ const regOrderDetail = async() => {
       setNoAgentVisiable(true)
     }
   } else {
-    if(!(res && res.code === 200 && res.data && res.data.agent && res.data.agent.length)) {
+    if((res && res.code === 10038) || !(res && res.code === 200 && res.data && res.data.agent && res.data.agent.length)) {
       // setNoAgentVisiable(true)
       //没有订单，并且没有代理
       setNoOrderAndAgent(true)

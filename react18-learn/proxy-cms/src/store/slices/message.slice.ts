@@ -27,7 +27,6 @@ const { actions, reducer: UnreadNumReducer } = createSlice({
             } else if(action.payload.ac === "add") {
                 state.unreadNum += Number(action.payload.num)
             } else if(action.payload.ac === 'fresh') {
-                console.log(!state.isRefreshCus)
                 state.isRefreshCus = action.payload.value
             }
         }

@@ -64,7 +64,7 @@ export default function TopHeader() {
   const [chatRoomStatus, setChatRoomStatus] = useState(false);
   //修改用户头像
   const [avatorModalStatus, setAvatorModalStatus] = useState(false);
-  console.log(refreshNow)
+  console.log('test',refreshNow)
 
   // 退出登录
   const loginOutNow = async () => {
@@ -200,7 +200,6 @@ export default function TopHeader() {
         // dispatch(switchUnreadNum({ 'ac': 'add', 'num': 1 } as any))
         // location.reload()
         dispatch(switchUnreadNum({ 'ac': 'fresh', value: true} as any))
-        console.log('9090909090')
       }
       warningRef && (warningRef.current as any).play();
     }

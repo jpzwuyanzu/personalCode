@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkproxy=self.webpackChunkproxy||[]).push([[710],{7710:function(n,u,r){r.r(u),r.d(u,{default:function(){return t}});r(2791);var e=r(184);function t(){return(0,e.jsx)("div",{children:"NotFound"})}}}]);
+//# sourceMappingURL=710.5d7cc150.chunk.js.map

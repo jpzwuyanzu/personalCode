@@ -1,0 +1,50 @@
+
+html,body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+p {
+  margin: 0;
+}
+#root {
+  height: 100%;
+  overflow: hidden;
+}
+.adm-tab-bar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+.myTitle {
+  width: 750px;
+  height: 100px;
+  font-size: 29px;
+}
+:root:root {
+  --adm-color-primary: #ff6034;
+  
+}
+
+#nprogress, .bar {
+  background: #1677ff !important;
+}
+
+.adm-nav-bar-title {
+  font-size: 30px !important;
+}
+.adm-search-bar .adm-search-bar-input-box {
+  border: none !important;
+}
+
+.adm-search-bar-suffix {
+  font-size: 16px !important;
+}
+
+:root:root {
+  /* --adm-color-primary: #a062d4; */
+}
+
+.editable-cell-value-wrap {
+  padding-right: 0px !important;
+}

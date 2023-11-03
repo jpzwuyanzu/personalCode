@@ -1,0 +1,14 @@
+.home_container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    .page_nav {
+        height: 90px;
+        width: 100%;
+    }
+    .page_list {
+        width: 100%;
+        height: calc(100% - 90px);
+        overflow-y: scroll;
+    }
+}

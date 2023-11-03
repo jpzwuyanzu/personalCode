@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Welcome</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/swiper.min.css">
+	<script type="text/javascript">
+		document.write("<link rel='stylesheet' type='text/css' href='css/index.css?random=" + Math.random() + "' />");
+	</script>
+    <script src="./js/rem.js"></script>
+    <script src="./js/bscroll.min.js"></script>
+    <!-- <script src="https://unpkg.com/better-scroll/dist/bscroll.min.js"></script> -->
+</head>
+<body>
+	<div class="wrap">
+		<div class="banner">
+			<img id="app_banner" src="">
+		</div>
+		<header>
+			<div class="header_info">
+				<div class="info_pic">
+					<img id="app_logo" src="">
+				</div>
+				<div class="info_text">
+					<h2 id="app_name"></h2>
+					<ul>
+						<li>
+							<img src="images/zh-cn/before_12_step/2.png">
+							<span id="download_count">9752</span>
+						</li>
+						<li>
+							<img src="images/zh-cn/before_12_step/3.png">
+							<span>IOS/Android</span>
+						</li>
+						<li>
+							<img src="images/zh-cn/before_12_step/4.png">
+							<span id="app_version">v2.02</span>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="header_remarks">
+				<div class="remarks_rating">
+					<h3>
+						<span id="grade">4.9</span>
+						<img src="./images/start.png">
+					</h3>
+					<p id="grade_person_count"></p>
+				</div>
+				<div class="remarks_info">
+					<div class="remarks_info_item">
+						<h3><span>#</span>1</h3>
+						<p id="type_name"></p>
+					</div>
+					<div class="remarks_info_item">
+						<h3>18<span>+</span></h3>
+						<p id='age'></p>
+					</div>
+				</div>
+			</div>
+		</header>
+		<div id="app_information" class="introduce"></div>
+		<div class="btn_group">
+			<div class="btn_item" id="divHotPackage">
+				<button id="download_btn" class="iosMask"><a id='btn_install'></a></button>
+			</div>
+			<div class="btn_item">
+				<button id="app_home"></button>
+			</div>
+			<div class="btn_item">
+				<a id="online_service"></a>
+				<span class="look" id='look_install_guide'></span>
+			</div>
+		</div>
+		<div class="swiper-container" id="swiperImg"></div>
+		<div class="install">
+			<div class="install_title">
+				<h4 id='install_course'></h4>
+				 <span class="close" style="font-size: .5rem;">×</span>
+			</div>
+			<div id="iosafter" class="wrapper">
+				<ul class='content' id='iosafter_content'></ul>
+			</div>
+			<!--IOS12之前-->
+			<div id="iosbefore" class="wrapper" style="display:none">
+				<ul class='content' id='iosbefore_content'></ul>
+			</div>
+		</div>
+		<div class="ios_mask" style="display:none">
+			<img id="license_step_img1" style="display: none">
+			<img id="license_step_img2" style="display: none">
+			<button class="closeMask" id='btn_close_mask'></button>
+		</div>
+	</div>
+<script src="./js/swiper.min.js"></script>
+<script src="./js/zepto.min.js"></script>
+<script type="text/javascript">
+	document.write("<script type='text/javascript' src='js/index.js?random=" + Math.random() + "'></s" + "cript>");
+</script>
+</body>
+</html>

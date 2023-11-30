@@ -1,0 +1,37 @@
+{
+  "name": "7cc-pwa",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@types/js-cookie": "^3.0.3",
+    "@types/nprogress": "^0.2.0",
+    "@vueuse/core": "^10.2.1",
+    "autoprefixer": "^10.4.14",
+    "axios": "^1.4.0",
+    "js-cookie": "^3.0.5",
+    "lib-flexible": "0.3",
+    "nprogress": "^0.2.0",
+    "pinia": "^2.1.4",
+    "pinia-plugin-persistedstate": "^3.1.0",
+    "postcss-pxtorem": "5",
+    "sass": "^1.63.5",
+    "vant": "^4.5.0",
+    "vue": "^3.2.47",
+    "vue-router": "4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.1.0",
+    "@vue/tsconfig": "^0.4.0",
+    "typescript": "^5.0.0-beta",
+    "unplugin-vue-components": "^0.25.1",
+    "vite": "^4.3.9",
+    "vite-plugin-pwa": "^0.16.4",
+    "vue-tsc": "^1.4.2"
+  }
+}

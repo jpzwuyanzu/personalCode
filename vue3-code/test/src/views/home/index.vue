@@ -10,6 +10,12 @@
         <div id="mse"></div>
       </div>
       <div class="saveBtn">保存到桌面 观看更多视频</div>
+      <div class="timeBtnArr">
+        <div @click="switchToDetailTime(10)">00:10</div>
+        <div @click="switchToDetailTime(20)">00:20</div>
+        <div @click="switchToDetailTime(30)">00:30</div>
+        <div @click="switchToDetailTime(40)">00:40</div>
+      </div>
     </div>
 
     <div class="footerPart">
@@ -19,7 +25,7 @@
           class="videoItem"
           v-for="(itm, index) in reVideoList"
           key="index"
-          @click="initPlayer(index)"
+          @click="playVideoNow(index)"
         >
           <img :src="itm.image" alt="" />
           <div class="videoTitle">{{ itm.title }}</div>
@@ -62,6 +68,7 @@ import "xgplayer/dist/index.min.css";
 import { ref, onMounted } from "vue";
 const msePlayerRef = ref<any>(null);
 const dialogVisible = ref<boolean>(false);
+const currentVideoIndex = ref<number>(0);
 const headerList = ref<any>([
   {
     name: "标题",
@@ -168,7 +175,7 @@ const reVideoList = ref<any>([
             "video": "https://m3u.haiwaikan.com/xm3u8/c334c822c4fe79989266090024080c1e013f617b9eb98510880426c70ff7d2169921f11e97d0da21.m3u8"
         },
 ]);
-const initPlayer = (inx: number) => {
+const initPlayer = (inx: number, time = 0) => {
   // 如果存在实例先销毁，再初始化
   msePlayerRef &&
     msePlayerRef.value &&
@@ -222,6 +229,10 @@ const initPlayer = (inx: number) => {
     },
   });
 };
+const playVideoNow = (inx: number) => {
+  currentVideoIndex.value = inx
+  initPlayer(inx, 0)
+}
 const link = (links: any) => {
   dialogVisible.value = false
   if(links) window.open(links, '_blank')
@@ -229,9 +240,13 @@ const link = (links: any) => {
     console.log('909090')
   }
 } 
+const switchToDetailTime = (time: number) => {
+  msePlayerRef.value.seek(time)
+}
 
 onMounted(() => {
-  initPlayer(0);
+  initPlayer(0, 0);
+  currentVideoIndex.value = 0
 });
 </script>
 <style lang="scss" scoped>
@@ -265,7 +280,7 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 35%;
+    height: 45%;
     padding: 10px 20px;
     box-sizing: border-box;
     .playerPart {
@@ -287,11 +302,24 @@ onMounted(() => {
       font-weight: 600;
       margin-top: 20px;
     }
+    .timeBtnArr {
+      width: 70%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-around;
+      padding-top: 20px;
+      div {
+        padding: 5px 10px;
+        border-radius: 10px;
+        background: skyblue;
+      }
+    }
   }
   .footerPart {
     padding: 0px 20px;
     padding-top: 30px;
-    height: 50%;
+    height: 40%;
     box-sizing: border-box;
     .labelLine {
       color: #fff;

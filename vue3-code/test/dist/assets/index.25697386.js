@@ -1,1 +1,0 @@
-import{_ as e}from"./_plugin-vue_export-helper.cdc0426e.js";import{o,a as r}from"./index.42f7cf7d.js";const t={};function c(n,a){return o(),r("div",null," hotel ")}const f=e(t,[["render",c]]);export{f as default};
